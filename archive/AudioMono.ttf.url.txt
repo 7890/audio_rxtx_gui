@@ -1,0 +1,6 @@
+https://www.google.com/fonts/specimen/Droid+Sans+Mono
+Fri Oct 17 03:09:44 CEST 2014
+
+distributed under Apache License, version 2.0.
+Since the name Droid(R) is registered by Google Inc it was
+renamed to AudioMono - otherwise the .tff is unchanged
