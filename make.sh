@@ -11,7 +11,7 @@ classes="$build"/classes
 
 package_path=ch/lowres/audio_rxtx/gui
 
-windows_binaries_zip_name=audio_rxtx_1414529893.zip
+windows_binaries_zip_name=audio_rxtx_1414550975.zip
 windows_binaries_uri="https://github.com/7890/jack_tools/raw/master/audio_rxtx/dist/win/$windows_binaries_zip_name"
 #dl to (incl. filename)
 windows_binaries_zip="/tmp/$windows_binaries_zip_name"
