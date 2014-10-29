@@ -1,7 +1,19 @@
+/* part of audio_rxtx GUI
+ * https://github.com/7890/audio_rxtx_gui
+ *
+ * Copyright (C) 2014 Thomas Brand <tom@trellis.ch>
+ *
+ * This program is free software; feel free to redistribute it and/or 
+ * modify it.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
+*/
+
 package ch.lowres.audio_rxtx.gui;
 
-//tb/1010/1105/1410
-
+//========================================================================
 public class RunCmd extends Thread 
 {
 	String sCmd="";
@@ -15,42 +27,50 @@ public class RunCmd extends Thread
 
 	OSTest os;
 
+//========================================================================
 	public RunCmd(String cmd)
 	{
 		sCmd=cmd;
 		os=new OSTest();
 	}
 
+//========================================================================
 	public RunCmd()
 	{
 		os=new OSTest();
 	}
 
+//========================================================================
 	public void setCmd(String cmd)
 	{
 		sCmd=cmd;
 	}
 
+//========================================================================
 	public String getCmd()
 	{
 		return sCmd;
 	}
 
+//========================================================================
 	public int getExitStatus()
 	{
 		return iExitStatus;
 	}
 
+//========================================================================
 	public void devNull(boolean b)
 	{
 		devNull=b;
 	}
 
+//========================================================================
 	public void maxPrio()
 	{
 		Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
 	}
 
+//========================================================================
 	//just a wrapper to interrupt. let process stop cooperatively
 	public void cancel()
 	{
@@ -83,7 +103,7 @@ public class RunCmd extends Thread
 			//what else?
 
 			//~ 2>&1
-			pb.redirectErrorStream(true); 
+			pb.redirectErrorStream(true);
 
 			//run command
 			shell = pb.start();
@@ -115,6 +135,5 @@ public class RunCmd extends Thread
 		}
 
 		System.out.println("RunCmd '"+sCmd+"' done. Exit was "+iExitStatus);
-
 	}//end run
 } //end class RunCmd

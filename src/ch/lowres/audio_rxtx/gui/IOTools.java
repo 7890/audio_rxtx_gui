@@ -1,3 +1,16 @@
+/* part of audio_rxtx GUI
+ * https://github.com/7890/audio_rxtx_gui
+ *
+ * Copyright (C) 2014 Thomas Brand <tom@trellis.ch>
+ *
+ * This program is free software; feel free to redistribute it and/or 
+ * modify it.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
+*/
+
 package ch.lowres.audio_rxtx.gui;
 
 import java.io.InputStream;
@@ -21,8 +34,6 @@ import java.awt.Desktop;
 
 import java.util.Properties;
 
-//tb/1410
-
 //========================================================================
 public class IOTools
 {
@@ -36,7 +47,7 @@ public class IOTools
 	public IOTools()
 	{
 		//http://stackoverflow.com/questions/320542/how-to-get-the-path-of-a-running-jar-file
-		jarFileString=IOTools.class.getProtectionDomain().getCodeSource().getLocation().getPath();//.toURI();
+		jarFileString=IOTools.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 	}
 
 //========================================================================
@@ -52,48 +63,9 @@ public class IOTools
 	}
 
 //========================================================================
-	//uriInJar: without leading slash. leading slash will be cut
-	static boolean copyJarContentToDisk(String uriInJar, String destUri)
-	{
-		//println("using jar: "+jarFileString);
-		//println("trying to extract '"+uriInJar+"' to '"+destUri+"'");
-		try
-		{
-			//InputStream 
-			InputStream is=new FileInputStream(jarFileString);
-			//http://stackoverflow.com/questions/10308221/how-to-copy-file-inside-jar-to-outside-the-jar
-			JarInputStream jis=new JarInputStream(is);
-			//get the first entry
-			JarEntry entry=jis.getNextJarEntry();
-			//we will loop through all the entries in the jar file
-			while(entry!=null)
-			{
-				//test the entry.getName() against whatever you are looking for, etc
-				if(1==2) //filter
-				{
-					println(entry.getName());
-				}
-				//get the next entry
-				entry=jis.getNextJarEntry();
-			}
-			jis.close();
-
-			copyJarFolder(jarFileString, uriInJar, destUri);
-
-			return true;
-		}
-		catch(Exception e)
-		{
-			println("error reading from jar file and copy to disk: "+e.getMessage());
-		};
-
-		return false;
-	}//end copyJarContentToDisk
-
-//========================================================================
 	//https://community.oracle.com/thread/1188356?start=0&tstart=0
 	//Copies an entire folder out of a jar to a physical location.
-	private static void copyJarFolder(String jarName, String folderName, String destUri)
+	static boolean copyJarContent(String folderName, String destUri)
 	{
 		boolean found=false;
 		//cut leading "/"
@@ -104,7 +76,7 @@ public class IOTools
 
 		try
 		{
-			ZipFile z=new ZipFile(jarName);
+			ZipFile z=new ZipFile(jarFileString);
 			Enumeration entries=z.entries();
 			while(entries.hasMoreElements())
 			{
@@ -122,13 +94,14 @@ public class IOTools
 					}
 					else if(!f.exists())
 					{
-						if(copyFromJar("/"+entry.getName(), new File(destUri+"/"+entry.getName())))
+						if(copyFileFromJar("/"+entry.getName(), new File(destUri+"/"+entry.getName())))
 						{
 							println("extracted '" + entry.getName()+"'");// to '"+destUri+"'" );
 						}
 					}
 				}
 			}//end while hasMoreElements
+			return true;
 		}
 		catch(Exception e)
 		{
@@ -137,9 +110,10 @@ public class IOTools
 
 		if(!found)
 		{
-			println("/!\\ '"+folderName+"' not found in jar '"+jarName+"'");
+			println("/!\\ '"+folderName+"' not found in jar '"+jarFileString+"'");
 		}
-	}//end copyJarFolder
+		return false;
+	}//end copyContent
 
 //========================================================================
 	/* 
@@ -147,7 +121,7 @@ public class IOTools
 	* Doesn't need to be private, uses a resource stream, so may have
 	* security errors if ran from webstart application 
 	*/
-	static boolean copyFromJar(String sResource, File fDest)
+	static boolean copyFileFromJar(String sResource, File fDest)
 	{
 		if(sResource==null || fDest==null) 
 		{
@@ -159,7 +133,7 @@ public class IOTools
 		{
 			fDest.getParentFile().mkdirs();
 		}
-		catch(Exception e) {println("bad ----");}////
+		catch(Exception e) {println("bad ----");}///
 		try 
 		{
 			int nLen=0;
@@ -194,7 +168,7 @@ public class IOTools
 			}
 		}
 		return fDest.exists();
-	}//end copyFromJar
+	}//end copyFileFromJar
 
 //========================================================================
 	static Font createFontFromJar(String fontUriInJar, float fontSize)
@@ -335,13 +309,12 @@ public class IOTools
 			else
 			{
 				println("/!\\ could not load built-in default settings");
-				////////////////				
+				///
 				System.exit(1);
 			}
 
 			//overload with given properties from filesystem
 			//this file can contain a subset of all config keys
-
 			if(propertiesFileUri!=null && !propertiesFileUri.equals(""))
 			{
 				File f=new File(propertiesFileUri);
@@ -360,6 +333,10 @@ public class IOTools
 					{
 						println("/!\\ could not load settings '"+propertiesFileUri+"'");
 					}
+				}
+				else
+				{
+					println("/!\\ could not load settings '"+propertiesFileUri+"'");
 				}
 			}
 			else

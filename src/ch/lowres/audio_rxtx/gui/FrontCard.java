@@ -1,3 +1,16 @@
+/* part of audio_rxtx GUI
+ * https://github.com/7890/audio_rxtx_gui
+ *
+ * Copyright (C) 2014 Thomas Brand <tom@trellis.ch>
+ *
+ * This program is free software; feel free to redistribute it and/or 
+ * modify it.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
+*/
+
 package ch.lowres.audio_rxtx.gui;
 
 import java.awt.*;
@@ -5,6 +18,7 @@ import java.awt.event.*;
 
 import java.net.InetAddress;
 
+//========================================================================
 public class FrontCard extends Panel
 {
 	static jack_audio_send_GUI g;
@@ -21,7 +35,7 @@ public class FrontCard extends Panel
 	static HostTextFieldWithLimit 		text_target_host=new HostTextFieldWithLimit("",20,128);
 	static NumericTextFieldWithLimit 	text_target_port=new NumericTextFieldWithLimit("",6,5);
 
-	static Button 				button_start_transmission	=new Button("Start Transmission");
+	static Button 				button_start_transmission=new Button("Start Transmission");
 
 //========================================================================
 	public FrontCard() 
@@ -71,12 +85,10 @@ public class FrontCard extends Panel
 		g.formUtility.addMiddleField(text_target_port, form);
 		g.formUtility.addLastLabel("", form);
 
-		//g.formUtility.addFullButton(button_start_transmission, form, g.fontLarge);
 		button_start_transmission.setBackground(Colors.button_background);
 		button_start_transmission.setForeground(Colors.button_foreground);
 		button_start_transmission.setFont(g.fontLarge);
 		add(button_start_transmission,BorderLayout.SOUTH);
-
 	}//end createForm
 
 //=============================================================================
@@ -118,9 +130,7 @@ public class FrontCard extends Panel
 			g.setStatus("Host Is Invalid Or Was Not Found");
 			text_target_host.requestFocus();
 		}
-
 		return formValid;
-
 	}
 
 //========================================================================
@@ -128,7 +138,8 @@ public class FrontCard extends Panel
 	{
 		button_start_transmission.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			@Override
+			public void actionPerformed(ActionEvent e)
 			{
 				if(readForm())
 				{

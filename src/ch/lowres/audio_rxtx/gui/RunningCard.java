@@ -1,8 +1,22 @@
+/* part of audio_rxtx GUI
+ * https://github.com/7890/audio_rxtx_gui
+ *
+ * Copyright (C) 2014 Thomas Brand <tom@trellis.ch>
+ *
+ * This program is free software; feel free to redistribute it and/or 
+ * modify it.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
+*/
+
 package ch.lowres.audio_rxtx.gui;
 
 import java.awt.*;
 import java.awt.event.*;
 
+//========================================================================
 public class RunningCard extends Panel
 {
 	static jack_audio_send_GUI g;
@@ -33,6 +47,7 @@ public class RunningCard extends Panel
 		addActionListeners();
 	}
 
+//========================================================================
 	void clearLabels()
 	{
 		label_1.setText("");
@@ -47,6 +62,7 @@ public class RunningCard extends Panel
 		button_stop_transmission.setLabel("Stop Transmission");
 	}
 
+//========================================================================
 	void createForm()
 	{
 		form=new Panel();
@@ -64,12 +80,10 @@ public class RunningCard extends Panel
 		g.formUtility.addLastLabel(label_8, form);
 		g.formUtility.addLastLabel(label_9, form);
 
-		//g.formUtility.addFullButton(button_stop_transmission, form, g.fontLarge);
 		button_stop_transmission.setBackground(Colors.button_background);
 		button_stop_transmission.setForeground(Colors.button_foreground);
 		button_stop_transmission.setFont(g.fontLarge);
 		add(button_stop_transmission,BorderLayout.SOUTH);
-
 	}//end createForm
 
 //=============================================================================
@@ -77,7 +91,8 @@ public class RunningCard extends Panel
 	{
 		button_stop_transmission.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			@Override
+			public void actionPerformed(ActionEvent e)
 			{
 				g.stopTransmission();
 			}

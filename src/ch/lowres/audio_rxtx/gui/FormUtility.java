@@ -1,21 +1,20 @@
-package ch.lowres.audio_rxtx.gui;
-
-import java.awt.*;
-
 /**
  * Simple utility class for creating forms that have a column
  * of labels and a column of fields. All of the labels have the
  * same width, determined by the width of the widest label
  * component.
- * <P>
+ * 
  * Philip Isenhour - 060628 - http://javatechniques.com/
  */
-
 //http://javatechniques.com/blog/gridbaglayout-example-a-simple-form-layout/
-
 //adopted to use with audio_rxtx_gui
 //tb/1410
 
+package ch.lowres.audio_rxtx.gui;
+
+import java.awt.*;
+
+//========================================================================
 public class FormUtility 
 {
 	/**
@@ -25,8 +24,8 @@ public class FormUtility
 	private GridBagConstraints middleConstraints=null;
 	private GridBagConstraints lastConstraints=null;
 
+//========================================================================
 	//http://docs.oracle.com/javase/6/docs/api/java/awt/GridBagConstraints.html
-
 	public FormUtility()
 	{
 		//Set up the constraints for the "last" field in each 
@@ -68,6 +67,8 @@ public class FormUtility
 		labelConstraints.gridwidth=5;
 	}//end constructor FormUtility()
 
+
+//========================================================================
 	/**
 	 * Adds a Label with the given string to the label column
 	 */
@@ -78,6 +79,7 @@ public class FormUtility
 		return c;
 	}
 
+//========================================================================
 	/**
 	 * Adds an arbitrary label component, starting a new row
 	 * if appropriate. The width of the component will be set
@@ -91,6 +93,7 @@ public class FormUtility
 		parent.add(c);
 	}
 
+//========================================================================
 	public void addMiddleLabel(Component c, Container parent)
 	{
 		GridBagLayout gbl=(GridBagLayout)parent.getLayout();
@@ -98,6 +101,7 @@ public class FormUtility
 		parent.add(c);
 	}
 
+//========================================================================
 	public void addLastLabel(String text, Container parent)
 	{
 		GridBagLayout gbl=(GridBagLayout)parent.getLayout();
@@ -106,6 +110,7 @@ public class FormUtility
 		parent.add(c);
 	}
 
+//========================================================================
 	public void addLastLabel(Component c, Container parent)
 	{
 		GridBagLayout gbl=(GridBagLayout)parent.getLayout();
@@ -113,6 +118,7 @@ public class FormUtility
 		parent.add(c);
 	}
 
+//========================================================================
 	//special label
 	public void addTitle(String title,Container parent)
 	{
@@ -123,6 +129,7 @@ public class FormUtility
 		parent.add(c);
 	}
 
+//========================================================================
 	//header
 	public void addHeader(String header, Container parent, Font f)
 	{
@@ -134,6 +141,7 @@ public class FormUtility
 		parent.add(c);
 	}
 
+//========================================================================
 	/**
 	 * Adds a "middle" field component. Any component may be 
 	 * used. The component will be stretched to take all of
@@ -149,6 +157,7 @@ public class FormUtility
 		parent.add(c);
 	}
 
+//========================================================================
 	/**
 	 * Adds a field component. Any component may be used. The 
 	 * component will be stretched to take the remainder of 
@@ -163,6 +172,7 @@ public class FormUtility
 		parent.add(c);
 	}
 	
+//========================================================================
 	public void addList(java.awt.List list, Container parent)
 	{
 		GridBagLayout gbl=(GridBagLayout)parent.getLayout();
@@ -172,6 +182,7 @@ public class FormUtility
 		parent.add(list);
 	}
 
+//========================================================================
 	//vertical spacer (fill width)
 	public void addSpacer(Container parent)
 	{
@@ -182,6 +193,7 @@ public class FormUtility
 		parent.add(c);
 	}
 
+//========================================================================
 	//canvas, fill width
 	public void addImage(Component c, Container parent)
 	{
@@ -190,6 +202,7 @@ public class FormUtility
 		parent.add(c);
 	}
 
+//========================================================================
 	//'full' button
 	public void addFullButton(Component c, Container parent, Font f)
 	{
@@ -201,6 +214,7 @@ public class FormUtility
 		parent.add(c);
 	}
 
+//========================================================================
 	//buttons
 	public void addButtons(Component c, Container parent, Font f)
 	{

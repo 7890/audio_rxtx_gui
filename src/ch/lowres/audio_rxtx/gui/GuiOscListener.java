@@ -1,6 +1,17 @@
-package ch.lowres.audio_rxtx.gui;
+/* part of audio_rxtx GUI
+ * https://github.com/7890/audio_rxtx_gui
+ *
+ * Copyright (C) 2014 Thomas Brand <tom@trellis.ch>
+ *
+ * This program is free software; feel free to redistribute it and/or 
+ * modify it.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
+*/
 
-//tb/1410
+package ch.lowres.audio_rxtx.gui;
 
 import com.illposed.osc.*;
 import java.net.InetAddress;
@@ -10,16 +21,19 @@ import java.util.List;
 
 import java.text.DecimalFormat;
 
+//========================================================================
 public class GuiOscListener implements OSCListener 
 {
 	static jack_audio_send_GUI g;
 	static jack_audio_send_cmdline_API api;
 
+//========================================================================
 	public static void println(String s)
 	{
 		System.out.println(s);
 	}
 
+//========================================================================
 	@Override
 	public void acceptMessage(Date time,OSCMessage msg) 
 	{
@@ -27,8 +41,7 @@ public class GuiOscListener implements OSCListener
 		List<Object> args=msg.getArguments();
 		int argsSize=args.size();
 
-//		println("osc msg received: "+path+" ("+argsSize+" args)");
-
+		//println("osc msg received: "+path+" ("+argsSize+" args)");
 		if(path.equals("/startup") && argsSize==2)
 		{
 			g.setStatus("jack_audio_send Started");
@@ -58,7 +71,7 @@ public class GuiOscListener implements OSCListener
 					g.sender=new OSCPortOut(InetAddress.getLocalHost(), api._lport);
 				}
 				catch(Exception ex)
-				{/////
+				{///
 				}
 			}
 

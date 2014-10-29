@@ -1,3 +1,16 @@
+/* part of audio_rxtx GUI
+ * https://github.com/7890/audio_rxtx_gui
+ *
+ * Copyright (C) 2014 Thomas Brand <tom@trellis.ch>
+ *
+ * This program is free software; feel free to redistribute it and/or 
+ * modify it.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
+*/
+
 package ch.lowres.audio_rxtx.gui;
 
 import java.awt.*;
@@ -10,24 +23,21 @@ import java.util.List;
 import java.util.Random;
 import java.io.File;
 
-//tb/1410
-//java -Xms1024m -Xmx1024m -cp .:build/classes/ jack_audio_send_GUI
-
-//jack_audio_send_GUI
+//java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -cp .:build/classes/ ch.lowres.audio_rxtx.gui.jack_audio_send_GUI
 
 //========================================================================
 public class jack_audio_send_GUI 
 {
 	static String progName="jack_audio_send GUI";
-	static String progVersion="0.1";
+	static String progVersion="0.2";
 	static String progNameSymbol="jack_audio_send_gui_v"+progVersion+"_"+141020;
 
 	static String defaultPropertiesFileName="audio_rxtx_gui.properties";
 
-	//default settings for osc gui io
-	//will be overridden by .properties file
+	//osc gui io
+	//will be set by .properties file
 	static boolean gui_osc_port_random=false;
-	static int gui_osc_port=20220;
+	static int gui_osc_port=-1;
 	static boolean keep_cache=false;
 
 	//osc sender, receiver for communication gui<->jack_audio_send
@@ -35,12 +45,10 @@ public class jack_audio_send_GUI
 	static OSCPortIn receiver;
 	final long WAIT_FOR_SOCKET_CLOSE=3;
 
+	//handler for osc messages
 	static GuiOscListener gosc;
 
-	//thread to run binaries
-	static RunCmd cmd;
-
-	//dalog
+	//dalogs
 	static ConfigureDialog configure;
 	static AboutDialog about;
 
@@ -49,6 +57,7 @@ public class jack_audio_send_GUI
 
 	static Image appIcon;
 
+	//the main window
 	static Frame mainframe;
 	static Panel cardPanel;
 	static CardLayout cardLay;
@@ -69,20 +78,28 @@ public class jack_audio_send_GUI
 	//platform specific system tmp directory
 	static String tmpDir;
 
+	//thread to run binaries
+	static RunCmd cmd;
+
+	//watching RunCmd
 	static Watchdog dog;
 
 //========================================================================
 	public static void main(String[] args) 
 	{
 		//header
+		println("");
 		println("audio_rxtx - "+progName+" v"+progVersion);
 		println("(c) 2014 Thomas Brand <tom@trellis.ch>");
 
-///////////////////
-//		if(args.length>0)
-//		{
-//			gui_osc_port=Integer.parseInt(args[0]);
-//		}
+		if(args.length>0 && (args[0].equals("--help") || args[0].equals("-h")))
+		{
+			println("");
+			println("First argument: <URI af .properties file to use>");
+			println("A file called '"+defaultPropertiesFileName+"' in the current directory will be loaded if no argument was given and the file is available.");
+			println("");
+			System.exit(0);
+		}
 
 		OSTest os=new OSTest();
 		println("host OS: "+os.getName());
@@ -100,8 +117,16 @@ public class jack_audio_send_GUI
 
 		IOTools iot=new IOTools();
 
-		//load default settings from properties file in jar then try overload from current dir
-		IOTools.loadSettings(defaultPropertiesFileName);
+		if(args.length>0)
+		{
+			//load default settings from properties file in jar then try overload with given file
+			IOTools.loadSettings(args[0]);
+		}
+		else
+		{
+			//load default settings from properties file in jar then try overload from current dir
+			IOTools.loadSettings(defaultPropertiesFileName);
+		}
 
 		File fTest=new File(tmpDir);
 		if(fTest!=null && fTest.exists() && fTest.canRead() && fTest.isDirectory())
@@ -111,13 +136,13 @@ public class jack_audio_send_GUI
 		else if(!fTest.exists())
 		{
 			//extract
-			iot.copyJarContentToDisk("/resources/README.txt",tmpDir);
-			iot.copyJarContentToDisk("/resources/COPYING.txt",tmpDir);
-			iot.copyJarContentToDisk("/resources/doc",tmpDir);
+			iot.copyJarContent("/resources/README.txt",tmpDir);
+			iot.copyJarContent("/resources/COPYING.txt",tmpDir);
+			iot.copyJarContent("/resources/doc",tmpDir);
 
 			if(os.isWindows())
 			{
-				iot.copyJarContentToDisk("/resources/bin",tmpDir);
+				iot.copyJarContent("/resources/bin",tmpDir);
 			}
 		}
 		else
@@ -125,7 +150,7 @@ public class jack_audio_send_GUI
 			println("/!\\ error creating tmp directory to extract jar contents: '"+tmpDir+"'");
 		}
 
-		//will remove tmpdir on program exit
+		//will remove tmpdir on program exit if keep_cache==false
 		createShutDownHook();
 
 		//http://stackoverflow.com/questions/209812/how-do-i-change-the-default-application-icon-in-java
@@ -144,13 +169,11 @@ public class jack_audio_send_GUI
 		about=new AboutDialog(mainframe, "About audio_rxtx", true);
 
 		createForm();
-
 	}//end main
 
-//========================================================================[1;5B
+//========================================================================
 	static void createForm()
 	{
-		//GUI======================================
 		mainframe=new Frame("audio_rxtx - "+progName);
 		mainframe.setBackground(Colors.form_background);
 		mainframe.setForeground(Colors.form_foreground);
@@ -189,7 +212,6 @@ public class jack_audio_send_GUI
 
 		//"run" GUI
 		mainframe.setVisible(true);
-
 	}//end createForm
 
 //========================================================================
@@ -199,10 +221,6 @@ public class jack_audio_send_GUI
 		{
 			label_status.setText(s);
 		}
-		//else
-		//{
-		//	println("*** label_status was null! "+s);
-		//}
 	}
 
 //========================================================================
@@ -212,11 +230,10 @@ public class jack_audio_send_GUI
 
 		setStatus("Starting GUI OSC Server");
 
-		//for gui/jack_audio{send,return} comm
+		//for gui<->jack_audio_send communication
 		if(startOscServer()==-1)
 		{
 			println("/!\\ the audio_rxtx osc gui server could not be started.");
-/////////////
 			setStatus("GUI OSC Server Could Not Be Started");
 			return;
 		}
@@ -247,70 +264,71 @@ public class jack_audio_send_GUI
 		running.clearLabels();
 		cardLay.show(cardPanel, "2");
 		running.button_stop_transmission.requestFocus();
-
 	}//end startTransmission
 
 //========================================================================
 	static void stopTransmission()
 	{
-			//terminate jack_audio_send running in thread
-			OSCMessage msg=new OSCMessage("/quit");
+		//terminate jack_audio_send running in thread
+		OSCMessage msg=new OSCMessage("/quit");
 
-			try
-			{
-				sender.send(msg);
-			}
-			catch(Exception sndex)
-			{///////
-			};
+		try
+		{
+			sender.send(msg);
+		}
+		catch(Exception sndex)
+		{///
+		};
 
-			if(dog!=null)
-			{
-				dog.cancel();
-			}
+		if(dog!=null)
+		{
+			dog.cancel();
+		}
 
-			AppMenu.setForFrontScreen();
+		cmd=null;
 
-			api.total_connected_ports=0;
-			api.jack_sample_rate=0;
-			api.jack_period_size=0;
-			api.msg_size=0;
-			api.transfer_size=0;
-			api.expected_network_data_rate=0;
+		AppMenu.setForFrontScreen();
 
-			cmd=null;
+		api.total_connected_ports=0;
+		api.jack_sample_rate=0;
+		api.jack_period_size=0;
+		api.msg_size=0;
+		api.transfer_size=0;
+		api.expected_network_data_rate=0;
 
-			//show main panel again
-			cardLay.show(cardPanel, "1");
-			front.button_start_transmission.requestFocus();
-			setStatus("Ready");
+		//show main panel again
+		cardLay.show(cardPanel, "1");
+		front.button_start_transmission.requestFocus();
+		setStatus("Ready");
 	}//end stopTransmission
 
 //========================================================================
-///////////////////////////
-//need to call call programExit
 	static void addWindowListeners()
 	{
-		//window events =====================================
-		mainframe.addWindowListener(new WindowListener() {
+		mainframe.addWindowListener(new WindowListener() 
+		{
 			@Override
-			public void windowActivated(WindowEvent arg0) { /*println("window activated");*/}
-			@Override
-			public void windowClosed(WindowEvent arg0) { /*println("window close suppressed");*/
-				System.exit(-1);
+			public void windowClosed(WindowEvent arg0)
+			{
+				///
+				System.exit(0);
 			}
 			@Override
-			public void windowClosing(WindowEvent arg0) { /*println("window close suppressed");*/
-				System.exit(-1);				
+			public void windowClosing(WindowEvent arg0)
+			{
+				///
+				System.exit(0);		
 			}
 			@Override
-			public void windowDeactivated(WindowEvent arg0) { /*println("window deactivated");*/ }
+			public void windowActivated(WindowEvent arg0) {}
 			@Override
-			public void windowDeiconified(WindowEvent arg0) { /*println("window deiconified")*/;}
+			public void windowDeactivated(WindowEvent arg0) {}
 			@Override
-			public void windowIconified(WindowEvent arg0) { /*println("window iconified")*/;}
+			public void windowDeiconified(WindowEvent arg0) {}
 			@Override
-			public void windowOpened(WindowEvent arg0) { /*println("window opened")*/;}
+			public void windowIconified(WindowEvent arg0) {}
+			@Override
+			public void windowOpened(WindowEvent arg0) {}
 		});
 	}//end addWindowListeners
 
@@ -321,7 +339,7 @@ public class jack_audio_send_GUI
 	}
 
 //========================================================================
-	static int startOscServer()//int port)
+	static int startOscServer()
 	{
 		try
 		{
@@ -357,7 +375,7 @@ public class jack_audio_send_GUI
 		}
 
 		return 0;
-	}
+	}//end startOscServer
 
 //========================================================================
 	//http://stackoverflow.com/questions/11435533/how-does-ctrl-c-work-with-java-program
@@ -372,12 +390,10 @@ public class jack_audio_send_GUI
 				if(!keep_cache)
 				{
 					println("cleaning up...");
-
-					//possibly more clean up tasks here 
-
 					println("removing tmp dir '"+tmpDir+"'");
 					IOTools.deleteDirectory(new File(tmpDir));
 				}
+				//possibly more clean up tasks here 
 				println("done! bye");
 			}
 		}));

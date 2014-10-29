@@ -1,17 +1,31 @@
+/* part of audio_rxtx GUI
+ * https://github.com/7890/audio_rxtx_gui
+ *
+ * Copyright (C) 2014 Thomas Brand <tom@trellis.ch>
+ *
+ * This program is free software; feel free to redistribute it and/or 
+ * modify it.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
+*/
+
 package ch.lowres.audio_rxtx.gui;
 
-//tb/1410
-
+//========================================================================
 public class Watchdog extends Thread 
 {
 	static jack_audio_send_GUI g;
 
+//========================================================================
 	//just a wrapper to interrupt. let process stop cooperatively
 	public void cancel()
 	{
 		interrupt();
 	}
 
+//========================================================================
 	public void run() 
 	{
 		while(!Thread.currentThread().isInterrupted())
@@ -35,7 +49,7 @@ public class Watchdog extends Thread
 				Thread.sleep(500);
 			}
 			catch (Exception ex) //i.e. interrupted
-			{//////
+			{///
 			}
 		}//end while not interrupted
 		System.out.println("Watchdog finished.");

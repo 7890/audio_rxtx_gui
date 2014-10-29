@@ -1,16 +1,28 @@
+/* part of audio_rxtx GUI
+ * https://github.com/7890/audio_rxtx_gui
+ *
+ * Copyright (C) 2014 Thomas Brand <tom@trellis.ch>
+ *
+ * This program is free software; feel free to redistribute it and/or 
+ * modify it.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
+*/
+
 package ch.lowres.audio_rxtx.gui;
 
 import java.io.File;
 
-//tb/1410
-
+//========================================================================
 public class jack_audio_send_cmdline_API
 {
 	static jack_audio_send_GUI g;
 
 	static String command_name="jack_audio_send";
 
-	//path prefix to find jack_audio_send
+	//path prefix to find jack_audio_send binary
 	//empty if in search path
 	//on windows set to dir where binaries were extracted
 	static String prefixPath="";
@@ -18,6 +30,8 @@ public class jack_audio_send_cmdline_API
 	//helper to determine operating system
 	static OSTest os;
 
+	//variables starting with _ are 1:1 options of jack_audio_send
+	//initially set at startup, read from properties file
 	static boolean	lport_random=false;
 	static int 	_lport=-1;
 	static int 	_in=-1;
@@ -34,6 +48,8 @@ public class jack_audio_send_cmdline_API
 	static int 	_target_port=-1;
 
 	//other vars
+
+	//passthrough jack_audio_send std output
 	static boolean verbose=false;
 
 	//filled by config_dump received from jack_audio_send
@@ -43,18 +59,15 @@ public class jack_audio_send_cmdline_API
 	static float format_version=-1;
 
 	//local jack properties
-	static int jack_sample_rate=0;
-	static int jack_period_size=0;
+	static int jack_sample_rate=-1;
+	static int jack_period_size=-1;
 
-	//evaluated props
 	static int msg_size=0;
 	static int transfer_size=0;
 	static float expected_network_data_rate=0;
 
 	//increment for every /autoconnect
 	static int total_connected_ports=0;
-
-//tcp / udp style
 
 //========================================================================
 	public jack_audio_send_cmdline_API()

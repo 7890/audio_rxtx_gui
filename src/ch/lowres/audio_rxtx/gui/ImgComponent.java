@@ -1,8 +1,17 @@
+/* part of audio_rxtx GUI
+ * https://github.com/7890/audio_rxtx_gui
+ *
+ * Copyright (C) 2014 Thomas Brand <tom@trellis.ch>
+ *
+ * This program is free software; feel free to redistribute it and/or 
+ * modify it.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
+*/
+
 package ch.lowres.audio_rxtx.gui;
-
-//tb/141016
-
-//http://www.rgagnon.com/javadetails/java-0226.html
 
 import java.awt.*;
 
@@ -59,9 +68,8 @@ class ImgComponent extends Component
 //========================================================================
 	public void paint(Graphics gfx)
 	{
-		//gfx.drawRect (10, 10, 200, 200);
 		gfx.setColor(Color.WHITE);
-		gfx.fillRect(0, 0, getWidth(),getHeight()); 
+		gfx.fillRect(0, 0, getWidth(),getHeight());
 
 		int x = (getWidth() - audio_rxtx_logo.getIconWidth()) / 2;
 		int y=0;
@@ -69,8 +77,5 @@ class ImgComponent extends Component
 		gfx.drawImage(audio_rxtx_logo.getImage(), x, y, audio_rxtx_logo.getIconWidth(), audio_rxtx_logo.getIconHeight(), this);
 		gfx.setColor(Color.BLACK);
 		gfx.drawString("v"+g.progVersion, getWidth()-75, 25);
-		//gfx.drawString("", getWidth()-75, 235);
-		//gfx.drawString("", getWidth()-75, 268);
-
 	}//end paint
 }//end class ImgComponent

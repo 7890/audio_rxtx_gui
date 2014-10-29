@@ -1,42 +1,44 @@
+/* part of audio_rxtx GUI
+ * https://github.com/7890/audio_rxtx_gui
+ *
+ * Copyright (C) 2014 Thomas Brand <tom@trellis.ch>
+ *
+ * This program is free software; feel free to redistribute it and/or 
+ * modify it.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
+*/
+
 package ch.lowres.audio_rxtx.gui;
 
 import java.awt.*;
 import java.awt.event.*;
 
+//========================================================================
 public class ConfigureDialog extends Dialog
 {
 	static jack_audio_send_GUI g;
 	static jack_audio_send_cmdline_API api;
 
 	static Panel form;
-
-	static HostTextFieldWithLimit		text_name		=new HostTextFieldWithLimit("",32,32);
-
-	static HostTextFieldWithLimit		text_sname		=new HostTextFieldWithLimit("",32,32);
-
-	static Checkbox 			checkbox_connect	=new Checkbox("Autoconnect");
-
-	static Checkbox 			checkbox_nopause	=new Checkbox("No Pause On Sender Deny");
-
-	static Checkbox 			checkbox_test		=new Checkbox("Enable Testmode");
-	static NumericTextFieldWithLimit 	text_limit		=new NumericTextFieldWithLimit("",32,24);
-
-	static NumericTextFieldWithLimit 	text_drop		=new NumericTextFieldWithLimit("",32,24);
-
-	static Checkbox 			checkbox_verbose	=new Checkbox("Verbose Shell Output");
-
-	static NumericTextFieldWithLimit 	text_update		=new NumericTextFieldWithLimit("",32,4);
-
-	static Checkbox 			checkbox_lport_random	=new Checkbox("Use Random Port");
-	static NumericTextFieldWithLimit 	text_lport		=new NumericTextFieldWithLimit("",32,5);
-
-	static Checkbox 			checkbox_gui_osc_port_random	=new Checkbox("Use Random Port");
-	static NumericTextFieldWithLimit 	text_gui_osc_port		=new NumericTextFieldWithLimit("",32,5);
-
-	static Checkbox 			checkbox_keep_cache	=new Checkbox("Use Cache");
-
-	static Button 				button_cancel_settings	=new Button("Cancel");
-	static Button 				button_confirm_settings	=new Button("OK");
+	static HostTextFieldWithLimit		text_name=new HostTextFieldWithLimit("",32,32);
+	static HostTextFieldWithLimit		text_sname=new HostTextFieldWithLimit("",32,32);
+	static Checkbox 			checkbox_connect=new Checkbox("Autoconnect");
+	static Checkbox 			checkbox_nopause=new Checkbox("No Pause On Sender Deny");
+	static Checkbox 			checkbox_test=new Checkbox("Enable Testmode");
+	static NumericTextFieldWithLimit 	text_limit=new NumericTextFieldWithLimit("",32,24);
+	static NumericTextFieldWithLimit 	text_drop=new NumericTextFieldWithLimit("",32,24);
+	static Checkbox 			checkbox_verbose=new Checkbox("Verbose Shell Output");
+	static NumericTextFieldWithLimit 	text_update=new NumericTextFieldWithLimit("",32,4);
+	static Checkbox 			checkbox_lport_random=new Checkbox("Use Random Port");
+	static NumericTextFieldWithLimit 	text_lport=new NumericTextFieldWithLimit("",32,5);
+	static Checkbox 			checkbox_gui_osc_port_random=new Checkbox("Use Random Port");
+	static NumericTextFieldWithLimit 	text_gui_osc_port=new NumericTextFieldWithLimit("",32,5);
+	static Checkbox 			checkbox_keep_cache=new Checkbox("Use Cache");
+	static Button 				button_cancel_settings=new Button("Cancel");
+	static Button 				button_confirm_settings=new Button("OK");
 
 //========================================================================
 	public ConfigureDialog(Frame f,String title, boolean modality) 
@@ -91,16 +93,6 @@ public class ConfigureDialog extends Dialog
 	{
 		//read form, store values
 		readForm();
-
-/////////////7
-//ev. restart osc server?
-////////
-
-
-
-
-
-
 
 		//close window, set status, bring main to front
 		setVisible(false);
@@ -190,7 +182,6 @@ public class ConfigureDialog extends Dialog
 
 		//done in calling object
 		//setVisible(true);
-
 	}//end createForm
 
 //=============================================================================
@@ -253,7 +244,8 @@ public class ConfigureDialog extends Dialog
 	{
 		button_cancel_settings.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			@Override
+			public void actionPerformed(ActionEvent e)
 			{
 				dialogCancelled();
 			}
@@ -261,7 +253,8 @@ public class ConfigureDialog extends Dialog
 
 		button_confirm_settings.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			@Override
+			public void actionPerformed(ActionEvent e)
 			{
 				dialogConfirmed();
 			}
@@ -273,13 +266,13 @@ public class ConfigureDialog extends Dialog
 	{
 		addWindowListener(new WindowListener()
 		{
-			public void windowActivated(WindowEvent arg0) { /*println("window activated");*/}
-			public void windowClosed(WindowEvent arg0) { dialogCancelled(); }
-			public void windowClosing(WindowEvent arg0) { dialogCancelled(); }
-			public void windowDeactivated(WindowEvent arg0) { /*println("window deactivated");*/ }
-			public void windowDeiconified(WindowEvent arg0) { /*println("window deiconified")*/;}
-			public void windowIconified(WindowEvent arg0) { /*println("window iconified")*/;}
-			public void windowOpened(WindowEvent arg0) { /*println("window opened")*/;}
+			public void windowClosed(WindowEvent arg0) {dialogCancelled();}
+			public void windowClosing(WindowEvent arg0) {dialogCancelled();}
+			public void windowActivated(WindowEvent arg0) {}
+			public void windowDeactivated(WindowEvent arg0) {}
+			public void windowDeiconified(WindowEvent arg0) {}
+			public void windowIconified(WindowEvent arg0) {}
+			public void windowOpened(WindowEvent arg0) {}
 		});
 	}//end addWindowListeners
 }//end class ConfigureDialog

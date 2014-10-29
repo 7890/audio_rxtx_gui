@@ -1,3 +1,16 @@
+/* part of audio_rxtx GUI
+ * https://github.com/7890/audio_rxtx_gui
+ *
+ * Copyright (C) 2014 Thomas Brand <tom@trellis.ch>
+ *
+ * This program is free software; feel free to redistribute it and/or 
+ * modify it.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
+*/
+
 package ch.lowres.audio_rxtx.gui;
 
 import java.awt.*;
@@ -7,8 +20,6 @@ import com.illposed.osc.*;
 import java.net.InetAddress;
 
 import java.io.File;
-
-//tb/1410
 
 //========================================================================
 public class AppMenu extends MenuBar
@@ -134,17 +145,14 @@ public class AppMenu extends MenuBar
 			@Override public void actionPerformed(ActionEvent e)
 			{
 				//possibly needs confirmation when transmission running
-
 				try 
 				{
 					OSCMessage msg=new OSCMessage("/quit");
 					g.sender.send(msg);
 				} 
 				catch (Exception oscex) 
-				{///////////
+				{///
 				}
-//////////////////
-//cleanup
 				System.exit(0);
 			}
 		});
@@ -175,7 +183,6 @@ public class AppMenu extends MenuBar
 				{
 					g.setStatus("Nothing Saved. Host is invalid or was not found");
 					g.front.text_target_host.requestFocus();
-					//text_target_host.selectAll();
 				}
 			}
 		});
@@ -229,7 +236,7 @@ public class AppMenu extends MenuBar
 				if(g.front.readForm())
 				{
 					FileDialog chooser = new FileDialog(g.mainframe, "Save Settings As...");
-					//chooser.setFilenameFilter(new FileFilter());
+					//chooser.setFilenameFilter(new FolderFilter());
 					chooser.setMode(FileDialog.SAVE);
 					chooser.setVisible(true);
 					String fileToSave = chooser.getFile();
@@ -265,7 +272,7 @@ public class AppMenu extends MenuBar
 									g.setStatus("Settings Saved");
 								}
 							}catch(Exception fileEx)
-							{//////////
+							{///
 							}
 						}
 					}
@@ -331,6 +338,4 @@ public class AppMenu extends MenuBar
 		mi_start_transmission.setEnabled(true);
 		mi_stop_transmission.setEnabled(false);
 	}
-
 }//end AppMenu
-

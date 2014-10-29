@@ -1,8 +1,17 @@
+/* part of audio_rxtx GUI
+ * https://github.com/7890/audio_rxtx_gui
+ *
+ * Copyright (C) 2014 Thomas Brand <tom@trellis.ch>
+ *
+ * This program is free software; feel free to redistribute it and/or 
+ * modify it.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
+*/
+
 package ch.lowres.audio_rxtx.gui;
-
-//tb/141016
-
-//http://www.rgagnon.com/javadetails/java-0227.html
 
 import java.awt.TextField;
 
@@ -12,16 +21,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.FocusEvent;
 
-/*
-TextField methods
-getSelectedText, getSelectionEnd, getSelectionStart, getText
-select, selectAll, setBackground, setCaretPosition, setEditable, setSelectionEnd, setSelectionStart
-*/
-
+//========================================================================
 class TextFieldWithLimit extends TextField implements KeyListener, FocusListener
 {
 	private int maxLength;
 
+//========================================================================
 	public TextFieldWithLimit (String initialStr, int col, int maxLength) 
 	{
 		super(initialStr, col);
@@ -30,21 +35,25 @@ class TextFieldWithLimit extends TextField implements KeyListener, FocusListener
 		addFocusListener(this);
 	}
 
+//========================================================================
 	public TextFieldWithLimit (int col,int maxLength) 
 	{
 		this("", col, maxLength);
 	}
 
+//========================================================================
 	public void setMaxLenght(int i)
 	{
 		maxLength=i;
 	}
 
+//========================================================================
 	public int getMaxLenght(int i)
 	{
 		return maxLength;
 	}
 
+//========================================================================
 	public void keyTyped(KeyEvent e) 
 	{
 		char c = e.getKeyChar();
@@ -88,24 +97,26 @@ class TextFieldWithLimit extends TextField implements KeyListener, FocusListener
 		else
 		{
 			//absorb
-		 	e.consume(); 
+		 	e.consume();
 		}
 	 }//end keytyped
 
+//========================================================================
 	public void keyReleased(KeyEvent e) {}
 	public void keyPressed(KeyEvent e) {}
 	public void focusLost(FocusEvent fe) {}
 
+//========================================================================
 	public void focusGained(FocusEvent fe) 
 	{
 		setCaretPosition(0);
 		if (getText()!=null) 
 		{
-			//selectAll();			
 			setCaretPosition(getText().length());
 		}
 	}
 
+//========================================================================
 	//default: all input allowed
 	//override in subclass for another filter
 	//blacklist, if not allowed -> return true
