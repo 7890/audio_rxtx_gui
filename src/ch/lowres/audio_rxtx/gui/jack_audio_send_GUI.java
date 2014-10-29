@@ -114,6 +114,10 @@ public class jack_audio_send_GUI
 		{
 			api.setPrefixPath(tmpDir+File.separator+"resources"+File.separator+"bin");
 		}
+		else if(os.isMac())
+		{
+			api.setPrefixPath(tmpDir+File.separator+"resources"+File.separator+"mac");
+		}
 
 		IOTools iot=new IOTools();
 
@@ -143,6 +147,14 @@ public class jack_audio_send_GUI
 			if(os.isWindows())
 			{
 				iot.copyJarContent("/resources/bin",tmpDir);
+			}
+			else if(os.isMac())
+			{
+				iot.copyJarContent("/resources/mac",tmpDir);
+
+				println("setting permissions of binaries");
+				RunCmd setPerms=new RunCmd("chmod 755 "+tmpDir+"/resources/mac/*");
+				setPerms.start();
 			}
 		}
 		else
