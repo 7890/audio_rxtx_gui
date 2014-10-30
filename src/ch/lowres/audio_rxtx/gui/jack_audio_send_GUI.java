@@ -102,7 +102,8 @@ public class jack_audio_send_GUI
 		}
 
 		OSTest os=new OSTest();
-		println("host OS: "+os.getName());
+		println("host OS: "+os.getOSName());
+		println("jvm: "+os.getVMName());
 
 		//os specific / or \ path separator
 		tmpDir=System.getProperty("java.io.tmpdir")+File.separator+progNameSymbol;
