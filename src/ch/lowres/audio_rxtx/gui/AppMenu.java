@@ -41,6 +41,7 @@ public class AppMenu extends MenuBar
 	static MenuItem mi_configure_dialog;
 
 	static MenuItem mi_about;
+	static MenuItem mi_license;
 	static MenuItem mi_doc;
 
 //========================================================================
@@ -108,12 +109,13 @@ public class AppMenu extends MenuBar
 
 		//help items
 		mi_about=new MenuItem("About...");
-
+		mi_license=new MenuItem("Liecense...");
 		mi_doc=new MenuItem("Manual (PDF)...",
 			new MenuShortcut(KeyEvent.VK_1, false)
 		);
 
 		menu_help.add(mi_about);
+		menu_help.add(mi_license);
 		menu_help.add(mi_doc);
 	}//end createMenu
 
@@ -317,6 +319,17 @@ public class AppMenu extends MenuBar
 			}
 		});
 
+		mi_license.addActionListener(new ActionListener()
+		{
+			@Override public void actionPerformed(ActionEvent e)
+			{
+				String docTxt=g.tmpDir+File.separator+"resources"
+					+File.separator+"COPYING.txt";
+
+				System.out.println("opening file "+docTxt);
+				IOTools.openFile(new File(docTxt));
+			}
+		});
 	}//end addActionListeners
 
 //========================================================================
