@@ -23,6 +23,9 @@ import java.util.List;
 import java.util.Random;
 import java.io.File;
 
+import com.magelang.splitter.*;
+import com.magelang.tabsplitter.*;
+
 //java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -cp .:build/classes/ ch.lowres.audio_rxtx.gui.Main
 
 //========================================================================
@@ -59,6 +62,12 @@ public class Main
 
 	//the main window
 	static Frame mainframe;
+
+	//tabs for send / receive
+	static TabPanel tabPanel;
+	static TabNamePanel tabSend;
+	static TabNamePanel tabReceive;
+
 	static Panel cardPanel;
 	static CardLayout cardLay;
 
@@ -219,7 +228,42 @@ public class Main
 		cardPanel=new Panel();
 		cardLay=new CardLayout();
 		cardPanel.setLayout(cardLay);
-		mainframe.add(cardPanel,BorderLayout.NORTH);
+
+//		mainframe.add(cardPanel,BorderLayout.NORTH);
+
+		try {
+			tabSend = new TabNamePanel();
+			tabSend.setName("Send");
+			tabSend.setLayout(new java.awt.GridLayout());
+			tabSend.setTabName("Send");
+
+			tabSend.add(cardPanel);
+
+			tabReceive = new TabNamePanel();
+			tabReceive.setName("Receive");
+			tabReceive.setLayout(new java.awt.GridLayout());
+			tabReceive.setTabName("Receive");
+
+			tabReceive.add(new Checkbox("dummy"));
+
+			tabPanel = new TabPanel();
+			tabPanel.setName("TabPanel");
+			//tabPanel.setFont(new java.awt.Font("serif", 2, 24));
+
+			tabPanel.setBackground(Colors.form_background);
+			tabPanel.setForeground(Colors.form_foreground);
+
+			tabPanel.setTabColors(new java.awt.Color[] {Colors.form_background,Colors.form_background});
+
+			tabPanel.add(tabSend, tabSend.getName());
+			tabPanel.add(tabReceive, tabReceive.getName());
+
+
+		} catch (java.lang.Throwable ex)
+		{///
+		}
+
+		mainframe.add(tabPanel);
 
 		mainframe.setMenuBar(new AppMenu());
 
