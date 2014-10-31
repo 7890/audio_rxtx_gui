@@ -19,9 +19,9 @@ import java.awt.event.*;
 import java.net.InetAddress;
 
 //========================================================================
-public class FrontCard extends Panel
+public class FrontCardSend extends Panel
 {
-	static jack_audio_send_GUI g;
+	static Main g;
 	static jack_audio_send_cmdline_API api;
 
 	static Panel form;
@@ -38,7 +38,7 @@ public class FrontCard extends Panel
 	static Button 				button_start_transmission=new Button("Start Transmission");
 
 //========================================================================
-	public FrontCard() 
+	public FrontCardSend() 
 	{
 		setBackground(Colors.form_background);
 		setForeground(Colors.form_foreground);
@@ -148,4 +148,4 @@ public class FrontCard extends Panel
 			}
 		});
 	}//end addActionListeners
-}//end class FrontCard
+}//end class FrontCardSend

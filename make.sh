@@ -37,7 +37,7 @@ function compile_audio_rxtx()
 	fi
 
 	echo "start with:"
-	echo "java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -cp .:build/classes/ ch.lowres.audio_rxtx.gui.jack_audio_send_GUI"
+	echo "java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -cp .:build/classes/ ch.lowres.audio_rxtx.gui.Main"
 }
 
 function compile_java_osc
@@ -96,21 +96,20 @@ function build_jar
 
 	rm -rf audio_rxtx_*.zip
 
-##################
+###################
 	mkdir "$classes"/resources/mac
 
-##################
+###################
 	mkdir "$classes"/resources/lin32
 
 ##################
 	mkdir "$classes"/resources/lin64
 
 
-
 	cp "$icon_image" "$classes"/resources
 	cp "$src"/etc/audio_rxtx_gui.properties "$classes"/resources
 
-	echo "Main-Class: ch.lowres.audio_rxtx.gui.jack_audio_send_GUI" > "$build"/Manifest.txt
+	echo "Main-Class: ch.lowres.audio_rxtx.gui.Main" > "$build"/Manifest.txt
 	echo "" >> "$build"/Manifest.txt
 
 	cd "$classes"

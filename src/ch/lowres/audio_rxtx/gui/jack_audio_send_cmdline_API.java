@@ -18,7 +18,7 @@ import java.io.File;
 //========================================================================
 public class jack_audio_send_cmdline_API
 {
-	static jack_audio_send_GUI g;
+	static Main g;
 
 	static String command_name="jack_audio_send";
 

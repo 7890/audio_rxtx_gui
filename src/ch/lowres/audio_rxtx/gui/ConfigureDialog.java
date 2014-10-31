@@ -19,7 +19,7 @@ import java.awt.event.*;
 //========================================================================
 public class ConfigureDialog extends Dialog
 {
-	static jack_audio_send_GUI g;
+	static Main g;
 	static jack_audio_send_cmdline_API api;
 
 	static Panel form;

@@ -23,11 +23,11 @@ import java.net.URL;
 //========================================================================
 class ImgComponent extends Component
 {
+	static Main g;
+
 	private ImageIcon audio_rxtx_logo;
 	private int imageTop=370;
 	private int preferredWidth=320;
-
-	static jack_audio_send_GUI g;
 
 //========================================================================
 	@Override

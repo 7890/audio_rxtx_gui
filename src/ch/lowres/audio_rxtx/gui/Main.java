@@ -23,14 +23,14 @@ import java.util.List;
 import java.util.Random;
 import java.io.File;
 
-//java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -cp .:build/classes/ ch.lowres.audio_rxtx.gui.jack_audio_send_GUI
+//java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -cp .:build/classes/ ch.lowres.audio_rxtx.gui.Main
 
 //========================================================================
-public class jack_audio_send_GUI 
+public class Main 
 {
-	static String progName="jack_audio_send GUI";
+	static String progName="audio_rxtx GUI";
 	static String progVersion="0.2";
-	static String progNameSymbol="jack_audio_send_gui_v"+progVersion+"_"+141030;
+	static String progNameSymbol="audio_rxtx_gui_v"+progVersion+"_"+141030;
 
 	static String defaultPropertiesFileName="audio_rxtx_gui.properties";
 
@@ -63,8 +63,8 @@ public class jack_audio_send_GUI
 	static CardLayout cardLay;
 
 	//cards
-	static FrontCard front;
-	static RunningCard running;
+	static FrontCardSend front;
+	static RunningCardSend running;
 
 	static Label label_status;
 
@@ -89,7 +89,7 @@ public class jack_audio_send_GUI
 	{
 		//header
 		println("");
-		println("audio_rxtx - "+progName+" v"+progVersion);
+		println(progName+" v"+progVersion);
 		println("(c) 2014 Thomas Brand <tom@trellis.ch>");
 
 		if(args.length>0 && (args[0].equals("--help") || args[0].equals("-h")))
@@ -208,7 +208,7 @@ public class jack_audio_send_GUI
 //========================================================================
 	static void createForm()
 	{
-		mainframe=new Frame("audio_rxtx - "+progName);
+		mainframe=new Frame(progName);
 		mainframe.setBackground(Colors.form_background);
 		mainframe.setForeground(Colors.form_foreground);
 		mainframe.setLayout(new BorderLayout());
@@ -223,11 +223,11 @@ public class jack_audio_send_GUI
 
 		mainframe.setMenuBar(new AppMenu());
 
-		front=new FrontCard();
+		front=new FrontCardSend();
 		front.setValues();
 		cardPanel.add(front, "1");
 
-		running=new RunningCard();
+		running=new RunningCardSend();
 		cardPanel.add(running, "2");
 
 		label_status=new Label("Ready");
@@ -447,4 +447,4 @@ public class jack_audio_send_GUI
 			(int)((screenDimension.getHeight()-f.getHeight()) / 2)
 		);
 	}
-}//end class jack_audio_send_GUI
+}//end class Main

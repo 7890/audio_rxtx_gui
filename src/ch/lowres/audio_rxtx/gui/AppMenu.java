@@ -24,7 +24,7 @@ import java.io.File;
 //========================================================================
 public class AppMenu extends MenuBar
 {
-	static jack_audio_send_GUI g;
+	static Main g;
 
 	static Menu menu_main;
 	static Menu menu_settings;

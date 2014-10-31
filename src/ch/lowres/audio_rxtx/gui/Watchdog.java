@@ -16,7 +16,7 @@ package ch.lowres.audio_rxtx.gui;
 //========================================================================
 public class Watchdog extends Thread 
 {
-	static jack_audio_send_GUI g;
+	static Main g;
 
 //========================================================================
 	//just a wrapper to interrupt. let process stop cooperatively

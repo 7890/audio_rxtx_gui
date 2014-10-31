@@ -17,9 +17,9 @@ import java.awt.*;
 import java.awt.event.*;
 
 //========================================================================
-public class RunningCard extends Panel
+public class RunningCardSend extends Panel
 {
-	static jack_audio_send_GUI g;
+	static Main g;
 	static jack_audio_send_cmdline_API api;
 
 	static Panel form;
@@ -37,7 +37,7 @@ public class RunningCard extends Panel
 	static Button button_stop_transmission=new Button("Stop Transmission");
 
 //========================================================================
-	public RunningCard() 
+	public RunningCardSend() 
 	{
 		setBackground(Colors.form_background);
 		setForeground(Colors.form_foreground);
@@ -98,4 +98,4 @@ public class RunningCard extends Panel
 			}
 		});
 	}//end addActionListeners
-}//end class RunningCard
+}//end class RunningCardSend

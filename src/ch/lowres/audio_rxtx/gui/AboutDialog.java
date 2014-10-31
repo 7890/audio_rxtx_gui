@@ -19,7 +19,7 @@ import java.awt.event.*;
 //========================================================================
 public class AboutDialog extends Dialog
 {
-	static jack_audio_send_GUI g;
+	static Main g;
 
 	static Panel form;
 	static ImgComponent aboutImg;

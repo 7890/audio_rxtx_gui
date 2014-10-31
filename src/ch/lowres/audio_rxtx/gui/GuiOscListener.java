@@ -24,7 +24,7 @@ import java.text.DecimalFormat;
 //========================================================================
 public class GuiOscListener implements OSCListener 
 {
-	static jack_audio_send_GUI g;
+	static Main g;
 	static jack_audio_send_cmdline_API api;
 
 //========================================================================
