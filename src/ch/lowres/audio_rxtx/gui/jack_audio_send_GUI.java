@@ -30,7 +30,7 @@ public class jack_audio_send_GUI
 {
 	static String progName="jack_audio_send GUI";
 	static String progVersion="0.2";
-	static String progNameSymbol="jack_audio_send_gui_v"+progVersion+"_"+141020;
+	static String progNameSymbol="jack_audio_send_gui_v"+progVersion+"_"+141030;
 
 	static String defaultPropertiesFileName="audio_rxtx_gui.properties";
 
@@ -113,11 +113,20 @@ public class jack_audio_send_GUI
 
 		if(os.isWindows())
 		{
-			api.setPrefixPath(tmpDir+File.separator+"resources"+File.separator+"bin");
+			api.setPrefixPath(tmpDir+File.separator+"resources"+File.separator+"win");
 		}
 		else if(os.isMac())
 		{
 			api.setPrefixPath(tmpDir+File.separator+"resources"+File.separator+"mac");
+		}
+		else if(os.isLinux())
+		{
+			String dir="lin32";
+			if(os.is64Bits())
+			{
+				dir="lin64";
+			}
+			api.setPrefixPath(tmpDir+File.separator+"resources"+File.separator+dir);
 		}
 
 		IOTools iot=new IOTools();
@@ -147,7 +156,7 @@ public class jack_audio_send_GUI
 
 			if(os.isWindows())
 			{
-				iot.copyJarContent("/resources/bin",tmpDir);
+				iot.copyJarContent("/resources/win",tmpDir);
 			}
 			else if(os.isMac())
 			{
@@ -155,6 +164,18 @@ public class jack_audio_send_GUI
 
 				println("setting permissions of binaries");
 				RunCmd setPerms=new RunCmd("chmod 755 "+tmpDir+"/resources/mac/*");
+				setPerms.start();
+			}
+			else if(os.isLinux())
+			{
+				String dir="lin32";
+				if(os.is64Bits())
+				{
+					dir="lin64";
+				}
+				iot.copyJarContent("/resources/"+dir,tmpDir);
+				println("setting permissions of binaries");
+				RunCmd setPerms=new RunCmd("chmod 755 "+tmpDir+"/resources/"+dir+"/*");
 				setPerms.start();
 			}
 		}
