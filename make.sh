@@ -51,11 +51,30 @@ function compile_java_osc
 
 	PREF="$build"/JavaOSC-master/modules/core/src/main/java
 
-	echo "compiling files in $PREF to direcotry $OUT ..."
+	echo "compiling files in $PREF to direcotry $classes ..."
 
 	mkdir -p "$classes"
 	javac -source 1.6 -target 1.6 -classpath $PREF -sourcepath $PREF -d "$classes" $PREF/com/illposed/osc/*.java
 	javac -source 1.6 -target 1.6 -classpath $PREF -sourcepath $PREF -d "$classes" $PREF/com/illposed/osc/utility/*.java
+	find "$classes"
+}
+
+function compile_tabsplitter
+{
+	echo "building tabsplitter library (com.magelang.splitter)"
+	echo "===================================================="
+	mkdir "$build"/tabsplitter
+	cp "$archive"/tabsplitter.zip "$build"/tabsplitter
+	cd "$build"/tabsplitter
+	unzip tabsplitter.zip
+	cd "$cur"
+
+	PREF="$build"/tabsplitter
+
+	echo "compiling files in $PREF to direcotry $classes ..."
+
+	mkdir -p "$classes"
+	javac -source 1.6 -target 1.6 -classpath $PREF -sourcepath $PREF -d "$classes" $PREF/com/magelang/tabsplitter/*.java
 	find "$classes"
 }
 
@@ -106,6 +125,7 @@ function build_jar
 	mkdir "$classes"/resources/lin64
 
 
+
 	cp "$icon_image" "$classes"/resources
 	cp "$src"/etc/audio_rxtx_gui.properties "$classes"/resources
 
@@ -135,5 +155,6 @@ rm -rf "$build"/*
 #rm -f "$build"/*.zip
 
 compile_java_osc
+compile_tabsplitter
 compile_audio_rxtx
 build_jar
