@@ -88,11 +88,24 @@ function build_jar
 	rm bin/osc*.exe
 	rm bin/jack_audio_receive.exe
 	rm bin/audio_post_send.exe
-	cp -r bin "$classes"/resources
+	mkdir "$classes"/resources/win
+#	cp -r bin "$classes"/resources
+	cp bin/* "$classes"/resources/win
 	cp -r doc "$classes"/resources
 	cp *.txt "$classes"/resources
 
-	rm -rf audio_rxtx_*
+	rm -rf audio_rxtx_*.zip
+
+##################
+	mkdir "$classes"/resources/mac
+
+##################
+	mkdir "$classes"/resources/lin32
+
+##################
+	mkdir "$classes"/resources/lin64
+
+
 
 	cp "$icon_image" "$classes"/resources
 	cp "$src"/etc/audio_rxtx_gui.properties "$classes"/resources
