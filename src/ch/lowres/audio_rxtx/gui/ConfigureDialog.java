@@ -20,7 +20,6 @@ import java.awt.event.*;
 public class ConfigureDialog extends Dialog
 {
 	static Main g;
-	static jack_audio_send_cmdline_API api;
 
 	static Panel form;
 	static HostTextFieldWithLimit		text_name=new HostTextFieldWithLimit("",32,32);
@@ -59,17 +58,17 @@ public class ConfigureDialog extends Dialog
 //========================================================================
 	void setValues()
 	{
-		text_name.setText(api._name);
-		text_sname.setText(api._sname);
-		checkbox_connect.setState(api._connect);
-		checkbox_nopause.setState(api._nopause);
-		checkbox_test.setState(api.test_mode);
-		text_limit.setText(""+api._limit);
-		text_drop.setText(""+api._drop);
-		checkbox_verbose.setState(api.verbose);
-		text_update.setText(""+api._update);
-		checkbox_lport_random.setState(api.lport_random);
-		text_lport.setText(""+api._lport);
+		text_name.setText(g.apis._name);
+		text_sname.setText(g.apis._sname);
+		checkbox_connect.setState(g.apis._connect);
+		checkbox_nopause.setState(g.apis._nopause);
+		checkbox_test.setState(g.apis.test_mode);
+		text_limit.setText(""+g.apis._limit);
+		text_drop.setText(""+g.apis._drop);
+		checkbox_verbose.setState(g.apis.verbose);
+		text_update.setText(""+g.apis._update);
+		checkbox_lport_random.setState(g.apis.lport_random);
+		text_lport.setText(""+g.apis._lport);
 
 		checkbox_gui_osc_port_random.setState(g.gui_osc_port_random);
 		text_gui_osc_port.setText(""+g.gui_osc_port);
@@ -189,32 +188,32 @@ public class ConfigureDialog extends Dialog
 	{
 		if(text_name.getText().equals(""))
 		{
-			text_name.setText(""+api._name);
+			text_name.setText(""+g.apis._name);
 		}
 
 		if(text_sname.getText().equals(""))
 		{
-			text_sname.setText(""+api._sname);
+			text_sname.setText(""+g.apis._sname);
 		}
 
 		if(text_limit.getText().equals(""))
 		{
-			text_limit.setText(""+api._limit);
+			text_limit.setText(""+g.apis._limit);
 		}
 
 		if(text_drop.getText().equals(""))
 		{
-			text_drop.setText(""+api._drop);
+			text_drop.setText(""+g.apis._drop);
 		}
 
 		if(text_update.getText().equals(""))
 		{
-			text_update.setText(""+api._update);
+			text_update.setText(""+g.apis._update);
 		}
 
 		if(text_lport.getText().equals(""))
 		{
-			text_lport.setText(""+api._lport);
+			text_lport.setText(""+g.apis._lport);
 		}
 
 		if(text_gui_osc_port.getText().equals(""))
@@ -222,17 +221,17 @@ public class ConfigureDialog extends Dialog
 			text_gui_osc_port.setText(""+g.gui_osc_port);
 		}
 
-		api._name=text_name.getText();
-		api._sname=text_sname.getText();
-		api._connect=checkbox_connect.getState();
-		api._nopause=checkbox_nopause.getState();
-		api.test_mode=checkbox_test.getState();
-		api._limit=Integer.parseInt(text_limit.getText()); //
-		api._drop=Integer.parseInt(text_drop.getText()); //
-		api.verbose=checkbox_verbose.getState();
-		api._update=Integer.parseInt(text_update.getText()); //
-		api.lport_random=checkbox_lport_random.getState();
-		api._lport=Integer.parseInt(text_lport.getText()); //
+		g.apis._name=text_name.getText();
+		g.apis._sname=text_sname.getText();
+		g.apis._connect=checkbox_connect.getState();
+		g.apis._nopause=checkbox_nopause.getState();
+		g.apis.test_mode=checkbox_test.getState();
+		g.apis._limit=Integer.parseInt(text_limit.getText()); //
+		g.apis._drop=Integer.parseInt(text_drop.getText()); //
+		g.apis.verbose=checkbox_verbose.getState();
+		g.apis._update=Integer.parseInt(text_update.getText()); //
+		g.apis.lport_random=checkbox_lport_random.getState();
+		g.apis._lport=Integer.parseInt(text_lport.getText()); //
 
 		g.gui_osc_port_random=checkbox_gui_osc_port_random.getState();
 		g.gui_osc_port=Integer.parseInt(text_gui_osc_port.getText()); //
