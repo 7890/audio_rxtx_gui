@@ -20,7 +20,6 @@ import java.awt.event.*;
 public class RunningCardSend extends Panel
 {
 	static Main g;
-	static jack_audio_send_cmdline_API api;
 
 	static Panel form;
 
