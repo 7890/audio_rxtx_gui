@@ -25,7 +25,6 @@ import java.text.DecimalFormat;
 public class GuiOscListener implements OSCListener 
 {
 	static Main g;
-	static jack_audio_send_cmdline_API api;
 
 //========================================================================
 	public static void println(String s)
@@ -45,10 +44,10 @@ public class GuiOscListener implements OSCListener
 		if(path.equals("/startup") && argsSize==2)
 		{
 			g.setStatus("jack_audio_send Started");
-			api.version=(Float)args.get(0);
-			api.format_version=(Float)args.get(1);
+			g.apis.version=(Float)args.get(0);
+			g.apis.format_version=(Float)args.get(1);
 
-			g.running.label_1.setText("jack_audio_send v"+api.version+" Format v"+api.format_version);
+			g.runningSend.label_1.setText("jack_audio_send v"+g.apis.version+" Format v"+g.apis.format_version);
 		}
 
 		else if(path.equals("/client_name_changed"))
@@ -60,15 +59,15 @@ public class GuiOscListener implements OSCListener
 		{
 			g.setStatus("config dump received");
 
-			if(api._lport!=(Integer)args.get(0))
+			if(g.apis._lport!=(Integer)args.get(0))
 			{
-				api._lport=(Integer)args.get(0);
+				g.apis._lport=(Integer)args.get(0);
 
 				//reconfigure sender
 				try
 				{
 					g.sender.close();
-					g.sender=new OSCPortOut(InetAddress.getLocalHost(), api._lport);
+					g.sender=new OSCPortOut(InetAddress.getLocalHost(), g.apis._lport);
 				}
 				catch(Exception ex)
 				{///
@@ -76,18 +75,18 @@ public class GuiOscListener implements OSCListener
 			}
 
 			//could have changed
-			api._target_port=(Integer)args.get(2);
-			api._name=(String)args.get(3);
+			g.apis._target_port=(Integer)args.get(2);
+			g.apis._name=(String)args.get(3);
 
-			api.jack_sample_rate=(Integer)args.get(5);
-			api.jack_period_size=(Integer)args.get(6);
+			g.apis.jack_sample_rate=(Integer)args.get(5);
+			g.apis.jack_period_size=(Integer)args.get(6);
 
-			api.msg_size=(Integer)args.get(10);
-			api.transfer_size=(Integer)args.get(11);
-			api.expected_network_data_rate=(Float)args.get(12);
+			g.apis.msg_size=(Integer)args.get(10);
+			g.apis.transfer_size=(Integer)args.get(11);
+			g.apis.expected_network_data_rate=(Float)args.get(12);
 
-			g.running.label_2.setText("JACK: "+api.jack_sample_rate+" / "+api.jack_period_size
-				+"    TRF: "+ (api._16 ? "16 bit Integer" : "32 bit Float")
+			g.runningSend.label_2.setText("JACK: "+g.apis.jack_sample_rate+" / "+g.apis.jack_period_size
+				+"    TRF: "+ (g.apis._16 ? "16 bit Integer" : "32 bit Float")
 			);
 		}
 
@@ -95,9 +94,9 @@ public class GuiOscListener implements OSCListener
 		{
 			g.setStatus("Autoconnecting JACK Ports");
 			//0: from 1: to
-			api.total_connected_ports++;
+			g.apis.total_connected_ports++;
 
-			g.running.label_3.setText("Autoconnected Ports: "+api.total_connected_ports+" / "+api._in);
+			g.runningSend.label_3.setText("Autoconnected Ports: "+g.apis.total_connected_ports+" / "+g.apis._in);
 		}
 
 		else if(path.equals("/start_main_loop"))
@@ -109,7 +108,7 @@ public class GuiOscListener implements OSCListener
 		{
 			g.setStatus("Offering Audio Message #"+args.get(0));
 
-			g.running.label_4.setText(":"+api._lport+" -> "+api._target_host+":"+api._target_port);
+			g.runningSend.label_4.setText(":"+g.apis._lport+" -> "+g.apis._target_host+":"+g.apis._target_port);
 		}
 
 		else if(path.equals("/receiver_denied_transmission") && argsSize==3)
@@ -119,13 +118,13 @@ public class GuiOscListener implements OSCListener
 			//1: sample_rate
 			//2: bytes per sample
 
-			g.running.label_4.setText("Transmission denied ("
+			g.runningSend.label_4.setText("Transmission denied ("
 				+args.get(0)+", "+args.get(1)+", "
 				+((Integer)args.get(2)==2 ? "16" : "32")+")");
 
 			g.setStatus("Receiver denied Transmission");
 
-			g.running.button_stop_transmission.setLabel("OK");
+			g.runningSend.button_stop_transmission.setLabel("OK");
 		}
 
 		else if(path.equals("/receiver_accepted_transmission"))
@@ -136,19 +135,19 @@ public class GuiOscListener implements OSCListener
 		else if(path.equals("/sending") && argsSize==7)
 		{
 
-			g.running.label_4.setText(":"+api._lport+" -> "+api._target_host+":"+api._target_port);
+			g.runningSend.label_4.setText(":"+g.apis._lport+" -> "+g.apis._target_host+":"+g.apis._target_port);
 
-			g.running.label_5.setText( 
-				String.format(new DecimalFormat("0.00").format(api.expected_network_data_rate))
+			g.runningSend.label_5.setText( 
+				String.format(new DecimalFormat("0.00").format(g.apis.expected_network_data_rate))
 				+" kbit/s   "
-				+String.format(new DecimalFormat("0.00").format(api.expected_network_data_rate/1000/8))
+				+String.format(new DecimalFormat("0.00").format(g.apis.expected_network_data_rate/1000/8))
 				+" MB/s");
 
 			//hms, transferred mb
-			g.running.label_6.setText((String)args.get(1)
+			g.runningSend.label_6.setText((String)args.get(1)
 				+"   "+String.format(new DecimalFormat("0.00").format((Float)args.get(4)))
 				+" "+(String)args.get(5)
-				+"   ("+api._in+" CH)");
+				+"   ("+g.apis._in+" CH)");
 
 			//msg #
 			g.setStatus("Sending Audio Message #"+args.get(0));
@@ -169,20 +168,20 @@ public class GuiOscListener implements OSCListener
 		{
 			//tell quit reason
 
-			g.running.label_3.setText("Process Terminated");
+			g.runningSend.label_3.setText("Process Terminated");
 
 			if(args.get(0).equals("nolibjack"))
 			{
-				g.running.label_4.setText("No libjack Found. Is JACK Installed?");
-				g.running.label_5.setText("See http://www.jackaudio.org");
+				g.runningSend.label_4.setText("No libjack Found. Is JACK Installed?");
+				g.runningSend.label_5.setText("See http://www.jackaudio.org");
 
 			}
 			else if(args.get(0).equals("nojack"))
 			{
-				g.running.label_4.setText("JACK Not Running (Server '"+api._sname+"')");
+				g.runningSend.label_4.setText("JACK Not Running (Server '"+g.apis._sname+"')");
 			}
 
-			g.running.button_stop_transmission.setLabel("OK");
+			g.runningSend.button_stop_transmission.setLabel("OK");
 
 			g.setStatus("jack_audio_send Quit: "+args.get(0));
 		}
