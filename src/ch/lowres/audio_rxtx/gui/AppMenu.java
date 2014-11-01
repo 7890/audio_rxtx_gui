@@ -21,6 +21,8 @@ import java.net.InetAddress;
 
 import java.io.File;
 
+import com.magelang.tabsplitter.*;
+
 //========================================================================
 public class AppMenu extends MenuBar
 {
@@ -28,6 +30,7 @@ public class AppMenu extends MenuBar
 
 	static Menu menu_main;
 	static Menu menu_settings;
+	static Menu menu_view;
 	static Menu menu_help;
 
 	static MenuItem mi_start_transmission;
@@ -39,6 +42,10 @@ public class AppMenu extends MenuBar
 	static MenuItem mi_load_settings;
 	static MenuItem mi_save_settings_as;
 	static MenuItem mi_configure_dialog;
+
+	static MenuItem mi_view_send;
+	static MenuItem mi_view_receive;
+	static MenuItem mi_view_both;
 
 	static MenuItem mi_about;
 	static MenuItem mi_license;
@@ -58,10 +65,12 @@ public class AppMenu extends MenuBar
 
 		menu_main=new Menu("Main");
 		menu_settings=new Menu("Settings");
+		menu_view=new Menu("View");
 		menu_help=new Menu("Help");
 
 		add(menu_main);
 		add(menu_settings);
+		add(menu_view);
 		add(menu_help);
 
 		//main items
@@ -107,6 +116,15 @@ public class AppMenu extends MenuBar
 		menu_settings.add(new MenuItem("-"));
 		menu_settings.add(mi_configure_dialog);
 
+		//view items
+		mi_view_send=new MenuItem("Show Send");
+		mi_view_receive=new MenuItem("Show Receive");
+		mi_view_both=new MenuItem("Show Both");
+
+		menu_view.add(mi_view_send);
+		menu_view.add(mi_view_receive);
+		menu_view.add(mi_view_both);
+
 		//help items
 		mi_about=new MenuItem("About...");
 		mi_license=new MenuItem("Liecense...");
@@ -127,7 +145,7 @@ public class AppMenu extends MenuBar
 			@Override public void actionPerformed(ActionEvent e)
 			{
 
-				if(g.front.readForm())
+				if(g.frontSend.readForm())
 				{
 					g.startTransmission();
 				}
@@ -165,7 +183,7 @@ public class AppMenu extends MenuBar
 			@Override public void actionPerformed(ActionEvent e)
 			{
 				IOTools.loadSettings(g.defaultPropertiesFileName);
-				g.front.setValues();
+				g.frontSend.setValues();
 				g.configure.setValues();
 				g.setStatus("Default Settings Loaded");
 			}
@@ -176,7 +194,7 @@ public class AppMenu extends MenuBar
 			@Override public void actionPerformed(ActionEvent e)
 			{
 				//get current data from front form
-				if(g.front.readForm())
+				if(g.frontSend.readForm())
 				{
 					IOTools.saveSettings(g.defaultPropertiesFileName);
 					g.setStatus("Default Settings Saved");
@@ -184,7 +202,7 @@ public class AppMenu extends MenuBar
 				else
 				{
 					g.setStatus("Nothing Saved. Host is invalid or was not found");
-					g.front.text_target_host.requestFocus();
+					g.frontSend.text_target_host.requestFocus();
 				}
 			}
 		});
@@ -216,17 +234,17 @@ public class AppMenu extends MenuBar
 					{
 						g.setStatus("Loading File '"+fileToLoad+"'...");
 						IOTools.loadSettings(fileToLoad);
-						g.front.setValues();
+						g.frontSend.setValues();
 						g.configure.setValues();
 						g.setStatus("Settings Loaded");
 					}
 				}
 
 				//set values in forms
-				g.front.setValues();
+				g.frontSend.setValues();
 				g.configure.setValues();
 
-				g.front.button_start_transmission.requestFocus();
+				g.frontSend.button_start_transmission.requestFocus();
 			}
 		});
 
@@ -235,7 +253,7 @@ public class AppMenu extends MenuBar
 			@Override public void actionPerformed(ActionEvent e)
 			{
 				//get current data from front form
-				if(g.front.readForm())
+				if(g.frontSend.readForm())
 				{
 					FileDialog chooser = new FileDialog(g.mainframe, "Save Settings As...");
 					//chooser.setFilenameFilter(new FolderFilter());
@@ -282,7 +300,7 @@ public class AppMenu extends MenuBar
 				else
 				{
 					g.setStatus("Nothing Saved. Host is invalid or was not found");
-					g.front.text_target_host.requestFocus();
+					g.frontSend.text_target_host.requestFocus();
 					//text_target_host.selectAll();
 				}
 			}//end actionPerformed
@@ -294,6 +312,49 @@ public class AppMenu extends MenuBar
 			{
 				g.configure.setValues();
 				g.configure.setVisible(true);
+			}
+		});
+
+		//view
+		mi_view_send.addActionListener(new ActionListener()
+		{
+			@Override public void actionPerformed(ActionEvent e)
+			{
+
+				SplitterPanel p=g.tabSplitter.getSplitterPanel();
+				if(p!=null)
+				{
+					p.separate(g.tabSend);
+				}
+				else
+				{
+					g.tabSplitter.show(0);
+				}
+			}
+		});
+
+		mi_view_receive.addActionListener(new ActionListener()
+		{
+			@Override public void actionPerformed(ActionEvent e)
+			{
+				SplitterPanel p=g.tabSplitter.getSplitterPanel();
+				if(p!=null)
+				{
+					p.separate(g.tabReceive);
+				}
+				else
+				{
+					g.tabSplitter.show(1);
+				}
+			}
+		});
+
+		mi_view_both.addActionListener(new ActionListener()
+		{
+			@Override public void actionPerformed(ActionEvent e)
+			{
+
+				g.tabSplitter.mergeTabs(0,1);
 			}
 		});
 
