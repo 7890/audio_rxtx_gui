@@ -64,6 +64,8 @@ public class Main
 	//the main window
 	static Frame mainframe;
 
+	static ScrollPane scroller;
+
 	//tabs for send / receive
 	static TabNamePanel tabSend;
 	static TabNamePanel tabReceive;
@@ -270,14 +272,14 @@ public class Main
 		{///
 		}
 
-		ScrollPane scroller = new ScrollPane(ScrollPane.SCROLLBARS_AS_NEEDED);
+		scroller=new ScrollPane(ScrollPane.SCROLLBARS_AS_NEEDED);
 
-		Adjustable vadjust = scroller.getVAdjustable();
-		Adjustable hadjust = scroller.getHAdjustable();
+		Adjustable vadjust=scroller.getVAdjustable();
+		Adjustable hadjust=scroller.getHAdjustable();
 		hadjust.setUnitIncrement(10);
 		vadjust.setUnitIncrement(10);
 
-		scroller.setSize(340, 400);
+//		scroller.setSize(320, 360);
 		scroller.add(tabSplitter);
 
 //		mainframe.add(tabSplitter,BorderLayout.CENTER);
@@ -310,7 +312,7 @@ public class Main
 
 		addWindowListeners();
 
-		mainframe.setSize(320,400);
+		mainframe.setSize(320,410);
 //		mainframe.pack();
 //temp
 //		mainframe.setResizable(false);

@@ -336,6 +336,7 @@ public class AppMenu extends MenuBar
 				{
 					g.tabSplitter.show(0);
 				}
+				g.mainframe.setSize(320,410);
 			}
 		});
 
@@ -352,6 +353,7 @@ public class AppMenu extends MenuBar
 				{
 					g.tabSplitter.show(1);
 				}
+				g.mainframe.setSize(320,410);
 			}
 		});
 
@@ -359,8 +361,8 @@ public class AppMenu extends MenuBar
 		{
 			@Override public void actionPerformed(ActionEvent e)
 			{
-
 				g.tabSplitter.mergeTabs(0,1);
+				g.mainframe.setSize(640,410);
 			}
 		});
 
