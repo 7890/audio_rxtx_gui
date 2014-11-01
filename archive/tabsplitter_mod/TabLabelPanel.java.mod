@@ -78,7 +78,7 @@ class TabLabelPanel extends Panel implements ActionListener {
 		//b.add("Center", nameButton);
 	
 		// Add the title button and the component to the panel
-		add("North", b);
+		//add("North", b);
 		add("Center", c);
 	}
 	
