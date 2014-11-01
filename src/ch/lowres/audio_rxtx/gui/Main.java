@@ -56,7 +56,8 @@ public class Main
 	static AboutDialog about;
 
 	//holding several config values, construct command line for jack_audio_send
-	static jack_audio_send_cmdline_API api;
+	static jack_audio_send_cmdline_API apis;
+	static jack_audio_receive_cmdline_API apir;
 
 	static Image appIcon;
 
@@ -64,16 +65,23 @@ public class Main
 	static Frame mainframe;
 
 	//tabs for send / receive
-	static TabPanel tabPanel;
 	static TabNamePanel tabSend;
 	static TabNamePanel tabReceive;
 
-	static Panel cardPanel;
-	static CardLayout cardLay;
+	static TabSplitter tabSplitter;
+
+	static Panel cardPanelSend;
+	static CardLayout cardLaySend;
+
+	static Panel cardPanelReceive;
+	static CardLayout cardLayReceive;
 
 	//cards
-	static FrontCardSend front;
-	static RunningCardSend running;
+	static FrontCardSend frontSend;
+	static RunningCardSend runningSend;
+
+	static FrontCardReceive frontReceive;
+	static RunningCardReceive runningReceive;
 
 	static Label label_status;
 
@@ -118,15 +126,16 @@ public class Main
 		tmpDir=System.getProperty("java.io.tmpdir")+File.separator+progNameSymbol;
 		println("temporary cache dir: '"+tmpDir+"'");
 
-		api=new jack_audio_send_cmdline_API();
+		apis=new jack_audio_send_cmdline_API();
+		apir=new jack_audio_receive_cmdline_API();
 
 		if(os.isWindows())
 		{
-			api.setPrefixPath(tmpDir+File.separator+"resources"+File.separator+"win");
+			apis.setPrefixPath(tmpDir+File.separator+"resources"+File.separator+"win");
 		}
 		else if(os.isMac())
 		{
-			api.setPrefixPath(tmpDir+File.separator+"resources"+File.separator+"mac");
+			apis.setPrefixPath(tmpDir+File.separator+"resources"+File.separator+"mac");
 		}
 		else if(os.isLinux())
 		{
@@ -135,7 +144,7 @@ public class Main
 			{
 				dir="lin64";
 			}
-			api.setPrefixPath(tmpDir+File.separator+"resources"+File.separator+dir);
+			apis.setPrefixPath(tmpDir+File.separator+"resources"+File.separator+dir);
 		}
 
 		IOTools iot=new IOTools();
@@ -225,54 +234,71 @@ public class Main
 		mainframe.setIconImage(appIcon);
 
 		//"cards" / for switching views / all in one window
-		cardPanel=new Panel();
-		cardLay=new CardLayout();
-		cardPanel.setLayout(cardLay);
+		cardPanelSend=new Panel();
+		cardLaySend=new CardLayout();
+		cardPanelSend.setLayout(cardLaySend);
+
+		cardPanelReceive=new Panel();
+		cardLayReceive=new CardLayout();
+		cardPanelReceive.setLayout(cardLayReceive);
 
 //		mainframe.add(cardPanel,BorderLayout.NORTH);
 
 		try {
-			tabSend = new TabNamePanel();
+			tabSend=new TabNamePanel();
 			tabSend.setName("Send");
-			tabSend.setLayout(new java.awt.GridLayout());
+			tabSend.setLayout(new GridLayout());
 			tabSend.setTabName("Send");
+			tabSend.add(cardPanelSend);
 
-			tabSend.add(cardPanel);
-
-			tabReceive = new TabNamePanel();
+			tabReceive=new TabNamePanel();
 			tabReceive.setName("Receive");
-			tabReceive.setLayout(new java.awt.GridLayout());
+			tabReceive.setLayout(new GridLayout());
 			tabReceive.setTabName("Receive");
+			tabReceive.add(cardPanelReceive);
 
-			tabReceive.add(new Checkbox("dummy"));
+			tabSplitter=new TabSplitter();
+			tabSplitter.setName("TabSplitter");
+			tabSplitter.add(tabSend, tabSend.getName());
+			tabSplitter.add(tabReceive, tabReceive.getName());
 
-			tabPanel = new TabPanel();
-			tabPanel.setName("TabPanel");
-			//tabPanel.setFont(new java.awt.Font("serif", 2, 24));
+			tabSplitter.setBackground(Colors.form_background);
+			tabSplitter.setForeground(Colors.form_foreground);
 
-			tabPanel.setBackground(Colors.form_background);
-			tabPanel.setForeground(Colors.form_foreground);
-
-			tabPanel.setTabColors(new java.awt.Color[] {Colors.form_background,Colors.form_background});
-
-			tabPanel.add(tabSend, tabSend.getName());
-			tabPanel.add(tabReceive, tabReceive.getName());
-
-
+			tabSplitter.setTabColors(new java.awt.Color[] {Colors.form_background,Colors.form_background});
 		} catch (java.lang.Throwable ex)
 		{///
 		}
 
-		mainframe.add(tabPanel);
+		ScrollPane scroller = new ScrollPane(ScrollPane.SCROLLBARS_AS_NEEDED);
+
+		Adjustable vadjust = scroller.getVAdjustable();
+		Adjustable hadjust = scroller.getHAdjustable();
+		hadjust.setUnitIncrement(10);
+		vadjust.setUnitIncrement(10);
+
+		scroller.setSize(340, 400);
+		scroller.add(tabSplitter);
+
+//		mainframe.add(tabSplitter,BorderLayout.CENTER);
+
+		mainframe.add(scroller,BorderLayout.CENTER);
 
 		mainframe.setMenuBar(new AppMenu());
 
-		front=new FrontCardSend();
-		front.setValues();
-		cardPanel.add(front, "1");
+		frontSend=new FrontCardSend();
+		frontSend.setValues();
+		cardPanelSend.add(frontSend, "1");
 
-		running=new RunningCardSend();
-		cardPanel.add(running, "2");
+		runningSend=new RunningCardSend();
+		cardPanelSend.add(runningSend, "2");
+
+		frontReceive=new FrontCardReceive();
+		frontReceive.setValues();
+		cardPanelReceive.add(frontReceive, "1");
+
+		runningReceive=new RunningCardReceive();
+		cardPanelReceive.add(runningReceive, "2");
 
 		label_status=new Label("Ready");
 		label_status.setBackground(Colors.status_background);
@@ -280,12 +306,13 @@ public class Main
 
 		mainframe.add(label_status,BorderLayout.SOUTH);
 
-		front.checkbox_format_16.requestFocus();
+		frontSend.checkbox_format_16.requestFocus();
 
 		addWindowListeners();
 
 		mainframe.pack();
-		mainframe.setResizable(false);
+//temp
+//		mainframe.setResizable(false);
 		setWindowCentered(mainframe);
 
 		//"run" GUI
@@ -323,10 +350,10 @@ public class Main
 
 		setStatus("Executing jack_audio_send");
 
-		println("execute: "+api.getCommandLineString());
-		cmd=new RunCmd(api.getCommandLineString());
+		println("execute: "+apis.getCommandLineString());
+		cmd=new RunCmd(apis.getCommandLineString());
 
-		cmd.devNull(!api.verbose);
+		cmd.devNull(!apis.verbose);
 
 		cmd.maxPrio();
 		cmd.start();
@@ -339,9 +366,9 @@ public class Main
 		dog.start();
 
 		AppMenu.setForRunning();
-		running.clearLabels();
-		cardLay.show(cardPanel, "2");
-		running.button_stop_transmission.requestFocus();
+		runningSend.clearLabels();
+		cardLaySend.show(cardPanelSend, "2");
+		runningSend.button_stop_transmission.requestFocus();
 	}//end startTransmission
 
 //========================================================================
@@ -367,16 +394,16 @@ public class Main
 
 		AppMenu.setForFrontScreen();
 
-		api.total_connected_ports=0;
-		api.jack_sample_rate=0;
-		api.jack_period_size=0;
-		api.msg_size=0;
-		api.transfer_size=0;
-		api.expected_network_data_rate=0;
+		apis.total_connected_ports=0;
+		apis.jack_sample_rate=0;
+		apis.jack_period_size=0;
+		apis.msg_size=0;
+		apis.transfer_size=0;
+		apis.expected_network_data_rate=0;
 
 		//show main panel again
-		cardLay.show(cardPanel, "1");
-		front.button_start_transmission.requestFocus();
+		cardLaySend.show(cardPanelSend, "1");
+		frontSend.button_start_transmission.requestFocus();
 		setStatus("Ready");
 	}//end stopTransmission
 
@@ -438,7 +465,7 @@ public class Main
 			}
 
 			receiver=new OSCPortIn(gui_osc_port);
-			sender=new OSCPortOut(InetAddress.getLocalHost(), api._lport);
+			sender=new OSCPortOut(InetAddress.getLocalHost(), apis._lport);
 
 			gosc=new GuiOscListener();
 
