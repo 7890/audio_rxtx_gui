@@ -310,7 +310,8 @@ public class Main
 
 		addWindowListeners();
 
-		mainframe.pack();
+		mainframe.setSize(320,400);
+//		mainframe.pack();
 //temp
 //		mainframe.setResizable(false);
 		setWindowCentered(mainframe);
