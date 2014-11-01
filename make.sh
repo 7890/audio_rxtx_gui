@@ -67,7 +67,13 @@ function compile_tabsplitter
 	cp "$archive"/tabsplitter.zip "$build"/tabsplitter
 	cd "$build"/tabsplitter
 	unzip tabsplitter.zip
+
 	cd "$cur"
+
+	cp "$archive"/tabsplitter_mod/TabPanel.java.mod "$build"/tabsplitter/com/magelang/tabsplitter/TabPanel.java
+	cp "$archive"/tabsplitter_mod/TabSplitter.java.mod "$build"/tabsplitter/com/magelang/tabsplitter/TabSplitter.java
+	cp "$archive"/tabsplitter_mod/TabLabelPanel.java.mod "$build"/tabsplitter/com/magelang/tabsplitter/TabLabelPanel.java
+	cp "$archive"/tabsplitter_mod/SplitterPanel.java.mod "$build"/tabsplitter/com/magelang/tabsplitter/SplitterPanel.java
 
 	PREF="$build"/tabsplitter
 
@@ -121,7 +127,7 @@ function build_jar
 ###################
 	mkdir "$classes"/resources/lin32
 
-##################
+###################
 	mkdir "$classes"/resources/lin64
 
 
