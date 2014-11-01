@@ -22,7 +22,6 @@ import java.net.InetAddress;
 public class FrontCardSend extends Panel
 {
 	static Main g;
-	static jack_audio_send_cmdline_API api;
 
 	static Panel form;
 
@@ -31,7 +30,6 @@ public class FrontCardSend extends Panel
 	static Checkbox 			checkbox_format_32=new Checkbox("32 bit Float", audio_transmission_format_group, false);
 
 	static NumericTextFieldWithLimit 	text_input_channels= new NumericTextFieldWithLimit("",6,3);
-	static NumericTextFieldWithLimit 	text_lport=new NumericTextFieldWithLimit("",6,5);
 	static HostTextFieldWithLimit 		text_target_host=new HostTextFieldWithLimit("",20,128);
 	static NumericTextFieldWithLimit 	text_target_port=new NumericTextFieldWithLimit("",6,5);
 
@@ -51,12 +49,11 @@ public class FrontCardSend extends Panel
 //========================================================================
 	void setValues()
 	{
-		checkbox_format_16.setState(api._16);
-		checkbox_format_32.setState(!api._16);
-		text_input_channels.setText(""+api._in);
-		text_lport.setText(""+api._lport);
-		text_target_host.setText(api._target_host);
-		text_target_port.setText(""+api._target_port);
+		checkbox_format_16.setState(g.apis._16);
+		checkbox_format_32.setState(!g.apis._16);
+		text_input_channels.setText(""+g.apis._in);
+		text_target_host.setText(g.apis._target_host);
+		text_target_port.setText(""+g.apis._target_port);
 	}
 
 //========================================================================
@@ -96,23 +93,23 @@ public class FrontCardSend extends Panel
 	{
 		if(text_input_channels.getText().equals(""))
 		{
-			text_input_channels.setText(""+api._in);
+			text_input_channels.setText(""+g.apis._in);
 		}
 
 		if(text_target_host.getText().equals(""))
 		{
-			text_target_host.setText(""+api._target_host);
+			text_target_host.setText(""+g.apis._target_host);
 		}
 
 		if(text_target_port.getText().equals(""))
 		{
-			text_target_port.setText(""+api._target_port);
+			text_target_port.setText(""+g.apis._target_port);
 		}
 
-		api._16=checkbox_format_16.getState();
-		api._in=Integer.parseInt(text_input_channels.getText());
-		api._target_host=text_target_host.getText();
-		api._target_port=Integer.parseInt(text_target_port.getText());
+		g.apis._16=checkbox_format_16.getState();
+		g.apis._in=Integer.parseInt(text_input_channels.getText());
+		g.apis._target_host=text_target_host.getText();
+		g.apis._target_port=Integer.parseInt(text_target_port.getText());
 
 		boolean formValid=true;
 
@@ -120,11 +117,11 @@ public class FrontCardSend extends Panel
 
 		try
 		{
-			InetAddress host=InetAddress.getByName(api._target_host);
+			InetAddress host=InetAddress.getByName(g.apis._target_host);
 		}
 		catch(Exception hostEx)
 		{
-			//System.out.println("/!\\ host '"+api._target_host+"' not found.");
+			//System.out.println("/!\\ host '"+g.apis._target_host+"' not found.");
 			formValid=false;
 
 			g.setStatus("Host Is Invalid Or Was Not Found");
