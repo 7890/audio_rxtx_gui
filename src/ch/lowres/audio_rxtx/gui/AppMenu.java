@@ -117,9 +117,15 @@ public class AppMenu extends MenuBar
 		menu_settings.add(mi_configure_dialog);
 
 		//view items
-		mi_view_send=new MenuItem("Show Send");
-		mi_view_receive=new MenuItem("Show Receive");
-		mi_view_both=new MenuItem("Show Both");
+		mi_view_send=new MenuItem("Show Send",
+			new MenuShortcut(KeyEvent.VK_G, false)
+		);
+		mi_view_receive=new MenuItem("Show Receive",
+			new MenuShortcut(KeyEvent.VK_H, false)
+		);
+		mi_view_both=new MenuItem("Show Both",
+			new MenuShortcut(KeyEvent.VK_J, false)
+		);
 
 		menu_view.add(mi_view_send);
 		menu_view.add(mi_view_receive);
