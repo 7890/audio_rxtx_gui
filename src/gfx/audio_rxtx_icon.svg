@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="32"
+   height="32"
+   id="svg3119"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="audio_rxtx_icon.svg"
+   inkscape:export-filename="/home/srv/source/git/7890/audio_rxtx_gui/src/gfx/audio_rxtx_icon.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs3121" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="7.9195959"
+     inkscape:cx="16.607208"
+     inkscape:cy="12.494055"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="846"
+     inkscape:window-height="628"
+     inkscape:window-x="390"
+     inkscape:window-y="277"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata3124">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-315.02232,-388.1814)">
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#ba0000;fill-opacity:1;stroke:none"
+       d="m 315.0224,388.18143 0,4.20971 0,1.49476 0,26.20396 c 0.29512,0.0485 0.60537,0.0915 0.91428,0.0915 l 2.56,0 c -0.25619,-0.85791 -0.39619,-1.76933 -0.39619,-2.77597 0,-3.06893 1.00474,-5.3084 3.01715,-6.74165 2.02722,-1.43316 5.18573,-2.16587 9.50857,-2.16587 l 4.72381,0 0,-0.67111 c 0,-1.32414 -0.49469,-2.29046 -1.49334,-2.898 -0.99874,-0.6231 -2.5462,-0.91511 -4.66285,-0.91515 -1.71418,4e-5 -3.30903,0.19084 -4.78476,0.54909 -1.47573,0.35835 -2.84726,0.86967 -4.11429,1.58627 l 0,-6.37559 c 1.71418,-0.43617 3.42128,-0.75808 5.15048,-0.97616 1.72909,-0.23367 3.45175,-0.3355 5.18095,-0.33556 4.51652,6e-5 7.78537,0.90659 9.78286,2.77597 2.0123,1.85386 3.01714,4.86948 3.01714,9.06005 l 0,9.85317 c 0.0107,0.0149 0.0207,0.015 0.0304,0.0305 l 3.56571,0 0,-26.23447 0,-1.61677 0,-4.14871 -32,0 z m 16.15238,25.28881 c -1.66951,0 -2.89894,0.29269 -3.74857,0.88465 -0.83471,0.59201 -1.24953,1.47061 -1.24953,2.62344 0,1.05934 0.30438,1.89384 0.97524,2.50143 0.15243,0.13161 0.33865,0.23542 0.5181,0.33556 l 4.66285,0 c 0.53931,-0.27315 1.04531,-0.64008 1.49334,-1.1287 1.02858,-1.1372 1.52381,-2.5422 1.52381,-4.24022 l 0,-0.97616 -4.17524,0 z"
+       id="rect4181-0-8-0-3-4"
+       inkscape:export-filename="/home/srv/source/git/7890/audio_rxtx_gui/src/gfx/icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+  </g>
+</svg>
