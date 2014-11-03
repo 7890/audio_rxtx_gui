@@ -121,26 +121,26 @@ public class Main
 	public static void main(String[] args) 
 	{
 		//header
-		println("");
-		println(progName+" v"+progVersion);
-		println("(c) 2014 Thomas Brand <tom@trellis.ch>");
+		p("");
+		p(progName+" v"+progVersion);
+		p("(c) 2014 Thomas Brand <tom@trellis.ch>");
 
 		if(args.length>0 && (args[0].equals("--help") || args[0].equals("-h")))
 		{
-			println("");
-			println("First argument: <URI af .properties file to use>");
-			println("A file called '"+defaultPropertiesFileName+"' in the current directory will be loaded if no argument was given and the file is available.");
-			println("");
+			p("");
+			p("First argument: <URI af .properties file to use>");
+			p("A file called '"+defaultPropertiesFileName+"' in the current directory will be loaded if no argument was given and the file is available.");
+			p("");
 			System.exit(0);
 		}
 
 		OSTest os=new OSTest();
-		println("host OS: "+os.getOSName());
-		println("jvm: "+os.getVMName());
+		p("host OS: "+os.getOSName());
+		p("jvm: "+os.getVMName());
 
 		//os specific / or \ path separator
 		tmpDir=System.getProperty("java.io.tmpdir")+File.separator+progNameSymbol;
-		println("temporary cache dir: '"+tmpDir+"'");
+		p("temporary cache dir: '"+tmpDir+"'");
 
 		apis=new jack_audio_send_cmdline_API();
 		apir=new jack_audio_receive_cmdline_API();
@@ -182,7 +182,7 @@ public class Main
 		File fTest=new File(tmpDir);
 		if(fTest!=null && fTest.exists() && fTest.canRead() && fTest.isDirectory())
 		{
-			println("using resources from cache");
+			p("using resources from cache");
 		}
 		else if(!fTest.exists())
 		{
@@ -199,7 +199,7 @@ public class Main
 			{
 				iot.copyJarContent("/resources/mac",tmpDir);
 
-				println("setting permissions of binaries");
+				p("setting permissions of binaries");
 				RunCmd setPerms=new RunCmd("chmod 755 "+tmpDir+"/resources/mac/*");
 				setPerms.start();
 			}
@@ -211,14 +211,14 @@ public class Main
 					dir="lin64";
 				}
 				iot.copyJarContent("/resources/"+dir,tmpDir);
-				println("setting permissions of binaries");
+				p("setting permissions of binaries");
 				RunCmd setPerms=new RunCmd("chmod 755 "+tmpDir+"/resources/"+dir+"/*");
 				setPerms.start();
 			}
 		}
 		else
 		{
-			println("/!\\ error creating tmp directory to extract jar contents: '"+tmpDir+"'");
+			e("error creating tmp directory to extract jar contents: '"+tmpDir+"'");
 		}
 
 		//will remove tmpdir on program exit if keep_cache==false
@@ -365,19 +365,19 @@ public class Main
 		//for gui<->jack_audio_send communication
 		if(startOscServerSend()==-1)
 		{
-			println("/!\\ the audio_rxtx osc gui server could not be started.");
+			e("the audio_rxtx osc gui server could not be started.");
 			frontSend.setStatus("GUI OSC Server Could Not Be Started");
 			return;
 		}
 		else
 		{
-			println("osc gui server started on port "+gui_osc_port_s);
+			p("osc gui server started on port "+gui_osc_port_s);
 			frontSend.setStatus("GUI OSC Server Started");
 		}
 
 		frontSend.setStatus("Executing jack_audio_send");
 
-		println("execute: "+apis.getCommandLineString());
+		p("execute: "+apis.getCommandLineString());
 		cmdSend=new RunCmd(apis.getCommandLineString());
 
 		cmdSend.devNull(!apis.verbose);
@@ -409,19 +409,19 @@ public class Main
 		//for gui<->jack_audio_send communication
 		if(startOscServerReceive()==-1)
 		{
-			println("/!\\ the audio_rxtx osc gui server could not be started.");
+			e("the audio_rxtx osc gui server could not be started.");
 			frontReceive.setStatus("GUI OSC Server Could Not Be Started");
 			return;
 		}
 		else
 		{
-			println("osc gui server started on port "+gui_osc_port_r);
+			p("osc gui server started on port "+gui_osc_port_r);
 			frontReceive.setStatus("GUI OSC Server Started");
 		}
 
 		frontReceive.setStatus("Executing jack_audio_receive");
 
-		println("execute: "+apir.getCommandLineString());
+		p("execute: "+apir.getCommandLineString());
 		cmdReceive=new RunCmd(apir.getCommandLineString());
 
 		cmdReceive.devNull(!apir.verbose);
@@ -561,7 +561,7 @@ public class Main
 			if(gui_osc_port_random_s)
 			{
 				gui_osc_port_s=calcRandPort();
-				println("random UDP port "+gui_osc_port_s);
+				p("random UDP port "+gui_osc_port_s);
 			}
 
 			if(OscInSend!=null)
@@ -584,7 +584,7 @@ public class Main
 		}
 		catch(Exception oscex)
 		{
-			System.out.println("/!\\ could not start osc gui server on port "+gui_osc_port_s+". "+oscex.getMessage());
+			e("could not start osc gui server on port "+gui_osc_port_s+". "+oscex.getMessage());
 			return -1;
 		}
 
@@ -599,7 +599,7 @@ public class Main
 			if(gui_osc_port_random_r)
 			{
 				gui_osc_port_r=calcRandPort();
-				println("random UDP port "+gui_osc_port_r);
+				p("random UDP port "+gui_osc_port_r);
 			}
 
 			if(OscInReceive!=null)
@@ -622,7 +622,7 @@ public class Main
 		}
 		catch(Exception oscex)
 		{
-			System.out.println("/!\\ could not start osc gui server on port "+gui_osc_port_r+". "+oscex.getMessage());
+			e("could not start osc gui server on port "+gui_osc_port_r+". "+oscex.getMessage());
 			return -1;
 		}
 
@@ -638,23 +638,38 @@ public class Main
 			@Override
 			public void run()
 			{
-				println("shutdown signal received!");
+				w("shutdown signal received!");
 				if(!keep_cache)
 				{
-					println("cleaning up...");
-					println("removing tmp dir '"+tmpDir+"'");
+					p("cleaning up...");
+					p("removing tmp dir '"+tmpDir+"'");
 					IOTools.deleteDirectory(new File(tmpDir));
 				}
 				//possibly more clean up tasks here 
-				println("done! bye");
+				p("done! bye");
 			}
 		}));
 	}
 
+//generic print to std out
 //========================================================================
-	static void println(String s)
+	static void p(String s)
 	{
 		System.out.println(s);
+	}
+
+//styled print to std out, warning
+//========================================================================
+	static void w(String s)
+	{
+		System.out.println("/:\\ "+s);
+	}
+
+//styled print to std err
+//========================================================================
+	static void e(String s)
+	{
+		System.out.println("/!\\ "+s);
 	}
 
 //========================================================================

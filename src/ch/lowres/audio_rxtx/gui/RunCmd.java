@@ -16,6 +16,8 @@ package ch.lowres.audio_rxtx.gui;
 //========================================================================
 public class RunCmd extends Thread 
 {
+	Main g;
+
 	String sCmd="";
 
 	//==0: normally good
@@ -127,13 +129,21 @@ public class RunCmd extends Thread
 		}//end try
 		catch (Exception ex) //i.e. interrupted
 		{
-			System.out.println("RunCmd '"+sCmd+"': "+ex.toString());
+			g.p("RunCmd '"+sCmd+"': "+ex.toString());
 		}
 		finally
 		{
 			try {shellIn.close();} catch (Exception ignoreMe) {}
 		}
 
-		System.out.println("RunCmd '"+sCmd+"' done. Exit was "+iExitStatus);
+		if(iExitStatus==0)
+		{
+			g.p("RunCmd '"+sCmd+"' done. Exit was "+iExitStatus);
+		}
+		else
+		{
+			g.e("RunCmd '"+sCmd+"' done. Exit was "+iExitStatus);
+		}
+
 	}//end run
 } //end class RunCmd

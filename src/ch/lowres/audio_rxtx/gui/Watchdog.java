@@ -65,6 +65,6 @@ public class Watchdog extends Thread
 			{///
 			}
 		}//end while not interrupted
-		System.out.println("Watchdog finished.");
+		g.p("Watchdog finished.");
 	}//end run
 } //end class Watchdog

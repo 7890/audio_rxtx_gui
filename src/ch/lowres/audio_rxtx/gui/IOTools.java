@@ -56,12 +56,6 @@ public class IOTools
 	}
 
 //========================================================================
-	static void println(String s)
-	{
-		System.out.println(s);
-	}
-
-//========================================================================
 	//https://community.oracle.com/thread/1188356?start=0&tstart=0
 	//Copies an entire folder out of a jar to a physical location.
 	static boolean copyJarContent(String folderName, String destUri)
@@ -95,7 +89,7 @@ public class IOTools
 					{
 						if(copyFileFromJar("/"+entry.getName(), new File(destUri+"/"+entry.getName())))
 						{
-							println("extracted '" + entry.getName()+"'");// to '"+destUri+"'" );
+							g.p("extracted '" + entry.getName()+"'");// to '"+destUri+"'" );
 						}
 					}
 				}
@@ -109,7 +103,7 @@ public class IOTools
 
 		if(!found)
 		{
-			println("/!\\ '"+folderName+"' not found in jar '"+jarFileString+"'");
+			g.e("'"+folderName+"' not found in jar '"+jarFileString+"'");
 		}
 		return false;
 	}//end copyContent
@@ -132,7 +126,7 @@ public class IOTools
 		{
 			fDest.getParentFile().mkdirs();
 		}
-		catch(Exception e) {println("bad ----");}///
+		catch(Exception e) {g.e("bad ----");}///
 		try 
 		{
 			int nLen=0;
@@ -183,7 +177,7 @@ public class IOTools
 		}
 		catch(Exception e)
 		{
-			println("could not load built-in font. "+e.getMessage());
+			g.w("could not load built-in font. "+e.getMessage());
 			return null;
 		}
 		return f;
@@ -202,7 +196,7 @@ public class IOTools
 		}
 		catch(Exception e)
 		{
-			println("could not load built-in imge. "+e.getMessage());
+			g.w("could not load built-in imge. "+e.getMessage());
 			return null;
 		}
 		return ii;
@@ -320,11 +314,11 @@ public class IOTools
 			{
 				props.load(is);
 				loadProps(props);
-				println("default built-in settings loaded");
+				g.p("default built-in settings loaded");
 			}
 			else
 			{
-				println("/!\\ could not load built-in default settings");
+				g.e("could not load built-in default settings");
 				///
 				System.exit(1);
 			}
@@ -342,28 +336,28 @@ public class IOTools
 					{
 						props.load(is);
 						loadProps(props);
-						println("settings '"+propertiesFileUri+"' loaded");
+						g.p("settings '"+propertiesFileUri+"' loaded");
 						return true;
 					}
 					else
 					{
-						println("/!\\ could not load settings '"+propertiesFileUri+"'");
+						g.e("could not load settings '"+propertiesFileUri+"'");
 					}
 				}
 				else
 				{
-					println("/!\\ could not load settings '"+propertiesFileUri+"'");
+					g.e("could not load settings '"+propertiesFileUri+"'");
 				}
 			}
 			else
 			{
-				println("/!\\ could not load settings '"+propertiesFileUri+"'");
+				g.e("could not load settings '"+propertiesFileUri+"'");
 			}
 		}
 		catch (Exception e)
 		{
 			is=null; 
-			println("/!\\ file '"+propertiesFileUri+"' not found");
+			g.e("file '"+propertiesFileUri+"' not found");
 		}
 		return false;
 	}//end loadSettings
@@ -416,13 +410,13 @@ public class IOTools
 			OutputStream out = new FileOutputStream(f);
 			props.store(out, "This file is read by audio_rxtx GUI if found");
 
-			println("settings '"+propertiesFileUri+"' saved");
+			g.p("settings '"+propertiesFileUri+"' saved");
 
 			return true;
 		}
 		catch (Exception e ) 
 		{
-			println("/!\\ could not save settings '"+propertiesFileUri+"'");
+			g.e("could not save settings '"+propertiesFileUri+"'");
 			e.printStackTrace();
 		}
 		return false;

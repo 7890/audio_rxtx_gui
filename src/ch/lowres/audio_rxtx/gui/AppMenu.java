@@ -423,7 +423,7 @@ public class AppMenu extends MenuBar
 				String docPdf=g.tmpDir+File.separator+"resources"
 					+File.separator+"doc"+File.separator+"jack_audio_send.pdf";
 
-				System.out.println("opening file "+docPdf);
+				g.p("opening file "+docPdf);
 				IOTools.openFile(new File(docPdf));
 			}
 		});
@@ -443,7 +443,7 @@ public class AppMenu extends MenuBar
 				String docTxt=g.tmpDir+File.separator+"resources"
 					+File.separator+"COPYING.txt";
 
-				System.out.println("opening file "+docTxt);
+				g.p("opening file "+docTxt);
 				IOTools.openFile(new File(docTxt));
 			}
 		});

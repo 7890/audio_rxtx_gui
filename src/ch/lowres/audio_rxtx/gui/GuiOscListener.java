@@ -39,12 +39,6 @@ public abstract class GuiOscListener implements OSCListener
 	}
 
 //========================================================================
-	public static void println(String s)
-	{
-		System.out.println(s);
-	}
-
-//========================================================================
 	public void acceptMessage(Date time,OSCMessage msg) 
 	{
 		commonAccept(msg);
@@ -58,6 +52,7 @@ public abstract class GuiOscListener implements OSCListener
 //========================================================================
 	public void commonAccept(OSCMessage msg) 
 	{
+
 		if(card==null || api==null)
 		{
 			return;
@@ -82,9 +77,13 @@ public abstract class GuiOscListener implements OSCListener
 			card.setStatus("JACK Client Name Changed");
 		}
 
+
+//issiiiiiiiiiiiiiiiiisiiiiif
+//12345678901234567890
 		else if(path.equals("/config_dump") && argsSize>=20)
 		{
-			card.setStatus("config dump received");
+
+g.p("******** config dump received");
 
 			//maybe changed
 			if(api._lport!=(Integer)args.get(0))
@@ -95,8 +94,8 @@ public abstract class GuiOscListener implements OSCListener
 				try
 				{
 ///////////////////////!!!needs correction
-					g.OscOutSend.close();
-					g.OscOutSend=new OSCPortOut(InetAddress.getLocalHost(), api._lport);
+//					g.OscOutSend.close();
+//					g.OscOutSend=new OSCPortOut(InetAddress.getLocalHost(), api._lport);
 				}
 				catch(Exception ex)
 				{///
@@ -112,9 +111,16 @@ public abstract class GuiOscListener implements OSCListener
 			api.test_mode=( (Integer)args.get(7)==0 ? false : true );
 			api._limit=(Integer)args.get(8);
 
+//////////
+			g.p(card.getName()+" JACK: "+api.jack_sample_rate+" / "+api.jack_period_size
+				+"    TRF: "+ (api._16 ? "16 bit Integer" : "32 bit Float")
+			);
+
 			card.setLabel(2,"JACK: "+api.jack_sample_rate+" / "+api.jack_period_size
 				+"    TRF: "+ (api._16 ? "16 bit Integer" : "32 bit Float")
 			);
+
+
 		}//end /config_dump
 
 		else if(path.equals("/autoconnect") && argsSize==2)
