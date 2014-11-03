@@ -16,28 +16,56 @@ package ch.lowres.audio_rxtx.gui;
 import java.awt.*;
 import java.awt.event.*;
 
+import com.magelang.splitter.*;
+import com.magelang.tabsplitter.*;
+
 //========================================================================
 public class ConfigureDialog extends Dialog
 {
 	static Main g;
 
-	static Panel form;
-	static HostTextFieldWithLimit		text_name=new HostTextFieldWithLimit("",32,32);
-	static HostTextFieldWithLimit		text_sname=new HostTextFieldWithLimit("",32,32);
-	static Checkbox 			checkbox_connect=new Checkbox("Autoconnect");
-	static Checkbox 			checkbox_nopause=new Checkbox("No Pause On Sender Deny");
-	static Checkbox 			checkbox_test=new Checkbox("Enable Testmode");
-	static NumericTextFieldWithLimit 	text_limit=new NumericTextFieldWithLimit("",32,24);
-	static NumericTextFieldWithLimit 	text_drop=new NumericTextFieldWithLimit("",32,24);
-	static Checkbox 			checkbox_verbose=new Checkbox("Verbose Shell Output");
-	static NumericTextFieldWithLimit 	text_update=new NumericTextFieldWithLimit("",32,4);
-	static Checkbox 			checkbox_lport_random=new Checkbox("Use Random Port");
-	static NumericTextFieldWithLimit 	text_lport=new NumericTextFieldWithLimit("",32,5);
+	static Panel formSend;
+	static HostTextFieldWithLimit		text_name_s=new HostTextFieldWithLimit("",32,32);
+	static HostTextFieldWithLimit		text_sname_s=new HostTextFieldWithLimit("",32,32);
+	static Checkbox 			checkbox_connect_s=new Checkbox("Autoconnect");
+	static Checkbox 			checkbox_nopause_s=new Checkbox("No Pause On Sender Deny");
+	static Checkbox 			checkbox_test_s=new Checkbox("Enable Testmode");
+	static NumericTextFieldWithLimit 	text_limit_s=new NumericTextFieldWithLimit("",32,24);
+	static NumericTextFieldWithLimit 	text_drop_s=new NumericTextFieldWithLimit("",32,24);
+	static Checkbox 			checkbox_verbose_s=new Checkbox("Verbose Shell Output");
+	static NumericTextFieldWithLimit 	text_update_s=new NumericTextFieldWithLimit("",32,4);
+	static Checkbox 			checkbox_lport_random_s=new Checkbox("Use Random Port");
+	static NumericTextFieldWithLimit 	text_lport_s=new NumericTextFieldWithLimit("",32,5);
+
+	static Panel formReceive;
+	static HostTextFieldWithLimit		text_name_r=new HostTextFieldWithLimit("",32,32);
+	static HostTextFieldWithLimit		text_sname_r=new HostTextFieldWithLimit("",32,32);
+	static Checkbox 			checkbox_connect_r=new Checkbox("Autoconnect");
+	static Checkbox 			checkbox_test_r=new Checkbox("Enable Testmode");
+	static NumericTextFieldWithLimit 	text_limit_r=new NumericTextFieldWithLimit("",32,24);
+	static Checkbox 			checkbox_verbose_r=new Checkbox("Verbose Shell Output");
+	static NumericTextFieldWithLimit 	text_update_r=new NumericTextFieldWithLimit("",32,4);
+//	static Checkbox 			checkbox_lport_random_r=new Checkbox("Use Random Port");
+//	static NumericTextFieldWithLimit 	text_lport_r=new NumericTextFieldWithLimit("",32,5);
+
+	static Panel formGUI;
 	static Checkbox 			checkbox_gui_osc_port_random=new Checkbox("Use Random Port");
 	static NumericTextFieldWithLimit 	text_gui_osc_port=new NumericTextFieldWithLimit("",32,5);
+	static Checkbox 			checkbox_gui_osc_port_random_r=new Checkbox("Use Random Port");
+	static NumericTextFieldWithLimit 	text_gui_osc_port_r=new NumericTextFieldWithLimit("",32,5);
 	static Checkbox 			checkbox_keep_cache=new Checkbox("Use Cache");
+
 	static Button 				button_cancel_settings=new Button("Cancel");
 	static Button 				button_confirm_settings=new Button("OK");
+
+	static ScrollPane scroller;
+
+	//tabs for send / receive
+	static TabNamePanel tabSend;
+	static TabNamePanel tabReceive;
+	static TabNamePanel tabGUI;
+
+	static TabPanel tabPanel;
 
 //========================================================================
 	public ConfigureDialog(Frame f,String title, boolean modality) 
@@ -58,20 +86,33 @@ public class ConfigureDialog extends Dialog
 //========================================================================
 	void setValues()
 	{
-		text_name.setText(g.apis._name);
-		text_sname.setText(g.apis._sname);
-		checkbox_connect.setState(g.apis._connect);
-		checkbox_nopause.setState(g.apis._nopause);
-		checkbox_test.setState(g.apis.test_mode);
-		text_limit.setText(""+g.apis._limit);
-		text_drop.setText(""+g.apis._drop);
-		checkbox_verbose.setState(g.apis.verbose);
-		text_update.setText(""+g.apis._update);
-		checkbox_lport_random.setState(g.apis.lport_random);
-		text_lport.setText(""+g.apis._lport);
+		text_name_s.setText(g.apis._name);
+		text_sname_s.setText(g.apis._sname);
+		checkbox_connect_s.setState(g.apis._connect);
+		checkbox_nopause_s.setState(g.apis._nopause);
+		checkbox_test_s.setState(g.apis.test_mode);
+		text_limit_s.setText(""+g.apis._limit);
+		text_drop_s.setText(""+g.apis._drop);
+		checkbox_verbose_s.setState(g.apis.verbose);
+		text_update_s.setText(""+g.apis._update);
+		checkbox_lport_random_s.setState(g.apis.lport_random);
+		text_lport_s.setText(""+g.apis._lport);
 
-		checkbox_gui_osc_port_random.setState(g.gui_osc_port_random);
-		text_gui_osc_port.setText(""+g.gui_osc_port);
+		text_name_r.setText(g.apir._name);
+		text_sname_r.setText(g.apir._sname);
+		checkbox_connect_r.setState(g.apir._connect);
+		checkbox_test_r.setState(g.apir.test_mode);
+		text_limit_r.setText(""+g.apir._limit);
+		checkbox_verbose_r.setState(g.apir.verbose);
+		text_update_r.setText(""+g.apir._update);
+//		checkbox_lport_random_r.setState(g.apir.lport_random);
+//		text_lport_r.setText(""+g.apir._lport);
+
+		checkbox_gui_osc_port_random.setState(g.gui_osc_port_random_s);
+		text_gui_osc_port.setText(""+g.gui_osc_port_s);
+		checkbox_gui_osc_port_random_r.setState(g.gui_osc_port_random_r);
+		text_gui_osc_port_r.setText(""+g.gui_osc_port_r);
+
 		checkbox_keep_cache.setState(g.keep_cache);
 	}//end setValues
 
@@ -102,72 +143,162 @@ public class ConfigureDialog extends Dialog
 //========================================================================
 	void createForm()
 	{
-		form=new Panel();
-		add(form,BorderLayout.NORTH);
+		formSend=new Panel();
+		formReceive=new Panel();
+		formGUI=new Panel();
 
-		form.setLayout(new GridBagLayout());
+		formSend.setLayout(new GridBagLayout());
+		formReceive.setLayout(new GridBagLayout());
+		formGUI.setLayout(new GridBagLayout());
 
-		g.formUtility.addLabel("Connect To This JACK Server:", form);
-		g.formUtility.addLastField(text_sname, form);
+		try {
+			tabSend=new TabNamePanel();
+			tabSend.setName("Send");
+			tabSend.setLayout(new BorderLayout());
+			tabSend.setTabName("Send");
+			tabSend.add(formSend,BorderLayout.NORTH);
 
-		g.formUtility.addLabel("Name Of JACK Client:", form);
-		g.formUtility.addLastField(text_name, form);
+			tabReceive=new TabNamePanel();
+			tabReceive.setName("Receive");
+			tabReceive.setLayout(new BorderLayout());
+			tabReceive.setTabName("Receive");
+			tabReceive.add(formReceive,BorderLayout.NORTH);
 
-		g.formUtility.addLabel("JACK system:* ports:", form);
-		g.formUtility.addLabel("", form);
-		g.formUtility.addLastField(checkbox_connect, form);
+			tabGUI=new TabNamePanel();
+			tabGUI.setName("GUI");
+			tabGUI.setLayout(new BorderLayout());
+			tabGUI.setTabName("GUI");
+			tabGUI.add(formGUI,BorderLayout.NORTH);
 
-		g.formUtility.addLabel("For 1:n Broadcast Scenario:", form);
-		g.formUtility.addLabel("", form);
-		g.formUtility.addLastField(checkbox_nopause, form);
+			tabPanel=new TabPanel();
+			tabPanel.setName("TabPanel");
+			tabPanel.add(tabSend, tabSend.getName());
+			tabPanel.add(tabReceive, tabReceive.getName());
+			tabPanel.add(tabGUI, tabGUI.getName());
 
-		g.formUtility.addLabel("Limit Totally Sent Messages:", form);
-		g.formUtility.addLabel("", form);
-		g.formUtility.addLastField(checkbox_test, form);
+			tabPanel.setBackground(Colors.form_background);
+			tabPanel.setForeground(Colors.form_foreground);
 
-		g.formUtility.addLabel("Message Count Limit:", form);
-		g.formUtility.addLastField(text_limit, form);
+			tabPanel.setTabColors(new java.awt.Color[] {Colors.form_background, Colors.form_background, Colors.form_background});
+		} catch (java.lang.Throwable ex)
+		{///
+		}
 
-		g.formUtility.addLabel("Drop Every Nth Message:", form);
-		g.formUtility.addLastField(text_drop, form);
+		scroller=new ScrollPane(ScrollPane.SCROLLBARS_AS_NEEDED);
 
-		g.formUtility.addLabel("jack_audio_send std Passthrough:", form);
-		g.formUtility.addLabel("", form);
-		g.formUtility.addLastField(checkbox_verbose, form);
+		Adjustable vadjust=scroller.getVAdjustable();
+		Adjustable hadjust=scroller.getHAdjustable();
+		hadjust.setUnitIncrement(10);
+		vadjust.setUnitIncrement(10);
 
-		g.formUtility.addLabel("Status Update Interval:", form);
-		g.formUtility.addLastField(text_update, form);
+		scroller.add(tabPanel);
 
-		g.formUtility.addLabel("UDP Port For jack_audio_send:", form);
-		g.formUtility.addLabel("", form);
-		g.formUtility.addLastField(checkbox_lport_random, form);
+		add(scroller,BorderLayout.CENTER);
+//send
+		g.formUtility.addLabel("Connect To This JACK Server:", formSend);
+		g.formUtility.addLastField(text_sname_s, formSend);
 
-		g.formUtility.addLabel("Fixed Port (If Not Random):", form);
-		g.formUtility.addLastField(text_lport, form);
+		g.formUtility.addLabel("Name Of JACK Client:", formSend);
+		g.formUtility.addLastField(text_name_s, formSend);
 
-		g.formUtility.addSpacer(form);
+		g.formUtility.addLabel("JACK system:* ports:", formSend);
+		g.formUtility.addLabel("", formSend);
+		g.formUtility.addLastField(checkbox_connect_s, formSend);
 
-		g.formUtility.addLabel("UDP Port For GUI:", form);
-		g.formUtility.addLabel("", form);
-		g.formUtility.addLastField(checkbox_gui_osc_port_random, form);
+		g.formUtility.addLabel("For 1:n Broadcast Scenario:", formSend);
+		g.formUtility.addLabel("", formSend);
+		g.formUtility.addLastField(checkbox_nopause_s, formSend);
 
-		g.formUtility.addLabel("Fixed Port (If Not Random):", form);
-		g.formUtility.addLastField(text_gui_osc_port, form);
+		g.formUtility.addLabel("Limit Totally Sent Messages:", formSend);
+		g.formUtility.addLabel("", formSend);
+		g.formUtility.addLastField(checkbox_test_s, formSend);
 
-		g.formUtility.addLabel("Keep Dumped Resources In Cache:", form);
-		g.formUtility.addLabel("", form);
-		g.formUtility.addLastField(checkbox_keep_cache, form);
+		g.formUtility.addLabel("Message Count Limit:", formSend);
+		g.formUtility.addLastField(text_limit_s, formSend);
 
-		g.formUtility.addSpacer(form);
+		g.formUtility.addLabel("Drop Every Nth Message:", formSend);
+		g.formUtility.addLastField(text_drop_s, formSend);
 
+		g.formUtility.addLabel("jack_audio_send std Passthrough:", formSend);
+		g.formUtility.addLabel("", formSend);
+		g.formUtility.addLastField(checkbox_verbose_s, formSend);
+
+		g.formUtility.addLabel("Status Update Interval:", formSend);
+		g.formUtility.addLastField(text_update_s, formSend);
+
+		g.formUtility.addLabel("UDP Port For jack_audio_send:", formSend);
+		g.formUtility.addLabel("", formSend);
+		g.formUtility.addLastField(checkbox_lport_random_s, formSend);
+
+		g.formUtility.addLabel("Fixed Port (If Not Random):", formSend);
+		g.formUtility.addLastField(text_lport_s, formSend);
+
+//receive
+		g.formUtility.addLabel("Connect To This JACK Server:", formReceive);
+		g.formUtility.addLastField(text_sname_r, formReceive);
+
+		g.formUtility.addLabel("Name Of JACK Client:", formReceive);
+		g.formUtility.addLastField(text_name_r, formReceive);
+
+		g.formUtility.addLabel("JACK system:* ports:", formReceive);
+		g.formUtility.addLabel("", formReceive);
+		g.formUtility.addLastField(checkbox_connect_r, formReceive);
+
+		g.formUtility.addLabel("Limit Totally Sent Messages:", formReceive);
+		g.formUtility.addLabel("", formReceive);
+		g.formUtility.addLastField(checkbox_test_r, formReceive);
+
+		g.formUtility.addLabel("Message Count Limit:", formReceive);
+		g.formUtility.addLastField(text_limit_r, formReceive);
+
+		g.formUtility.addLabel("jack_audio_receive std Passthrough:", formReceive);
+		g.formUtility.addLabel("", formReceive);
+		g.formUtility.addLastField(checkbox_verbose_r, formReceive);
+
+		g.formUtility.addLabel("Status Update Interval:", formReceive);
+		g.formUtility.addLastField(text_update_r, formReceive);
+
+//GUI
+		g.formUtility.addLabel("UDP Port For GUI:", formGUI);
+		g.formUtility.addLabel("", formGUI);
+		g.formUtility.addLastField(checkbox_gui_osc_port_random, formGUI);
+
+		g.formUtility.addLabel("Fixed Port (If Not Random):", formGUI);
+		g.formUtility.addLastField(text_gui_osc_port, formGUI);
+
+		g.formUtility.addSpacer(formGUI);
+
+		g.formUtility.addLabel("UDP Port For GUI:", formGUI);
+		g.formUtility.addLabel("", formGUI);
+		g.formUtility.addLastField(checkbox_gui_osc_port_random_r, formGUI);
+
+		g.formUtility.addLabel("Fixed Port (If Not Random):", formGUI);
+		g.formUtility.addLastField(text_gui_osc_port_r, formGUI);
+
+		g.formUtility.addSpacer(formGUI);
+
+		g.formUtility.addLabel("Keep Dumped Resources In Cache:", formGUI);
+		g.formUtility.addLabel("", formGUI);
+		g.formUtility.addLastField(checkbox_keep_cache, formGUI);
+
+//buttons
 		Panel button_panel=new Panel();
 		button_cancel_settings=new Button("Cancel");
 		button_confirm_settings=new Button("OK");
+
+		button_cancel_settings.setBackground(Colors.button_background);
+		button_cancel_settings.setForeground(Colors.button_foreground);
+		button_cancel_settings.setFont(g.fontLarge);
+
+		button_confirm_settings.setBackground(Colors.button_background);
+		button_confirm_settings.setForeground(Colors.button_foreground);
+		button_confirm_settings.setFont(g.fontLarge);
+
 		button_panel.setLayout(new GridLayout(1,2)); //y, x
 		button_panel.add(button_cancel_settings);
 		button_panel.add(button_confirm_settings);
 
-		g.formUtility.addButtons(button_panel, form, g.fontLarge);
+		add(button_panel,BorderLayout.SOUTH);
 
 		pack();
 
@@ -177,7 +308,7 @@ public class ConfigureDialog extends Dialog
 			(int)((g.screenDimension.getHeight()-getHeight()) / 2)
 		);
 
-		setResizable(false);
+//		setResizable(false);
 
 		//done in calling object
 		//setVisible(true);
@@ -186,55 +317,95 @@ public class ConfigureDialog extends Dialog
 //=============================================================================
 	static void readForm()
 	{
-		if(text_name.getText().equals(""))
+		if(text_name_s.getText().equals(""))
 		{
-			text_name.setText(""+g.apis._name);
+			text_name_s.setText(""+g.apis._name);
 		}
 
-		if(text_sname.getText().equals(""))
+		if(text_sname_s.getText().equals(""))
 		{
-			text_sname.setText(""+g.apis._sname);
+			text_sname_s.setText(""+g.apis._sname);
 		}
 
-		if(text_limit.getText().equals(""))
+		if(text_limit_s.getText().equals(""))
 		{
-			text_limit.setText(""+g.apis._limit);
+			text_limit_s.setText(""+g.apis._limit);
 		}
 
-		if(text_drop.getText().equals(""))
+		if(text_drop_s.getText().equals(""))
 		{
-			text_drop.setText(""+g.apis._drop);
+			text_drop_s.setText(""+g.apis._drop);
 		}
 
-		if(text_update.getText().equals(""))
+		if(text_update_s.getText().equals(""))
 		{
-			text_update.setText(""+g.apis._update);
+			text_update_s.setText(""+g.apis._update);
 		}
 
-		if(text_lport.getText().equals(""))
+		if(text_lport_s.getText().equals(""))
 		{
-			text_lport.setText(""+g.apis._lport);
+			text_lport_s.setText(""+g.apis._lport);
 		}
+
+		g.apis._name=text_name_s.getText();
+		g.apis._sname=text_sname_s.getText();
+		g.apis._connect=checkbox_connect_s.getState();
+		g.apis._nopause=checkbox_nopause_s.getState();
+		g.apis.test_mode=checkbox_test_s.getState();
+		g.apis._limit=Integer.parseInt(text_limit_s.getText());
+		g.apis._drop=Integer.parseInt(text_drop_s.getText());
+		g.apis.verbose=checkbox_verbose_s.getState();
+		g.apis._update=Integer.parseInt(text_update_s.getText());
+		g.apis.lport_random=checkbox_lport_random_s.getState();
+		g.apis._lport=Integer.parseInt(text_lport_s.getText());
+
+		if(text_name_r.getText().equals(""))
+		{
+			text_name_r.setText(""+g.apir._name);
+		}
+
+		if(text_sname_r.getText().equals(""))
+		{
+			text_sname_r.setText(""+g.apir._sname);
+		}
+
+		if(text_limit_r.getText().equals(""))
+		{
+			text_limit_r.setText(""+g.apir._limit);
+		}
+
+		if(text_update_r.getText().equals(""))
+		{
+			text_update_r.setText(""+g.apir._update);
+		}
+
+		g.apir._name=text_name_r.getText();
+		g.apir._sname=text_sname_r.getText();
+		g.apir._connect=checkbox_connect_r.getState();
+		g.apir.test_mode=checkbox_test_r.getState();
+		g.apir._limit=Integer.parseInt(text_limit_r.getText());
+		g.apir.verbose=checkbox_verbose_r.getState();
+		g.apir._update=Integer.parseInt(text_update_r.getText());
+
+//		g.apir.lport_random=checkbox_lport_random_r.getState();
+//		g.apir._lport=Integer.parseInt(text_lport_r.getText());
 
 		if(text_gui_osc_port.getText().equals(""))
 		{
-			text_gui_osc_port.setText(""+g.gui_osc_port);
+			text_gui_osc_port.setText(""+g.gui_osc_port_s);
 		}
 
-		g.apis._name=text_name.getText();
-		g.apis._sname=text_sname.getText();
-		g.apis._connect=checkbox_connect.getState();
-		g.apis._nopause=checkbox_nopause.getState();
-		g.apis.test_mode=checkbox_test.getState();
-		g.apis._limit=Integer.parseInt(text_limit.getText()); //
-		g.apis._drop=Integer.parseInt(text_drop.getText()); //
-		g.apis.verbose=checkbox_verbose.getState();
-		g.apis._update=Integer.parseInt(text_update.getText()); //
-		g.apis.lport_random=checkbox_lport_random.getState();
-		g.apis._lport=Integer.parseInt(text_lport.getText()); //
+		if(text_gui_osc_port_r.getText().equals(""))
+		{
+			text_gui_osc_port_r.setText(""+g.gui_osc_port_r);
+		}
 
-		g.gui_osc_port_random=checkbox_gui_osc_port_random.getState();
-		g.gui_osc_port=Integer.parseInt(text_gui_osc_port.getText()); //
+		g.gui_osc_port_random_s=checkbox_gui_osc_port_random.getState();
+		g.gui_osc_port_s=Integer.parseInt(text_gui_osc_port.getText());
+
+		g.gui_osc_port_random_r=checkbox_gui_osc_port_random_r.getState();
+		g.gui_osc_port_r=Integer.parseInt(text_gui_osc_port_r.getText());
+
 		g.keep_cache=checkbox_keep_cache.getState();
 	}//end readForm
 

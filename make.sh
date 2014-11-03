@@ -17,9 +17,8 @@ windows_binaries_uri="https://raw.githubusercontent.com/7890/jack_tools/master/a
 #dl to (incl. filename)
 windows_binaries_zip="/tmp/$windows_binaries_zip_name"
 
-splash_screen_image="$src"/gfx/audio_rxtx_splash_screen.png
-
-icon_image="$src"/gfx/icon.png
+#splash_screen_image="$src"/gfx/audio_rxtx_splash_screen.png
+#icon_image="$src"/gfx/audio_rxtx_icon.png
 
 #-Xlint:all 
 
@@ -70,6 +69,7 @@ function compile_tabsplitter
 
 	cd "$cur"
 
+	####
 	cp "$archive"/tabsplitter_mod/TabPanel.java.mod "$build"/tabsplitter/com/magelang/tabsplitter/TabPanel.java
 	cp "$archive"/tabsplitter_mod/TabSplitter.java.mod "$build"/tabsplitter/com/magelang/tabsplitter/TabSplitter.java
 	cp "$archive"/tabsplitter_mod/TabLabelPanel.java.mod "$build"/tabsplitter/com/magelang/tabsplitter/TabLabelPanel.java
@@ -89,10 +89,15 @@ function build_jar
 	echo "creating audio_rxtx application jar (audio_rxtx_gui_xxx.jar)"
 	echo "============================================================"
 
+	cur="`pwd`"
+
 	mkdir -p "$classes"/resources
 	cp "$archive"/AudioMono.ttf "$classes"/resources
 
+	cp "$src"/gfx/audio_rxtx_icon.png "$classes"/resources
 	cp "$src"/gfx/audio_rxtx_about_screen.png "$classes"/resources
+
+	cp "$src"/etc/audio_rxtx_gui.properties "$classes"/resources
 
 	##############################
 	if [ ! -e "$windows_binaries_zip" ]
@@ -111,7 +116,7 @@ function build_jar
 	cd "$zip_dirname"
 	rm bin/*.bat
 	rm bin/osc*.exe
-	rm bin/jack_audio_receive.exe
+#	rm bin/jack_audio_receive.exe
 	rm bin/audio_post_send.exe
 	mkdir "$classes"/resources/win
 #	cp -r bin "$classes"/resources
@@ -130,11 +135,6 @@ function build_jar
 ###################
 	mkdir "$classes"/resources/lin64
 
-
-
-	cp "$icon_image" "$classes"/resources
-	cp "$src"/etc/audio_rxtx_gui.properties "$classes"/resources
-
 	echo "Main-Class: ch.lowres.audio_rxtx.gui.Main" > "$build"/Manifest.txt
 	echo "" >> "$build"/Manifest.txt
 
@@ -150,6 +150,10 @@ function build_jar
 
 	echo "start with"
 	echo "java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -jar build/audio_rxtx_gui_$now.jar"
+
+###################
+#	cd "$cur"
+#	java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -jar build/audio_rxtx_gui_$now.jar
 
 	echo "done."
 }

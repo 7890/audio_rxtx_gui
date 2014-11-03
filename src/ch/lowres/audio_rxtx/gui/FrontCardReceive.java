@@ -19,12 +19,8 @@ import java.awt.event.*;
 import java.net.InetAddress;
 
 //========================================================================
-public class FrontCardReceive extends Panel
+public class FrontCardReceive extends Card
 {
-	static Main g;
-
-	static Panel form;
-
 	static CheckboxGroup 			audio_transmission_format_group=new CheckboxGroup();
 	static Checkbox 			checkbox_format_16=new Checkbox("16 bit Integer", audio_transmission_format_group, true);
 	static Checkbox 			checkbox_format_32=new Checkbox("32 bit Float", audio_transmission_format_group, false);
@@ -32,21 +28,14 @@ public class FrontCardReceive extends Panel
 	static NumericTextFieldWithLimit 	text_output_channels= new NumericTextFieldWithLimit("",6,3);
 	static NumericTextFieldWithLimit 	text_lport=new NumericTextFieldWithLimit("",6,5);
 
-	static Button 				button_start_transmission=new Button("Start Transmission");
-
 //========================================================================
-	public FrontCardReceive() 
+	public FrontCardReceive()
 	{
-		setBackground(Colors.form_background);
-		setForeground(Colors.form_foreground);
-		setLayout(new BorderLayout());
-
-		createForm();
-		addActionListeners();
+		button_default.setLabel("Start Transmission");
 	}
 
 //========================================================================
-	void setValues()
+	public void setValues()
 	{
 		checkbox_format_16.setState(g.apir._16);
 		checkbox_format_32.setState(!g.apir._16);
@@ -55,10 +44,9 @@ public class FrontCardReceive extends Panel
 	}
 
 //========================================================================
-	void createForm()
+	public void createForm()
 	{
-		form=new Panel();
-		add(form,BorderLayout.NORTH);
+		super.createForm();
 
 		form.setLayout(new GridBagLayout());
 
@@ -76,15 +64,10 @@ public class FrontCardReceive extends Panel
 		g.formUtility.addLabel("Port (UDP): ", form);
 		g.formUtility.addMiddleField(text_lport, form);
 		g.formUtility.addLastLabel("", form);
-
-		button_start_transmission.setBackground(Colors.button_background);
-		button_start_transmission.setForeground(Colors.button_foreground);
-		button_start_transmission.setFont(g.fontLarge);
-		add(button_start_transmission,BorderLayout.SOUTH);
 	}//end createForm
 
 //=============================================================================
-	static boolean readForm()
+	public boolean readForm()
 	{
 		if(text_output_channels.getText().equals(""))
 		{
@@ -106,23 +89,23 @@ public class FrontCardReceive extends Panel
 	}
 
 //========================================================================
-	void addActionListeners()
+	public void defaultAction()
 	{
-		button_start_transmission.addActionListener(new ActionListener()
+		if(readForm())
 		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				if(readForm())
-				{
-					///////////////////////////////
-					//g.startTransmission();
+			g.startTransmissionReceive();
+		}
+	}
 
-System.out.println("***** "+g.apir.getCommandLineString());
-//g.runningReceive.setVisible(true);
-g.cardLayReceive.show(g.cardPanelReceive, "2");
-				}
-			}
-		});
+//========================================================================
+	public void setLabel(int i, String s)
+	{
+	}
+
+//========================================================================
+/*
+	public void addActionListeners()
+	{
 	}//end addActionListeners
+*/
 }//end class FrontCardReceive

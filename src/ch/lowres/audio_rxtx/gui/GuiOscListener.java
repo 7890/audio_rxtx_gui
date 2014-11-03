@@ -13,6 +13,8 @@
 
 package ch.lowres.audio_rxtx.gui;
 
+import java.awt.Panel;
+
 import com.illposed.osc.*;
 import java.net.InetAddress;
 
@@ -22,9 +24,19 @@ import java.util.List;
 import java.text.DecimalFormat;
 
 //========================================================================
-public class GuiOscListener implements OSCListener 
+public abstract class GuiOscListener implements OSCListener
 {
 	static Main g;
+
+	public Card card;
+	public CmdlineAPI api;
+
+//========================================================================
+	public GuiOscListener(Card c, CmdlineAPI a)
+	{
+		card=c;
+		api=a;
+	}
 
 //========================================================================
 	public static void println(String s)
@@ -33,9 +45,24 @@ public class GuiOscListener implements OSCListener
 	}
 
 //========================================================================
-	@Override
 	public void acceptMessage(Date time,OSCMessage msg) 
 	{
+		commonAccept(msg);
+		accept(msg);
+	}
+
+//========================================================================
+	public abstract void accept(OSCMessage msg);
+
+
+//========================================================================
+	public void commonAccept(OSCMessage msg) 
+	{
+		if(card==null || api==null)
+		{
+			return;
+		}
+
 		String path=msg.getAddress();
 		List<Object> args=msg.getArguments();
 		int argsSize=args.size();
@@ -43,147 +70,93 @@ public class GuiOscListener implements OSCListener
 		//println("osc msg received: "+path+" ("+argsSize+" args)");
 		if(path.equals("/startup") && argsSize==2)
 		{
-			g.setStatus("jack_audio_send Started");
-			g.apis.version=(Float)args.get(0);
-			g.apis.format_version=(Float)args.get(1);
+			card.setStatus(api.command_name+" Started");
+			api.version=(Float)args.get(0);
+			api.format_version=(Float)args.get(1);
 
-			g.runningSend.label_1.setText("jack_audio_send v"+g.apis.version+" Format v"+g.apis.format_version);
+			card.setLabel(1,api.command_name+" v"+api.version+" Format v"+api.format_version);
 		}
 
 		else if(path.equals("/client_name_changed"))
 		{
-			g.setStatus("JACK Client Name Changed");
+			card.setStatus("JACK Client Name Changed");
 		}
 
-		else if(path.equals("/config_dump") && argsSize==16)
+		else if(path.equals("/config_dump") && argsSize>=20)
 		{
-			g.setStatus("config dump received");
+			card.setStatus("config dump received");
 
-			if(g.apis._lport!=(Integer)args.get(0))
+			//maybe changed
+			if(api._lport!=(Integer)args.get(0))
 			{
-				g.apis._lport=(Integer)args.get(0);
+				api._lport=(Integer)args.get(0);
 
 				//reconfigure sender
 				try
 				{
-					g.sender.close();
-					g.sender=new OSCPortOut(InetAddress.getLocalHost(), g.apis._lport);
+///////////////////////!!!needs correction
+					g.OscOutSend.close();
+					g.OscOutSend=new OSCPortOut(InetAddress.getLocalHost(), api._lport);
 				}
 				catch(Exception ex)
 				{///
 				}
 			}
 
-			//could have changed
-			g.apis._target_port=(Integer)args.get(2);
-			g.apis._name=(String)args.get(3);
+			api._name=(String)args.get(1);
+			api._sname=(String)args.get(2);
 
-			g.apis.jack_sample_rate=(Integer)args.get(5);
-			g.apis.jack_period_size=(Integer)args.get(6);
+			api.jack_sample_rate=(Integer)args.get(3);
+			api.jack_period_size=(Integer)args.get(4);
 
-			g.apis.msg_size=(Integer)args.get(10);
-			g.apis.transfer_size=(Integer)args.get(11);
-			g.apis.expected_network_data_rate=(Float)args.get(12);
+			api.test_mode=( (Integer)args.get(7)==0 ? false : true );
+			api._limit=(Integer)args.get(8);
 
-			g.runningSend.label_2.setText("JACK: "+g.apis.jack_sample_rate+" / "+g.apis.jack_period_size
-				+"    TRF: "+ (g.apis._16 ? "16 bit Integer" : "32 bit Float")
+			card.setLabel(2,"JACK: "+api.jack_sample_rate+" / "+api.jack_period_size
+				+"    TRF: "+ (api._16 ? "16 bit Integer" : "32 bit Float")
 			);
-		}
+		}//end /config_dump
 
 		else if(path.equals("/autoconnect") && argsSize==2)
 		{
-			g.setStatus("Autoconnecting JACK Ports");
+			card.setStatus("Autoconnecting JACK Ports");
 			//0: from 1: to
-			g.apis.total_connected_ports++;
+			api.total_connected_ports++;
 
-			g.runningSend.label_3.setText("Autoconnected Ports: "+g.apis.total_connected_ports+" / "+g.apis._in);
 		}
 
 		else if(path.equals("/start_main_loop"))
 		{
-			g.setStatus("autoconnecting JACK ports");
-		}
-
-		else if(path.equals("/offering") && argsSize==1)
-		{
-			g.setStatus("Offering Audio Message #"+args.get(0));
-
-			g.runningSend.label_4.setText(":"+g.apis._lport+" -> "+g.apis._target_host+":"+g.apis._target_port);
-		}
-
-		else if(path.equals("/receiver_denied_transmission") && argsSize==3)
-		{
-			//receiver props:
-			//0: format_version
-			//1: sample_rate
-			//2: bytes per sample
-
-			g.runningSend.label_4.setText("Transmission denied ("
-				+args.get(0)+", "+args.get(1)+", "
-				+((Integer)args.get(2)==2 ? "16" : "32")+")");
-
-			g.setStatus("Receiver denied Transmission");
-
-			g.runningSend.button_stop_transmission.setLabel("OK");
-		}
-
-		else if(path.equals("/receiver_accepted_transmission"))
-		{
-			g.setStatus("Receiver accpeted Transmission");
-		}
-
-		else if(path.equals("/sending") && argsSize==7)
-		{
-
-			g.runningSend.label_4.setText(":"+g.apis._lport+" -> "+g.apis._target_host+":"+g.apis._target_port);
-
-			g.runningSend.label_5.setText( 
-				String.format(new DecimalFormat("0.00").format(g.apis.expected_network_data_rate))
-				+" kbit/s   "
-				+String.format(new DecimalFormat("0.00").format(g.apis.expected_network_data_rate/1000/8))
-				+" MB/s");
-
-			//hms, transferred mb
-			g.runningSend.label_6.setText((String)args.get(1)
-				+"   "+String.format(new DecimalFormat("0.00").format((Float)args.get(4)))
-				+" "+(String)args.get(5)
-				+"   ("+g.apis._in+" CH)");
-
-			//msg #
-			g.setStatus("Sending Audio Message #"+args.get(0));
-		}
-
-		else if(path.equals("/receiver_requested_pause"))
-		{
-			g.setStatus("Receiver requested Pause");
+			card.setStatus("autoconnecting JACK ports");
 		}
 
 		else if(path.equals("/test_finished") && argsSize==1)
 		{
 			//0: # of cycles elapsed
-			g.setStatus("Test finished");
+			card.setStatus("Test finished");
 		}
 
 		else if(path.equals("/quit") && argsSize==1)
 		{
 			//tell quit reason
 
-			g.runningSend.label_3.setText("Process Terminated");
+			card.setLabel(3,"Process Terminated");
 
 			if(args.get(0).equals("nolibjack"))
 			{
-				g.runningSend.label_4.setText("No libjack Found. Is JACK Installed?");
-				g.runningSend.label_5.setText("See http://www.jackaudio.org");
+				card.setLabel(4,"No libjack Found. Is JACK Installed?");
+				card.setLabel(5,"See http://www.jackaudio.org");
 
 			}
 			else if(args.get(0).equals("nojack"))
 			{
-				g.runningSend.label_4.setText("JACK Not Running (Server '"+g.apis._sname+"')");
+				card.setLabel(4,"JACK Not Running (Server '"+api._sname+"')");
 			}
 
-			g.runningSend.button_stop_transmission.setLabel("OK");
+			card.button_default.setLabel("OK");
 
-			g.setStatus("jack_audio_send Quit: "+args.get(0));
+			card.setStatus("jack_audio_send Quit: "+args.get(0));
 		}
+
 	}//end acceptMessage
 }//end GuiOscListener

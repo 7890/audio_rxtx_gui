@@ -17,12 +17,8 @@ import java.awt.*;
 import java.awt.event.*;
 
 //========================================================================
-public class RunningCardSend extends Panel
+public class RunningCardSend extends Card
 {
-	static Main g;
-
-	static Panel form;
-
 	static Label label_1=new Label("");
 	static Label label_2=new Label("");
 	static Label label_3=new Label("");
@@ -33,21 +29,14 @@ public class RunningCardSend extends Panel
 	static Label label_8=new Label("");
 	static Label label_9=new Label("");
 
-	static Button button_stop_transmission=new Button("Stop Transmission");
-
 //========================================================================
 	public RunningCardSend() 
 	{
-		setBackground(Colors.form_background);
-		setForeground(Colors.form_foreground);
-		setLayout(new BorderLayout());
-
-		createForm();
-		addActionListeners();
+		button_default.setLabel("Stop Transmission");
 	}
 
 //========================================================================
-	void clearLabels()
+	public void setValues()
 	{
 		label_1.setText("");
 		label_2.setText("");
@@ -58,14 +47,13 @@ public class RunningCardSend extends Panel
 		label_7.setText("");
 		label_8.setText("");
 		label_9.setText("");
-		button_stop_transmission.setLabel("Stop Transmission");
+		button_default.setLabel("Stop Transmission");
 	}
 
 //========================================================================
-	void createForm()
+	public void createForm()
 	{
-		form=new Panel();
-		add(form,BorderLayout.NORTH);
+		super.createForm();
 
 		form.setLayout(new GridBagLayout());
 
@@ -78,23 +66,65 @@ public class RunningCardSend extends Panel
 		g.formUtility.addLastLabel(label_7, form);
 		g.formUtility.addLastLabel(label_8, form);
 		g.formUtility.addLastLabel(label_9, form);
-
-		button_stop_transmission.setBackground(Colors.button_background);
-		button_stop_transmission.setForeground(Colors.button_foreground);
-		button_stop_transmission.setFont(g.fontLarge);
-		add(button_stop_transmission,BorderLayout.SOUTH);
 	}//end createForm
 
-//=============================================================================
-	void addActionListeners()
+//========================================================================
+	public boolean readForm()
 	{
-		button_stop_transmission.addActionListener(new ActionListener()
+		return true;
+	}
+
+//========================================================================
+	public void defaultAction()
+	{
+		g.stopTransmissionSend();
+	}
+
+//========================================================================
+	public void setLabel(int i,String s)
+	{
+		if(i==1)
 		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				g.stopTransmission();
-			}
-		});
+			label_1.setText(s);
+		}
+		else if(i==2)
+		{
+			label_2.setText(s);
+		}
+		else if(i==3)
+		{
+			label_3.setText(s);
+		}
+		else if(i==4)
+		{
+			label_4.setText(s);
+		}
+		else if(i==5)
+		{
+			label_5.setText(s);
+		}
+		else if(i==6)
+		{
+			label_6.setText(s);
+		}
+		else if(i==7)
+		{
+			label_7.setText(s);
+		}
+		else if(i==8)
+		{
+			label_8.setText(s);
+		}
+		else if(i==9)
+		{
+			label_9.setText(s);
+		}
+	}
+
+//=============================================================================
+/*
+	public void addActionListeners()
+	{
 	}//end addActionListeners
+*/
 }//end class RunningCardSend

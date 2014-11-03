@@ -260,27 +260,44 @@ public class IOTools
 	{
 		if(props!=null)
 		{
-			if(props.getProperty("_name")!=null){g.apis._name=props.getProperty("_name");}
-			if(props.getProperty("_sname")!=null){g.apis._sname=props.getProperty("_sname");}
-			if(props.getProperty("_connect")!=null){g.apis._connect=Boolean.parseBoolean(props.getProperty("_connect"));}
-			if(props.getProperty("_nopause")!=null){g.apis._nopause=Boolean.parseBoolean(props.getProperty("_nopause"));}
-			if(props.getProperty("test_mode")!=null){g.apis.test_mode=Boolean.parseBoolean(props.getProperty("test_mode"));}
-			if(props.getProperty("_limit")!=null){g.apis._limit=Integer.parseInt(props.getProperty("_limit"));}
-			if(props.getProperty("_drop")!=null){g.apis._drop=Integer.parseInt(props.getProperty("_drop"));}
-			if(props.getProperty("verbose")!=null){g.apis.verbose=Boolean.parseBoolean(props.getProperty("verbose"));}
-			if(props.getProperty("_update")!=null){g.apis._update=Integer.parseInt(props.getProperty("_update"));}
-			if(props.getProperty("lport_random")!=null){g.apis.lport_random=Boolean.parseBoolean(props.getProperty("lport_random"));}
-			if(props.getProperty("_lport")!=null){g.apis._lport=Integer.parseInt(props.getProperty("_lport"));}
+			if(props.getProperty("s._name")!=null){g.apis._name=props.getProperty("s._name");}
+			if(props.getProperty("s._sname")!=null){g.apis._sname=props.getProperty("s._sname");}
+			if(props.getProperty("s._connect")!=null){g.apis._connect=Boolean.parseBoolean(props.getProperty("s._connect"));}
+			if(props.getProperty("s._nopause")!=null){g.apis._nopause=Boolean.parseBoolean(props.getProperty("s._nopause"));}
+			if(props.getProperty("s.test_mode")!=null){g.apis.test_mode=Boolean.parseBoolean(props.getProperty("s.test_mode"));}
+			if(props.getProperty("s._limit")!=null){g.apis._limit=Integer.parseInt(props.getProperty("s._limit"));}
+			if(props.getProperty("s._drop")!=null){g.apis._drop=Integer.parseInt(props.getProperty("s._drop"));}
+			if(props.getProperty("s.verbose")!=null){g.apis.verbose=Boolean.parseBoolean(props.getProperty("s.verbose"));}
+			if(props.getProperty("s._update")!=null){g.apis._update=Integer.parseInt(props.getProperty("s._update"));}
+			if(props.getProperty("s.lport_random")!=null){g.apis.lport_random=Boolean.parseBoolean(props.getProperty("s.lport_random"));}
+			if(props.getProperty("s._lport")!=null){g.apis._lport=Integer.parseInt(props.getProperty("s._lport"));}
 
-			if(props.getProperty("gui_osc_port_random")!=null){g.gui_osc_port_random=Boolean.parseBoolean(props.getProperty("gui_osc_port_random"));}
-			if(props.getProperty("gui_osc_port")!=null){g.gui_osc_port=Integer.parseInt(props.getProperty("gui_osc_port"));}
+			if(props.getProperty("s._16")!=null){g.apis._16=Boolean.parseBoolean(props.getProperty("s._16"));}
+			if(props.getProperty("s._in")!=null){g.apis._in=Integer.parseInt(props.getProperty("s._in"));}
+			if(props.getProperty("s._target_host")!=null){g.apis._target_host=props.getProperty("s._target_host");}
+			if(props.getProperty("s._target_port")!=null){g.apis._target_port=Integer.parseInt(props.getProperty("s._target_port"));}
+
+			if(props.getProperty("r._name")!=null){g.apir._name=props.getProperty("r._name");}
+			if(props.getProperty("r._sname")!=null){g.apir._sname=props.getProperty("r._sname");}
+			if(props.getProperty("r._connect")!=null){g.apir._connect=Boolean.parseBoolean(props.getProperty("r._connect"));}
+			if(props.getProperty("r.test_mode")!=null){g.apir.test_mode=Boolean.parseBoolean(props.getProperty("r.test_mode"));}
+			if(props.getProperty("r._limit")!=null){g.apir._limit=Integer.parseInt(props.getProperty("r._limit"));}
+			if(props.getProperty("r.verbose")!=null){g.apir.verbose=Boolean.parseBoolean(props.getProperty("r.verbose"));}
+			if(props.getProperty("r._update")!=null){g.apir._update=Integer.parseInt(props.getProperty("r._update"));}
+			if(props.getProperty("r.lport_random")!=null){g.apir.lport_random=Boolean.parseBoolean(props.getProperty("r.lport_random"));}
+			if(props.getProperty("r._lport")!=null){g.apir._lport=Integer.parseInt(props.getProperty("r._lport"));}
+
+			if(props.getProperty("r._16")!=null){g.apir._16=Boolean.parseBoolean(props.getProperty("r._16"));}
+			if(props.getProperty("r._out")!=null){g.apir._out=Integer.parseInt(props.getProperty("r._out"));}
+
+			if(props.getProperty("s.gui_osc_port_random")!=null){g.gui_osc_port_random_s=Boolean.parseBoolean(props.getProperty("s.gui_osc_port_random"));}
+			if(props.getProperty("s.gui_osc_port")!=null){g.gui_osc_port_s=Integer.parseInt(props.getProperty("s.gui_osc_port"));}
+
+			if(props.getProperty("r.gui_osc_port_random")!=null){g.gui_osc_port_random_r=Boolean.parseBoolean(props.getProperty("r.gui_osc_port_random"));}
+			if(props.getProperty("r.gui_osc_port")!=null){g.gui_osc_port_r=Integer.parseInt(props.getProperty("r.gui_osc_port"));}
+
 			if(props.getProperty("keep_cache")!=null){g.keep_cache=Boolean.parseBoolean(props.getProperty("keep_cache"));}
 
-			if(props.getProperty("_16")!=null){g.apis._16=Boolean.parseBoolean(props.getProperty("_16"));}
-			if(props.getProperty("_in")!=null){g.apis._in=Integer.parseInt(props.getProperty("_in"));}
-			if(props.getProperty("_target_host")!=null){g.apis._target_host=props.getProperty("_target_host");}
-			if(props.getProperty("_target_port")!=null){g.apis._target_port=Integer.parseInt(props.getProperty("_target_port"));}
-//autostart
 			return true;
 		}//end if props not null
 		return false;
@@ -358,27 +375,43 @@ public class IOTools
 		{
 			Properties props = new Properties();
 
-			props.setProperty("_name", g.apis._name);
-			props.setProperty("_sname", g.apis._sname);
-			props.setProperty("_connect", g.apis._connect ? "true" : "false");
-			props.setProperty("_nopause", g.apis._nopause ? "true" : "false");
-			props.setProperty("test_mode", g.apis.test_mode ? "true" : "false");
-			props.setProperty("_limit", ""+g.apis._limit);
-			props.setProperty("_drop", ""+g.apis._drop);
-			props.setProperty("verbose", g.apis.verbose ? "true" : "false");
-			props.setProperty("_update", ""+g.apis._update);
-			props.setProperty("lport_random", g.apis.lport_random ? "true" : "false");
-			props.setProperty("_lport", ""+g.apis._lport);
+			props.setProperty("s._name", g.apis._name);
+			props.setProperty("s._sname", g.apis._sname);
+			props.setProperty("s._connect", g.apis._connect ? "true" : "false");
+			props.setProperty("s._nopause", g.apis._nopause ? "true" : "false");
+			props.setProperty("s.test_mode", g.apis.test_mode ? "true" : "false");
+			props.setProperty("s._limit", ""+g.apis._limit);
+			props.setProperty("s._drop", ""+g.apis._drop);
+			props.setProperty("s.verbose", g.apis.verbose ? "true" : "false");
+			props.setProperty("s._update", ""+g.apis._update);
+			props.setProperty("s.lport_random", g.apis.lport_random ? "true" : "false");
+			props.setProperty("s._lport", ""+g.apis._lport);
 
-			props.setProperty("gui_osc_port_random", g.gui_osc_port_random ? "true" : "false");
-			props.setProperty("gui_osc_port", ""+g.gui_osc_port);
+			props.setProperty("s._16", g.apis._16 ? "true" : "false");
+			props.setProperty("s._in", ""+g.apis._in);
+			props.setProperty("s._target_host", g.apis._target_host);
+			props.setProperty("s._target_port", ""+g.apis._target_port);
+
+			props.setProperty("r._name", g.apir._name);
+			props.setProperty("r._sname", g.apir._sname);
+			props.setProperty("r._connect", g.apir._connect ? "true" : "false");
+			props.setProperty("r.test_mode", g.apir.test_mode ? "true" : "false");
+			props.setProperty("r._limit", ""+g.apir._limit);
+			props.setProperty("r.verbose", g.apir.verbose ? "true" : "false");
+			props.setProperty("r._update", ""+g.apir._update);
+			props.setProperty("r.lport_random", g.apir.lport_random ? "true" : "false"); //
+			props.setProperty("r._lport", ""+g.apir._lport);
+			props.setProperty("r._16", g.apir._16 ? "true" : "false");
+			props.setProperty("r._out", ""+g.apir._out);
+
+			props.setProperty("s.gui_osc_port_random", g.gui_osc_port_random_s ? "true" : "false");
+			props.setProperty("s.gui_osc_port", ""+g.gui_osc_port_s);
+
+			props.setProperty("r.gui_osc_port_random", g.gui_osc_port_random_r ? "true" : "false");
+			props.setProperty("r.gui_osc_port", ""+g.gui_osc_port_r);
+
 			props.setProperty("keep_cache", g.keep_cache ? "true" : "false");
 
-			props.setProperty("_16", g.apis._16 ? "true" : "false");
-			props.setProperty("_in", ""+g.apis._in);
-			props.setProperty("_target_host", g.apis._target_host);
-			props.setProperty("_target_port", ""+g.apis._target_port);
-//autostart
 			File f = new File(propertiesFileUri);
 			OutputStream out = new FileOutputStream(f);
 			props.store(out, "This file is read by audio_rxtx GUI if found");

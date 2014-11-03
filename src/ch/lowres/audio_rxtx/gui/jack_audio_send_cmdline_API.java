@@ -13,82 +13,32 @@
 
 package ch.lowres.audio_rxtx.gui;
 
-import java.io.File;
-
 //========================================================================
-public class jack_audio_send_cmdline_API
+public class jack_audio_send_cmdline_API extends CmdlineAPI
 {
-	static Main g;
-
-	static String command_name="jack_audio_send";
-
-	//path prefix to find jack_audio_send binary
-	//empty if in search path
-	//on windows set to dir where binaries were extracted
-	static String prefixPath="";
-
-	//helper to determine operating system
-	static OSTest os;
-
 	//variables starting with _ are 1:1 options of jack_audio_send
 	//initially set at startup, read from properties file
-	static boolean	lport_random=false;
-	static int 	_lport=-1;
 	static int 	_in=-1;
-	static boolean 	_connect=false;
-	static boolean 	_16=false;
-	static String 	_name="";
-	static String 	_sname="";
-	static int 	_update=-1;
-	static boolean test_mode=false;
-	static int 	_limit=-1;
 	static boolean 	_nopause=false;
 	static int 	_drop=-1;
 	static String 	_target_host="";
 	static int 	_target_port=-1;
 
 	//other vars
-
-	//passthrough jack_audio_send std output
-	static boolean verbose=false;
-
-	//filled by config_dump received from jack_audio_send
-
-	//jack_audio_send versions
-	static float version=-1;
-	static float format_version=-1;
-
-	//local jack properties
-	static int jack_sample_rate=-1;
-	static int jack_period_size=-1;
-
 	static int msg_size=0;
 	static int transfer_size=0;
 	static float expected_network_data_rate=0;
 
-	//increment for every /autoconnect
-	static int total_connected_ports=0;
-
 //========================================================================
 	public jack_audio_send_cmdline_API()
 	{
-		os=new OSTest();
-	}
-
-//========================================================================
-	public void setPrefixPath(String prefix)
-	{
-		prefixPath=prefix+File.separator;
+		command_name="jack_audio_send";
 	}
 
 //========================================================================
 	public String getCommandLineString()
 	{
-		String command="";
-		if(prefixPath.length()>0)
-		{
-			command=prefixPath;
-		}
+		String command=prefixPath;
 
 		command+=command_name+" --in "+_in+" --name \""+_name+"\" --sname \""+_sname+"\" ";
 		command+="--update "+_update+" --io --iohost localhost ";
@@ -99,7 +49,7 @@ public class jack_audio_send_cmdline_API
 		if(test_mode){command+="--limit "+_limit+" ";}
 		if(_drop>0){command+="--drop "+_drop+" ";}
 		if(lport_random){command+="--lport 0 ";}else{command+="--lport "+_lport+" ";}
-		command+="--ioport "+g.gui_osc_port+" ";
+		command+="--ioport "+g.gui_osc_port_s+" ";
 
 		command+=_target_host+" "+_target_port;
 		return command;

@@ -19,12 +19,8 @@ import java.awt.event.*;
 import java.net.InetAddress;
 
 //========================================================================
-public class FrontCardSend extends Panel
+public class FrontCardSend extends Card
 {
-	static Main g;
-
-	static Panel form;
-
 	static CheckboxGroup 			audio_transmission_format_group=new CheckboxGroup();
 	static Checkbox 			checkbox_format_16=new Checkbox("16 bit Integer", audio_transmission_format_group, true);
 	static Checkbox 			checkbox_format_32=new Checkbox("32 bit Float", audio_transmission_format_group, false);
@@ -33,21 +29,14 @@ public class FrontCardSend extends Panel
 	static HostTextFieldWithLimit 		text_target_host=new HostTextFieldWithLimit("",20,128);
 	static NumericTextFieldWithLimit 	text_target_port=new NumericTextFieldWithLimit("",6,5);
 
-	static Button 				button_start_transmission=new Button("Start Transmission");
-
 //========================================================================
 	public FrontCardSend() 
 	{
-		setBackground(Colors.form_background);
-		setForeground(Colors.form_foreground);
-		setLayout(new BorderLayout());
-
-		createForm();
-		addActionListeners();
+		button_default.setLabel("Start Transmission");
 	}
 
 //========================================================================
-	void setValues()
+	public void setValues()
 	{
 		checkbox_format_16.setState(g.apis._16);
 		checkbox_format_32.setState(!g.apis._16);
@@ -57,10 +46,9 @@ public class FrontCardSend extends Panel
 	}
 
 //========================================================================
-	void createForm()
+	public void createForm()
 	{
-		form=new Panel();
-		add(form,BorderLayout.NORTH);
+		super.createForm();
 
 		form.setLayout(new GridBagLayout());
 
@@ -81,15 +69,10 @@ public class FrontCardSend extends Panel
 		g.formUtility.addLabel("Port (UDP): ", form);
 		g.formUtility.addMiddleField(text_target_port, form);
 		g.formUtility.addLastLabel("", form);
-
-		button_start_transmission.setBackground(Colors.button_background);
-		button_start_transmission.setForeground(Colors.button_foreground);
-		button_start_transmission.setFont(g.fontLarge);
-		add(button_start_transmission,BorderLayout.SOUTH);
 	}//end createForm
 
 //=============================================================================
-	static boolean readForm()
+	public boolean readForm()
 	{
 		if(text_input_channels.getText().equals(""))
 		{
@@ -113,7 +96,7 @@ public class FrontCardSend extends Panel
 
 		boolean formValid=true;
 
-		g.setStatus("Looking Up Hostname...");
+		setStatus("Looking Up Hostname...");
 
 		try
 		{
@@ -124,25 +107,31 @@ public class FrontCardSend extends Panel
 			//System.out.println("/!\\ host '"+g.apis._target_host+"' not found.");
 			formValid=false;
 
-			g.setStatus("Host Is Invalid Or Was Not Found");
+			setStatus("Host Is Invalid Or Was Not Found");
 			text_target_host.requestFocus();
 		}
 		return formValid;
 	}
 
 //========================================================================
-	void addActionListeners()
+	public void defaultAction()
 	{
-		button_start_transmission.addActionListener(new ActionListener()
+		if(readForm())
 		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				if(readForm())
-				{
-					g.startTransmission();
-				}
-			}
-		});
+			g.startTransmissionSend();
+		}
+	}
+
+//========================================================================
+	public void setLabel(int i, String s)
+	{
+	}
+
+//========================================================================
+/*
+	public void addActionListeners()
+	{
+		super.addActionListeners();
 	}//end addActionListeners
+*/
 }//end class FrontCardSend

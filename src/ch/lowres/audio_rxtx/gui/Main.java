@@ -39,17 +39,26 @@ public class Main
 
 	//osc gui io
 	//will be set by .properties file
-	static boolean gui_osc_port_random=false;
-	static int gui_osc_port=-1;
+	static boolean gui_osc_port_random_s=false;
+	static int gui_osc_port_s=-1;
+
+	static boolean gui_osc_port_random_r=false;
+	static int gui_osc_port_r=-1;
+
 	static boolean keep_cache=false;
 
 	//osc sender, receiver for communication gui<->jack_audio_send
-	static OSCPortOut sender;
-	static OSCPortIn receiver;
+	static OSCPortOut OscOutSend; //sender
+	static OSCPortIn OscInSend; //receiver
+
+	static OSCPortOut OscOutReceive; //sender
+	static OSCPortIn OscInReceive; //receiver
+
 	final long WAIT_FOR_SOCKET_CLOSE=3;
 
 	//handler for osc messages
-	static GuiOscListener gosc;
+	static GuiOscListenerSend goscs;
+	static GuiOscListenerReceive goscr;
 
 	//dalogs
 	static ConfigureDialog configure;
@@ -98,10 +107,15 @@ public class Main
 	static String tmpDir;
 
 	//thread to run binaries
-	static RunCmd cmd;
+	static RunCmd cmdSend;
+	static RunCmd cmdReceive;
 
 	//watching RunCmd
-	static Watchdog dog;
+	static Watchdog dogSend;
+	static Watchdog dogReceive;
+
+	static int panelWidth=320;
+	static int panelHeight=410;
 
 //========================================================================
 	public static void main(String[] args) 
@@ -208,7 +222,7 @@ public class Main
 		createShutDownHook();
 
 		//http://stackoverflow.com/questions/209812/how-do-i-change-the-default-application-icon-in-java
-		java.net.URL url = ClassLoader.getSystemResource("resources/icon.png");
+		java.net.URL url = ClassLoader.getSystemResource("resources/audio_rxtx_icon.png");
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		appIcon = kit.createImage(url);
 	
@@ -293,6 +307,7 @@ public class Main
 		cardPanelSend.add(frontSend, "1");
 
 		runningSend=new RunningCardSend();
+		runningSend.setValues();
 		cardPanelSend.add(runningSend, "2");
 
 		frontReceive=new FrontCardReceive();
@@ -300,6 +315,7 @@ public class Main
 		cardPanelReceive.add(frontReceive, "1");
 
 		runningReceive=new RunningCardReceive();
+		runningReceive.setValues();
 		cardPanelReceive.add(runningReceive, "2");
 
 		label_status=new Label("Ready");
@@ -312,7 +328,6 @@ public class Main
 
 		addWindowListeners();
 
-		mainframe.setSize(320,410);
 //		mainframe.pack();
 //temp
 //		mainframe.setResizable(false);
@@ -320,6 +335,12 @@ public class Main
 
 		//"run" GUI
 		mainframe.setVisible(true);
+
+		mainframe.setSize(
+			panelWidth+mainframe.getInsets().left+mainframe.getInsets().right,
+			panelHeight+mainframe.getInsets().top+mainframe.getInsets().bottom
+		);
+
 	}//end createForm
 
 //========================================================================
@@ -332,70 +353,117 @@ public class Main
 	}
 
 //========================================================================
-	static void startTransmission()
+	static void startTransmissionSend()
 	{
 		//form already read/vaildated in front button handler
 
-		setStatus("Starting GUI OSC Server");
+		frontSend.setStatus("Starting GUI OSC Server");
 
 		//for gui<->jack_audio_send communication
-		if(startOscServer()==-1)
+		if(startOscServerSend()==-1)
 		{
 			println("/!\\ the audio_rxtx osc gui server could not be started.");
-			setStatus("GUI OSC Server Could Not Be Started");
+			frontSend.setStatus("GUI OSC Server Could Not Be Started");
 			return;
 		}
 		else
 		{
-			println("osc gui server started on port "+gui_osc_port);
-			setStatus("GUI OSC Server Started");
+			println("osc gui server started on port "+gui_osc_port_s);
+			frontSend.setStatus("GUI OSC Server Started");
 		}
 
-		setStatus("Executing jack_audio_send");
+		frontSend.setStatus("Executing jack_audio_send");
 
 		println("execute: "+apis.getCommandLineString());
-		cmd=new RunCmd(apis.getCommandLineString());
+		cmdSend=new RunCmd(apis.getCommandLineString());
 
-		cmd.devNull(!apis.verbose);
+		cmdSend.devNull(!apis.verbose);
 
-		cmd.maxPrio();
-		cmd.start();
+		//cmdSend.maxPrio();
+		cmdSend.start();
 
-		if(dog!=null)
+		if(dogSend!=null)
 		{
-			dog.cancel();
+			dogSend.cancel();
 		}
-		dog=new Watchdog();
-		dog.start();
+		dogSend=new Watchdog(cmdSend);
+		dogSend.start();
 
-		AppMenu.setForRunning();
-		runningSend.clearLabels();
+		AppMenu.setForRunningSend();
+
+		runningSend.setValues();
 		cardLaySend.show(cardPanelSend, "2");
-		runningSend.button_stop_transmission.requestFocus();
-	}//end startTransmission
+		runningSend.button_default.requestFocus();
+	}//end startTransmissionSend
 
 //========================================================================
-	static void stopTransmission()
+	static void startTransmissionReceive()
+	{
+		//form already read/vaildated in front button handler
+
+		frontReceive.setStatus("Starting GUI OSC Server");
+
+		//for gui<->jack_audio_send communication
+		if(startOscServerReceive()==-1)
+		{
+			println("/!\\ the audio_rxtx osc gui server could not be started.");
+			frontReceive.setStatus("GUI OSC Server Could Not Be Started");
+			return;
+		}
+		else
+		{
+			println("osc gui server started on port "+gui_osc_port_r);
+			frontReceive.setStatus("GUI OSC Server Started");
+		}
+
+		frontReceive.setStatus("Executing jack_audio_receive");
+
+		println("execute: "+apir.getCommandLineString());
+		cmdReceive=new RunCmd(apir.getCommandLineString());
+
+		cmdReceive.devNull(!apir.verbose);
+
+		//cmdReceive.maxPrio();
+		cmdReceive.start();
+
+		if(dogReceive!=null)
+		{
+			dogReceive.cancel();
+		}
+		dogReceive=new Watchdog(cmdReceive);
+		dogReceive.start();
+
+		AppMenu.setForRunningReceive();
+		runningReceive.setValues();
+		cardLayReceive.show(cardPanelReceive, "2");
+		runningReceive.button_default.requestFocus();
+	}//end startTransmissionReceive
+
+
+
+
+//========================================================================
+	static void stopTransmissionSend()
 	{
 		//terminate jack_audio_send running in thread
 		OSCMessage msg=new OSCMessage("/quit");
 
 		try
 		{
-			sender.send(msg);
+			OscOutSend.send(msg);
 		}
 		catch(Exception sndex)
 		{///
 		};
 
-		if(dog!=null)
+		if(dogSend!=null)
 		{
-			dog.cancel();
+			dogSend.cancel();
 		}
 
-		cmd=null;
+		cmdSend=null;
 
-		AppMenu.setForFrontScreen();
+		AppMenu.setForFrontScreenSend();
 
 		apis.total_connected_ports=0;
 		apis.jack_sample_rate=0;
@@ -406,9 +474,45 @@ public class Main
 
 		//show main panel again
 		cardLaySend.show(cardPanelSend, "1");
-		frontSend.button_start_transmission.requestFocus();
-		setStatus("Ready");
-	}//end stopTransmission
+		frontSend.button_default.requestFocus();
+		frontSend.setStatus("Ready");
+	}//end stopTransmissionSend
+
+//========================================================================
+	static void stopTransmissionReceive()
+	{
+		//terminate jack_audio_send running in thread
+		OSCMessage msg=new OSCMessage("/quit");
+
+		try
+		{
+			OscOutReceive.send(msg);
+		}
+		catch(Exception sndex)
+		{///
+		};
+
+		if(dogReceive!=null)
+		{
+			dogReceive.cancel();
+		}
+
+		cmdReceive=null;
+
+		AppMenu.setForFrontScreenReceive();
+
+		apir.total_connected_ports=0;
+		apir.jack_sample_rate=0;
+		apir.jack_period_size=0;
+//		apir.msg_size=0;
+//		apir.transfer_size=0;
+//		apir.expected_network_data_rate=0;
+
+		//show main panel again
+		cardLayReceive.show(cardPanelReceive, "1");
+		frontReceive.button_default.requestFocus();
+		frontReceive.setStatus("Ready");
+	}//end stopTransmissionReceive
 
 //========================================================================
 	static void addWindowListeners()
@@ -447,43 +551,80 @@ public class Main
 	}
 
 //========================================================================
-	static int startOscServer()
+	static int startOscServerSend()
 	{
 		try
 		{
-			if(gui_osc_port_random)
+			if(gui_osc_port_random_s)
 			{
-				gui_osc_port=calcRandPort();
-				println("random UDP port "+gui_osc_port);
+				gui_osc_port_s=calcRandPort();
+				println("random UDP port "+gui_osc_port_s);
 			}
 
-			if(receiver!=null)
+			if(OscInSend!=null)
 			{
-				receiver.stopListening();
-				receiver.close();
+				OscInSend.stopListening();
+				OscInSend.close();
 			}
-			if(sender!=null)
+			if(OscOutSend!=null)
 			{
-				sender.close();
+				OscOutSend.close();
 			}
+			OscInSend=new OSCPortIn(gui_osc_port_s);
+			OscOutSend=new OSCPortOut(InetAddress.getLocalHost(), apis._lport);
 
-			receiver=new OSCPortIn(gui_osc_port);
-			sender=new OSCPortOut(InetAddress.getLocalHost(), apis._lport);
-
-			gosc=new GuiOscListener();
+			goscs=new GuiOscListenerSend(runningSend, apis);
 
 			//catch every message
-			receiver.addListener("/*", gosc);
-			receiver.startListening();
+			OscInSend.addListener("/*", goscs);
+			OscInSend.startListening();
 		}
 		catch(Exception oscex)
 		{
-			System.out.println("/!\\ could not start osc gui server on port "+gui_osc_port+". "+oscex.getMessage());
+			System.out.println("/!\\ could not start osc gui server on port "+gui_osc_port_s+". "+oscex.getMessage());
 			return -1;
 		}
 
 		return 0;
-	}//end startOscServer
+	}//end startOscServerSend
+
+//========================================================================
+	static int startOscServerReceive()
+	{
+		try
+		{
+			if(gui_osc_port_random_r)
+			{
+				gui_osc_port_r=calcRandPort();
+				println("random UDP port "+gui_osc_port_r);
+			}
+
+			if(OscInReceive!=null)
+			{
+				OscInReceive.stopListening();
+				OscInReceive.close();
+			}
+			if(OscOutReceive!=null)
+			{
+				OscOutReceive.close();
+			}
+			OscInReceive=new OSCPortIn(gui_osc_port_r);
+			OscOutReceive=new OSCPortOut(InetAddress.getLocalHost(), apir._lport);
+
+			goscr=new GuiOscListenerReceive(runningReceive, apir);
+
+			//catch every message
+			OscInReceive.addListener("/*", goscr);
+			OscInReceive.startListening();
+		}
+		catch(Exception oscex)
+		{
+			System.out.println("/!\\ could not start osc gui server on port "+gui_osc_port_r+". "+oscex.getMessage());
+			return -1;
+		}
+
+		return 0;
+	}//end startOscServerReceive
 
 //========================================================================
 	//http://stackoverflow.com/questions/11435533/how-does-ctrl-c-work-with-java-program

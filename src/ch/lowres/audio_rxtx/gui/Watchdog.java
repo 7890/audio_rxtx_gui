@@ -18,6 +18,19 @@ public class Watchdog extends Thread
 {
 	static Main g;
 
+	static RunCmd cmd;
+
+//========================================================================
+	public Watchdog()
+	{
+	}
+
+//========================================================================
+	public Watchdog(RunCmd c)
+	{
+		cmd=c;
+	}
+
 //========================================================================
 	//just a wrapper to interrupt. let process stop cooperatively
 	public void cancel()
@@ -30,16 +43,16 @@ public class Watchdog extends Thread
 	{
 		while(!Thread.currentThread().isInterrupted())
 		{
-			if(g.cmd!=null)
+			if(cmd!=null)
 			{
-				if(g.cmd.getState()!=Thread.State.TERMINATED)
+				if(cmd.getState()!=Thread.State.TERMINATED)
 				{ 
 					//System.out.println("cmd still running");
 					//g.running.label_9.setText("proc running");
 				}
 				else
 				{
-					//System.out.println("cmd terminated, exit status was "+g.cmd.getExitStatus());
+					//System.out.println("cmd terminated, exit status was "+cmd.getExitStatus());
 					//g.running.label_9.setText("proc terminated");
 				}
 			}

@@ -33,8 +33,12 @@ public class AppMenu extends MenuBar
 	static Menu menu_view;
 	static Menu menu_help;
 
-	static MenuItem mi_start_transmission;
-	static MenuItem mi_stop_transmission;
+	static MenuItem mi_start_transmissionSend;
+	static MenuItem mi_stop_transmissionSend;
+
+	static MenuItem mi_start_transmissionReceive;
+	static MenuItem mi_stop_transmissionReceive;
+
 	static MenuItem mi_quit;
 
 	static MenuItem mi_load_default_settings;
@@ -74,19 +78,34 @@ public class AppMenu extends MenuBar
 		add(menu_help);
 
 		//main items
-		mi_start_transmission=new MenuItem("Start Transmission",
+		mi_start_transmissionSend=new MenuItem("Start Transmission (Send)",
 			new MenuShortcut(KeyEvent.VK_A, false)
 		);
-		mi_stop_transmission=new MenuItem("Stop Transmission",
+		mi_stop_transmissionSend=new MenuItem("Stop Transmission (Send)",
 			new MenuShortcut(KeyEvent.VK_D, false)
 		);
+
+		mi_start_transmissionReceive=new MenuItem("Start Transmission (Receive)",
+			new MenuShortcut(KeyEvent.VK_W, false)
+		);
+		mi_stop_transmissionReceive=new MenuItem("Stop Transmission (Receive)",
+			new MenuShortcut(KeyEvent.VK_R, false)
+		);
+
 		mi_quit=new MenuItem("Quit",
 			new MenuShortcut(KeyEvent.VK_Q, false)
 		);
 
-		menu_main.add(mi_start_transmission);
-		menu_main.add(mi_stop_transmission);
-		mi_stop_transmission.setEnabled(false);
+		menu_main.add(mi_start_transmissionSend);
+		menu_main.add(mi_stop_transmissionSend);
+		menu_main.add("-");
+		menu_main.add(mi_start_transmissionReceive);
+		menu_main.add(mi_stop_transmissionReceive);
+
+
+		mi_stop_transmissionSend.setEnabled(false);
+		mi_stop_transmissionReceive.setEnabled(false);
+
 
 		menu_main.add(new MenuItem("-"));
 		menu_main.add(mi_quit);
@@ -146,23 +165,43 @@ public class AppMenu extends MenuBar
 //========================================================================
 	void addActionListeners()
 	{
-		mi_start_transmission.addActionListener(new ActionListener()
+		mi_start_transmissionSend.addActionListener(new ActionListener()
 		{
 			@Override public void actionPerformed(ActionEvent e)
 			{
-
 				if(g.frontSend.readForm())
 				{
-					g.startTransmission();
+					g.startTransmissionSend();
 				}
 			}
 		});
 
-		mi_stop_transmission.addActionListener(new ActionListener()
+		mi_stop_transmissionSend.addActionListener(new ActionListener()
 		{
 			@Override public void actionPerformed(ActionEvent e)
 			{
-				g.stopTransmission();
+				g.stopTransmissionSend();
+			}
+		});
+
+
+		mi_start_transmissionReceive.addActionListener(new ActionListener()
+		{
+			@Override public void actionPerformed(ActionEvent e)
+			{
+
+				if(g.frontReceive.readForm())
+				{
+					g.startTransmissionReceive();
+				}
+			}
+		});
+
+		mi_stop_transmissionReceive.addActionListener(new ActionListener()
+		{
+			@Override public void actionPerformed(ActionEvent e)
+			{
+				g.stopTransmissionReceive();
 			}
 		});
 
@@ -174,7 +213,7 @@ public class AppMenu extends MenuBar
 				try 
 				{
 					OSCMessage msg=new OSCMessage("/quit");
-					g.sender.send(msg);
+					g.OscOutSend.send(msg);
 				} 
 				catch (Exception oscex) 
 				{///
@@ -190,6 +229,7 @@ public class AppMenu extends MenuBar
 			{
 				IOTools.loadSettings(g.defaultPropertiesFileName);
 				g.frontSend.setValues();
+				g.frontReceive.setValues();
 				g.configure.setValues();
 				g.setStatus("Default Settings Loaded");
 			}
@@ -200,7 +240,7 @@ public class AppMenu extends MenuBar
 			@Override public void actionPerformed(ActionEvent e)
 			{
 				//get current data from front form
-				if(g.frontSend.readForm())
+				if(g.frontSend.readForm() && g.frontReceive.readForm())
 				{
 					IOTools.saveSettings(g.defaultPropertiesFileName);
 					g.setStatus("Default Settings Saved");
@@ -240,17 +280,16 @@ public class AppMenu extends MenuBar
 					{
 						g.setStatus("Loading File '"+fileToLoad+"'...");
 						IOTools.loadSettings(fileToLoad);
-						g.frontSend.setValues();
-						g.configure.setValues();
 						g.setStatus("Settings Loaded");
 					}
 				}
 
 				//set values in forms
 				g.frontSend.setValues();
+				g.frontReceive.setValues();
 				g.configure.setValues();
 
-				g.frontSend.button_start_transmission.requestFocus();
+				g.frontSend.button_default.requestFocus();
 			}
 		});
 
@@ -259,7 +298,7 @@ public class AppMenu extends MenuBar
 			@Override public void actionPerformed(ActionEvent e)
 			{
 				//get current data from front form
-				if(g.frontSend.readForm())
+				if(g.frontSend.readForm() && g.frontReceive.readForm())
 				{
 					FileDialog chooser = new FileDialog(g.mainframe, "Save Settings As...");
 					//chooser.setFilenameFilter(new FolderFilter());
@@ -336,7 +375,10 @@ public class AppMenu extends MenuBar
 				{
 					g.tabSplitter.show(0);
 				}
-				g.mainframe.setSize(320,410);
+				g.mainframe.setSize(
+					g.panelWidth+g.mainframe.getInsets().left+g.mainframe.getInsets().right,
+					g.panelHeight+g.mainframe.getInsets().top+g.mainframe.getInsets().bottom
+				);
 			}
 		});
 
@@ -353,7 +395,10 @@ public class AppMenu extends MenuBar
 				{
 					g.tabSplitter.show(1);
 				}
-				g.mainframe.setSize(320,410);
+				g.mainframe.setSize(
+					g.panelWidth+g.mainframe.getInsets().left+g.mainframe.getInsets().right,
+					g.panelHeight+g.mainframe.getInsets().top+g.mainframe.getInsets().bottom
+				);
 			}
 		});
 
@@ -362,7 +407,10 @@ public class AppMenu extends MenuBar
 			@Override public void actionPerformed(ActionEvent e)
 			{
 				g.tabSplitter.mergeTabs(0,1);
-				g.mainframe.setSize(640,410);
+				g.mainframe.setSize(
+					2*g.panelWidth+g.mainframe.getInsets().left+g.mainframe.getInsets().right,
+					g.panelHeight+g.mainframe.getInsets().top+g.mainframe.getInsets().bottom
+				);
 			}
 		});
 
@@ -402,22 +450,42 @@ public class AppMenu extends MenuBar
 	}//end addActionListeners
 
 //========================================================================
-	static void setForRunning()
+	static void setForRunningSend()
 	{
 		mi_load_default_settings.setEnabled(false);
 		mi_load_settings.setEnabled(false);;
 		mi_configure_dialog.setEnabled(false);
-		mi_start_transmission.setEnabled(false);
-		mi_stop_transmission.setEnabled(true);
+		mi_start_transmissionSend.setEnabled(false);
+		mi_stop_transmissionSend.setEnabled(true);
 	}
 
 //========================================================================
-	static void setForFrontScreen()
+	static void setForFrontScreenSend()
 	{
 		mi_load_default_settings.setEnabled(true);
 		mi_load_settings.setEnabled(true);;
 		mi_configure_dialog.setEnabled(true);
-		mi_start_transmission.setEnabled(true);
-		mi_stop_transmission.setEnabled(false);
+		mi_start_transmissionSend.setEnabled(true);
+		mi_stop_transmissionSend.setEnabled(false);
+	}
+
+//========================================================================
+	static void setForRunningReceive()
+	{
+		mi_load_default_settings.setEnabled(false);
+		mi_load_settings.setEnabled(false);;
+		mi_configure_dialog.setEnabled(false);
+		mi_start_transmissionReceive.setEnabled(false);
+		mi_stop_transmissionReceive.setEnabled(true);
+	}
+
+//========================================================================
+	static void setForFrontScreenReceive()
+	{
+		mi_load_default_settings.setEnabled(true);
+		mi_load_settings.setEnabled(true);;
+		mi_configure_dialog.setEnabled(true);
+		mi_start_transmissionReceive.setEnabled(true);
+		mi_stop_transmissionReceive.setEnabled(false);
 	}
 }//end AppMenu
