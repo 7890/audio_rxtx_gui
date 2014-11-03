@@ -148,10 +148,12 @@ public class Main
 		if(os.isWindows())
 		{
 			apis.setPrefixPath(tmpDir+File.separator+"resources"+File.separator+"win");
+			apir.setPrefixPath(tmpDir+File.separator+"resources"+File.separator+"win");
 		}
 		else if(os.isMac())
 		{
 			apis.setPrefixPath(tmpDir+File.separator+"resources"+File.separator+"mac");
+			apir.setPrefixPath(tmpDir+File.separator+"resources"+File.separator+"mac");
 		}
 		else if(os.isLinux())
 		{
@@ -161,6 +163,7 @@ public class Main
 				dir="lin64";
 			}
 			apis.setPrefixPath(tmpDir+File.separator+"resources"+File.separator+dir);
+			apir.setPrefixPath(tmpDir+File.separator+"resources"+File.separator+dir);
 		}
 
 		IOTools iot=new IOTools();
