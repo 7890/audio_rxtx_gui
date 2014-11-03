@@ -117,6 +117,8 @@ public class Main
 	static int panelWidth=320;
 	static int panelHeight=410;
 
+	static OSTest os;
+
 //========================================================================
 	public static void main(String[] args) 
 	{
@@ -134,7 +136,7 @@ public class Main
 			System.exit(0);
 		}
 
-		OSTest os=new OSTest();
+		os=new OSTest();
 		p("host OS: "+os.getOSName());
 		p("jvm: "+os.getVMName());
 

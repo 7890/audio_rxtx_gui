@@ -27,19 +27,15 @@ public class RunCmd extends Thread
 	//if true, input will be consumed but absorbed / ignored
 	boolean devNull=false;
 
-	OSTest os;
-
 //========================================================================
 	public RunCmd(String cmd)
 	{
 		sCmd=cmd;
-		os=new OSTest();
 	}
 
 //========================================================================
 	public RunCmd()
 	{
-		os=new OSTest();
 	}
 
 //========================================================================
@@ -94,11 +90,11 @@ public class RunCmd extends Thread
 			//http://stackoverflow.com/questions/671049/how-do-you-kill-a-thread-in-java
 			//while(!Thread.currentThread().isInterrupted()) 
 
-			if (os.isUnix() || os.isMac())
+			if (g.os.isUnix() || g.os.isMac())
 			{
 				pb = new ProcessBuilder("/bin/sh", "-c", sCmd);
 			}
-			else if (os.isWindows())
+			else if (g.os.isWindows())
 			{
 				pb = new ProcessBuilder("cmd.exe", "/C", sCmd);
 			}

@@ -19,8 +19,6 @@ public abstract class CmdlineAPI implements CmdlineAPIInterface
 {
 	static Main g;
 
-	static OSTest os;
-
 	String prefixPath="";
 
 	String command_name="";
@@ -54,12 +52,6 @@ public abstract class CmdlineAPI implements CmdlineAPIInterface
 
 	//increment for every /autoconnect
 	int total_connected_ports=0;
-
-//========================================================================
-	public CmdlineAPI()
-	{
-		os=new OSTest();
-	}
 
 //========================================================================
 	public void setPrefixPath(String prefix)
