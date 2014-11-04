@@ -121,6 +121,12 @@ public class RunningCardReceive extends Card
 		}
 	}
 
+//========================================================================
+	public void focusFirstInputWidget()
+	{
+		button_default.requestFocus();
+	}
+
 //=============================================================================
 /*
 	public void addActionListeners()

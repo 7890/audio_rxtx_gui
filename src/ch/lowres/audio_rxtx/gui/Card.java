@@ -102,4 +102,8 @@ public abstract class Card extends Panel implements CardInterface
 
 //========================================================================
 	public abstract void setLabel(int i,String s);
+
+//========================================================================
+	public abstract void focusFirstInputWidget();
+
 }//end class Card

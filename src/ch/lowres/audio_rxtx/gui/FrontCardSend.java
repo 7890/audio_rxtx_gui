@@ -128,6 +128,12 @@ public class FrontCardSend extends Card
 	}
 
 //========================================================================
+	public void focusFirstInputWidget()
+	{
+		checkbox_format_16.requestFocus();
+	}
+
+//========================================================================
 /*
 	public void addActionListeners()
 	{
