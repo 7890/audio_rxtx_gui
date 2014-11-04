@@ -261,8 +261,25 @@ public class Main implements TabSelectionListener
 	}
 
 //========================================================================
+	//http://stackoverflow.com/questions/11116386/java-gtk-native-look-and-feel-looks-bad-and-bold
+	public static void setNativeLAF()
+	{
+		// Native L&F
+		try
+		{
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		}
+		catch (Exception e)
+		{
+			w("unable to set native look and feel: " + e);
+		}
+	}
+
+//========================================================================
 	void createForm()
 	{
+		setNativeLAF();
+
 		mainframe=new JFrame(progName);
 		mainframe.setBackground(Colors.form_background);
 		mainframe.setForeground(Colors.form_foreground);
