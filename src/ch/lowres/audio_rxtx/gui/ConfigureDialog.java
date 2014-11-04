@@ -20,7 +20,7 @@ import com.magelang.splitter.*;
 import com.magelang.tabsplitter.*;
 
 //========================================================================
-public class ConfigureDialog extends Dialog
+public class ConfigureDialog extends Dialog implements TabSelectionListener
 {
 	static Main g;
 
@@ -180,6 +180,8 @@ public class ConfigureDialog extends Dialog
 			tabPanel.setForeground(Colors.form_foreground);
 
 			tabPanel.setTabColors(new java.awt.Color[] {Colors.form_background, Colors.form_background, Colors.form_background});
+
+			tabPanel.addTabSelectionListener(this);
 		} catch (java.lang.Throwable ex)
 		{///
 		}
@@ -300,7 +302,14 @@ public class ConfigureDialog extends Dialog
 
 		add(button_panel,BorderLayout.SOUTH);
 
-		pack();
+//		pack();
+//		setSize(600,500);
+		int panelWidth=600;
+		int panelHeight=500;
+		setSize(
+			panelWidth+getInsets().left+getInsets().right,
+			panelHeight+getInsets().top+getInsets().bottom
+		);
 
 		//center on screen
 		setLocation(
@@ -308,7 +317,7 @@ public class ConfigureDialog extends Dialog
 			(int)((g.screenDimension.getHeight()-getHeight()) / 2)
 		);
 
-//		setResizable(false);
+		setResizable(false);
 
 		//done in calling object
 		//setVisible(true);
@@ -445,4 +454,22 @@ public class ConfigureDialog extends Dialog
 			public void windowOpened(WindowEvent arg0) {}
 		});
 	}//end addWindowListeners
+
+//========================================================================
+	public void tabSelected(TabSelectionEvent e)
+	{
+		if(e.getSelectedName().equals("Send"))
+		{
+			text_name_s.requestFocus();
+		}
+		else if(e.getSelectedName().equals("Receive"))
+		{
+			text_name_r.requestFocus();
+		}
+		else if(e.getSelectedName().equals("GUI"))
+		{
+			checkbox_gui_osc_port_random.requestFocus();
+		}
+	 }
+
 }//end class ConfigureDialog
