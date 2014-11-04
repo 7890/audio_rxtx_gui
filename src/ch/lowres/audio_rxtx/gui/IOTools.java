@@ -34,6 +34,12 @@ import java.awt.Desktop;
 
 import java.util.Properties;
 
+import java.net.URI;
+import java.net.URL;
+
+import java.io.Reader;
+import java.io.InputStreamReader;
+
 //========================================================================
 public class IOTools
 {
@@ -245,6 +251,61 @@ public class IOTools
 		else
 		{
 			g.setStatus("Could Not Open PDF File");
+		}
+		return false;
+	}//end openFile
+
+//========================================================================
+	static void checkForNewerVersion(String url)
+	{
+		final String url_=url;
+
+		(new Thread()
+		{
+			public void run()
+			{
+				Reader reader=null;
+				float v=0;
+				try
+				{
+					InputStream in = new URL(url_).openStream();
+					reader = new InputStreamReader(in, "UTF-8");
+					Properties props = new Properties();
+					props.load(reader);
+					if(props.getProperty("version")!=null){v=Float.parseFloat(props.getProperty("version"));}
+					reader.close();
+//dummy
+					g.p("*** v"+v);
+				}
+				catch(Exception e)
+				{
+					g.e(e.getMessage());
+				}
+			}
+ 		}).start();
+	}
+
+//========================================================================
+//http://stackoverflow.com/questions/19375091/how-to-open-url-by-desktop-object-in-java
+	static boolean openInBrowser(String url) 
+	{
+		Desktop desktop=Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+		if(desktop!=null && desktop.isSupported(Desktop.Action.BROWSE)) 
+		{
+			try 
+			{
+				desktop.browse(new URI(url));
+				return true;
+			}
+			catch(Exception e) 
+			{
+				g.setStatus("Could Not Browse URL");
+				e.printStackTrace();
+			}
+		}
+		else
+		{
+			g.setStatus("Could Not Browse URL");
 		}
 		return false;
 	}//end openFile
