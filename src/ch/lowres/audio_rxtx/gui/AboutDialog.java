@@ -52,6 +52,9 @@ public class AboutDialog extends Dialog
 		aboutImg=new ImgComponent();
 
 		g.formUtility.addImage(aboutImg, form);
+
+		button_about_ok.setFocusable(false);
+
 		g.formUtility.addFullButton(button_about_ok, form, g.fontLarge);
 
 		setUndecorated(true);

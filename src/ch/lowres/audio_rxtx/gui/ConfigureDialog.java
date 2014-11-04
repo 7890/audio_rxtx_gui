@@ -139,7 +139,7 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 	{
 		//reset values to previous
 		setValues();
-
+		setFocusedWidget();
 		//close window, set status, bring main to front
 		setVisible(false);
 		g.mainframe.toFront();
@@ -151,7 +151,7 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 	{
 		//read form, store values
 		readForm();
-
+		setFocusedWidget();
 		//close window, set status, bring main to front
 		setVisible(false);
 		g.mainframe.toFront();
@@ -526,20 +526,32 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 	}//end addWindowListeners
 
 //========================================================================
-	public void tabSelected(TabSelectionEvent e)
+	public void setFocusedWidget()
 	{
-		if(e.getSelectedName().equals("Send"))
+		String tabname=tabPanel.getSelectedName();
+		setFocusedWidget(tabname);
+	}
+
+//========================================================================
+	public void setFocusedWidget(String tabname)
+	{
+		if(tabname.equals("Send"))
 		{
 			text_name_s.requestFocus();
 		}
-		else if(e.getSelectedName().equals("Receive"))
+		else if(tabname.equals("Receive"))
 		{
 			text_name_r.requestFocus();
 		}
-		else if(e.getSelectedName().equals("GUI"))
+		else if(tabname.equals("GUI"))
 		{
 			checkbox_gui_osc_port_random.requestFocus();
 		}
-	 }
+	}
 
+//========================================================================
+	public void tabSelected(TabSelectionEvent e)
+	{
+		setFocusedWidget(e.getSelectedName());
+	}
 }//end class ConfigureDialog
