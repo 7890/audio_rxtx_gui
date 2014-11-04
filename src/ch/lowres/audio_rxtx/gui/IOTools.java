@@ -315,6 +315,7 @@ public class IOTools
 	{
 		if(props!=null)
 		{
+try{
 			if(props.getProperty("s._name")!=null){g.apis._name=props.getProperty("s._name");}
 			if(props.getProperty("s._sname")!=null){g.apis._sname=props.getProperty("s._sname");}
 			if(props.getProperty("s._connect")!=null){g.apis._connect=Boolean.parseBoolean(props.getProperty("s._connect"));}
@@ -340,10 +341,19 @@ public class IOTools
 			if(props.getProperty("r.verbose")!=null){g.apir.verbose=Boolean.parseBoolean(props.getProperty("r.verbose"));}
 			if(props.getProperty("r._update")!=null){g.apir._update=Integer.parseInt(props.getProperty("r._update"));}
 			if(props.getProperty("r.lport_random")!=null){g.apir.lport_random=Boolean.parseBoolean(props.getProperty("r.lport_random"));}
-			if(props.getProperty("r._lport")!=null){g.apir._lport=Integer.parseInt(props.getProperty("r._lport"));}
+
+			if(props.getProperty("r._offset")!=null){g.apir._offset=Integer.parseInt(props.getProperty("r._offset"));}
+			if(props.getProperty("r._pre")!=null){g.apir._pre=Integer.parseInt(props.getProperty("r._pre"));}
+			if(props.getProperty("r._max")!=null){g.apir._max=Integer.parseInt(props.getProperty("r._max"));}
+			if(props.getProperty("r._rere")!=null){g.apir._rere=Boolean.parseBoolean(props.getProperty("r._rere"));}
+			if(props.getProperty("r._reuf")!=null){g.apir._reuf=Boolean.parseBoolean(props.getProperty("r._reuf"));}
+			if(props.getProperty("r._nozero")!=null){g.apir._nozero=Boolean.parseBoolean(props.getProperty("r._nozero"));}
+			if(props.getProperty("r._norbc")!=null){g.apir._norbc=Boolean.parseBoolean(props.getProperty("r._norbc"));}
+			if(props.getProperty("r._close")!=null){g.apir._close=Boolean.parseBoolean(props.getProperty("r._close"));}
 
 			if(props.getProperty("r._16")!=null){g.apir._16=Boolean.parseBoolean(props.getProperty("r._16"));}
 			if(props.getProperty("r._out")!=null){g.apir._out=Integer.parseInt(props.getProperty("r._out"));}
+			if(props.getProperty("r._lport")!=null){g.apir._lport=Integer.parseInt(props.getProperty("r._lport"));}
 
 			if(props.getProperty("s.gui_osc_port_random")!=null){g.gui_osc_port_random_s=Boolean.parseBoolean(props.getProperty("s.gui_osc_port_random"));}
 			if(props.getProperty("s.gui_osc_port")!=null){g.gui_osc_port_s=Integer.parseInt(props.getProperty("s.gui_osc_port"));}
@@ -354,6 +364,10 @@ public class IOTools
 			if(props.getProperty("keep_cache")!=null){g.keep_cache=Boolean.parseBoolean(props.getProperty("keep_cache"));}
 
 			return true;
+}
+catch(Exception e)
+{///
+}
 		}//end if props not null
 		return false;
 	}//end loadProps
@@ -454,10 +468,20 @@ public class IOTools
 			props.setProperty("r._limit", ""+g.apir._limit);
 			props.setProperty("r.verbose", g.apir.verbose ? "true" : "false");
 			props.setProperty("r._update", ""+g.apir._update);
-			props.setProperty("r.lport_random", g.apir.lport_random ? "true" : "false"); //
-			props.setProperty("r._lport", ""+g.apir._lport);
+
+			props.setProperty("r._offset", ""+g.apir._offset);
+			props.setProperty("r._pre", ""+g.apir._pre);
+			props.setProperty("r._max", ""+g.apir._max);
+			props.setProperty("r._rere", g.apir._rere ? "true" : "false");
+			props.setProperty("r._reuf", g.apir._reuf ? "true" : "false");
+			props.setProperty("r._nozero", g.apir._nozero ? "true" : "false");
+			props.setProperty("r._norbc", g.apir._norbc ? "true" : "false");
+			props.setProperty("r._close", g.apir._close ? "true" : "false");
+
 			props.setProperty("r._16", g.apir._16 ? "true" : "false");
 			props.setProperty("r._out", ""+g.apir._out);
+			props.setProperty("r.lport_random", g.apir.lport_random ? "true" : "false"); //no on gui
+			props.setProperty("r._lport", ""+g.apir._lport);
 
 			props.setProperty("s.gui_osc_port_random", g.gui_osc_port_random_s ? "true" : "false");
 			props.setProperty("s.gui_osc_port", ""+g.gui_osc_port_s);

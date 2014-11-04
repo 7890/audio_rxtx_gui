@@ -19,6 +19,16 @@ public class jack_audio_receive_cmdline_API extends CmdlineAPI
 	//variables starting with _ are 1:1 options of jack_audio_send
 	//initially set at startup, read from properties file
 	static int 	_out=-1;
+	
+	static int 	_offset=-1;
+	static int 	_pre=-1;
+	static int 	_max=-1;
+
+	static boolean 	_rere=false;
+	static boolean 	_reuf=false;
+	static boolean 	_nozero=false;
+	static boolean 	_norbc=false;
+	static boolean 	_close=false;
 
 //...
 
@@ -40,6 +50,14 @@ public class jack_audio_receive_cmdline_API extends CmdlineAPI
 		if(_16){command+="--16 ";}
 		if(_connect){command+="--connect ";}
 		if(test_mode){command+="--limit "+_limit+" ";}
+		if(_rere){command+="--rere ";}
+		if(_reuf){command+="--reuf ";}
+		if(_nozero){command+="--nozero ";}
+		if(_norbc){command+="--norbc ";}
+		if(_close){command+="--close ";}
+		command+="--offset "+_offset+" ";
+		command+="--pre "+_pre+" ";
+		command+="--max "+_max+" ";
 //		if(lport_random){command+="--lport 0 ";}else{command+="--lport "+_lport+" ";}
 		command+="--ioport "+g.gui_osc_port_r+" ";
 		command+=_lport;

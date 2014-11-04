@@ -45,6 +45,15 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 	static NumericTextFieldWithLimit 	text_limit_r=new NumericTextFieldWithLimit("",32,24);
 	static Checkbox 			checkbox_verbose_r=new Checkbox("Verbose Shell Output");
 	static NumericTextFieldWithLimit 	text_update_r=new NumericTextFieldWithLimit("",32,4);
+	static NumericTextFieldWithLimit 	text_offset_r=new NumericTextFieldWithLimit("",32,24);
+	static NumericTextFieldWithLimit 	text_pre_r=new NumericTextFieldWithLimit("",32,24);
+	static NumericTextFieldWithLimit 	text_max_r=new NumericTextFieldWithLimit("",32,24);
+	static Checkbox 			checkbox_rere_r=new Checkbox(" Rebuffer On Sender Restart");
+	static Checkbox 			checkbox_reuf_r=new Checkbox("Rebuffer On Underflow");
+	static Checkbox 			checkbox_nozero_r=new Checkbox("Re-Use Old Data On Underflow");
+	static Checkbox 			checkbox_norbc_r=new Checkbox("Disallow Ext. Buffer Control");
+	static Checkbox 			checkbox_close_r=new Checkbox("Stop Transmission On Incompat.");
+
 //	static Checkbox 			checkbox_lport_random_r=new Checkbox("Use Random Port");
 //	static NumericTextFieldWithLimit 	text_lport_r=new NumericTextFieldWithLimit("",32,5);
 
@@ -105,6 +114,15 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 		text_limit_r.setText(""+g.apir._limit);
 		checkbox_verbose_r.setState(g.apir.verbose);
 		text_update_r.setText(""+g.apir._update);
+		text_offset_r.setText(""+g.apir._offset);
+		text_pre_r.setText(""+g.apir._pre);
+		text_max_r.setText(""+g.apir._max);
+		checkbox_rere_r.setState(g.apir._rere);
+		checkbox_reuf_r.setState(g.apir._reuf);
+		checkbox_nozero_r.setState(g.apir._nozero);
+		checkbox_norbc_r.setState(g.apir._norbc);
+		checkbox_close_r.setState(g.apir._close);
+
 //		checkbox_lport_random_r.setState(g.apir.lport_random);
 //		text_lport_r.setText(""+g.apir._lport);
 
@@ -260,6 +278,35 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 		g.formUtility.addLabel("Status Update Interval:", formReceive);
 		g.formUtility.addLastField(text_update_r, formReceive);
 
+		g.formUtility.addLabel("Channel Offset", formReceive);
+		g.formUtility.addLastField(text_offset_r, formReceive);
+
+		g.formUtility.addLabel("Initial Buffer Size (MCP)", formReceive);
+		g.formUtility.addLastField(text_pre_r, formReceive);
+
+		g.formUtility.addLabel("Max Buffer Size (>= Init)", formReceive);
+		g.formUtility.addLastField(text_max_r, formReceive);
+
+		g.formUtility.addLabel("", formReceive);
+		g.formUtility.addLabel("", formReceive);
+		g.formUtility.addLastField(checkbox_rere_r, formReceive);
+
+		g.formUtility.addLabel("", formReceive);
+		g.formUtility.addLabel("", formReceive);
+		g.formUtility.addLastField(checkbox_reuf_r, formReceive);
+
+		g.formUtility.addLabel("", formReceive);
+		g.formUtility.addLabel("", formReceive);
+		g.formUtility.addLastField(checkbox_nozero_r, formReceive);
+
+		g.formUtility.addLabel("", formReceive);
+		g.formUtility.addLabel("", formReceive);
+		g.formUtility.addLastField(checkbox_norbc_r, formReceive);
+
+		g.formUtility.addLabel("", formReceive);
+		g.formUtility.addLabel("", formReceive);
+		g.formUtility.addLastField(checkbox_close_r, formReceive);
+
 //GUI
 		g.formUtility.addLabel("UDP Port For GUI:", formGUI);
 		g.formUtility.addLabel("", formGUI);
@@ -388,6 +435,21 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 			text_update_r.setText(""+g.apir._update);
 		}
 
+		if(text_offset_r.getText().equals(""))
+		{
+			text_offset_r.setText(""+g.apir._offset);
+		}
+
+		if(text_pre_r.getText().equals(""))
+		{
+			text_pre_r.setText(""+g.apir._pre);
+		}
+
+		if(text_max_r.getText().equals(""))
+		{
+			text_max_r.setText(""+g.apir._pre);
+		}
+
 		g.apir._name=text_name_r.getText();
 		g.apir._sname=text_sname_r.getText();
 		g.apir._connect=checkbox_connect_r.getState();
@@ -395,6 +457,14 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 		g.apir._limit=Integer.parseInt(text_limit_r.getText());
 		g.apir.verbose=checkbox_verbose_r.getState();
 		g.apir._update=Integer.parseInt(text_update_r.getText());
+		g.apir._offset=Integer.parseInt(text_offset_r.getText());
+		g.apir._pre=Integer.parseInt(text_pre_r.getText());
+		g.apir._max=Integer.parseInt(text_max_r.getText());
+		g.apir._rere=checkbox_rere_r.getState();
+		g.apir._reuf=checkbox_reuf_r.getState();
+		g.apir._nozero=checkbox_nozero_r.getState();
+		g.apir._norbc=checkbox_norbc_r.getState();
+		g.apir._close=checkbox_close_r.getState();
 
 //		g.apir.lport_random=checkbox_lport_random_r.getState();
 //		g.apir._lport=Integer.parseInt(text_lport_r.getText());
