@@ -769,6 +769,30 @@ public class Main implements TabSelectionListener
 				{
 //					frontSend.defaultAction();
 				}
+
+				//check if a menu is selected, enter will act like a click or space
+				SingleSelectionModel ssm=mainframe.getJMenuBar().getSelectionModel();
+				//p("is selected: "+ssm.isSelected()+" index: "+ssm.getSelectedIndex());
+
+				JMenu m=null;
+				if(ssm.isSelected())
+				{
+					m=mainframe.getJMenuBar().getMenu(ssm.getSelectedIndex());
+
+					//http://www.java2s.com/Tutorial/Java/0240__Swing/GettingtheCurrentlySelectedMenuorMenuItem.htm
+					MenuElement[] path = MenuSelectionManager.defaultManager().getSelectedPath();
+					if (path.length > 1)
+					{
+						Component c = path[path.length-1].getComponent();
+						if (c instanceof JMenuItem)
+						{
+							JMenuItem mi = (JMenuItem) c;
+							MenuSelectionManager.defaultManager().clearSelectedPath();
+							mi.doClick();
+						}
+
+					}
+				}
 			}
 		});
 
@@ -785,6 +809,14 @@ public class Main implements TabSelectionListener
 				else if(about.isVisible())
 				{
 					about.setVisible(false);
+				}
+
+				SingleSelectionModel ssm=mainframe.getJMenuBar().getSelectionModel();
+				//p("is selected: "+ssm.isSelected()+" index: "+ssm.getSelectedIndex());
+				if(ssm.isSelected())
+				{
+					JMenu m=mainframe.getJMenuBar().getMenu(ssm.getSelectedIndex());
+					MenuSelectionManager.defaultManager().clearSelectedPath();
 				}
 			}
 		});
