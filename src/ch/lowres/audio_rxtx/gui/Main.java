@@ -254,8 +254,8 @@ public class Main implements TabSelectionListener
 		formUtility=new FormUtility();
 
 		//dialogs
-		configure=new ConfigureDialog(mainframe,"Configure audio_rxtx jack_audio_send", true);
-		about=new AboutDialog(mainframe, "About audio_rxtx", true);
+		configure=new ConfigureDialog(mainframe,"Configure "+progName, true);
+		about=new AboutDialog(mainframe, "About "+progName, true);
 
 		createForm();
 	}
