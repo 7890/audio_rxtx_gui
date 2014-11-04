@@ -752,7 +752,7 @@ public class Main implements TabSelectionListener
 		});
 
 		KeyStroke keyEnter = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0);
-		actionMap.put(keyPageUp, new AbstractAction("enter") 
+		actionMap.put(keyEnter, new AbstractAction("enter") 
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
