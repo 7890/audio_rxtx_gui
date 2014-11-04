@@ -21,21 +21,28 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.HashMap;
 import java.io.File;
 
 import com.magelang.splitter.*;
 import com.magelang.tabsplitter.*;
 
+import javax.swing.*;
+
 //java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -cp .:build/classes/ ch.lowres.audio_rxtx.gui.Main
 
 //========================================================================
-public class Main 
+public class Main implements TabSelectionListener
 {
 	static String progName="audio_rxtx GUI";
 	static String progVersion="0.2";
 	static String progNameSymbol="audio_rxtx_gui_v"+progVersion+"_"+141030;
 
 	static String defaultPropertiesFileName="audio_rxtx_gui.properties";
+
+	static String reportIssueUrl="https://github.com/7890/audio_rxtx_gui/issues";
+	//dummy
+	static String newestVersionFileUrl="https://raw.githubusercontent.com/7890/audio_rxtx_gui/master/README.md";
 
 	//osc gui io
 	//will be set by .properties file
@@ -71,7 +78,7 @@ public class Main
 	static Image appIcon;
 
 	//the main window
-	static Frame mainframe;
+	static JFrame mainframe;
 
 	static ScrollPane scroller;
 
@@ -119,6 +126,9 @@ public class Main
 
 	static OSTest os;
 
+	//map containing all global key actions
+	static HashMap<KeyStroke, Action> actionMap = new HashMap<KeyStroke, Action>();
+
 //========================================================================
 	public static void main(String[] args) 
 	{
@@ -135,7 +145,13 @@ public class Main
 			p("");
 			System.exit(0);
 		}
+		Main m=new Main(args);
 
+	}//end main
+
+//========================================================================
+	public Main(String[] args)
+	{
 		os=new OSTest();
 		p("host OS: "+os.getOSName());
 		p("jvm: "+os.getVMName());
@@ -242,12 +258,12 @@ public class Main
 		about=new AboutDialog(mainframe, "About audio_rxtx", true);
 
 		createForm();
-	}//end main
+	}
 
 //========================================================================
-	static void createForm()
+	void createForm()
 	{
-		mainframe=new Frame(progName);
+		mainframe=new JFrame(progName);
 		mainframe.setBackground(Colors.form_background);
 		mainframe.setForeground(Colors.form_foreground);
 		mainframe.setLayout(new BorderLayout());
@@ -287,6 +303,8 @@ public class Main
 			tabSplitter.setForeground(Colors.form_foreground);
 
 			tabSplitter.setTabColors(new java.awt.Color[] {Colors.form_background,Colors.form_background});
+
+			tabSplitter.addTabSelectionListener(this);
 		} catch (java.lang.Throwable ex)
 		{///
 		}
@@ -298,14 +316,15 @@ public class Main
 		hadjust.setUnitIncrement(10);
 		vadjust.setUnitIncrement(10);
 
-//		scroller.setSize(320, 360);
 		scroller.add(tabSplitter);
-
 //		mainframe.add(tabSplitter,BorderLayout.CENTER);
 
 		mainframe.add(scroller,BorderLayout.CENTER);
 
-		mainframe.setMenuBar(new AppMenu());
+		//menu always on top
+		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
+
+		mainframe.setJMenuBar(new AppMenu());
 
 		frontSend=new FrontCardSend();
 		frontSend.setValues();
@@ -333,8 +352,9 @@ public class Main
 
 		addWindowListeners();
 
+		addGlobalKeyListeners();
+
 //		mainframe.pack();
-//temp
 //		mainframe.setResizable(false);
 		setWindowCentered(mainframe);
 
@@ -444,9 +464,6 @@ public class Main
 		runningReceive.button_default.requestFocus();
 	}//end startTransmissionReceive
 
-
-
-
 //========================================================================
 	static void stopTransmissionSend()
 	{
@@ -509,9 +526,6 @@ public class Main
 		apir.total_connected_ports=0;
 		apir.jack_sample_rate=0;
 		apir.jack_period_size=0;
-//		apir.msg_size=0;
-//		apir.transfer_size=0;
-//		apir.expected_network_data_rate=0;
 
 		//show main panel again
 		cardLayReceive.show(cardPanelReceive, "1");
@@ -682,4 +696,124 @@ public class Main
 			(int)((screenDimension.getHeight()-f.getHeight()) / 2)
 		);
 	}
+
+//========================================================================
+	public void tabSelected(TabSelectionEvent e)
+	{
+
+		if(e.getSelectedName().equals("Receive"))
+		{
+////should know if running or not ...
+			frontReceive.button_default.requestFocus();
+//focusFirstInputWidget();
+		}
+		else
+		{
+			frontSend.button_default.requestFocus();
+//focusFirstInputWidget();
+		}
+	}
+
+//========================================================================
+	void addGlobalKeyListeners()
+	{
+		KeyStroke keyPageUp = KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP,0);
+		actionMap.put(keyPageUp, new AbstractAction("pgup") 
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(configure.isVisible())
+				{
+					configure.tabPanel.previous();
+				}
+				else if(!about.isVisible())
+				{
+					tabSplitter.previous();
+				}
+			}
+		});
+
+		KeyStroke keyPageDown = KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN,0);
+		actionMap.put(keyPageDown, new AbstractAction("pgdown") 
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(configure.isVisible())
+				{
+					configure.tabPanel.next();
+				}
+				else if(!about.isVisible())
+				{
+					tabSplitter.next();
+				}
+			}
+		});
+
+		KeyStroke keyEnter = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0);
+		actionMap.put(keyPageUp, new AbstractAction("enter") 
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(configure.isVisible())
+				{
+					configure.dialogConfirmed();
+				}
+				else if(about.isVisible())
+				{
+					about.setVisible(false);
+				}
+				else
+				{
+//					frontSend.defaultAction();
+				}
+			}
+		});
+
+		KeyStroke keyEsc = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0);
+		actionMap.put(keyEsc, new AbstractAction("esc") 
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(configure.isVisible())
+				{
+					configure.dialogCancelled();
+				}
+				else if(about.isVisible())
+				{
+					about.setVisible(false);
+				}
+			}
+		});
+
+		//http://stackoverflow.com/questions/100123/application-wide-keyboard-shortcut-java-swing
+		KeyboardFocusManager kfm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		kfm.addKeyEventDispatcher( new KeyEventDispatcher() 
+		{
+			@Override
+			public boolean dispatchKeyEvent(KeyEvent e)
+			{
+				KeyStroke keyStroke = KeyStroke.getKeyStrokeForEvent(e);
+				if ( actionMap.containsKey(keyStroke) )
+				{
+					final Action a = actionMap.get(keyStroke);
+					final ActionEvent ae = new ActionEvent(e.getSource(), e.getID(), null );
+					SwingUtilities.invokeLater( new Runnable()
+					{
+						@Override
+						public void run()
+						{
+							a.actionPerformed(ae);
+						}
+					} ); 
+					return true;
+				}
+				return false;
+			}
+		});
+	}//end addGlobalKeyListeners
+
 }//end class Main
