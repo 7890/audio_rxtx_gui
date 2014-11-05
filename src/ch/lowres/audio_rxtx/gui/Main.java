@@ -44,6 +44,9 @@ public class Main implements TabSelectionListener
 	//dummy
 	static String newestVersionFileUrl="https://raw.githubusercontent.com/7890/audio_rxtx_gui/master/README.md";
 
+	static int panelWidth=10;
+	static int panelHeight=10;
+
 	//osc gui io
 	//will be set by .properties file
 	static boolean gui_osc_port_random_s=false;
@@ -94,6 +97,8 @@ public class Main implements TabSelectionListener
 	static Panel cardPanelReceive;
 	static CardLayout cardLayReceive;
 
+	static AppMenu application_menu;
+
 	//cards
 	static FrontCardSend frontSend;
 	static RunningCardSend runningSend;
@@ -120,9 +125,6 @@ public class Main implements TabSelectionListener
 	//watching RunCmd
 	static Watchdog dogSend;
 	static Watchdog dogReceive;
-
-	static int panelWidth=320;
-	static int panelHeight=410;
 
 	static OSTest os;
 
@@ -319,7 +321,8 @@ public class Main implements TabSelectionListener
 			tabSplitter.setBackground(Colors.form_background);
 			tabSplitter.setForeground(Colors.form_foreground);
 
-			tabSplitter.setTabColors(new java.awt.Color[] {Colors.form_background,Colors.form_background});
+			tabSplitter.setTabColors(new java.awt.Color[] {new Color(50,50,50),new Color(50,50,50)});
+			tabSplitter.setTabColorsSelected(new java.awt.Color[] {Colors.form_background,Colors.form_background});
 
 			tabSplitter.addTabSelectionListener(this);
 		} catch (java.lang.Throwable ex)
@@ -334,14 +337,15 @@ public class Main implements TabSelectionListener
 		vadjust.setUnitIncrement(10);
 
 		scroller.add(tabSplitter);
-//		mainframe.add(tabSplitter,BorderLayout.CENTER);
+		//mainframe.add(tabSplitter,BorderLayout.CENTER);
 
 		mainframe.add(scroller,BorderLayout.CENTER);
 
 		//menu always on top
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 
-		mainframe.setJMenuBar(new AppMenu());
+		application_menu=new AppMenu();
+		mainframe.setJMenuBar(application_menu);
 
 		frontSend=new FrontCardSend();
 		frontSend.setValues();
@@ -371,18 +375,41 @@ public class Main implements TabSelectionListener
 
 		addGlobalKeyListeners();
 
-//		mainframe.pack();
+		mainframe.pack();
 //		mainframe.setResizable(false);
 		setWindowCentered(mainframe);
 
 		//"run" GUI
 		mainframe.setVisible(true);
 
+//tmp
+p("scroller "+scroller.getPreferredSize().getWidth()+" "+scroller.getPreferredSize().getHeight());
+p("tabSplitter "+tabSplitter.getPreferredSize().getWidth()+" "+tabSplitter.getPreferredSize().getHeight());
+p("cardPanelSend "+cardPanelSend.getPreferredSize().getWidth()+" "+cardPanelSend.getPreferredSize().getHeight());
+p("tabSend "+tabSend.getPreferredSize().getWidth()+" "+tabSend.getPreferredSize().getHeight());
+p("frontSend "+frontSend.getPreferredSize().getWidth()+" "+frontSend.getPreferredSize().getHeight());
+p("insets "+mainframe.getInsets().left+" "+mainframe.getInsets().right+" "+mainframe.getInsets().top+" "+mainframe.getInsets().bottom);
+p("application_menu "+application_menu.getPreferredSize().getWidth()+" "+application_menu.getPreferredSize().getHeight());
+p("label_status "+label_status.getPreferredSize().getWidth()+" "+label_status.getPreferredSize().getHeight());
+p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+frontSend.button_default.getPreferredSize().getHeight());
+
+	panelHeight=(int)(
+		cardPanelSend.getPreferredSize().getHeight()
+/*	+mainframe.getInsets().top+mainframe.getInsets().bottom*/
+		+application_menu.getPreferredSize().getHeight()
+		+label_status.getPreferredSize().getHeight()
+		+frontSend.button_default.getPreferredSize().getHeight()
+		+10);
+
+	panelWidth=(int)(
+		tabSplitter.getPreferredSize().getWidth()
+/*	+mainframe.getInsets().left+mainframe.getInsets().right)*/
+		+20);
+
 		mainframe.setSize(
 			panelWidth+mainframe.getInsets().left+mainframe.getInsets().right,
 			panelHeight+mainframe.getInsets().top+mainframe.getInsets().bottom
 		);
-
 	}//end createForm
 
 //========================================================================
