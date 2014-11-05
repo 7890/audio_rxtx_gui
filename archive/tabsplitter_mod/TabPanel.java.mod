@@ -125,7 +125,10 @@ public class TabPanel extends Panel implements ActionListener, MouseListener {
 	
 	// The colors to paint the tabs
 	private Color[] tabColors = null;
-	
+
+///	
+	private Color[] tabColorsSelected = null;
+
 	// The tab polygons
 	private Vector tabs;
 	
@@ -264,7 +267,8 @@ public class TabPanel extends Panel implements ActionListener, MouseListener {
 
 	protected void determineVisible() {
 		if (fm == null) return; // hasn't been painted yet...
-		int startOfBothRect = getSize().width-26;
+///		int startOfBothRect = getSize().width-26;
+		int startOfBothRect = getSize().width;
 		
 		String tabText[] = determineTabText();
 
@@ -331,13 +335,32 @@ public class TabPanel extends Panel implements ActionListener, MouseListener {
 			else tabNum = num;
 
 			// choose the color for the tab
+
 			Color tabColor;
-			if (tabColors == null || tabColors.length == 0 ||
-			    tabColors[tabNum % tabColors.length]==null)
-				tabColor = Color.lightGray;  // default tab color
+///
+			if (tabNum != selected)
+			{
+				if (tabColors == null || tabColors.length == 0 || tabColors[tabNum % tabColors.length]==null)
+				{
+					tabColor = Color.lightGray;  // default tab color
+				}
+				else
+				{
+					tabColor = tabColors[tabNum % tabColors.length];
+				}
+			}
 			else
-				tabColor = tabColors[tabNum % tabColors.length];
-		
+			{
+				if (tabColorsSelected == null || tabColorsSelected.length == 0 || tabColorsSelected[tabNum % tabColorsSelected.length]==null)
+				{
+					tabColor = Color.lightGray;  // default tab color
+				}
+				else
+				{
+					tabColor = tabColorsSelected[tabNum % tabColors.length];
+				}
+			}
+
 			g.setColor(tabColor);
 			
 			// draw the polygon
@@ -413,6 +436,8 @@ public class TabPanel extends Panel implements ActionListener, MouseListener {
 		}	
 	
 		// draw the +/- for moving through tabs
+/*
+///
 		g.setColor(getTabBackground());
 		g.fill3DRect(bothRect.x, bothRect.y, bothRect.width-1, bothRect.height-1, true);
 		
@@ -430,6 +455,7 @@ public class TabPanel extends Panel implements ActionListener, MouseListener {
 		           bothRect.x + w2+w8, bothRect.y + w4+w8);
 		g.drawLine(bothRect.x + w8,    bothRect.y + w2+w8,
 		           bothRect.x + w4+w8, bothRect.y + w2+w8);
+*/
 	}
 
 	/** let those who care know when a tab was selected 
@@ -481,7 +507,8 @@ public class TabPanel extends Panel implements ActionListener, MouseListener {
 	 */
 	public Insets getInsets() {
 		FontMetrics fm = getFontMetrics(getFont());
-		return new Insets(fm.getHeight()+12,6,6,6);
+///		return new Insets(fm.getHeight()+12,6,6,6);
+		return new Insets(fm.getHeight()+12,0,0,0);
 	}
 
 	/* Gets the popup menu.  This is provided so the subclass TabSplitter
@@ -672,12 +699,17 @@ public class TabPanel extends Panel implements ActionListener, MouseListener {
 		}
 
 		// draw the borders
+
 		g1.setColor(getBorderColor());
 		g1.fillRect(0,0,d.width,d.height);
 		g1.setColor(getBackground());
-		g1.fill3DRect(2,h+8,d.width-4,d.height-h-10,true);
-		g1.setColor(getTabBackground());
-		g1.draw3DRect(4,h+10,d.width-8,d.height-h-14,false);
+//		g1.fill3DRect(2,h+8,d.width-4,d.height-h-10,true);
+		g1.fillRect(0,h+8,d.width,d.height-h-10);
+
+//		g1.setColor(getTabBackground());
+		g1.setColor(getBackground());
+//		g1.draw3DRect(4,h+10,d.width-8,d.height-h-14,false);
+		g1.drawRect(0,h+10,d.width,d.height-h-14);
 
 		drawTabs(g1);
 
@@ -868,6 +900,16 @@ public class TabPanel extends Panel implements ActionListener, MouseListener {
 		if (java.beans.Beans.isDesignTime())
 			repaint();
 	}
+
+///
+	public void setTabColorsSelected(Color[] tabColors) {
+		if (tabColors == null)
+			tabColors = new Color[] {null};
+		this.tabColorsSelected = tabColors;
+		invalidate();
+		if (java.beans.Beans.isDesignTime())
+			repaint();
+	}
 	
 	/** Sets the colors to use when drawing the tabs.  This an an array of
 	 *  colors that will be cycled through, ie, if there are more tabs than colors,
@@ -928,7 +970,8 @@ public class TabPanel extends Panel implements ActionListener, MouseListener {
 		int x[] = new int[6];
 		int y[] = new int[12];
 
-		bothRect  = new Rectangle(dim.width-26, 2, 24, 6+h);
+///		bothRect  = new Rectangle(dim.width-26, 2, 24, 6+h);
+		bothRect  = new Rectangle(dim.width,0,0,6+h);
 		x[0] = 2;  x[1] = 11; x[2] = 11;
 		y[0] = h/2+4; y[1] = h/2;  y[2] = h/2+8;
 		leftArrow = new Polygon(x,y, 3);
