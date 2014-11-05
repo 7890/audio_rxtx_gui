@@ -197,7 +197,8 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 			tabPanel.setBackground(Colors.form_background);
 			tabPanel.setForeground(Colors.form_foreground);
 
-			tabPanel.setTabColors(new java.awt.Color[] {Colors.form_background, Colors.form_background, Colors.form_background});
+			tabPanel.setTabColors(new java.awt.Color[] {new Color(50,50,50),new Color(50,50,50),new Color(50,50,50)});
+			tabPanel.setTabColorsSelected(new java.awt.Color[] {Colors.form_background, Colors.form_background, Colors.form_background});
 
 			tabPanel.addTabSelectionListener(this);
 		} catch (java.lang.Throwable ex)
