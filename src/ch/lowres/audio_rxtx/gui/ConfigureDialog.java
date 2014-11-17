@@ -687,7 +687,7 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 //========================================================================
 //========================================================================
 //http://www.java2s.com/Tutorial/Java/0260__Swing-Event/UseFocusTraversalPolicy.htm
-	public static class NormalFocusTraversalPolicy extends FocusTraversalPolicy
+	public class NormalFocusTraversalPolicy extends FocusTraversalPolicy
 	{
 		Vector<Component> order;
 
@@ -714,22 +714,21 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 				idx = order.size() - 1;
 			}
 				return order.get(idx);
-			}
+		}
 
-			public Component getDefaultComponent(Container focusCycleRoot)
-			{
-				return order.get(0);
-			}
+		public Component getDefaultComponent(Container focusCycleRoot)
+		{
+			return order.get(0);
+		}
 
-			public Component getLastComponent(Container focusCycleRoot)
-			{
-				return order.lastElement();
-			}
+		public Component getLastComponent(Container focusCycleRoot)
+		{
+			return order.lastElement();
+		}
 
-			public Component getFirstComponent(Container focusCycleRoot)
-			{
-				return order.get(0);
-			}
+		public Component getFirstComponent(Container focusCycleRoot)
+		{
+			return order.get(0);
 		}
 	}//end inner class NormalFocusTraversalPolicy
 }//end class ConfigureDialog
