@@ -24,7 +24,7 @@ public class AboutDialog extends Dialog
 	static Panel form;
 	static ImgComponent aboutImg;
 
-	static Button button_about_ok=new Button ("OK");
+	static AButton button_about_ok=new AButton ("OK");
 
 //========================================================================
 	public AboutDialog(Frame f,String title, boolean modality) 

@@ -27,7 +27,7 @@ public abstract class Card extends Panel implements CardInterface
 	static Main g;
 	Panel form;
 	JLabel 				label_status=new JLabel("Ready");
-	Button 				button_default=new Button("Default");
+	AButton 			button_default=new AButton("Default");
 
 	boolean formCreated=false;
 
