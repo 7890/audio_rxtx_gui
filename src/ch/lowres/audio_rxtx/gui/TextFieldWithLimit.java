@@ -13,16 +13,35 @@
 
 package ch.lowres.audio_rxtx.gui;
 
-import java.awt.TextField;
+import java.awt.*;
+import java.awt.event.*;
 
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
+import java.awt.geom.Line2D;
 
-import java.awt.event.FocusListener;
-import java.awt.event.FocusEvent;
+import javax.swing.JTextField;
+
+/*
+Declared in javax.swing.text.JTextComponent
+
+    caret <javax.swing.text.Caret> the caret used to select/navigate
+    caretColor <Color> the color used to render the caret
+    caretPosition <int> the caret position
+    disabledTextColor <Color> color used to render disabled text
+    document <javax.swing.text.Document> the text document model
+    editable <boolean> specifies if the text can be edited
+    focusAccelerator <char> accelerator character used to grab focus
+    highlighter <javax.swing.text.Highlighter> object responsible for background highlights
+    margin <Insets> desired space between the border and text area
+    selectedText <String> selectedText
+    selectedTextColor <Color> color used to render selected text
+    selectionColor <Color> color used to render selection background
+    selectionEnd <int> ending location of the selection.
+    selectionStart <int> starting location of the selection.
+    text <String> the text of this component
+*/
 
 //========================================================================
-class TextFieldWithLimit extends TextField implements KeyListener, FocusListener
+class TextFieldWithLimit extends JTextField implements KeyListener, FocusListener
 {
 	private int maxLength;
 
@@ -31,6 +50,10 @@ class TextFieldWithLimit extends TextField implements KeyListener, FocusListener
 	{
 		super(initialStr, col);
 		this.maxLength=maxLength;
+
+		//remove border from textfield (this is not possible with java.awt.TextField)
+		setBorder(javax.swing.BorderFactory.createEmptyBorder());
+
 		addKeyListener(this);
 		addFocusListener(this);
 	}
@@ -54,16 +77,43 @@ class TextFieldWithLimit extends TextField implements KeyListener, FocusListener
 	}
 
 //========================================================================
+        @Override
+        public Dimension getPreferredSize()
+        {
+		return new Dimension(200,30);
+        }
+
+
+//========================================================================
+	@Override
+	public void paint(Graphics g) 
+	{
+		super.paint(g);
+
+		Dimension size = getSize();	 
+
+		if(hasFocus())
+		{
+			g.setColor(Colors.status_focused_outline);
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setStroke(new BasicStroke(30));
+			g2.draw(new Line2D.Float(size.width,0,size.width,size.height));
+		}
+	}
+
+//========================================================================
+	@Override
+	public void update(Graphics g) 
+	{
+		paint(g);
+	}
+
+//========================================================================
 	public void keyTyped(KeyEvent e) 
 	{
 		char c = e.getKeyChar();
 		int len = getText().length();
-/*
-		if(c==KeyEvent.VK_ENTER)
-		{
-			System.out.println("enter typed");
-		}
-*/
+
 		//use navig/edit events
 		if((c==KeyEvent.VK_BACK_SPACE)||
 			(c==KeyEvent.VK_DELETE) ||
@@ -103,18 +153,65 @@ class TextFieldWithLimit extends TextField implements KeyListener, FocusListener
 
 //========================================================================
 	public void keyReleased(KeyEvent e) {}
-	public void keyPressed(KeyEvent e) {}
-	public void focusLost(FocusEvent fe) {}
+
+	public void keyPressed(KeyEvent e) {repaint();}
+
+	public void focusLost(FocusEvent fe)
+	{
+		repaint();
+		select(0,0);
+	}
 
 //========================================================================
 	public void focusGained(FocusEvent fe) 
 	{
+		repaint();
 		setCaretPosition(0);
 		if (getText()!=null) 
 		{
-			setCaretPosition(getText().length());
+			select(0,getText().length());
+			//setCaretPosition(getText().length());
 		}
-	}
+/*
+
+--------start   scroller.getMinimum / 0
+
+  f1
+---viewport     here: navigate up: relocate      viewport~ scroller.getValue
+| f2
+|
+| f3  
+---	        here: navigate down: relocate
+  f4
+
+  f5
+
+----------end   scroller.getMaximum
+
+*/
+		Component c=getParent();
+
+		while(c!=null)
+		{
+			System.out.println(c);
+			c=c.getParent();
+
+			//look for java.awt.ScrollPane
+			if(c instanceof ScrollPane)
+			{
+				Adjustable vadjust=((ScrollPane)c).getVAdjustable();
+
+				int vp_height=(int)((ScrollPane)c).getViewportSize().getHeight();
+
+				if(getBounds().y + getBounds().height > vadjust.getValue()+vp_height
+					|| getBounds().y < vadjust.getValue())
+				{
+					vadjust.setValue(getBounds().y);
+				}
+				break;
+			}
+		}
+	}//end focusGained
 
 //========================================================================
 	//default: all input allowed
