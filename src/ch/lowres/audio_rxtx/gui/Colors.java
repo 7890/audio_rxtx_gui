@@ -19,7 +19,7 @@ import java.awt.Color;
 class Colors
 {
 	//forms
-	public static Color form_background=new Color(2,4,2);
+	public static Color form_background=new Color(38,38,42);
 	public static Color form_foreground=new Color(200,200,200);
 
 	//textfields, lists
@@ -33,4 +33,7 @@ class Colors
 	//status bar
 	public static Color status_background=new Color(20,220,20);
 	public static Color status_foreground=new Color(0,0,0);
+
+	//focused widget outline
+	public static Color status_focused_outline=new Color(60,20,10);
 }//end class Colors
