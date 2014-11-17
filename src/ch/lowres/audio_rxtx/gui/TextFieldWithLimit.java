@@ -16,8 +16,6 @@ package ch.lowres.audio_rxtx.gui;
 import java.awt.*;
 import java.awt.event.*;
 
-import java.awt.geom.Line2D;
-
 import javax.swing.JTextField;
 
 /*
@@ -44,15 +42,40 @@ Declared in javax.swing.text.JTextComponent
 class TextFieldWithLimit extends JTextField implements KeyListener, FocusListener
 {
 	private int maxLength;
+	private FocusPaint fpaint;
 
 //========================================================================
 	public TextFieldWithLimit (String initialStr, int col, int maxLength) 
 	{
 		super(initialStr, col);
 		this.maxLength=maxLength;
+		fpaint=new FocusPaint();
 
 		//remove border from textfield (this is not possible with java.awt.TextField)
-		setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		setBorder(javax.swing.BorderFactory.createEmptyBorder(1,4,1,1));
+		//bottom, left, right, top
+
+/*
+http://stackoverflow.com/questions/2286881/jtextarea-and-jtextfield-internal-padding-on-text
+
+Sets margin space between the text component's border and its text. 
+The text component's default Border object will use this value to create 
+the proper margin. However, if a non-default border is set on the text 
+component, it is that Border object's responsibility to create the appropriate 
+margin space (else this property will effectively be ignored). This causes 
+a redraw of the component. A PropertyChange event ("margin") is sent to all listeners.
+
+setMargin(new Insets(0,10,0,0));
+
+setBorder(
+	javax.swing.BorderFactory.createCompoundBorder(
+		javax.swing.BorderFactory.createTitledBorder(null, "Border Title",
+		javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
+		javax.swing.border.TitledBorder.DEFAULT_POSITION,
+		new java.awt.Font("Verdana", 1, 11)),
+	javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1)
+));
+*/
 
 		addKeyListener(this);
 		addFocusListener(this);
@@ -89,16 +112,7 @@ class TextFieldWithLimit extends JTextField implements KeyListener, FocusListene
 	public void paint(Graphics g) 
 	{
 		super.paint(g);
-
-		Dimension size = getSize();	 
-
-		if(hasFocus())
-		{
-			g.setColor(Colors.status_focused_outline);
-			Graphics2D g2 = (Graphics2D) g;
-			g2.setStroke(new BasicStroke(30));
-			g2.draw(new Line2D.Float(size.width,0,size.width,size.height));
-		}
+		fpaint.paint(g,this);
 	}
 
 //========================================================================
@@ -193,7 +207,7 @@ class TextFieldWithLimit extends JTextField implements KeyListener, FocusListene
 
 		while(c!=null)
 		{
-			System.out.println(c);
+			//System.out.println(c);
 			c=c.getParent();
 
 			//look for java.awt.ScrollPane
