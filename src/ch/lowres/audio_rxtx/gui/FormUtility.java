@@ -49,7 +49,7 @@ public class FormUtility
 		lastConstraints.gridwidth=GridBagConstraints.REMAINDER;
 
 		//Add a little padding
-		lastConstraints.insets=new Insets(4, 4, 4, 4);
+		lastConstraints.insets=new Insets(1, 1, 1, 1);
 
 		//Now for the "middle" field components
 		middleConstraints=(GridBagConstraints)lastConstraints.clone();
@@ -66,7 +66,6 @@ public class FormUtility
 		labelConstraints.weightx=0.2;
 		labelConstraints.gridwidth=5;
 	}//end constructor FormUtility()
-
 
 //========================================================================
 	/**
