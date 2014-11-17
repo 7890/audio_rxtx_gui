@@ -83,6 +83,8 @@ public class Main implements TabSelectionListener
 	//the main window
 	static JFrame mainframe;
 
+	static AppMenu application_menu;
+
 	static ScrollPane scroller;
 
 	//tabs for send / receive
@@ -97,8 +99,6 @@ public class Main implements TabSelectionListener
 	static Panel cardPanelReceive;
 	static CardLayout cardLayReceive;
 
-	static AppMenu application_menu;
-
 	//cards
 	static FrontCardSend frontSend;
 	static RunningCardSend runningSend;
@@ -107,6 +107,12 @@ public class Main implements TabSelectionListener
 	static RunningCardReceive runningReceive;
 
 	static Label label_status;
+
+	final static int FRONT=0;
+	final static int RUNNING=1;
+
+	static int sendStatus=FRONT;
+	static int receiveStatus=FRONT;
 
 	//convenience class to add widgets to form
 	static FormUtility formUtility;
@@ -298,8 +304,6 @@ public class Main implements TabSelectionListener
 		cardLayReceive=new CardLayout();
 		cardPanelReceive.setLayout(cardLayReceive);
 
-//		mainframe.add(cardPanel,BorderLayout.NORTH);
-
 		try {
 			tabSend=new TabNamePanel();
 			tabSend.setName("Send");
@@ -321,7 +325,7 @@ public class Main implements TabSelectionListener
 			tabSplitter.setBackground(Colors.form_background);
 			tabSplitter.setForeground(Colors.form_foreground);
 
-			tabSplitter.setTabColors(new java.awt.Color[] {new Color(50,50,50),new Color(50,50,50)});
+			tabSplitter.setTabColors(new java.awt.Color[] {new Color(0,0,0),new Color(0,0,0)});
 			tabSplitter.setTabColorsSelected(new java.awt.Color[] {Colors.form_background,Colors.form_background});
 
 			tabSplitter.addTabSelectionListener(this);
@@ -463,6 +467,9 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 		runningSend.setValues();
 		cardLaySend.show(cardPanelSend, "2");
 		runningSend.button_default.requestFocus();
+
+		sendStatus=RUNNING;
+
 	}//end startTransmissionSend
 
 //========================================================================
@@ -506,6 +513,9 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 		runningReceive.setValues();
 		cardLayReceive.show(cardPanelReceive, "2");
 		runningReceive.button_default.requestFocus();
+
+		receiveStatus=RUNNING;
+
 	}//end startTransmissionReceive
 
 //========================================================================
@@ -542,6 +552,9 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 		cardLaySend.show(cardPanelSend, "1");
 		frontSend.button_default.requestFocus();
 		frontSend.setStatus("Ready");
+
+		sendStatus=FRONT;
+
 	}//end stopTransmissionSend
 
 //========================================================================
@@ -575,6 +588,9 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 		cardLayReceive.show(cardPanelReceive, "1");
 		frontReceive.button_default.requestFocus();
 		frontReceive.setStatus("Ready");
+
+		sendStatus=FRONT;
+
 	}//end stopTransmissionReceive
 
 //========================================================================
@@ -744,7 +760,6 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 //========================================================================
 	public void tabSelected(TabSelectionEvent e)
 	{
-
 		if(e.getSelectedName().equals("Receive"))
 		{
 ////should know if running or not ...
@@ -791,6 +806,91 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 				else if(!about.isVisible())
 				{
 					tabSplitter.next();
+				}
+			}
+		});
+
+		KeyStroke keyAltUp = KeyStroke.getKeyStroke(KeyEvent.VK_UP,InputEvent.ALT_MASK);
+		actionMap.put(keyAltUp, new AbstractAction("alt_up") 
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(configure.isVisible())
+				{
+					configure.scrollUp();
+				}
+				else if(!about.isVisible())
+				{
+				}
+			}
+		});
+
+		KeyStroke keyAltDown = KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,InputEvent.ALT_MASK);
+		actionMap.put(keyAltDown, new AbstractAction("alt_down") 
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(configure.isVisible())
+				{
+					configure.scrollDown();
+				}
+				else if(!about.isVisible())
+				{
+				}
+			}
+		});
+
+		KeyStroke keyAltHome = KeyStroke.getKeyStroke(KeyEvent.VK_HOME,InputEvent.ALT_MASK);
+		actionMap.put(keyAltHome, new AbstractAction("alt_home") 
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(configure.isVisible())
+				{
+					configure.scrollTop();
+
+				}
+				else if(!about.isVisible())
+				{
+				}
+			}
+		});
+
+		KeyStroke keyAltEnd = KeyStroke.getKeyStroke(KeyEvent.VK_END,InputEvent.ALT_MASK);
+		actionMap.put(keyAltEnd, new AbstractAction("alt_end") 
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(configure.isVisible())
+				{
+					configure.scrollBottom();
+				}
+				else if(!about.isVisible())
+				{
+				}
+			}
+		});
+
+		KeyStroke keyCtrlM = KeyStroke.getKeyStroke(KeyEvent.VK_M,InputEvent.CTRL_MASK);
+		actionMap.put(keyCtrlM, new AbstractAction("ctrl_m") 
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(!configure.isVisible() && !about.isVisible())
+				{
+					if(application_menu.isVisible())
+					{
+						application_menu.setVisible(false);
+					}
+					else
+					{
+						application_menu.setVisible(true);
+					}
 				}
 			}
 		});
@@ -843,6 +943,35 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 		KeyStroke keyEsc = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0);
 		actionMap.put(keyEsc, new AbstractAction("esc") 
 		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(configure.isVisible())
+				{
+					configure.dialogCancelled();
+				}
+				else if(about.isVisible())
+				{
+					about.setVisible(false);
+				}
+
+				SingleSelectionModel ssm=mainframe.getJMenuBar().getSelectionModel();
+				//p("is selected: "+ssm.isSelected()+" index: "+ssm.getSelectedIndex());
+				if(ssm.isSelected())
+				{
+					JMenu m=mainframe.getJMenuBar().getMenu(ssm.getSelectedIndex());
+					MenuSelectionManager.defaultManager().clearSelectedPath();
+				}
+			}
+		});
+
+		KeyStroke keyCtrlD = KeyStroke.getKeyStroke(KeyEvent.VK_D,InputEvent.CTRL_MASK);
+		actionMap.put(keyCtrlD, new AbstractAction("ctrl_d") 
+		{
+//same as esc -> should merge
+//conflicts with ctrl+a / ctrl+d
+//ctrl+a conflicts with select all in text fields
+
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
