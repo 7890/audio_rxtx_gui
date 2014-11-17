@@ -21,6 +21,7 @@ import java.awt.geom.Line2D;
 //========================================================================
 public class AButton extends Button implements KeyListener, FocusListener
 {
+	private FocusPaint fpaint;
 
 //========================================================================
 	public AButton()
@@ -39,6 +40,7 @@ public class AButton extends Button implements KeyListener, FocusListener
 //========================================================================
 	void init()
 	{
+		fpaint=new FocusPaint();
 		addKeyListener(this);
 		addFocusListener(this);
 	}
@@ -54,17 +56,7 @@ public class AButton extends Button implements KeyListener, FocusListener
 	@Override
 	public void paint(Graphics g) 
 	{
-		Dimension size = getSize();
-
-		if(hasFocus())
-		{
-			g.setColor(Colors.status_focused_outline);
-			Graphics2D g2 = (Graphics2D) g;
-			//g2.setStroke(new BasicStroke(6));
-			//g2.draw(new Line2D.Float(0,size.height,size.width,size.height));
-			g2.setStroke(new BasicStroke(30));
-			g2.draw(new Line2D.Float(size.width,0,size.width,size.height));
-		}
+		fpaint.paint(g,this);
 		super.paint(g);
 	}
 

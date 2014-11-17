@@ -21,6 +21,7 @@ import java.awt.geom.Line2D;
 //========================================================================
 public class ACheckbox extends Checkbox implements KeyListener, FocusListener, MouseListener
 {
+	private FocusPaint fpaint;
 
 //========================================================================
 	public ACheckbox()
@@ -60,6 +61,7 @@ public class ACheckbox extends Checkbox implements KeyListener, FocusListener, M
 //========================================================================
 	void init()
 	{
+		fpaint=new FocusPaint();
 		addKeyListener(this);
 		addFocusListener(this);
 		addMouseListener(this);
@@ -76,17 +78,7 @@ public class ACheckbox extends Checkbox implements KeyListener, FocusListener, M
 	@Override
 	public void paint(Graphics g) 
 	{
-		Dimension size = getSize();
-
-		if(hasFocus())
-		{
-			g.setColor(Colors.status_focused_outline);
-			Graphics2D g2 = (Graphics2D) g;
-			//g2.setStroke(new BasicStroke(6));
-			//g2.draw(new Line2D.Float(0,size.height,size.width,size.height));
-			g2.setStroke(new BasicStroke(30));
-			g2.draw(new Line2D.Float(size.width,0,size.width,size.height));
-		}
+		fpaint.paint(g,this);
 		super.paint(g);
 	}
 
@@ -121,7 +113,7 @@ public class ACheckbox extends Checkbox implements KeyListener, FocusListener, M
 
 		while(c!=null)
 		{
-			System.out.println(c);
+			//System.out.println(c);
 			c=c.getParent();
 			//look for java.awt.ScrollPane
 			if(c instanceof ScrollPane)
