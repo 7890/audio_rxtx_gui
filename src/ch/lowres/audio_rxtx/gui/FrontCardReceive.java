@@ -22,11 +22,11 @@ import java.net.InetAddress;
 public class FrontCardReceive extends Card
 {
 	static CheckboxGroup 			audio_transmission_format_group=new CheckboxGroup();
-	static Checkbox 			checkbox_format_16=new Checkbox("16 bit Integer", audio_transmission_format_group, true);
-	static Checkbox 			checkbox_format_32=new Checkbox("32 bit Float", audio_transmission_format_group, false);
+	static ACheckbox 			checkbox_format_16=new ACheckbox("16 bit Integer", audio_transmission_format_group, true);
+	static ACheckbox 			checkbox_format_32=new ACheckbox("32 bit Float", audio_transmission_format_group, false);
 
-	static NumericTextFieldWithLimit 	text_output_channels= new NumericTextFieldWithLimit("",6,3);
-	static NumericTextFieldWithLimit 	text_lport=new NumericTextFieldWithLimit("",6,5);
+	static NumericTextFieldWithLimit 	text_output_channels= new NumericTextFieldWithLimit("",20,3);
+	static NumericTextFieldWithLimit 	text_lport=new NumericTextFieldWithLimit("",20,5);
 
 //========================================================================
 	public FrontCardReceive()
@@ -56,14 +56,13 @@ public class FrontCardReceive extends Card
 		g.formUtility.addLastField(checkbox_format_32, form);
 
 		g.formUtility.addLabel("Channels: ", form);
-		g.formUtility.addMiddleField(text_output_channels, form);
-		g.formUtility.addLastLabel("", form);
+		g.formUtility.addLastField(text_output_channels, form);
 
 		g.formUtility.addTitle("Receive On", form);
 
 		g.formUtility.addLabel("Port (UDP): ", form);
-		g.formUtility.addMiddleField(text_lport, form);
-		g.formUtility.addLastLabel("", form);
+		g.formUtility.addLastField(text_lport, form);
+
 	}//end createForm
 
 //=============================================================================

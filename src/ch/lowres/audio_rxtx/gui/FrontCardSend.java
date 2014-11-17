@@ -22,12 +22,12 @@ import java.net.InetAddress;
 public class FrontCardSend extends Card
 {
 	static CheckboxGroup 			audio_transmission_format_group=new CheckboxGroup();
-	static Checkbox 			checkbox_format_16=new Checkbox("16 bit Integer", audio_transmission_format_group, true);
-	static Checkbox 			checkbox_format_32=new Checkbox("32 bit Float", audio_transmission_format_group, false);
+	static ACheckbox 			checkbox_format_16=new ACheckbox("16 bit Integer", audio_transmission_format_group, true);
+	static ACheckbox 			checkbox_format_32=new ACheckbox("32 bit Float", audio_transmission_format_group, false);
 
-	static NumericTextFieldWithLimit 	text_input_channels= new NumericTextFieldWithLimit("",6,3);
+	static NumericTextFieldWithLimit 	text_input_channels= new NumericTextFieldWithLimit("",20,3);
 	static HostTextFieldWithLimit 		text_target_host=new HostTextFieldWithLimit("",20,128);
-	static NumericTextFieldWithLimit 	text_target_port=new NumericTextFieldWithLimit("",6,5);
+	static NumericTextFieldWithLimit 	text_target_port=new NumericTextFieldWithLimit("",20,5);
 
 //========================================================================
 	public FrontCardSend() 
@@ -58,8 +58,7 @@ public class FrontCardSend extends Card
 		g.formUtility.addLastField(checkbox_format_32, form);
 
 		g.formUtility.addLabel("Channels: ", form);
-		g.formUtility.addMiddleField(text_input_channels, form);
-		g.formUtility.addLastLabel("", form);
+		g.formUtility.addLastField(text_input_channels, form);
 
 		g.formUtility.addTitle("Send To (Receiver)", form);
 
@@ -67,8 +66,7 @@ public class FrontCardSend extends Card
 		g.formUtility.addLastField(text_target_host, form);
 
 		g.formUtility.addLabel("Port (UDP): ", form);
-		g.formUtility.addMiddleField(text_target_port, form);
-		g.formUtility.addLastLabel("", form);
+		g.formUtility.addLastField(text_target_port, form);
 	}//end createForm
 
 //=============================================================================
