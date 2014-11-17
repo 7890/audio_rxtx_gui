@@ -13,7 +13,10 @@
 
 package ch.lowres.audio_rxtx.gui;
 
-import java.awt.event.KeyListener;
+import java.awt.*;
+import java.awt.event.*;
+
+import javax.swing.JTextField;
 
 //========================================================================
 class NumericTextFieldWithLimit extends TextFieldWithLimit implements KeyListener 
