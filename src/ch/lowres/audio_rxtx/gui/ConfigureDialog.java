@@ -19,6 +19,8 @@ import java.awt.event.*;
 import com.magelang.splitter.*;
 import com.magelang.tabsplitter.*;
 
+import java.util.Vector;
+
 //========================================================================
 public class ConfigureDialog extends Dialog implements TabSelectionListener
 {
@@ -27,47 +29,46 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 	static Panel formSend;
 	static HostTextFieldWithLimit		text_name_s=new HostTextFieldWithLimit("",32,32);
 	static HostTextFieldWithLimit		text_sname_s=new HostTextFieldWithLimit("",32,32);
-	static Checkbox 			checkbox_connect_s=new Checkbox("Autoconnect");
-	static Checkbox 			checkbox_nopause_s=new Checkbox("No Pause On Sender Deny");
-	static Checkbox 			checkbox_test_s=new Checkbox("Enable Testmode");
+	static ACheckbox 			checkbox_connect_s=new ACheckbox("Autoconnect");
+	static ACheckbox 			checkbox_nopause_s=new ACheckbox("No Pause On Sender Deny");
+	static ACheckbox 			checkbox_test_s=new ACheckbox("Enable Testmode");
 	static NumericTextFieldWithLimit 	text_limit_s=new NumericTextFieldWithLimit("",32,24);
 	static NumericTextFieldWithLimit 	text_drop_s=new NumericTextFieldWithLimit("",32,24);
-	static Checkbox 			checkbox_verbose_s=new Checkbox("Verbose Shell Output");
+	static ACheckbox 			checkbox_verbose_s=new ACheckbox("Verbose Shell Output");
 	static NumericTextFieldWithLimit 	text_update_s=new NumericTextFieldWithLimit("",32,4);
-	static Checkbox 			checkbox_lport_random_s=new Checkbox("Use Random Port");
+	static ACheckbox 			checkbox_lport_random_s=new ACheckbox("Use Random Port");
 	static NumericTextFieldWithLimit 	text_lport_s=new NumericTextFieldWithLimit("",32,5);
 
 	static Panel formReceive;
 	static HostTextFieldWithLimit		text_name_r=new HostTextFieldWithLimit("",32,32);
 	static HostTextFieldWithLimit		text_sname_r=new HostTextFieldWithLimit("",32,32);
-	static Checkbox 			checkbox_connect_r=new Checkbox("Autoconnect");
-	static Checkbox 			checkbox_test_r=new Checkbox("Enable Testmode");
+	static ACheckbox 			checkbox_connect_r=new ACheckbox("Autoconnect");
+	static ACheckbox 			checkbox_test_r=new ACheckbox("Enable Testmode");
 	static NumericTextFieldWithLimit 	text_limit_r=new NumericTextFieldWithLimit("",32,24);
-	static Checkbox 			checkbox_verbose_r=new Checkbox("Verbose Shell Output");
+	static ACheckbox 			checkbox_verbose_r=new ACheckbox("Verbose Shell Output");
 	static NumericTextFieldWithLimit 	text_update_r=new NumericTextFieldWithLimit("",32,4);
 	static NumericTextFieldWithLimit 	text_offset_r=new NumericTextFieldWithLimit("",32,24);
 	static NumericTextFieldWithLimit 	text_pre_r=new NumericTextFieldWithLimit("",32,24);
 	static NumericTextFieldWithLimit 	text_max_r=new NumericTextFieldWithLimit("",32,24);
-	static Checkbox 			checkbox_rere_r=new Checkbox(" Rebuffer On Sender Restart");
-	static Checkbox 			checkbox_reuf_r=new Checkbox("Rebuffer On Underflow");
-	static Checkbox 			checkbox_nozero_r=new Checkbox("Re-Use Old Data On Underflow");
-	static Checkbox 			checkbox_norbc_r=new Checkbox("Disallow Ext. Buffer Control");
-	static Checkbox 			checkbox_close_r=new Checkbox("Stop Transmission On Incompat.");
-
-//	static Checkbox 			checkbox_lport_random_r=new Checkbox("Use Random Port");
-//	static NumericTextFieldWithLimit 	text_lport_r=new NumericTextFieldWithLimit("",32,5);
+	static ACheckbox 			checkbox_rere_r=new ACheckbox(" Rebuffer On Sender Restart");
+	static ACheckbox 			checkbox_reuf_r=new ACheckbox("Rebuffer On Underflow");
+	static ACheckbox 			checkbox_nozero_r=new ACheckbox("Re-Use Old Data On Underflow");
+	static ACheckbox 			checkbox_norbc_r=new ACheckbox("Disallow Ext. Buffer Control");
+	static ACheckbox 			checkbox_close_r=new ACheckbox("Stop Transmission On Incompat.");
 
 	static Panel formGUI;
-	static Checkbox 			checkbox_gui_osc_port_random=new Checkbox("Use Random Port");
+	static ACheckbox 			checkbox_gui_osc_port_random=new ACheckbox("Use Random Port");
 	static NumericTextFieldWithLimit 	text_gui_osc_port=new NumericTextFieldWithLimit("",32,5);
-	static Checkbox 			checkbox_gui_osc_port_random_r=new Checkbox("Use Random Port");
+	static ACheckbox 			checkbox_gui_osc_port_random_r=new ACheckbox("Use Random Port");
 	static NumericTextFieldWithLimit 	text_gui_osc_port_r=new NumericTextFieldWithLimit("",32,5);
-	static Checkbox 			checkbox_keep_cache=new Checkbox("Use Cache");
+	static ACheckbox 			checkbox_keep_cache=new ACheckbox("Use Cache");
 
-	static Button 				button_cancel_settings=new Button("Cancel");
-	static Button 				button_confirm_settings=new Button("OK");
+	static AButton 				button_cancel_settings=new AButton("Cancel");
+	static AButton 				button_confirm_settings=new AButton("OK");
 
-	static ScrollPane scroller;
+	static ScrollPane scroller_tabSend;
+	static ScrollPane scroller_tabReceive;
+	static ScrollPane scroller_tabGUI;
 
 	//tabs for send / receive
 	static TabNamePanel tabSend;
@@ -76,8 +77,12 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 
 	static TabPanel tabPanel;
 
+	static NormalFocusTraversalPolicy focusPolicySend;
+	static NormalFocusTraversalPolicy focusPolicyReceive;
+	static NormalFocusTraversalPolicy focusPolicyGUI;
+
 //========================================================================
-	public ConfigureDialog(Frame f,String title, boolean modality) 
+	public ConfigureDialog(Frame f,String title, boolean modality)
 	{
 		super(f,title,modality);
 
@@ -122,9 +127,6 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 		checkbox_nozero_r.setState(g.apir._nozero);
 		checkbox_norbc_r.setState(g.apir._norbc);
 		checkbox_close_r.setState(g.apir._close);
-
-//		checkbox_lport_random_r.setState(g.apir.lport_random);
-//		text_lport_r.setText(""+g.apir._lport);
 
 		checkbox_gui_osc_port_random.setState(g.gui_osc_port_random_s);
 		text_gui_osc_port.setText(""+g.gui_osc_port_s);
@@ -176,11 +178,23 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 			tabSend.setTabName("Send");
 			tabSend.add(formSend,BorderLayout.NORTH);
 
+			scroller_tabSend=new ScrollPane(ScrollPane.SCROLLBARS_AS_NEEDED);
+			scroller_tabSend.setBackground(Colors.form_background);
+			scroller_tabSend.getVAdjustable().setUnitIncrement(30);
+			scroller_tabSend.getHAdjustable().setUnitIncrement(30);
+			scroller_tabSend.add(tabSend);
+
 			tabReceive=new TabNamePanel();
 			tabReceive.setName("Receive");
 			tabReceive.setLayout(new BorderLayout());
 			tabReceive.setTabName("Receive");
 			tabReceive.add(formReceive,BorderLayout.NORTH);
+
+			scroller_tabReceive=new ScrollPane(ScrollPane.SCROLLBARS_AS_NEEDED);
+			scroller_tabReceive.setBackground(Colors.form_background);
+			scroller_tabReceive.getVAdjustable().setUnitIncrement(30);
+			scroller_tabReceive.getHAdjustable().setUnitIncrement(30);
+			scroller_tabReceive.add(tabReceive);
 
 			tabGUI=new TabNamePanel();
 			tabGUI.setName("GUI");
@@ -188,34 +202,32 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 			tabGUI.setTabName("GUI");
 			tabGUI.add(formGUI,BorderLayout.NORTH);
 
+			scroller_tabGUI=new ScrollPane(ScrollPane.SCROLLBARS_AS_NEEDED);
+			scroller_tabGUI.setBackground(Colors.form_background);
+			scroller_tabGUI.getVAdjustable().setUnitIncrement(30);
+			scroller_tabGUI.getHAdjustable().setUnitIncrement(30);
+			scroller_tabGUI.add(tabGUI);
+
 			tabPanel=new TabPanel();
 			tabPanel.setName("TabPanel");
-			tabPanel.add(tabSend, tabSend.getName());
-			tabPanel.add(tabReceive, tabReceive.getName());
-			tabPanel.add(tabGUI, tabGUI.getName());
 
 			tabPanel.setBackground(Colors.form_background);
 			tabPanel.setForeground(Colors.form_foreground);
 
-			tabPanel.setTabColors(new java.awt.Color[] {new Color(50,50,50),new Color(50,50,50),new Color(50,50,50)});
+			tabPanel.setTabColors(new java.awt.Color[] {new Color(0,0,0),new Color(0,0,0),new Color(0,0,0)});
 			tabPanel.setTabColorsSelected(new java.awt.Color[] {Colors.form_background, Colors.form_background, Colors.form_background});
 
 			tabPanel.addTabSelectionListener(this);
+
+			tabPanel.add(scroller_tabSend, tabSend.getName());
+			tabPanel.add(scroller_tabReceive, tabReceive.getName());
+			tabPanel.add(scroller_tabGUI, tabGUI.getName());
 		} catch (java.lang.Throwable ex)
 		{///
 		}
 
-		scroller=new ScrollPane(ScrollPane.SCROLLBARS_AS_NEEDED);
+		add(tabPanel,BorderLayout.CENTER);
 
-		Adjustable vadjust=scroller.getVAdjustable();
-		Adjustable hadjust=scroller.getHAdjustable();
-		hadjust.setUnitIncrement(10);
-		vadjust.setUnitIncrement(10);
-
-		scroller.add(tabPanel);
-
-		add(scroller,BorderLayout.CENTER);
-//send
 		g.formUtility.addLabel("Connect To This JACK Server:", formSend);
 		g.formUtility.addLastField(text_sname_s, formSend);
 
@@ -223,15 +235,12 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 		g.formUtility.addLastField(text_name_s, formSend);
 
 		g.formUtility.addLabel("JACK system:* ports:", formSend);
-		g.formUtility.addLabel("", formSend);
 		g.formUtility.addLastField(checkbox_connect_s, formSend);
 
 		g.formUtility.addLabel("For 1:n Broadcast Scenario:", formSend);
-		g.formUtility.addLabel("", formSend);
 		g.formUtility.addLastField(checkbox_nopause_s, formSend);
 
 		g.formUtility.addLabel("Limit Totally Sent Messages:", formSend);
-		g.formUtility.addLabel("", formSend);
 		g.formUtility.addLastField(checkbox_test_s, formSend);
 
 		g.formUtility.addLabel("Message Count Limit:", formSend);
@@ -241,14 +250,12 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 		g.formUtility.addLastField(text_drop_s, formSend);
 
 		g.formUtility.addLabel("jack_audio_send std Passthrough:", formSend);
-		g.formUtility.addLabel("", formSend);
 		g.formUtility.addLastField(checkbox_verbose_s, formSend);
 
 		g.formUtility.addLabel("Status Update Interval:", formSend);
 		g.formUtility.addLastField(text_update_s, formSend);
 
 		g.formUtility.addLabel("UDP Port For jack_audio_send:", formSend);
-		g.formUtility.addLabel("", formSend);
 		g.formUtility.addLastField(checkbox_lport_random_s, formSend);
 
 		g.formUtility.addLabel("Fixed Port (If Not Random):", formSend);
@@ -262,49 +269,41 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 		g.formUtility.addLastField(text_name_r, formReceive);
 
 		g.formUtility.addLabel("JACK system:* ports:", formReceive);
-		g.formUtility.addLabel("", formReceive);
 		g.formUtility.addLastField(checkbox_connect_r, formReceive);
 
 		g.formUtility.addLabel("Limit Totally Sent Messages:", formReceive);
-		g.formUtility.addLabel("", formReceive);
 		g.formUtility.addLastField(checkbox_test_r, formReceive);
 
 		g.formUtility.addLabel("Message Count Limit:", formReceive);
 		g.formUtility.addLastField(text_limit_r, formReceive);
 
 		g.formUtility.addLabel("jack_audio_receive std Passthrough:", formReceive);
-		g.formUtility.addLabel("", formReceive);
 		g.formUtility.addLastField(checkbox_verbose_r, formReceive);
 
 		g.formUtility.addLabel("Status Update Interval:", formReceive);
 		g.formUtility.addLastField(text_update_r, formReceive);
 
-		g.formUtility.addLabel("Channel Offset", formReceive);
+		g.formUtility.addLabel("Channel Offset:", formReceive);
 		g.formUtility.addLastField(text_offset_r, formReceive);
 
-		g.formUtility.addLabel("Initial Buffer Size (MCP)", formReceive);
+		g.formUtility.addLabel("Initial Buffer Size (MCP):", formReceive);
 		g.formUtility.addLastField(text_pre_r, formReceive);
 
-		g.formUtility.addLabel("Max Buffer Size (>= Init)", formReceive);
+		g.formUtility.addLabel("Max Buffer Size (>= Init):", formReceive);
 		g.formUtility.addLastField(text_max_r, formReceive);
 
-		g.formUtility.addLabel("", formReceive);
 		g.formUtility.addLabel("", formReceive);
 		g.formUtility.addLastField(checkbox_rere_r, formReceive);
 
 		g.formUtility.addLabel("", formReceive);
-		g.formUtility.addLabel("", formReceive);
 		g.formUtility.addLastField(checkbox_reuf_r, formReceive);
 
-		g.formUtility.addLabel("", formReceive);
 		g.formUtility.addLabel("", formReceive);
 		g.formUtility.addLastField(checkbox_nozero_r, formReceive);
 
 		g.formUtility.addLabel("", formReceive);
-		g.formUtility.addLabel("", formReceive);
 		g.formUtility.addLastField(checkbox_norbc_r, formReceive);
 
-		g.formUtility.addLabel("", formReceive);
 		g.formUtility.addLabel("", formReceive);
 		g.formUtility.addLastField(checkbox_close_r, formReceive);
 
@@ -333,8 +332,6 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 
 //buttons
 		Panel button_panel=new Panel();
-		button_cancel_settings=new Button("Cancel");
-		button_confirm_settings=new Button("OK");
 
 		button_cancel_settings.setBackground(Colors.button_background);
 		button_cancel_settings.setForeground(Colors.button_foreground);
@@ -349,6 +346,57 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 		button_panel.add(button_confirm_settings);
 
 		add(button_panel,BorderLayout.SOUTH);
+
+//focus orders
+		Vector<Component> orderSend = new Vector<Component>();
+		orderSend.add(text_sname_s);
+		orderSend.add(text_name_s);
+		orderSend.add(checkbox_connect_s);
+		orderSend.add(checkbox_nopause_s);
+		orderSend.add(checkbox_test_s);
+		orderSend.add(text_limit_s);
+		orderSend.add(text_drop_s);
+		orderSend.add(checkbox_verbose_s);
+		orderSend.add(text_update_s);
+		orderSend.add(checkbox_lport_random_s);
+		orderSend.add(text_lport_s);
+		orderSend.add(button_cancel_settings);
+		orderSend.add(button_confirm_settings);
+
+		focusPolicySend = new NormalFocusTraversalPolicy(orderSend);
+		setFocusTraversalPolicy(focusPolicySend);
+
+		Vector<Component> orderReceive = new Vector<Component>();
+		orderReceive.add(text_sname_r);
+		orderReceive.add(text_name_r);
+		orderReceive.add(checkbox_connect_r);
+		orderReceive.add(checkbox_test_r);
+		orderReceive.add(text_limit_r);
+		orderReceive.add(checkbox_verbose_r);
+		orderReceive.add(text_update_r);
+		orderReceive.add(text_offset_r);
+		orderReceive.add(text_pre_r);
+		orderReceive.add(text_max_r);
+		orderReceive.add(checkbox_rere_r);
+		orderReceive.add(checkbox_reuf_r);
+		orderReceive.add(checkbox_nozero_r);
+		orderReceive.add(checkbox_norbc_r);
+		orderReceive.add(checkbox_close_r);
+		orderReceive.add(button_cancel_settings);
+		orderReceive.add(button_confirm_settings);
+
+		focusPolicyReceive = new NormalFocusTraversalPolicy(orderReceive);
+
+		Vector<Component> orderGUI = new Vector<Component>();
+		orderGUI.add(checkbox_gui_osc_port_random);
+		orderGUI.add(text_gui_osc_port);
+		orderGUI.add(checkbox_gui_osc_port_random_r);
+		orderGUI.add(text_gui_osc_port_r);
+		orderGUI.add(checkbox_keep_cache);
+		orderGUI.add(button_cancel_settings);
+		orderGUI.add(button_confirm_settings);
+
+		focusPolicyGUI = new NormalFocusTraversalPolicy(orderGUI);
 
 //		pack();
 //		setSize(600,500);
@@ -365,7 +413,7 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 			(int)((g.screenDimension.getHeight()-getHeight()) / 2)
 		);
 
-		setResizable(false);
+//		setResizable(false);
 
 		//done in calling object
 		//setVisible(true);
@@ -467,9 +515,6 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 		g.apir._norbc=checkbox_norbc_r.getState();
 		g.apir._close=checkbox_close_r.getState();
 
-//		g.apir.lport_random=checkbox_lport_random_r.getState();
-//		g.apir._lport=Integer.parseInt(text_lport_r.getText());
-
 		if(text_gui_osc_port.getText().equals(""))
 		{
 			text_gui_osc_port.setText(""+g.gui_osc_port_s);
@@ -539,15 +584,98 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 		if(tabname.equals("Send"))
 		{
 			text_name_s.requestFocus();
+			setFocusTraversalPolicy(focusPolicySend);
 		}
 		else if(tabname.equals("Receive"))
 		{
 			text_name_r.requestFocus();
+			setFocusTraversalPolicy(focusPolicyReceive);
 		}
 		else if(tabname.equals("GUI"))
 		{
 			checkbox_gui_osc_port_random.requestFocus();
+			setFocusTraversalPolicy(focusPolicyGUI);
 		}
+	}
+
+//========================================================================
+	public void scrollUp()
+	{
+		String tabname=tabPanel.getSelectedName();
+		Adjustable a=null;
+		if(tabname.equals("Send"))
+		{
+			a=scroller_tabSend.getVAdjustable();
+		}
+		else if(tabname.equals("Receive"))
+		{
+			a=scroller_tabReceive.getVAdjustable();
+		}
+		else if(tabname.equals("GUI"))
+		{
+			a=scroller_tabGUI.getVAdjustable();
+		}
+		a.setValue(a.getValue() - a.getUnitIncrement());
+	}
+
+//========================================================================
+	public void scrollDown()
+	{
+		String tabname=tabPanel.getSelectedName();
+		Adjustable a=null;
+		if(tabname.equals("Send"))
+		{
+			a=scroller_tabSend.getVAdjustable();
+		}
+		else if(tabname.equals("Receive"))
+		{
+			a=scroller_tabReceive.getVAdjustable();
+		}
+		else if(tabname.equals("GUI"))
+		{
+			a=scroller_tabGUI.getVAdjustable();
+		}
+		a.setValue(a.getValue() + a.getUnitIncrement());
+	}
+
+//========================================================================
+	public void scrollTop()
+	{
+		String tabname=tabPanel.getSelectedName();
+		Adjustable a=null;
+		if(tabname.equals("Send"))
+		{
+			a=scroller_tabSend.getVAdjustable();
+		}
+		else if(tabname.equals("Receive"))
+		{
+			a=scroller_tabReceive.getVAdjustable();
+		}
+		else if(tabname.equals("GUI"))
+		{
+			a=scroller_tabGUI.getVAdjustable();
+		}
+		a.setValue(0);
+	}
+
+//========================================================================
+	public void scrollBottom()
+	{
+		String tabname=tabPanel.getSelectedName();
+		Adjustable a=null;
+		if(tabname.equals("Send"))
+		{
+			a=scroller_tabSend.getVAdjustable();
+		}
+		else if(tabname.equals("Receive"))
+		{
+			a=scroller_tabReceive.getVAdjustable();
+		}
+		else if(tabname.equals("GUI"))
+		{
+			a=scroller_tabGUI.getVAdjustable();
+		}
+		a.setValue(a.getMaximum());
 	}
 
 //========================================================================
@@ -555,4 +683,53 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 	{
 		setFocusedWidget(e.getSelectedName());
 	}
+
+//========================================================================
+//========================================================================
+//http://www.java2s.com/Tutorial/Java/0260__Swing-Event/UseFocusTraversalPolicy.htm
+	public static class NormalFocusTraversalPolicy extends FocusTraversalPolicy
+	{
+		Vector<Component> order;
+
+//========================================================================
+		public NormalFocusTraversalPolicy(Vector<Component> order)
+		{
+			this.order = new Vector<Component>(order.size());
+			this.order.addAll(order);
+		}
+
+//========================================================================
+		public Component getComponentAfter(Container focusCycleRoot, Component aComponent)
+		{
+			int idx = (order.indexOf(aComponent) + 1) % order.size();
+			return order.get(idx);
+		}
+
+//========================================================================
+		public Component getComponentBefore(Container focusCycleRoot, Component aComponent)
+		{
+			int idx = order.indexOf(aComponent) - 1;
+			if (idx < 0)
+			{
+				idx = order.size() - 1;
+			}
+				return order.get(idx);
+			}
+
+			public Component getDefaultComponent(Container focusCycleRoot)
+			{
+				return order.get(0);
+			}
+
+			public Component getLastComponent(Container focusCycleRoot)
+			{
+				return order.lastElement();
+			}
+
+			public Component getFirstComponent(Container focusCycleRoot)
+			{
+				return order.get(0);
+			}
+		}
+	}//end inner class NormalFocusTraversalPolicy
 }//end class ConfigureDialog
