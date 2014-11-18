@@ -234,4 +234,10 @@ setBorder(
 	//is c *outside* of the valid class? true. else false
 	public boolean disallowedChar(char c) {return false;}
 
+//========================================================================
+	//override in subclass
+	//is called on focusLost and form accept
+	//do *not* override validate() defined in java.awt.Component
+	public void validate_() {}
+
 }//end TextFieldWithLimit

@@ -21,10 +21,61 @@ import javax.swing.JTextField;
 //========================================================================
 class NumericTextFieldWithLimit extends TextFieldWithLimit implements KeyListener 
 {
+	Integer minInclusive=null;
+	Integer maxInclusive=null;
+
 //========================================================================
 	public NumericTextFieldWithLimit (String initialStr, int col, int maxLength) 
 	{
 		super(initialStr, col, maxLength);
+	}
+
+//========================================================================
+	public void setMinInclusive(int i)
+	{
+		minInclusive=i;
+	}
+
+//========================================================================
+	public void setMaxInclusive(int i)
+	{
+		maxInclusive=i;
+	}
+
+//========================================================================
+	public void setMinInclusive()
+	{
+		setText(""+minInclusive);
+	}
+
+//========================================================================
+	public void setMaxInclusive()
+	{
+		setText(""+maxInclusive);
+	}
+
+//========================================================================
+	@Override
+	public void validate_()
+	{
+		try
+		{
+			int number=Integer.parseInt(getText());
+
+			if(minInclusive!=null && number < minInclusive)
+			{
+				setMinInclusive();
+			}
+			else if(maxInclusive!=null && number > maxInclusive)
+			{
+				setMaxInclusive();
+			}
+
+		}catch(Exception ign)
+		{
+			//should have setDefault() too
+			setMinInclusive();
+		}
 	}
 
 //========================================================================
@@ -54,8 +105,9 @@ event will never be generated, and during all other events, the key character wi
 				int number=Integer.parseInt(getText());
 				number++;
 				setText(""+number);
-
+				validate_();
 			}catch(Exception ign){}
+			select(0,getText().length());
 			e.consume();
 		}
 		else if(e.getKeyCode()==KeyEvent.VK_DOWN)
@@ -65,8 +117,18 @@ event will never be generated, and during all other events, the key character wi
 				int number=Integer.parseInt(getText());
 				number--;
 				setText(""+number);
+				validate_();
 			}catch(Exception ign){}
+			select(0,getText().length());
 			e.consume();
 		}
 	}//end keyPressed
+
+//========================================================================
+	@Override
+	public void focusLost(FocusEvent fe)
+	{
+		validate_();
+		super.focusLost(fe);
+	}
 }//end HostTextFieldWithLimit

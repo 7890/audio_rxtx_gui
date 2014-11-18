@@ -33,6 +33,10 @@ public class FrontCardSend extends Card
 	public FrontCardSend() 
 	{
 		button_default.setLabel("Start Transmission");
+		text_input_channels.setMinInclusive(1);
+		text_input_channels.setMaxInclusive(512);
+		text_target_port.setMinInclusive(1024);
+		text_target_port.setMaxInclusive(65535);
 	}
 
 //========================================================================
@@ -72,6 +76,9 @@ public class FrontCardSend extends Card
 //=============================================================================
 	public boolean readForm()
 	{
+
+		FormHelper.validate(form);
+
 		if(text_input_channels.getText().equals(""))
 		{
 			text_input_channels.setText(""+g.apis._in);

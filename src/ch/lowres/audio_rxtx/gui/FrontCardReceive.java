@@ -32,6 +32,8 @@ public class FrontCardReceive extends Card
 	public FrontCardReceive()
 	{
 		button_default.setLabel("Start Transmission");
+		text_lport.setMinInclusive(1024);
+		text_lport.setMaxInclusive(65535);
 	}
 
 //========================================================================
@@ -68,6 +70,8 @@ public class FrontCardReceive extends Card
 //=============================================================================
 	public boolean readForm()
 	{
+		FormHelper.validate(form);
+
 		if(text_output_channels.getText().equals(""))
 		{
 			text_output_channels.setText(""+g.apir._out);

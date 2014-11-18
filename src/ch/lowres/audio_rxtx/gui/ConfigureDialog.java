@@ -58,7 +58,7 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 
 	static Panel formGUI;
 	static ACheckbox 			checkbox_gui_osc_port_random=new ACheckbox("Use Random Port");
-	static NumericTextFieldWithLimit 	text_gui_osc_port=new NumericTextFieldWithLimit("",32,5);
+	static NumericTextFieldWithLimit 	text_gui_osc_port_s=new NumericTextFieldWithLimit("",32,5);
 	static ACheckbox 			checkbox_gui_osc_port_random_r=new ACheckbox("Use Random Port");
 	static NumericTextFieldWithLimit 	text_gui_osc_port_r=new NumericTextFieldWithLimit("",32,5);
 	static ACheckbox 			checkbox_keep_cache=new ACheckbox("Use Cache");
@@ -85,6 +85,26 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 	public ConfigureDialog(Frame f,String title, boolean modality)
 	{
 		super(f,title,modality);
+
+		text_limit_s.setMinInclusive(1);
+		text_drop_s.setMinInclusive(0);
+		text_update_s.setMinInclusive(1);
+		text_lport_s.setMinInclusive(1024);
+		text_lport_s.setMaxInclusive(65535);
+
+		text_limit_r.setMinInclusive(1);
+		text_update_r.setMinInclusive(1);
+
+		text_offset_r.setMinInclusive(0);
+		text_pre_r.setMinInclusive(0);
+		//! max >= pre
+		text_max_r.setMinInclusive(10);
+
+		text_gui_osc_port_s.setMinInclusive(1024);
+		text_gui_osc_port_s.setMaxInclusive(65535);
+
+		text_gui_osc_port_r.setMinInclusive(1024);
+		text_gui_osc_port_r.setMaxInclusive(65535);
 
 		setBackground(Colors.form_background);
 		setForeground(Colors.form_foreground);
@@ -129,7 +149,7 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 		checkbox_close_r.setState(g.apir._close);
 
 		checkbox_gui_osc_port_random.setState(g.gui_osc_port_random_s);
-		text_gui_osc_port.setText(""+g.gui_osc_port_s);
+		text_gui_osc_port_s.setText(""+g.gui_osc_port_s);
 		checkbox_gui_osc_port_random_r.setState(g.gui_osc_port_random_r);
 		text_gui_osc_port_r.setText(""+g.gui_osc_port_r);
 
@@ -313,7 +333,7 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 		g.formUtility.addLastField(checkbox_gui_osc_port_random, formGUI);
 
 		g.formUtility.addLabel("Fixed Port (If Not Random):", formGUI);
-		g.formUtility.addLastField(text_gui_osc_port, formGUI);
+		g.formUtility.addLastField(text_gui_osc_port_s, formGUI);
 
 		g.formUtility.addSpacer(formGUI);
 
@@ -389,7 +409,7 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 
 		Vector<Component> orderGUI = new Vector<Component>();
 		orderGUI.add(checkbox_gui_osc_port_random);
-		orderGUI.add(text_gui_osc_port);
+		orderGUI.add(text_gui_osc_port_s);
 		orderGUI.add(checkbox_gui_osc_port_random_r);
 		orderGUI.add(text_gui_osc_port_r);
 		orderGUI.add(checkbox_keep_cache);
@@ -422,6 +442,10 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 //=============================================================================
 	static void readForm()
 	{
+		FormHelper.validate(formSend);
+		FormHelper.validate(formReceive);
+		FormHelper.validate(formGUI);
+
 		if(text_name_s.getText().equals(""))
 		{
 			text_name_s.setText(""+g.apis._name);
@@ -515,9 +539,9 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 		g.apir._norbc=checkbox_norbc_r.getState();
 		g.apir._close=checkbox_close_r.getState();
 
-		if(text_gui_osc_port.getText().equals(""))
+		if(text_gui_osc_port_s.getText().equals(""))
 		{
-			text_gui_osc_port.setText(""+g.gui_osc_port_s);
+			text_gui_osc_port_s.setText(""+g.gui_osc_port_s);
 		}
 
 		if(text_gui_osc_port_r.getText().equals(""))
@@ -526,7 +550,7 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 		}
 
 		g.gui_osc_port_random_s=checkbox_gui_osc_port_random.getState();
-		g.gui_osc_port_s=Integer.parseInt(text_gui_osc_port.getText());
+		g.gui_osc_port_s=Integer.parseInt(text_gui_osc_port_s.getText());
 
 		g.gui_osc_port_random_r=checkbox_gui_osc_port_random_r.getState();
 		g.gui_osc_port_r=Integer.parseInt(text_gui_osc_port_r.getText());
