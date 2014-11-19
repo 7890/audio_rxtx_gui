@@ -21,4 +21,9 @@ public interface CmdlineAPIInterface
 
 //========================================================================
 	String getCommandLineString();
+
+//========================================================================
+//0: send
+//1: receive
+	int getType();
 }//end interface CmdlineAPIInteface

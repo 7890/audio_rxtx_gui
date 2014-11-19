@@ -63,6 +63,13 @@ public class jack_audio_receive_cmdline_API extends CmdlineAPI
 		command+=_lport;
 		return command;
 	}
+
+//========================================================================
+	public int getType()
+	{
+		//1: receive
+		return 1;
+	}
 }//end class jack_audio_receive_cmdline_API
 
 /*

@@ -62,4 +62,5 @@ public abstract class CmdlineAPI implements CmdlineAPIInterface
 //Implemented in send/receive specific subclass
 //========================================================================
 	public abstract String getCommandLineString();
+	public abstract int getType();
 }//end class CmdlineAPI

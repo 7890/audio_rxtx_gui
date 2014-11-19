@@ -54,6 +54,13 @@ public class jack_audio_send_cmdline_API extends CmdlineAPI
 		command+=_target_host+" "+_target_port;
 		return command;
 	}
+
+//========================================================================
+	public int getType()
+	{
+		//0: send
+		return 0;
+	}
 }//end class jack_audio_send_cmdline_API
 
 /*
