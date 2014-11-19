@@ -18,6 +18,7 @@ import java.awt.event.*;
 
 import com.illposed.osc.*;
 import java.net.InetAddress;
+import java.net.DatagramSocket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -545,7 +546,20 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 			dogSend.cancel();
 		}
 
+		cmdSend.cancel();
 		cmdSend=null;
+
+		if(OscInSend!=null)
+		{
+			OscInSend.stopListening();
+			OscInSend.close();
+			OscInSend=null;
+		}
+		if(OscOutSend!=null)
+		{
+			OscOutSend.close();
+			OscOutSend=null;
+		}
 
 		AppMenu.setForFrontScreenSend();
 
@@ -568,7 +582,7 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 //========================================================================
 	static void stopTransmissionReceive()
 	{
-		//terminate jack_audio_send running in thread
+		//terminate jack_audio_receive running in thread
 		OSCMessage msg=new OSCMessage("/quit");
 
 		try
@@ -584,7 +598,20 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 			dogReceive.cancel();
 		}
 
+		cmdReceive.cancel();
 		cmdReceive=null;
+
+		if(OscInReceive!=null)
+		{
+			OscInReceive.stopListening();
+			OscInReceive.close();
+			OscInReceive=null;
+		}
+		if(OscOutReceive!=null)
+		{
+			OscOutReceive.close();
+			OscOutReceive=null;
+		}
 
 		AppMenu.setForFrontScreenReceive();
 
@@ -597,7 +624,7 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 		frontReceive.button_default.requestFocus();
 		frontReceive.setStatus("Ready");
 
-		sendStatus=FRONT;
+		receiveStatus=FRONT;
 
 	}//end stopTransmissionReceive
 
@@ -632,20 +659,20 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 	}//end addWindowListeners
 
 //========================================================================
-	static int calcRandPort()
-	{
-		return new Random().nextInt(40000)+1024;
-	}
-
-//========================================================================
 	static int startOscServerSend()
 	{
 		try
 		{
+			DatagramSocket ds;
 			if(gui_osc_port_random_s)
 			{
-				gui_osc_port_s=calcRandPort();
+				ds=new DatagramSocket();
+				gui_osc_port_s=ds.getLocalPort();
 				p("random UDP port "+gui_osc_port_s);
+			}
+			else
+			{
+				ds=new DatagramSocket(gui_osc_port_s);
 			}
 
 			if(OscInSend!=null)
@@ -657,8 +684,9 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 			{
 				OscOutSend.close();
 			}
-			OscInSend=new OSCPortIn(gui_osc_port_s);
-			OscOutSend=new OSCPortOut(InetAddress.getLocalHost(), apis._lport);
+
+			OscInSend=new OSCPortIn(ds);
+			OscOutSend=new OSCPortOut(InetAddress.getLocalHost(), apis._lport, ds);
 
 			goscs=new GuiOscListenerSend(runningSend, apis);
 
@@ -680,10 +708,16 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 	{
 		try
 		{
+			DatagramSocket ds;
 			if(gui_osc_port_random_r)
 			{
-				gui_osc_port_r=calcRandPort();
+				ds=new DatagramSocket();
+				gui_osc_port_r=ds.getLocalPort();
 				p("random UDP port "+gui_osc_port_r);
+			}
+			else
+			{
+				ds=new DatagramSocket(gui_osc_port_r);
 			}
 
 			if(OscInReceive!=null)
@@ -695,8 +729,9 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 			{
 				OscOutReceive.close();
 			}
-			OscInReceive=new OSCPortIn(gui_osc_port_r);
-			OscOutReceive=new OSCPortOut(InetAddress.getLocalHost(), apir._lport);
+
+			OscInReceive=new OSCPortIn(ds);
+			OscOutReceive=new OSCPortOut(InetAddress.getLocalHost(), apir._lport, ds);
 
 			goscr=new GuiOscListenerReceive(runningReceive, apir);
 

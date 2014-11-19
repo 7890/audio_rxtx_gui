@@ -77,28 +77,26 @@ public abstract class GuiOscListener implements OSCListener
 			card.setStatus("JACK Client Name Changed");
 		}
 
-
 //issiiiiiiiiiiiiiiiiisiiiiif
 //12345678901234567890
 		else if(path.equals("/config_dump") && argsSize>=20)
 		{
-
-g.p("******** config dump received");
-
-			//maybe changed
+			//maybe changed (sender only / receiver random port suppressed by form/config)
 			if(api._lport!=(Integer)args.get(0))
 			{
 				api._lport=(Integer)args.get(0);
 
-				//reconfigure sender
-				try
+				//if of type send
+				if(api.getType()==0)
 				{
-///////////////////////!!!needs correction
-//					g.OscOutSend.close();
-//					g.OscOutSend=new OSCPortOut(InetAddress.getLocalHost(), api._lport);
-				}
-				catch(Exception ex)
-				{///
+					//reconfigure sender
+					try
+					{
+						g.OscOutSend.setTarget(InetAddress.getLocalHost(),api._lport);
+					}
+					catch(Exception ex)
+					{///
+					}
 				}
 			}
 
