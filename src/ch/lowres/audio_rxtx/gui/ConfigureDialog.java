@@ -328,7 +328,7 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 		g.formUtility.addLastField(checkbox_close_r, formReceive);
 
 //GUI
-		g.formUtility.addLabel("UDP Port For GUI:", formGUI);
+		g.formUtility.addLabel("UDP Port For GUI (Send):", formGUI);
 		g.formUtility.addLabel("", formGUI);
 		g.formUtility.addLastField(checkbox_gui_osc_port_random, formGUI);
 
@@ -337,7 +337,7 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 
 		g.formUtility.addSpacer(formGUI);
 
-		g.formUtility.addLabel("UDP Port For GUI:", formGUI);
+		g.formUtility.addLabel("UDP Port For GUI (Receive):", formGUI);
 		g.formUtility.addLabel("", formGUI);
 		g.formUtility.addLastField(checkbox_gui_osc_port_random_r, formGUI);
 
