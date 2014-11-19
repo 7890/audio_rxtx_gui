@@ -32,6 +32,8 @@ public class FrontCardReceive extends Card
 	public FrontCardReceive()
 	{
 		button_default.setLabel("Start Transmission");
+		text_output_channels.setMinInclusive(1);
+		text_output_channels.setMaxInclusive(512);
 		text_lport.setMinInclusive(1024);
 		text_lport.setMaxInclusive(65535);
 	}
