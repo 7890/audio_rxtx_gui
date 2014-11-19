@@ -17,6 +17,7 @@ import java.awt.*;
 
 class FormHelper
 {
+//========================================================================
 	static void validate(Container container)
 	{
 		Component c[]=container.getComponents();
@@ -27,5 +28,20 @@ class FormHelper
 				((TextFieldWithLimit)c[i]).validate_();
 		        }
 		}
-	}//end validateNumericTextFields
+	}//end validate
+
+//========================================================================
+	static void defaultCardAction(Component comp)
+	{
+		Component c=comp.getParent();
+
+		while(c!=null)
+		{
+			if(c instanceof Card)
+			{
+				((Card)c).defaultAction();
+			}
+			c=c.getParent();
+		}
+	}
 }//end class FormHelper

@@ -31,6 +31,14 @@ import javax.swing.*;
 
 //java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -cp .:build/classes/ ch.lowres.audio_rxtx.gui.Main
 
+/*
+//http://stackoverflow.com/questions/6671021/how-to-debug-java-swing-layouts/6674624#6674624
+Take a look at page: Troubleshooting AWT
+
+It provides the following debugging tip:
+To dump the AWT component hierarchy, press Ctrl+Shift+F1.
+*/
+
 //========================================================================
 public class Main implements TabSelectionListener
 {
@@ -911,7 +919,7 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 				}
 				else
 				{
-//					frontSend.defaultAction();
+					FormHelper.defaultCardAction((Component)e.getSource());
 				}
 
 				//check if a menu is selected, enter will act like a click or space
