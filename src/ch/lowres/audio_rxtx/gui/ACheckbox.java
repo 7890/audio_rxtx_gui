@@ -114,7 +114,6 @@ public class ACheckbox extends Checkbox implements KeyListener, FocusListener, M
 		while(c!=null)
 		{
 			//System.out.println(c);
-			c=c.getParent();
 			//look for java.awt.ScrollPane
 			if(c instanceof ScrollPane)
 			{
@@ -129,6 +128,7 @@ public class ACheckbox extends Checkbox implements KeyListener, FocusListener, M
 
 				break;
 			}
+			c=c.getParent();
 		}
 	}
 }//end class ACheckbox

@@ -208,7 +208,6 @@ setBorder(
 		while(c!=null)
 		{
 			//System.out.println(c);
-			c=c.getParent();
 
 			//look for java.awt.ScrollPane
 			if(c instanceof ScrollPane)
@@ -224,6 +223,7 @@ setBorder(
 				}
 				break;
 			}
+			c=c.getParent();
 		}
 	}//end focusGained
 
