@@ -48,6 +48,9 @@ function compile_java_osc
 	unzip JavaOSC-master.zip
 	cd "$cur"
 
+	cp "$archive"/JavaOSC_mod/OSCPort.java "$build"/JavaOSC-master/modules/core/src/main/java/com/illposed/osc/
+	cp "$archive"/JavaOSC_mod/OSCPortOut.java "$build"/JavaOSC-master/modules/core/src/main/java/com/illposed/osc/
+
 	PREF="$build"/JavaOSC-master/modules/core/src/main/java
 
 	echo "compiling files in $PREF to direcotry $classes ..."
