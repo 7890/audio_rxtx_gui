@@ -13,7 +13,7 @@
 package ch.lowres.audio_rxtx.gui;
 
 import java.awt.*;
-import javax.swing.JLabel;
+import javax.swing.*;
 
 //========================================================================
 public class FormUtility 
@@ -201,7 +201,7 @@ public class FormUtility
 	public void addSpacer(Container parent)
 	{
 		GridBagLayout gbl=(GridBagLayout)parent.getLayout();
-		Panel c=new Panel();
+		JPanel c=new JPanel();
 		gbl.setConstraints(c, lastConstraints);
 		c.setBackground(Colors.form_background);
 		parent.add(c);

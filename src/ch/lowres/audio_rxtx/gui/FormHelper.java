@@ -17,16 +17,18 @@ import java.awt.*;
 
 class FormHelper
 {
+	static Main g;
+
 //========================================================================
 	static void validate(Container container)
 	{
 		Component c[]=container.getComponents();
 		for(int i=0;i<c.length;i++)
 		{
-		        if(c[i] instanceof TextFieldWithLimit)
-		        {
+			if(c[i] instanceof TextFieldWithLimit)
+			{
 				((TextFieldWithLimit)c[i]).validate_();
-		        }
+			}
 		}
 	}//end validate
 
@@ -43,5 +45,64 @@ class FormHelper
 			}
 			c=c.getParent();
 		}
+	}
+
+//========================================================================
+	static void viewSendPanel()
+	{
+		g.mainGrid.removeAll();
+		g.tabPanel_.removeAll();
+
+		g.tabPanel_.add("Send", g.scrollerTabSend_);
+		g.tabPanel_.add("Receive", g.scrollerTabReceive_);
+
+		g.tabPanel_.setSelectedIndex(0);
+
+		g.mainGrid.add(g.tabPanel_);
+		g.mainGrid.validate();
+
+		g.mainframe.pack();
+		g.mainframe.setSize(
+			g.panelWidth+g.mainframe.getInsets().left+g.mainframe.getInsets().right,
+			g.panelHeight+g.mainframe.getInsets().top+g.mainframe.getInsets().bottom
+		);
+	}
+
+//========================================================================
+	static void viewReceivePanel()
+	{
+		g.mainGrid.removeAll();
+		g.tabPanel_.removeAll();
+
+		g.tabPanel_.add("Send", g.scrollerTabSend_);
+		g.tabPanel_.add("Receive", g.scrollerTabReceive_);
+
+		g.tabPanel_.setSelectedIndex(1);
+
+		g.mainGrid.add(g.tabPanel_);
+		g.mainGrid.validate();
+
+		g.mainframe.pack();
+		g.mainframe.setSize(
+			g.panelWidth+g.mainframe.getInsets().left+g.mainframe.getInsets().right,
+			g.panelHeight+g.mainframe.getInsets().top+g.mainframe.getInsets().bottom
+		);
+	}
+
+//========================================================================
+	static void viewBothPanels()
+	{
+		g.mainGrid.removeAll();
+		g.tabPanel_.removeAll();
+
+		g.mainGrid.add(g.scrollerTabSend_);
+		g.mainGrid.add(g.scrollerTabReceive_);
+		g.mainGrid.validate();
+
+		g.mainframe.pack();
+		g.mainframe.setSize(
+			2*g.panelWidth+g.mainframe.getInsets().left+g.mainframe.getInsets().right,
+			g.panelHeight+g.mainframe.getInsets().top+g.mainframe.getInsets().bottom
+		);
 	}
 }//end class FormHelper

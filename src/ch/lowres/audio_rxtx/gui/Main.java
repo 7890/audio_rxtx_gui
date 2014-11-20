@@ -25,10 +25,10 @@ import java.util.Random;
 import java.util.HashMap;
 import java.io.File;
 
-import com.magelang.splitter.*;
-import com.magelang.tabsplitter.*;
-
 import javax.swing.*;
+import javax.swing.event.*;
+
+import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
 //java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -cp .:build/classes/ ch.lowres.audio_rxtx.gui.Main
 
@@ -41,7 +41,8 @@ To dump the AWT component hierarchy, press Ctrl+Shift+F1.
 */
 
 //========================================================================
-public class Main implements TabSelectionListener
+public class Main implements ChangeListener
+// implements TabSelectionListener
 {
 	static String progName="audio_rxtx GUI";
 	static String progVersion="0.2";
@@ -94,18 +95,21 @@ public class Main implements TabSelectionListener
 
 	static AppMenu applicationMenu;
 
-	static ScrollPane scroller;
+	static JScrollPane scrollerTabSend_;
+	static JScrollPane scrollerTabReceive_;
 
-	//tabs for send / receive
-	static TabNamePanel tabSend;
-	static TabNamePanel tabReceive;
+	static JPanel tabSend_;
+	static JPanel tabReceive_;
+	static JPanel tabGUI_;
 
-	static TabSplitter tabSplitter;
+static JTabbedPane tabPanel_ = new JTabbedPane();
 
-	static Panel cardPanelSend;
+static JPanel mainGrid;
+
+	static JPanel cardPanelSend;
 	static CardLayout cardLaySend;
 
-	static Panel cardPanelReceive;
+	static JPanel cardPanelReceive;
 	static CardLayout cardLayReceive;
 
 	//cards
@@ -295,7 +299,7 @@ public class Main implements TabSelectionListener
 //========================================================================
 	void createForm()
 	{
-		setNativeLAF();
+		//setNativeLAF();
 
 		mainframe=new JFrame(progName);
 		mainframe.setBackground(Colors.form_background);
@@ -305,57 +309,65 @@ public class Main implements TabSelectionListener
 		mainframe.setIconImage(appIcon);
 
 		//"cards" / for switching views / all in one window
-		cardPanelSend=new Panel();
+		cardPanelSend=new JPanel();
 		cardLaySend=new CardLayout();
 		cardPanelSend.setLayout(cardLaySend);
 
-		cardPanelReceive=new Panel();
+		cardPanelReceive=new JPanel();
 		cardLayReceive=new CardLayout();
 		cardPanelReceive.setLayout(cardLayReceive);
 
-		try {
-			tabSend=new TabNamePanel();
-			tabSend.setName("Send");
-			tabSend.setLayout(new GridLayout());
-			tabSend.setTabName("Send");
-			tabSend.add(cardPanelSend);
+		tabSend_=new JPanel(new BorderLayout());
+		tabSend_.setBackground(Colors.form_background);
+		tabSend_.add(cardPanelSend,BorderLayout.NORTH);
+		scrollerTabSend_=new JScrollPane (tabSend_, 
+			ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-			tabReceive=new TabNamePanel();
-			tabReceive.setName("Receive");
-			tabReceive.setLayout(new GridLayout());
-			tabReceive.setTabName("Receive");
-			tabReceive.add(cardPanelReceive);
+		scrollerTabSend_.getViewport().setBackground(Colors.form_background);
 
-			tabSplitter=new TabSplitter();
-			tabSplitter.setName("TabSplitter");
-			tabSplitter.add(tabSend, tabSend.getName());
-			tabSplitter.add(tabReceive, tabReceive.getName());
+		tabReceive_=new JPanel(new BorderLayout());
+		tabReceive_.setBackground(Colors.form_background);
+		tabReceive_.add(cardPanelReceive,BorderLayout.NORTH);
+		scrollerTabReceive_=new JScrollPane (tabReceive_, 
+			ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-			tabSplitter.setBackground(Colors.form_background);
-			tabSplitter.setForeground(Colors.form_foreground);
+		scrollerTabReceive_.getViewport().setBackground(Colors.form_background);
 
-			tabSplitter.setTabColors(new java.awt.Color[] {new Color(0,0,0),new Color(0,0,0)});
-			tabSplitter.setTabColorsSelected(new java.awt.Color[] {Colors.form_background,Colors.form_background});
+//start tabbed
+		tabPanel_.add("Send", scrollerTabSend_);
+		tabPanel_.add("Receive", scrollerTabReceive_);
 
-			tabSplitter.addTabSelectionListener(this);
-		} catch (java.lang.Throwable ex)
-		{///
-		}
+		tabPanel_.addChangeListener(this);
 
-		scroller=new ScrollPane(ScrollPane.SCROLLBARS_AS_NEEDED);
+		//http://stackoverflow.com/questions/5183687/java-remove-margin-padding-on-a-jtabbedpane
 
-		Adjustable vadjust=scroller.getVAdjustable();
-		Adjustable hadjust=scroller.getHAdjustable();
-		hadjust.setUnitIncrement(10);
-		vadjust.setUnitIncrement(10);
+		tabPanel_.setUI(new BasicTabbedPaneUI()
+		{
+			//top,left,right,bottom
+			private final Insets borderInsets = new Insets(2, 2, 2, 2);
+			@Override
+			protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex)
+			{
+			}
+			@Override
+			protected Insets getContentBorderInsets(int tabPlacement)
+			{
+				return borderInsets;
+			}
+		});
 
-		scroller.add(tabSplitter);
-		//mainframe.add(tabSplitter,BorderLayout.CENTER);
+		mainGrid=new JPanel(new GridLayout(1,2)); //y,x
 
-		mainframe.add(scroller,BorderLayout.CENTER);
+//		mainGrid.add(scrollerTabSend_);
+//		mainGrid.add(scrollerTabReceive_);
+
+		mainGrid.add(tabPanel_);
+		mainframe.add(mainGrid,BorderLayout.CENTER);
 
 		//menu always on top
-		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
+//		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 
 		applicationMenu=new AppMenu();
 		mainframe.setJMenuBar(applicationMenu);
@@ -396,10 +408,8 @@ public class Main implements TabSelectionListener
 		mainframe.setVisible(true);
 
 //tmp
-p("scroller "+scroller.getPreferredSize().getWidth()+" "+scroller.getPreferredSize().getHeight());
-p("tabSplitter "+tabSplitter.getPreferredSize().getWidth()+" "+tabSplitter.getPreferredSize().getHeight());
 p("cardPanelSend "+cardPanelSend.getPreferredSize().getWidth()+" "+cardPanelSend.getPreferredSize().getHeight());
-p("tabSend "+tabSend.getPreferredSize().getWidth()+" "+tabSend.getPreferredSize().getHeight());
+p("tabSend "+tabSend_.getPreferredSize().getWidth()+" "+tabSend_.getPreferredSize().getHeight());
 p("frontSend "+frontSend.getPreferredSize().getWidth()+" "+frontSend.getPreferredSize().getHeight());
 p("insets "+mainframe.getInsets().left+" "+mainframe.getInsets().right+" "+mainframe.getInsets().top+" "+mainframe.getInsets().bottom);
 p("application_menu "+applicationMenu.getPreferredSize().getWidth()+" "+applicationMenu.getPreferredSize().getHeight());
@@ -412,12 +422,9 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 		+applicationMenu.getPreferredSize().getHeight()
 		+labelStatus.getPreferredSize().getHeight()
 		+frontSend.button_default.getPreferredSize().getHeight()
-		+10);
+		/*+10*/);
 
-	panelWidth=(int)(
-		tabSplitter.getPreferredSize().getWidth()
-/*	+mainframe.getInsets().left+mainframe.getInsets().right)*/
-		+20);
+	panelWidth=(int)(mainGrid.getPreferredSize().getWidth());
 
 		mainframe.setSize(
 			panelWidth+mainframe.getInsets().left+mainframe.getInsets().right,
@@ -547,7 +554,10 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 			dogSend.cancel();
 		}
 
-		cmdSend.cancel();
+		if(cmdSend!=null)
+		{
+			cmdSend.cancel();
+		}
 		cmdSend=null;
 
 		if(portInSend!=null)
@@ -599,7 +609,10 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 			dogReceive.cancel();
 		}
 
-		cmdReceive.cancel();
+		if(cmdReceive!=null)
+		{
+			cmdReceive.cancel();
+		}
 		cmdReceive=null;
 
 		if(portInReceive!=null)
@@ -759,6 +772,9 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 			public void run()
 			{
 				w("shutdown signal received!");
+				stopTransmissionSend();
+				stopTransmissionReceive();
+
 				if(!keep_cache)
 				{
 					p("cleaning up...");
@@ -801,19 +817,55 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 		);
 	}
 
+
 //========================================================================
-	public void tabSelected(TabSelectionEvent e)
+	public void stateChanged(ChangeEvent e)
 	{
-		if(e.getSelectedName().equals("Receive"))
+		setFocusedWidget();
+	}
+
+
+//========================================================================
+	public void setFocusedWidget()
+	{
+////////////////////
+//		String tabname=tabPanel_.getTitleAt(tabPanel_.getSelectedIndex());
+//		setFocusedWidget(tabname);
+	}
+
+//========================================================================
+	public void nextTab()
+	{
+		if(tabPanel_.getTabCount()<1)
 		{
-////should know if running or not ...
-			frontReceive.button_default.requestFocus();
-//focusFirstInputWidget();
+			return;
 		}
-		else
+		int newIndex=tabPanel_.getSelectedIndex();
+		newIndex++;
+		newIndex=newIndex % tabPanel_.getTabCount();
+		tabPanel_.setSelectedIndex(newIndex);
+	}
+
+//========================================================================
+	public void prevTab()
+	{
+		if(tabPanel_.getTabCount()<1)
 		{
-			frontSend.button_default.requestFocus();
-//focusFirstInputWidget();
+			return;
+		}
+		int newIndex=tabPanel_.getSelectedIndex();
+		newIndex--;
+		tabPanel_.setSelectedIndex(newIndex < 0 ? tabPanel_.getTabCount()-1 : newIndex);
+	}
+
+//========================================================================
+	public void setFocusedWidget(String tabname)
+	{
+		if(tabname.equals("Send"))
+		{
+		}
+		else if(tabname.equals("Receive"))
+		{
 		}
 	}
 
@@ -828,11 +880,11 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 			{
 				if(configure.isVisible())
 				{
-					configure.tabPanel.previous();
+					configure.prevTab();
 				}
 				else if(!about.isVisible())
 				{
-					tabSplitter.previous();
+					prevTab();
 				}
 			}
 		});
@@ -845,11 +897,11 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 			{
 				if(configure.isVisible())
 				{
-					configure.tabPanel.next();
+					configure.nextTab();
 				}
 				else if(!about.isVisible())
 				{
-					tabSplitter.next();
+					nextTab();
 				}
 			}
 		});
@@ -1066,3 +1118,16 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 	}//end addGlobalKeyListeners
 
 }//end class Main
+
+/*
+http://tldp.org/LDP/abs/html/exitcodes.html
+Exit Code Number	Meaning	Example	Comments
+1	Catchall for general errors	let "var1 = 1/0"	Miscellaneous errors, such as "divide by zero" and other impermissible operations
+2	Misuse of shell builtins (according to Bash documentation)	empty_function() {}	Missing keyword or command, or permission problem (and diff return code on a failed binary file comparison).
+126	Command invoked cannot execute	/dev/null	Permission problem or command is not an executable
+127	"command not found"	illegal_command	Possible problem with $PATH or a typo
+128	Invalid argument to exit	exit 3.14159	exit takes only integer args in the range 0 - 255 (see first footnote)
+128+n	Fatal error signal "n"	kill -9 $PPID of script	$? returns 137 (128 + 9)
+130	Script terminated by Control-C	Ctl-C	Control-C is fatal error signal 2, (130 = 128 + 2, see above)
+255*	Exit status out of range	exit -1	exit takes only integer args in the range 0 - 255
+*/

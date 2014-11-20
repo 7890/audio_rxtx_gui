@@ -18,6 +18,8 @@ import java.awt.event.*;
 
 import java.awt.geom.Line2D;
 
+import javax.swing.*;
+
 //========================================================================
 public class ACheckbox extends Checkbox implements KeyListener, FocusListener, MouseListener
 {
@@ -114,18 +116,17 @@ public class ACheckbox extends Checkbox implements KeyListener, FocusListener, M
 		while(c!=null)
 		{
 			//System.out.println(c);
-			//look for java.awt.ScrollPane
-			if(c instanceof ScrollPane)
+			if(c instanceof JScrollPane)
 			{
-				Adjustable vadjust=((ScrollPane)c).getVAdjustable();
-				int vp_height=(int)((ScrollPane)c).getViewportSize().getHeight();
+				JScrollBar sb=((JScrollPane)c).getVerticalScrollBar();
 
-				if(getBounds().y + getBounds().height > vadjust.getValue()+vp_height
-					|| getBounds().y < vadjust.getValue())
+				int vp_height=(int)((JScrollPane)c).getViewport().getHeight();
+
+				if(getBounds().y + getBounds().height > sb.getValue()+vp_height
+					|| getBounds().y < sb.getValue())
 				{
-					vadjust.setValue(getBounds().y);
+					sb.setValue(getBounds().y);
 				}
-
 				break;
 			}
 			c=c.getParent();

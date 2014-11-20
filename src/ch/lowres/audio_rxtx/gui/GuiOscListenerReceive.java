@@ -126,8 +126,8 @@ public class GuiOscListenerReceive extends GuiOscListener
 			card.setLabel(4,s+args.get(1));
 
 			card.setLabel(5,"Fill: "
-                                +String.format(new DecimalFormat("0.00").format((Float)args.get(3)))
-                                +" MC Periods, "+args.get(4)+" Bytes");
+				+String.format(new DecimalFormat("0.00").format((Float)args.get(3)))
+				+" MC Periods, "+args.get(4)+" Bytes");
 
 			card.setLabel(6,"Interval ms: "
 				+String.format(new DecimalFormat("0.00").format((Float)args.get(6)))

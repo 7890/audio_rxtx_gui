@@ -16,12 +16,14 @@ package ch.lowres.audio_rxtx.gui;
 import java.awt.*;
 import java.awt.event.*;
 
+import javax.swing.*;
+
 //========================================================================
 public class AboutDialog extends Dialog
 {
 	static Main g;
 
-	static Panel form;
+	static JPanel form;
 	static ImgComponent aboutImg;
 
 	static AButton button_about_ok=new AButton ("OK");
@@ -44,7 +46,7 @@ public class AboutDialog extends Dialog
 //========================================================================
 	void createForm()
 	{
-		form=new Panel();
+		form=new JPanel();
 		form.setLayout(new GridBagLayout());
 
 		add(form,BorderLayout.NORTH);

@@ -11,7 +11,7 @@ classes="$build"/classes
 
 package_path=ch/lowres/audio_rxtx/gui
 
-windows_binaries_zip_name=audio_rxtx_1414550975.zip
+windows_binaries_zip_name=audio_rxtx_1414983653.zip
 windows_binaries_uri="https://raw.githubusercontent.com/7890/jack_tools/master/audio_rxtx/dist/win/$windows_binaries_zip_name"
 
 #dl to (incl. filename)
@@ -168,6 +168,6 @@ rm -rf "$build"/*
 #rm -f "$build"/*.zip
 
 compile_java_osc
-compile_tabsplitter
+#compile_tabsplitter
 compile_audio_rxtx
 build_jar

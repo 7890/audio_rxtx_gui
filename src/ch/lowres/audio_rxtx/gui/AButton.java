@@ -16,10 +16,12 @@ package ch.lowres.audio_rxtx.gui;
 import java.awt.*;
 import java.awt.event.*;
 
+import javax.swing.JButton;
+
 import java.awt.geom.Line2D;
 
 //========================================================================
-public class AButton extends Button implements KeyListener, FocusListener
+public class AButton extends JButton implements KeyListener, FocusListener
 {
 	private FocusPaint fpaint;
 
@@ -56,8 +58,8 @@ public class AButton extends Button implements KeyListener, FocusListener
 	@Override
 	public void paint(Graphics g) 
 	{
-		fpaint.paint(g,this);
 		super.paint(g);
+		fpaint.paint(g,this);
 	}
 
 //========================================================================

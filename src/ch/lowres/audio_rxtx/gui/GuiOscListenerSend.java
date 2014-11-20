@@ -67,6 +67,8 @@ public class GuiOscListenerSend extends GuiOscListener
 			card.setStatus("Offering Audio Message #"+args.get(0));
 
 			card.setLabel(4,":"+g.apis._lport+" -> "+g.apis._target_host+":"+g.apis._target_port);
+			card.setLabel(5,"Offering...");
+			card.setLabel(6,"");
 		}
 
 		else if(path.equals("/receiver_denied_transmission") && argsSize==3)

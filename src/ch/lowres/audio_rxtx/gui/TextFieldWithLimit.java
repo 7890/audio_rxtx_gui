@@ -16,7 +16,7 @@ package ch.lowres.audio_rxtx.gui;
 import java.awt.*;
 import java.awt.event.*;
 
-import javax.swing.JTextField;
+import javax.swing.*;
 
 /*
 Declared in javax.swing.text.JTextComponent
@@ -208,18 +208,16 @@ setBorder(
 		while(c!=null)
 		{
 			//System.out.println(c);
-
-			//look for java.awt.ScrollPane
-			if(c instanceof ScrollPane)
+			if(c instanceof JScrollPane)
 			{
-				Adjustable vadjust=((ScrollPane)c).getVAdjustable();
+				JScrollBar sb=((JScrollPane)c).getVerticalScrollBar();
 
-				int vp_height=(int)((ScrollPane)c).getViewportSize().getHeight();
+				int vp_height=(int)((JScrollPane)c).getViewport().getHeight();
 
-				if(getBounds().y + getBounds().height > vadjust.getValue()+vp_height
-					|| getBounds().y < vadjust.getValue())
+				if(getBounds().y + getBounds().height > sb.getValue()+vp_height
+					|| getBounds().y < sb.getValue())
 				{
-					vadjust.setValue(getBounds().y);
+					sb.setValue(getBounds().y);
 				}
 				break;
 			}

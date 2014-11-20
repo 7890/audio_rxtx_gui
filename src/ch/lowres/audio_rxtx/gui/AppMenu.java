@@ -21,8 +21,6 @@ import java.net.InetAddress;
 
 import java.io.File;
 
-import com.magelang.tabsplitter.*;
-
 import javax.swing.*;
 
 //========================================================================
@@ -390,20 +388,7 @@ public class AppMenu extends JMenuBar
 		{
 			@Override public void actionPerformed(ActionEvent e)
 			{
-
-				SplitterPanel p=g.tabSplitter.getSplitterPanel();
-				if(p!=null)
-				{
-					p.separate(g.tabSend);
-				}
-				else
-				{
-					g.tabSplitter.show(0);
-				}
-				g.mainframe.setSize(
-					g.panelWidth+g.mainframe.getInsets().left+g.mainframe.getInsets().right,
-					g.panelHeight+g.mainframe.getInsets().top+g.mainframe.getInsets().bottom
-				);
+				FormHelper.viewSendPanel();
 			}
 		});
 
@@ -411,19 +396,7 @@ public class AppMenu extends JMenuBar
 		{
 			@Override public void actionPerformed(ActionEvent e)
 			{
-				SplitterPanel p=g.tabSplitter.getSplitterPanel();
-				if(p!=null)
-				{
-					p.separate(g.tabReceive);
-				}
-				else
-				{
-					g.tabSplitter.show(1);
-				}
-				g.mainframe.setSize(
-					g.panelWidth+g.mainframe.getInsets().left+g.mainframe.getInsets().right,
-					g.panelHeight+g.mainframe.getInsets().top+g.mainframe.getInsets().bottom
-				);
+				FormHelper.viewReceivePanel();
 			}
 		});
 
@@ -431,11 +404,7 @@ public class AppMenu extends JMenuBar
 		{
 			@Override public void actionPerformed(ActionEvent e)
 			{
-				g.tabSplitter.mergeTabs(0,1);
-				g.mainframe.setSize(
-					2*g.panelWidth+g.mainframe.getInsets().left+g.mainframe.getInsets().right,
-					g.panelHeight+g.mainframe.getInsets().top+g.mainframe.getInsets().bottom
-				);
+				FormHelper.viewBothPanels();
 			}
 		});
 

@@ -23,7 +23,7 @@ class Colors
 	public static Color form_foreground=new Color(200,200,200);
 
 	//textfields, lists
-	public static Color input_background=new Color(210,210,210);
+	public static Color input_background=new Color(230,230,233);
 	public static Color input_foreground=new Color(1,2,3);
 
 	//buttons

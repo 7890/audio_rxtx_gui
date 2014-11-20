@@ -14,7 +14,7 @@
 package ch.lowres.audio_rxtx.gui;
 
 //========================================================================
-public interface CardInterface //extends Panel
+public interface CardInterface
 {
 //========================================================================
 	void defaultAction();

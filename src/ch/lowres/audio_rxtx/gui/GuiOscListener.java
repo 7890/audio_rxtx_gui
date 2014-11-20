@@ -118,12 +118,14 @@ public abstract class GuiOscListener implements OSCListener
 				+"    TRF: "+ (api._16 ? "16 bit Integer" : "32 bit Float")
 			);
 
+card.setLabel(3, "Initializing...");
+
 
 		}//end /config_dump
 
 		else if(path.equals("/autoconnect") && argsSize==2)
 		{
-			card.setStatus("Autoconnecting JACK Ports");
+			//card.setStatus("Autoconnecting JACK Ports");
 			//0: from 1: to
 			api.total_connected_ports++;
 		}
