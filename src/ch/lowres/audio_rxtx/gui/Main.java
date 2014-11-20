@@ -367,7 +367,7 @@ static JPanel mainGrid;
 		mainframe.add(mainGrid,BorderLayout.CENTER);
 
 		//menu always on top
-//		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
+		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 
 		applicationMenu=new AppMenu();
 		mainframe.setJMenuBar(applicationMenu);
