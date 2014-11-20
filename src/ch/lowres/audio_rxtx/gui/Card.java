@@ -98,6 +98,7 @@ public abstract class Card extends Panel implements CardInterface
 		{
 			label_status.setText(s);
 		}
+		//g.p("CARD STATUS "+s);//log
 	}
 
 //========================================================================

@@ -87,7 +87,7 @@ public class GuiOscListenerSend extends GuiOscListener
 
 		else if(path.equals("/receiver_accepted_transmission"))
 		{
-			card.setStatus("Receiver accpeted Transmission");
+			card.setStatus("Receiver Accepted Transmission");
 		}
 
 		else if(path.equals("/sending") && argsSize==7)

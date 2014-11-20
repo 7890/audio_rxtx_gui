@@ -126,12 +126,11 @@ public abstract class GuiOscListener implements OSCListener
 			card.setStatus("Autoconnecting JACK Ports");
 			//0: from 1: to
 			api.total_connected_ports++;
-
 		}
 
 		else if(path.equals("/start_main_loop"))
 		{
-			card.setStatus("autoconnecting JACK ports");
+			card.setStatus("Main Loop Started");
 		}
 
 		else if(path.equals("/test_finished") && argsSize==1)
@@ -155,10 +154,12 @@ public abstract class GuiOscListener implements OSCListener
 			else if(args.get(0).equals("nojack"))
 			{
 				card.setLabel(4,"JACK Not Running (Server '"+api._sname+"')");
+				card.setLabel(5,"Please Start JACK Manually.");
 			}
 
 			card.button_default.setLabel("OK");
 
+/////////
 			card.setStatus("jack_audio_send Quit: "+args.get(0));
 		}
 

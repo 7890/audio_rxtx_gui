@@ -432,6 +432,7 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 		{
 			label_status.setText(s);
 		}
+		//p("MAIN STATUS "+s);
 	}
 
 //========================================================================
