@@ -67,11 +67,11 @@ public class Main implements TabSelectionListener
 	static boolean keep_cache=false;
 
 	//osc sender, receiver for communication gui<->jack_audio_send
-	static OSCPortOut OscOutSend; //sender
-	static OSCPortIn OscInSend; //receiver
+	static OSCPortOut portOutSend; //sender
+	static OSCPortIn portInSend; //receiver
 
-	static OSCPortOut OscOutReceive; //sender
-	static OSCPortIn OscInReceive; //receiver
+	static OSCPortOut portOutReceive; //sender
+	static OSCPortIn portInReceive; //receiver
 
 	final long WAIT_FOR_SOCKET_CLOSE=3;
 
@@ -92,7 +92,7 @@ public class Main implements TabSelectionListener
 	//the main window
 	static JFrame mainframe;
 
-	static AppMenu application_menu;
+	static AppMenu applicationMenu;
 
 	static ScrollPane scroller;
 
@@ -115,7 +115,7 @@ public class Main implements TabSelectionListener
 	static FrontCardReceive frontReceive;
 	static RunningCardReceive runningReceive;
 
-	static Label label_status;
+	static JLabel labelStatus;
 
 	final static int FRONT=0;
 	final static int RUNNING=1;
@@ -357,8 +357,8 @@ public class Main implements TabSelectionListener
 		//menu always on top
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 
-		application_menu=new AppMenu();
-		mainframe.setJMenuBar(application_menu);
+		applicationMenu=new AppMenu();
+		mainframe.setJMenuBar(applicationMenu);
 
 		frontSend=new FrontCardSend();
 		frontSend.setValues();
@@ -376,11 +376,11 @@ public class Main implements TabSelectionListener
 		runningReceive.setValues();
 		cardPanelReceive.add(runningReceive, "2");
 
-		label_status=new Label("Ready");
-		label_status.setBackground(Colors.status_background);
-		label_status.setForeground(Colors.status_foreground);
+		labelStatus=new JLabel("Ready");
+		labelStatus.setBackground(Colors.status_background);
+		labelStatus.setForeground(Colors.status_foreground);
 
-		mainframe.add(label_status,BorderLayout.SOUTH);
+		mainframe.add(labelStatus,BorderLayout.SOUTH);
 
 		frontSend.checkbox_format_16.requestFocus();
 
@@ -402,15 +402,15 @@ p("cardPanelSend "+cardPanelSend.getPreferredSize().getWidth()+" "+cardPanelSend
 p("tabSend "+tabSend.getPreferredSize().getWidth()+" "+tabSend.getPreferredSize().getHeight());
 p("frontSend "+frontSend.getPreferredSize().getWidth()+" "+frontSend.getPreferredSize().getHeight());
 p("insets "+mainframe.getInsets().left+" "+mainframe.getInsets().right+" "+mainframe.getInsets().top+" "+mainframe.getInsets().bottom);
-p("application_menu "+application_menu.getPreferredSize().getWidth()+" "+application_menu.getPreferredSize().getHeight());
-p("label_status "+label_status.getPreferredSize().getWidth()+" "+label_status.getPreferredSize().getHeight());
+p("application_menu "+applicationMenu.getPreferredSize().getWidth()+" "+applicationMenu.getPreferredSize().getHeight());
+p("label_status "+labelStatus.getPreferredSize().getWidth()+" "+labelStatus.getPreferredSize().getHeight());
 p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+frontSend.button_default.getPreferredSize().getHeight());
 
 	panelHeight=(int)(
 		cardPanelSend.getPreferredSize().getHeight()
 /*	+mainframe.getInsets().top+mainframe.getInsets().bottom*/
-		+application_menu.getPreferredSize().getHeight()
-		+label_status.getPreferredSize().getHeight()
+		+applicationMenu.getPreferredSize().getHeight()
+		+labelStatus.getPreferredSize().getHeight()
 		+frontSend.button_default.getPreferredSize().getHeight()
 		+10);
 
@@ -428,9 +428,9 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 //========================================================================
 	static void setStatus(String s)
 	{
-		if(label_status!=null)
+		if(labelStatus!=null)
 		{
-			label_status.setText(s);
+			labelStatus.setText(s);
 		}
 		//p("MAIN STATUS "+s);
 	}
@@ -536,7 +536,7 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 
 		try
 		{
-			OscOutSend.send(msg);
+			portOutSend.send(msg);
 		}
 		catch(Exception sndex)
 		{///
@@ -550,16 +550,16 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 		cmdSend.cancel();
 		cmdSend=null;
 
-		if(OscInSend!=null)
+		if(portInSend!=null)
 		{
-			OscInSend.stopListening();
-			OscInSend.close();
-			OscInSend=null;
+			portInSend.stopListening();
+			portInSend.close();
+			portInSend=null;
 		}
-		if(OscOutSend!=null)
+		if(portOutSend!=null)
 		{
-			OscOutSend.close();
-			OscOutSend=null;
+			portOutSend.close();
+			portOutSend=null;
 		}
 
 		AppMenu.setForFrontScreenSend();
@@ -588,7 +588,7 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 
 		try
 		{
-			OscOutReceive.send(msg);
+			portOutReceive.send(msg);
 		}
 		catch(Exception sndex)
 		{///
@@ -602,16 +602,16 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 		cmdReceive.cancel();
 		cmdReceive=null;
 
-		if(OscInReceive!=null)
+		if(portInReceive!=null)
 		{
-			OscInReceive.stopListening();
-			OscInReceive.close();
-			OscInReceive=null;
+			portInReceive.stopListening();
+			portInReceive.close();
+			portInReceive=null;
 		}
-		if(OscOutReceive!=null)
+		if(portOutReceive!=null)
 		{
-			OscOutReceive.close();
-			OscOutReceive=null;
+			portOutReceive.close();
+			portOutReceive=null;
 		}
 
 		AppMenu.setForFrontScreenReceive();
@@ -676,24 +676,24 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 				ds=new DatagramSocket(gui_osc_port_s);
 			}
 
-			if(OscInSend!=null)
+			if(portInSend!=null)
 			{
-				OscInSend.stopListening();
-				OscInSend.close();
+				portInSend.stopListening();
+				portInSend.close();
 			}
-			if(OscOutSend!=null)
+			if(portOutSend!=null)
 			{
-				OscOutSend.close();
+				portOutSend.close();
 			}
 
-			OscInSend=new OSCPortIn(ds);
-			OscOutSend=new OSCPortOut(InetAddress.getLocalHost(), apis._lport, ds);
+			portInSend=new OSCPortIn(ds);
+			portOutSend=new OSCPortOut(InetAddress.getLocalHost(), apis._lport, ds);
 
 			goscs=new GuiOscListenerSend(runningSend, apis);
 
 			//catch every message
-			OscInSend.addListener("/*", goscs);
-			OscInSend.startListening();
+			portInSend.addListener("/*", goscs);
+			portInSend.startListening();
 		}
 		catch(Exception oscex)
 		{
@@ -721,24 +721,24 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 				ds=new DatagramSocket(gui_osc_port_r);
 			}
 
-			if(OscInReceive!=null)
+			if(portInReceive!=null)
 			{
-				OscInReceive.stopListening();
-				OscInReceive.close();
+				portInReceive.stopListening();
+				portInReceive.close();
 			}
-			if(OscOutReceive!=null)
+			if(portOutReceive!=null)
 			{
-				OscOutReceive.close();
+				portOutReceive.close();
 			}
 
-			OscInReceive=new OSCPortIn(ds);
-			OscOutReceive=new OSCPortOut(InetAddress.getLocalHost(), apir._lport, ds);
+			portInReceive=new OSCPortIn(ds);
+			portOutReceive=new OSCPortOut(InetAddress.getLocalHost(), apir._lport, ds);
 
 			goscr=new GuiOscListenerReceive(runningReceive, apir);
 
 			//catch every message
-			OscInReceive.addListener("/*", goscr);
-			OscInReceive.startListening();
+			portInReceive.addListener("/*", goscr);
+			portInReceive.startListening();
 		}
 		catch(Exception oscex)
 		{
@@ -927,13 +927,13 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 			{
 				if(!configure.isVisible() && !about.isVisible())
 				{
-					if(application_menu.isVisible())
+					if(applicationMenu.isVisible())
 					{
-						application_menu.setVisible(false);
+						applicationMenu.setVisible(false);
 					}
 					else
 					{
-						application_menu.setVisible(true);
+						applicationMenu.setVisible(true);
 					}
 				}
 			}
