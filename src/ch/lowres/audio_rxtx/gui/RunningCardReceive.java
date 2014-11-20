@@ -16,18 +16,20 @@ package ch.lowres.audio_rxtx.gui;
 import java.awt.*;
 import java.awt.event.*;
 
+import javax.swing.JLabel;
+
 //========================================================================
 public class RunningCardReceive extends Card
 {
-	static Label label_1=new Label("");
-	static Label label_2=new Label("");
-	static Label label_3=new Label("");
-	static Label label_4=new Label("");
-	static Label label_5=new Label("");
-	static Label label_6=new Label("");
-	static Label label_7=new Label("");
-	static Label label_8=new Label("");
-	static Label label_9=new Label("");
+	static JLabel label_1=new JLabel("");
+	static JLabel label_2=new JLabel("");
+	static JLabel label_3=new JLabel("");
+	static JLabel label_4=new JLabel("");
+	static JLabel label_5=new JLabel("");
+	static JLabel label_6=new JLabel("");
+	static JLabel label_7=new JLabel("");
+	static JLabel label_8=new JLabel("");
+	static JLabel label_9=new JLabel("");
 
 //========================================================================
 	public RunningCardReceive() 

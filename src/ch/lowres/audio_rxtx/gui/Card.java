@@ -22,10 +22,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 //========================================================================
-public abstract class Card extends Panel implements CardInterface
+public abstract class Card extends JPanel implements CardInterface
 {
 	static Main g;
-	Panel form;
+	JPanel form;
 	JLabel 				label_status=new JLabel("Ready");
 	AButton 			button_default=new AButton("Default");
 
@@ -50,14 +50,15 @@ public abstract class Card extends Panel implements CardInterface
 	{
 		if(formCreated){return;}
 
-		form=new Panel();
+		form=new JPanel();
+		form.setBackground(Colors.form_background);
 		add(form,BorderLayout.NORTH);
 
 		button_default.setBackground(Colors.button_background);
 		button_default.setForeground(Colors.button_foreground);
 		button_default.setFont(g.fontLarge);
 
-		Font f=new Label().getFont();
+		Font f=new JLabel().getFont();
 		label_status.setFont(f);
 
 		JPanel pSouth=new JPanel(new GridLayout(2,1));

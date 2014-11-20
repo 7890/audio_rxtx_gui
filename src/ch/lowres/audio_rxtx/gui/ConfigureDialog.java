@@ -16,17 +16,20 @@ package ch.lowres.audio_rxtx.gui;
 import java.awt.*;
 import java.awt.event.*;
 
+import javax.swing.JPanel;
+import javax.swing.JDialog;
+
 import com.magelang.splitter.*;
 import com.magelang.tabsplitter.*;
 
 import java.util.Vector;
 
 //========================================================================
-public class ConfigureDialog extends Dialog implements TabSelectionListener
+public class ConfigureDialog extends JDialog implements TabSelectionListener
 {
 	static Main g;
 
-	static Panel formSend;
+	static JPanel formSend;
 	static HostTextFieldWithLimit		text_name_s=new HostTextFieldWithLimit("",32,32);
 	static HostTextFieldWithLimit		text_sname_s=new HostTextFieldWithLimit("",32,32);
 	static ACheckbox 			checkbox_connect_s=new ACheckbox("Autoconnect");
@@ -39,7 +42,7 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 	static ACheckbox 			checkbox_lport_random_s=new ACheckbox("Use Random Port");
 	static NumericTextFieldWithLimit 	text_lport_s=new NumericTextFieldWithLimit("",32,5);
 
-	static Panel formReceive;
+	static JPanel formReceive;
 	static HostTextFieldWithLimit		text_name_r=new HostTextFieldWithLimit("",32,32);
 	static HostTextFieldWithLimit		text_sname_r=new HostTextFieldWithLimit("",32,32);
 	static ACheckbox 			checkbox_connect_r=new ACheckbox("Autoconnect");
@@ -56,7 +59,7 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 	static ACheckbox 			checkbox_norbc_r=new ACheckbox("Disallow Ext. Buffer Control");
 	static ACheckbox 			checkbox_close_r=new ACheckbox("Stop Transmission On Incompat.");
 
-	static Panel formGUI;
+	static JPanel formGUI;
 	static ACheckbox 			checkbox_gui_osc_port_random=new ACheckbox("Use Random Port");
 	static NumericTextFieldWithLimit 	text_gui_osc_port_s=new NumericTextFieldWithLimit("",32,5);
 	static ACheckbox 			checkbox_gui_osc_port_random_r=new ACheckbox("Use Random Port");
@@ -66,9 +69,9 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 	static AButton 				button_cancel_settings=new AButton("Cancel");
 	static AButton 				button_confirm_settings=new AButton("OK");
 
-	static ScrollPane scroller_tabSend;
-	static ScrollPane scroller_tabReceive;
-	static ScrollPane scroller_tabGUI;
+	static ScrollPane scrollerTabSend;
+	static ScrollPane scrollerTabReceive;
+	static ScrollPane scrollerTabGUI;
 
 	//tabs for send / receive
 	static TabNamePanel tabSend;
@@ -183,13 +186,17 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 //========================================================================
 	void createForm()
 	{
-		formSend=new Panel();
-		formReceive=new Panel();
-		formGUI=new Panel();
+		formSend=new JPanel();
+		formReceive=new JPanel();
+		formGUI=new JPanel();
 
 		formSend.setLayout(new GridBagLayout());
 		formReceive.setLayout(new GridBagLayout());
 		formGUI.setLayout(new GridBagLayout());
+
+		formSend.setBackground(Colors.form_background);
+		formReceive.setBackground(Colors.form_background);
+		formGUI.setBackground(Colors.form_background);
 
 		try {
 			tabSend=new TabNamePanel();
@@ -198,11 +205,11 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 			tabSend.setTabName("Send");
 			tabSend.add(formSend,BorderLayout.NORTH);
 
-			scroller_tabSend=new ScrollPane(ScrollPane.SCROLLBARS_AS_NEEDED);
-			scroller_tabSend.setBackground(Colors.form_background);
-			scroller_tabSend.getVAdjustable().setUnitIncrement(30);
-			scroller_tabSend.getHAdjustable().setUnitIncrement(30);
-			scroller_tabSend.add(tabSend);
+			scrollerTabSend=new ScrollPane(ScrollPane.SCROLLBARS_AS_NEEDED);
+			scrollerTabSend.setBackground(Colors.form_background);
+			scrollerTabSend.getVAdjustable().setUnitIncrement(30);
+			scrollerTabSend.getHAdjustable().setUnitIncrement(30);
+			scrollerTabSend.add(tabSend);
 
 			tabReceive=new TabNamePanel();
 			tabReceive.setName("Receive");
@@ -210,11 +217,11 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 			tabReceive.setTabName("Receive");
 			tabReceive.add(formReceive,BorderLayout.NORTH);
 
-			scroller_tabReceive=new ScrollPane(ScrollPane.SCROLLBARS_AS_NEEDED);
-			scroller_tabReceive.setBackground(Colors.form_background);
-			scroller_tabReceive.getVAdjustable().setUnitIncrement(30);
-			scroller_tabReceive.getHAdjustable().setUnitIncrement(30);
-			scroller_tabReceive.add(tabReceive);
+			scrollerTabReceive=new ScrollPane(ScrollPane.SCROLLBARS_AS_NEEDED);
+			scrollerTabReceive.setBackground(Colors.form_background);
+			scrollerTabReceive.getVAdjustable().setUnitIncrement(30);
+			scrollerTabReceive.getHAdjustable().setUnitIncrement(30);
+			scrollerTabReceive.add(tabReceive);
 
 			tabGUI=new TabNamePanel();
 			tabGUI.setName("GUI");
@@ -222,11 +229,11 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 			tabGUI.setTabName("GUI");
 			tabGUI.add(formGUI,BorderLayout.NORTH);
 
-			scroller_tabGUI=new ScrollPane(ScrollPane.SCROLLBARS_AS_NEEDED);
-			scroller_tabGUI.setBackground(Colors.form_background);
-			scroller_tabGUI.getVAdjustable().setUnitIncrement(30);
-			scroller_tabGUI.getHAdjustable().setUnitIncrement(30);
-			scroller_tabGUI.add(tabGUI);
+			scrollerTabGUI=new ScrollPane(ScrollPane.SCROLLBARS_AS_NEEDED);
+			scrollerTabGUI.setBackground(Colors.form_background);
+			scrollerTabGUI.getVAdjustable().setUnitIncrement(30);
+			scrollerTabGUI.getHAdjustable().setUnitIncrement(30);
+			scrollerTabGUI.add(tabGUI);
 
 			tabPanel=new TabPanel();
 			tabPanel.setName("TabPanel");
@@ -239,9 +246,9 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 
 			tabPanel.addTabSelectionListener(this);
 
-			tabPanel.add(scroller_tabSend, tabSend.getName());
-			tabPanel.add(scroller_tabReceive, tabReceive.getName());
-			tabPanel.add(scroller_tabGUI, tabGUI.getName());
+			tabPanel.add(scrollerTabSend, tabSend.getName());
+			tabPanel.add(scrollerTabReceive, tabReceive.getName());
+			tabPanel.add(scrollerTabGUI, tabGUI.getName());
 		} catch (java.lang.Throwable ex)
 		{///
 		}
@@ -629,15 +636,15 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 		Adjustable a=null;
 		if(tabname.equals("Send"))
 		{
-			a=scroller_tabSend.getVAdjustable();
+			a=scrollerTabSend.getVAdjustable();
 		}
 		else if(tabname.equals("Receive"))
 		{
-			a=scroller_tabReceive.getVAdjustable();
+			a=scrollerTabReceive.getVAdjustable();
 		}
 		else if(tabname.equals("GUI"))
 		{
-			a=scroller_tabGUI.getVAdjustable();
+			a=scrollerTabGUI.getVAdjustable();
 		}
 		a.setValue(a.getValue() - a.getUnitIncrement());
 	}
@@ -649,15 +656,15 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 		Adjustable a=null;
 		if(tabname.equals("Send"))
 		{
-			a=scroller_tabSend.getVAdjustable();
+			a=scrollerTabSend.getVAdjustable();
 		}
 		else if(tabname.equals("Receive"))
 		{
-			a=scroller_tabReceive.getVAdjustable();
+			a=scrollerTabReceive.getVAdjustable();
 		}
 		else if(tabname.equals("GUI"))
 		{
-			a=scroller_tabGUI.getVAdjustable();
+			a=scrollerTabGUI.getVAdjustable();
 		}
 		a.setValue(a.getValue() + a.getUnitIncrement());
 	}
@@ -669,15 +676,15 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 		Adjustable a=null;
 		if(tabname.equals("Send"))
 		{
-			a=scroller_tabSend.getVAdjustable();
+			a=scrollerTabSend.getVAdjustable();
 		}
 		else if(tabname.equals("Receive"))
 		{
-			a=scroller_tabReceive.getVAdjustable();
+			a=scrollerTabReceive.getVAdjustable();
 		}
 		else if(tabname.equals("GUI"))
 		{
-			a=scroller_tabGUI.getVAdjustable();
+			a=scrollerTabGUI.getVAdjustable();
 		}
 		a.setValue(0);
 	}
@@ -689,15 +696,15 @@ public class ConfigureDialog extends Dialog implements TabSelectionListener
 		Adjustable a=null;
 		if(tabname.equals("Send"))
 		{
-			a=scroller_tabSend.getVAdjustable();
+			a=scrollerTabSend.getVAdjustable();
 		}
 		else if(tabname.equals("Receive"))
 		{
-			a=scroller_tabReceive.getVAdjustable();
+			a=scrollerTabReceive.getVAdjustable();
 		}
 		else if(tabname.equals("GUI"))
 		{
-			a=scroller_tabGUI.getVAdjustable();
+			a=scrollerTabGUI.getVAdjustable();
 		}
 		a.setValue(a.getMaximum());
 	}

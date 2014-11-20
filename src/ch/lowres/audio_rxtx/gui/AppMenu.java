@@ -238,7 +238,7 @@ public class AppMenu extends JMenuBar
 				try 
 				{
 					OSCMessage msg=new OSCMessage("/quit");
-					g.OscOutSend.send(msg);
+					g.portOutSend.send(msg);
 				} 
 				catch (Exception oscex) 
 				{///

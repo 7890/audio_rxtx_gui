@@ -13,6 +13,7 @@
 package ch.lowres.audio_rxtx.gui;
 
 import java.awt.*;
+import javax.swing.JLabel;
 
 //========================================================================
 public class FormUtility 
@@ -71,9 +72,11 @@ public class FormUtility
 	/**
 	 * Adds a Label with the given string to the label column
 	 */
-	public Label addLabel(String s, Container parent)
+	public JLabel addLabel(String s, Container parent)
 	{
-		Label c=new Label(s);
+		JLabel c=new JLabel(s);
+		c.setForeground(Colors.form_foreground);
+		c.setBackground(Colors.form_background);
 		addLabel(c, parent);
 		return c;
 	}
@@ -88,6 +91,8 @@ public class FormUtility
 	public void addLabel(Component c, Container parent)
 	{
 		GridBagLayout gbl=(GridBagLayout)parent.getLayout();
+		c.setForeground(Colors.form_foreground);
+		c.setBackground(Colors.form_background);
 		gbl.setConstraints(c, labelConstraints);
 		parent.add(c);
 	}
@@ -96,6 +101,8 @@ public class FormUtility
 	public void addMiddleLabel(Component c, Container parent)
 	{
 		GridBagLayout gbl=(GridBagLayout)parent.getLayout();
+		c.setForeground(Colors.form_foreground);
+		c.setBackground(Colors.form_background);
 		gbl.setConstraints(c, middleConstraints);
 		parent.add(c);
 	}
@@ -104,7 +111,9 @@ public class FormUtility
 	public void addLastLabel(String text, Container parent)
 	{
 		GridBagLayout gbl=(GridBagLayout)parent.getLayout();
-		Label c=new Label(text);
+		JLabel c=new JLabel(text);
+		c.setForeground(Colors.form_foreground);
+		c.setBackground(Colors.form_background);
 		gbl.setConstraints(c, lastConstraints);
 		parent.add(c);
 	}
@@ -113,6 +122,8 @@ public class FormUtility
 	public void addLastLabel(Component c, Container parent)
 	{
 		GridBagLayout gbl=(GridBagLayout)parent.getLayout();
+		c.setForeground(Colors.form_foreground);
+		c.setBackground(Colors.form_background);
 		gbl.setConstraints(c, lastConstraints);
 		parent.add(c);
 	}
@@ -122,8 +133,10 @@ public class FormUtility
 	public void addTitle(String title,Container parent)
 	{
 		GridBagLayout gbl=(GridBagLayout)parent.getLayout();
-		Label c=new Label(title);
-		c.setAlignment(Label.CENTER);
+		JLabel c=new JLabel(title,JLabel.CENTER);
+		c.setForeground(Colors.form_foreground);
+		c.setBackground(Colors.form_background);
+		//c.setAlignment(JLabel.CENTER);
 		gbl.setConstraints(c, lastConstraints);
 		parent.add(c);
 	}
@@ -133,8 +146,10 @@ public class FormUtility
 	public void addHeader(String header, Container parent, Font f)
 	{
 		GridBagLayout gbl=(GridBagLayout)parent.getLayout();
-		Label c=new Label(header);
-		c.setAlignment(Label.CENTER);
+		JLabel c=new JLabel(header,JLabel.CENTER);
+		c.setForeground(Colors.form_foreground);
+		c.setBackground(Colors.form_background);
+		//c.setAlignment(JLabel.CENTER);
 		c.setFont(f);
 		gbl.setConstraints(c, lastConstraints);
 		parent.add(c);

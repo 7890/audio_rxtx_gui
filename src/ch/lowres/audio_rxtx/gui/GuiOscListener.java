@@ -92,7 +92,7 @@ public abstract class GuiOscListener implements OSCListener
 					//reconfigure sender
 					try
 					{
-						g.OscOutSend.setTarget(InetAddress.getLocalHost(),api._lport);
+						g.portOutSend.setTarget(InetAddress.getLocalHost(),api._lport);
 					}
 					catch(Exception ex)
 					{///
