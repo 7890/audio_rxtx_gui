@@ -52,7 +52,7 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 	static NumericTextFieldWithLimit 	text_offset_r=new NumericTextFieldWithLimit("",32,24);
 	static NumericTextFieldWithLimit 	text_pre_r=new NumericTextFieldWithLimit("",32,24);
 	static NumericTextFieldWithLimit 	text_max_r=new NumericTextFieldWithLimit("",32,24);
-	static ACheckbox 			checkbox_rere_r=new ACheckbox(" Rebuffer On Sender Restart");
+	static ACheckbox 			checkbox_rere_r=new ACheckbox("Rebuffer On Sender Restart");
 	static ACheckbox 			checkbox_reuf_r=new ACheckbox("Rebuffer On Underflow");
 	static ACheckbox 			checkbox_nozero_r=new ACheckbox("Re-Use Old Data On Underflow");
 	static ACheckbox 			checkbox_norbc_r=new ACheckbox("Disallow Ext. Buffer Control");
