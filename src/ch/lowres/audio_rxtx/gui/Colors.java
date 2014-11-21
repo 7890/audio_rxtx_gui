@@ -36,4 +36,7 @@ class Colors
 
 	//focused widget outline
 	public static Color status_focused_outline=new Color(60,20,10);
+
+	//hovered widget overlay
+	public static Color hovered_overlay=new Color(180,180,240);
 }//end class Colors

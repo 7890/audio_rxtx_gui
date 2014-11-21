@@ -18,6 +18,8 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import java.awt.geom.*;
+
 /*
 Declared in javax.swing.text.JTextComponent
 
@@ -39,10 +41,13 @@ Declared in javax.swing.text.JTextComponent
 */
 
 //========================================================================
-class TextFieldWithLimit extends JTextField implements KeyListener, FocusListener
+class TextFieldWithLimit extends JTextField implements KeyListener, FocusListener, MouseListener
 {
 	private int maxLength;
 	private FocusPaint fpaint;
+
+	//0: invisible overlay
+	private float alpha = 0.0f;
 
 //========================================================================
 	public TextFieldWithLimit (String initialStr, int col, int maxLength) 
@@ -79,6 +84,7 @@ setBorder(
 
 		addKeyListener(this);
 		addFocusListener(this);
+		addMouseListener(this);
 	}
 
 //========================================================================
@@ -112,6 +118,15 @@ setBorder(
 	public void paint(Graphics g) 
 	{
 		super.paint(g);
+
+		//hover
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+		g2.setPaint(Colors.hovered_overlay);
+		g2.fill( new Rectangle2D.Float(0, 0, getBounds().width, getBounds().height) );
+
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+
 		fpaint.paint(g,this);
 	}
 
@@ -167,9 +182,25 @@ setBorder(
 
 //========================================================================
 	public void keyReleased(KeyEvent e) {}
-
 	public void keyPressed(KeyEvent e) {repaint();}
 
+
+//========================================================================
+	public void mouseEntered(MouseEvent e) 
+	{
+		alpha=0.2f;
+		repaint();
+	}
+	public void mouseExited(MouseEvent e) 
+	{
+		alpha=0f;
+		repaint();
+	}
+	public void mousePressed(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {}
+	public void mouseClicked(MouseEvent e) {}
+
+//========================================================================
 	public void focusLost(FocusEvent fe)
 	{
 		repaint();

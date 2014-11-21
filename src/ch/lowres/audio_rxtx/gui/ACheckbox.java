@@ -18,10 +18,15 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import java.awt.geom.*;
+
 //========================================================================
 public class ACheckbox extends Checkbox implements KeyListener, FocusListener, MouseListener
 {
 	private FocusPaint fpaint;
+
+	//0: invisible overlay
+	private float alpha = 0.0f;
 
 //========================================================================
 	public ACheckbox()
@@ -78,8 +83,17 @@ public class ACheckbox extends Checkbox implements KeyListener, FocusListener, M
 	@Override
 	public void paint(Graphics g) 
 	{
-		fpaint.paint(g,this);
 		super.paint(g);
+
+		//hover
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+		g2.setPaint(Colors.hovered_overlay);
+		g2.fill( new Rectangle2D.Float(0, 0, getBounds().width, getBounds().height) );
+
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+
+		fpaint.paint(g,this);
 	}
 
 //========================================================================
@@ -95,8 +109,16 @@ public class ACheckbox extends Checkbox implements KeyListener, FocusListener, M
 	public void keyPressed(KeyEvent e) {repaint();}
 
 //========================================================================
-	public void mouseEntered(MouseEvent e) {}
-	public void mouseExited(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) 
+	{
+		alpha=0.2f;
+		repaint();
+	}
+	public void mouseExited(MouseEvent e) 
+	{
+		alpha=0f;
+		repaint();
+	}
 	public void mousePressed(MouseEvent e) {repaint();}
 	public void mouseReleased(MouseEvent e) {repaint();}
 	public void mouseClicked(MouseEvent e) {}
