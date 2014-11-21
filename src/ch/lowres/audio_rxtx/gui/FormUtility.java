@@ -72,9 +72,9 @@ public class FormUtility
 	/**
 	 * Adds a Label with the given string to the label column
 	 */
-	public JLabel addLabel(String s, Container parent)
+	public ALabel addLabel(String s, Container parent)
 	{
-		JLabel c=new JLabel(s);
+		ALabel c=new ALabel(s);
 		c.setForeground(Colors.form_foreground);
 		c.setBackground(Colors.form_background);
 		addLabel(c, parent);
@@ -111,7 +111,7 @@ public class FormUtility
 	public void addLastLabel(String text, Container parent)
 	{
 		GridBagLayout gbl=(GridBagLayout)parent.getLayout();
-		JLabel c=new JLabel(text);
+		ALabel c=new ALabel(text);
 		c.setForeground(Colors.form_foreground);
 		c.setBackground(Colors.form_background);
 		gbl.setConstraints(c, lastConstraints);
@@ -133,10 +133,11 @@ public class FormUtility
 	public void addTitle(String title,Container parent)
 	{
 		GridBagLayout gbl=(GridBagLayout)parent.getLayout();
-		JLabel c=new JLabel(title,JLabel.CENTER);
+		ALabel c=new ALabel(title,ALabel.CENTER);
+		c.setPreferredSize(new Dimension(300,30));
 		c.setForeground(Colors.form_foreground);
 		c.setBackground(Colors.form_background);
-		//c.setAlignment(JLabel.CENTER);
+		//c.setAlignment(ALabel.CENTER);
 		gbl.setConstraints(c, lastConstraints);
 		parent.add(c);
 	}
@@ -146,10 +147,10 @@ public class FormUtility
 	public void addHeader(String header, Container parent, Font f)
 	{
 		GridBagLayout gbl=(GridBagLayout)parent.getLayout();
-		JLabel c=new JLabel(header,JLabel.CENTER);
+		ALabel c=new ALabel(header,ALabel.CENTER);
 		c.setForeground(Colors.form_foreground);
 		c.setBackground(Colors.form_background);
-		//c.setAlignment(JLabel.CENTER);
+		//c.setAlignment(ALabel.CENTER);
 		c.setFont(f);
 		gbl.setConstraints(c, lastConstraints);
 		parent.add(c);

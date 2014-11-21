@@ -319,7 +319,7 @@ static JPanel mainGrid;
 
 		tabSend_=new JPanel(new BorderLayout());
 		tabSend_.setBackground(Colors.form_background);
-		tabSend_.add(cardPanelSend,BorderLayout.NORTH);
+		tabSend_.add(cardPanelSend,BorderLayout.CENTER);
 		scrollerTabSend_=new JScrollPane (tabSend_, 
 			ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -328,7 +328,7 @@ static JPanel mainGrid;
 
 		tabReceive_=new JPanel(new BorderLayout());
 		tabReceive_.setBackground(Colors.form_background);
-		tabReceive_.add(cardPanelReceive,BorderLayout.NORTH);
+		tabReceive_.add(cardPanelReceive,BorderLayout.CENTER);
 		scrollerTabReceive_=new JScrollPane (tabReceive_, 
 			ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);

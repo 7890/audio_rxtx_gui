@@ -18,8 +18,7 @@ import java.awt.event.*;
 
 import java.net.InetAddress;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 //========================================================================
 public abstract class Card extends JPanel implements CardInterface
@@ -67,6 +66,12 @@ public abstract class Card extends JPanel implements CardInterface
 
 		pSouth.add(label_status);
 		pSouth.add(button_default);
+
+		//poorman style for a spring that fills space to bottom (label & button)
+		JTextArea fill=new JTextArea();
+		fill.setEnabled(false);
+		fill.setVisible(false);
+		add(fill,BorderLayout.CENTER);
 
 		add(pSouth,BorderLayout.SOUTH);
 
