@@ -18,8 +18,6 @@ import java.awt.event.*;
 
 import javax.swing.JButton;
 
-import java.awt.geom.Line2D;
-
 //========================================================================
 public class AButton extends JButton implements KeyListener, FocusListener
 {
@@ -73,13 +71,6 @@ public class AButton extends JButton implements KeyListener, FocusListener
 	public void keyTyped(KeyEvent e) {}
 	public void keyReleased(KeyEvent e) {}
 	public void keyPressed(KeyEvent e) {repaint();}
-	public void focusLost(FocusEvent fe){repaint();}
-
-
-//========================================================================
-	public void focusGained(FocusEvent fe) 
-	{
-		repaint();
-	}
-
+	public void focusLost(FocusEvent fe) {repaint();}
+	public void focusGained(FocusEvent fe) {repaint();}
 }//end class AButton

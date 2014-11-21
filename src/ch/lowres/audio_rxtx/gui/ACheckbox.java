@@ -16,8 +16,6 @@ package ch.lowres.audio_rxtx.gui;
 import java.awt.*;
 import java.awt.event.*;
 
-import java.awt.geom.Line2D;
-
 import javax.swing.*;
 
 //========================================================================
@@ -95,10 +93,6 @@ public class ACheckbox extends Checkbox implements KeyListener, FocusListener, M
 	public void keyTyped(KeyEvent e) {}
 	public void keyReleased(KeyEvent e) {}
 	public void keyPressed(KeyEvent e) {repaint();}
-	public void focusLost(FocusEvent fe)
-	{
-		repaint();
-	}
 
 //========================================================================
 	public void mouseEntered(MouseEvent e) {}
@@ -108,6 +102,8 @@ public class ACheckbox extends Checkbox implements KeyListener, FocusListener, M
 	public void mouseClicked(MouseEvent e) {}
 
 //========================================================================
+	public void focusLost(FocusEvent fe) {repaint();}
+
 	public void focusGained(FocusEvent fe) 
 	{
 		repaint();
