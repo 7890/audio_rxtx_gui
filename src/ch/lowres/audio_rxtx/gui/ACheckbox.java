@@ -21,10 +21,8 @@ import javax.swing.*;
 import java.awt.geom.*;
 
 //========================================================================
-public class ACheckbox extends Checkbox implements KeyListener, FocusListener, MouseListener
+public class ACheckbox extends JCheckBox implements KeyListener, FocusListener, MouseListener
 {
-	private FocusPaint fpaint;
-
 	//0: invisible overlay
 	private float alpha = 0.0f;
 
@@ -50,23 +48,8 @@ public class ACheckbox extends Checkbox implements KeyListener, FocusListener, M
 	}
 
 //========================================================================
-	public ACheckbox(String label, boolean state, CheckboxGroup group)
-	{
-		super(label, state, group);
-		init();
-	}
-
-//========================================================================
-	public ACheckbox(String label, CheckboxGroup group, boolean state)
-	{
-		super(label, group, state);
-		init();
-	}
-
-//========================================================================
 	void init()
 	{
-		fpaint=new FocusPaint();
 		addKeyListener(this);
 		addFocusListener(this);
 		addMouseListener(this);
@@ -81,26 +64,22 @@ public class ACheckbox extends Checkbox implements KeyListener, FocusListener, M
 
 //========================================================================
 	@Override
-	public void paint(Graphics g) 
+	public void paintComponent(Graphics g) 
 	{
-		super.paint(g);
+		super.paintComponent(g);
 
 		//hover
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-		g2.setPaint(Colors.hovered_overlay);
-		g2.fill( new Rectangle2D.Float(0, 0, getBounds().width, getBounds().height) );
+		if(alpha!=0)
+		{
+			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+			g2.setPaint(Colors.hovered_overlay);
+			g2.fill( new Rectangle2D.Float(0, 0, getBounds().width, getBounds().height) );
+		}
 
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
 
-		fpaint.paint(g,this);
-	}
-
-//========================================================================
-	@Override
-	public void update(Graphics g) 
-	{
-		paint(g);
+		FocusPaint.paint(g,this);
 	}
 
 //========================================================================
@@ -149,5 +128,18 @@ public class ACheckbox extends Checkbox implements KeyListener, FocusListener, M
 			}
 			c=c.getParent();
 		}
+	}
+
+//legacy wrappers
+//========================================================================
+	public void setState(boolean b)
+	{
+		setSelected(b);
+	}
+
+//========================================================================
+	public boolean getState()
+	{
+		return isSelected();
 	}
 }//end class ACheckbox

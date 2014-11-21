@@ -28,7 +28,7 @@ public class FocusPaint
 	}
 
 //========================================================================
-	void paint(Graphics g, Component c) 
+	static void paint(Graphics g, Component c) 
 	{
 		Dimension size = c.getSize();
 

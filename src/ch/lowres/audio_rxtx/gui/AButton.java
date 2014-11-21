@@ -21,8 +21,6 @@ import javax.swing.JButton;
 //========================================================================
 public class AButton extends JButton implements KeyListener, FocusListener
 {
-	private FocusPaint fpaint;
-
 //========================================================================
 	public AButton()
 	{
@@ -40,7 +38,6 @@ public class AButton extends JButton implements KeyListener, FocusListener
 //========================================================================
 	void init()
 	{
-		fpaint=new FocusPaint();
 		addKeyListener(this);
 		addFocusListener(this);
 	}
@@ -57,7 +54,7 @@ public class AButton extends JButton implements KeyListener, FocusListener
 	public void paint(Graphics g) 
 	{
 		super.paint(g);
-		fpaint.paint(g,this);
+		FocusPaint.paint(g,this);
 	}
 
 //========================================================================

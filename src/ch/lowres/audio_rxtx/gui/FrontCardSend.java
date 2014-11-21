@@ -16,14 +16,17 @@ package ch.lowres.audio_rxtx.gui;
 import java.awt.*;
 import java.awt.event.*;
 
+import javax.swing.*;
+
 import java.net.InetAddress;
 
 //========================================================================
 public class FrontCardSend extends Card
 {
-	static CheckboxGroup 			audio_transmission_format_group=new CheckboxGroup();
-	static ACheckbox 			checkbox_format_16=new ACheckbox("16 bit Integer", audio_transmission_format_group, true);
-	static ACheckbox 			checkbox_format_32=new ACheckbox("32 bit Float", audio_transmission_format_group, false);
+	static ButtonGroup 			audio_transmission_format_group=new ButtonGroup();
+
+	static ARadioButton 			checkbox_format_16=new ARadioButton("16 bit Integer");
+	static ARadioButton 			checkbox_format_32=new ARadioButton("32 bit Float");
 
 	static NumericTextFieldWithLimit 	text_input_channels= new NumericTextFieldWithLimit("",20,3);
 	static HostTextFieldWithLimit 		text_target_host=new HostTextFieldWithLimit("",20,128);
@@ -55,6 +58,9 @@ public class FrontCardSend extends Card
 		super.createForm();
 
 		form.setLayout(new GridBagLayout());
+
+		audio_transmission_format_group.add(checkbox_format_16);
+		audio_transmission_format_group.add(checkbox_format_32);
 
 		g.formUtility.addLabel("Audio Format: ", form);
 		g.formUtility.addLastField(checkbox_format_16, form);

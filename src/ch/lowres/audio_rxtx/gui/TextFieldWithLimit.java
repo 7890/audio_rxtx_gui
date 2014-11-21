@@ -44,7 +44,6 @@ Declared in javax.swing.text.JTextComponent
 class TextFieldWithLimit extends JTextField implements KeyListener, FocusListener, MouseListener
 {
 	private int maxLength;
-	private FocusPaint fpaint;
 
 	//0: invisible overlay
 	private float alpha = 0.0f;
@@ -54,7 +53,6 @@ class TextFieldWithLimit extends JTextField implements KeyListener, FocusListene
 	{
 		super(initialStr, col);
 		this.maxLength=maxLength;
-		fpaint=new FocusPaint();
 
 		//remove border from textfield (this is not possible with java.awt.TextField)
 		setBorder(javax.swing.BorderFactory.createEmptyBorder(1,4,1,1));
@@ -115,26 +113,22 @@ setBorder(
 
 //========================================================================
 	@Override
-	public void paint(Graphics g) 
+	public void paintComponent(Graphics g) 
 	{
-		super.paint(g);
+		super.paintComponent(g);
 
 		//hover
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-		g2.setPaint(Colors.hovered_overlay);
-		g2.fill( new Rectangle2D.Float(0, 0, getBounds().width, getBounds().height) );
+		if(alpha!=0)
+		{
+			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+			g2.setPaint(Colors.hovered_overlay);
+			g2.fill( new Rectangle2D.Float(0, 0, getBounds().width, getBounds().height) );
+		}
 
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
 
-		fpaint.paint(g,this);
-	}
-
-//========================================================================
-	@Override
-	public void update(Graphics g) 
-	{
-		paint(g);
+		FocusPaint.paint(g,this);
 	}
 
 //========================================================================
