@@ -263,6 +263,8 @@ static JPanel mainGrid;
 		//will remove tmpdir on program exit if keep_cache==false
 		createShutDownHook();
 
+setCrossPlatformLAF();
+
 		//http://stackoverflow.com/questions/209812/how-do-i-change-the-default-application-icon-in-java
 		java.net.URL url = ClassLoader.getSystemResource("resources/audio_rxtx_icon.png");
 		Toolkit kit = Toolkit.getDefaultToolkit();
@@ -281,6 +283,9 @@ static JPanel mainGrid;
 		createForm();
 	}
 
+
+
+
 //========================================================================
 	//http://stackoverflow.com/questions/11116386/java-gtk-native-look-and-feel-looks-bad-and-bold
 	public static void setNativeLAF()
@@ -297,13 +302,22 @@ static JPanel mainGrid;
 	}
 
 //========================================================================
-	void createForm()
+	public static void setCrossPlatformLAF()
 	{
 		//http://stackoverflow.com/questions/1065691/how-to-set-the-background-color-of-a-jbutton-on-the-mac-os
 		try
 		{
-			UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName() );
-		} catch (Exception e) {}
+			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		} catch (Exception e)
+		{
+			w("unable to set native look and feel: " + e);
+		}
+	}
+
+//========================================================================
+	void createForm()
+	{
+		//setCrossPlatformLAF();
 		//setNativeLAF();
 
 		mainframe=new JFrame(progName);
