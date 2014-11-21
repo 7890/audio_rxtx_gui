@@ -299,6 +299,11 @@ static JPanel mainGrid;
 //========================================================================
 	void createForm()
 	{
+		//http://stackoverflow.com/questions/1065691/how-to-set-the-background-color-of-a-jbutton-on-the-mac-os
+		try
+		{
+			UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName() );
+		} catch (Exception e) {}
 		//setNativeLAF();
 
 		mainframe=new JFrame(progName);
