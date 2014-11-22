@@ -72,15 +72,15 @@ public class FocusPaint
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 			RenderingHints.VALUE_ANTIALIAS_ON);
 		GradientPaint gp = new GradientPaint(0, 0,
-			c.getBackground(), 0, c.getHeight()/2,
-			c.getBackground().brighter());
-		g2.setPaint(gp);
-		g2.fillRect(0, 0, c.getWidth(), c.getHeight()/2);
-
-		gp = new GradientPaint(0, c.getHeight()/2,
-			c.getBackground().brighter(), 0, c.getHeight(),
+			c.getBackground().brighter().brighter(), 0, c.getHeight()/3,
 			c.getBackground());
 		g2.setPaint(gp);
-		g2.fillRect(0, c.getHeight()/2, c.getWidth(), c.getHeight());
+		g2.fillRect(0, 0, c.getWidth(), c.getHeight()/3);
+
+		gp = new GradientPaint(0, c.getHeight()/3,
+			c.getBackground(), 0, c.getHeight(),
+			c.getBackground());
+		g2.setPaint(gp);
+		g2.fillRect(0, c.getHeight()/3, c.getWidth(), c.getHeight());
 	}
 }//end class FocusPaint
