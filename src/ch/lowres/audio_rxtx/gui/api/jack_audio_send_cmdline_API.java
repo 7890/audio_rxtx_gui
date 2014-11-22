@@ -11,23 +11,23 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
 */
 
-package ch.lowres.audio_rxtx.gui;
+package ch.lowres.audio_rxtx.gui.api;
 
 //========================================================================
 public class jack_audio_send_cmdline_API extends CmdlineAPI
 {
 	//variables starting with _ are 1:1 options of jack_audio_send
 	//initially set at startup, read from properties file
-	static int 	_in=-1;
-	static boolean 	_nopause=false;
-	static int 	_drop=-1;
-	static String 	_target_host="";
-	static int 	_target_port=-1;
+	public static int 	_in=-1;
+	public static boolean 	_nopause=false;
+	public static int 	_drop=-1;
+	public static String 	_target_host="";
+	public static int 	_target_port=-1;
 
 	//other vars
-	static int msg_size=0;
-	static int transfer_size=0;
-	static float expected_network_data_rate=0;
+	public static int	msg_size=0;
+	public static int	transfer_size=0;
+	public static float	expected_network_data_rate=0;
 
 //========================================================================
 	public jack_audio_send_cmdline_API()

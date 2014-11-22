@@ -11,7 +11,8 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
 */
 
-package ch.lowres.audio_rxtx.gui;
+package ch.lowres.audio_rxtx.gui.api;
+import ch.lowres.audio_rxtx.gui.*;
 
 //Common for jack_audio_send, jack_audio_receive
 //========================================================================
@@ -19,39 +20,39 @@ public abstract class CmdlineAPI implements CmdlineAPIInterface
 {
 	static Main g;
 
-	String prefixPath="";
+	public String prefixPath="";
 
-	String command_name="";
+	public String command_name="";
 
 	//variables starting with _ are 1:1 options of jack_audio_send
 	//initially set at startup, read from properties file
-	boolean lport_random=false;
-	int _lport=-1;
-	boolean _connect=false;
-	boolean _16=false;
-	String _name="";
-	String _sname="";
-	int _update=-1;
-	boolean test_mode=false;
-	int _limit=-1;
+	public boolean lport_random=false;
+	public int _lport=-1;
+	public boolean _connect=false;
+	public boolean _16=false;
+	public String _name="";
+	public String _sname="";
+	public int _update=-1;
+	public boolean test_mode=false;
+	public int _limit=-1;
 
 	//other vars
 
 	//passthrough jack_audio_* std output
-	boolean verbose=false;
+	public boolean verbose=false;
 
 	//filled by config_dump received from jack_audio_send
 
 	//jack_audio_send versions
-	float version=-1;
-	float format_version=-1;
+	public float version=-1;
+	public float format_version=-1;
 
 	//local jack properties
-	int jack_sample_rate=-1;
-	int jack_period_size=-1;
+	public int jack_sample_rate=-1;
+	public int jack_period_size=-1;
 
 	//increment for every /autoconnect
-	int total_connected_ports=0;
+	public int total_connected_ports=0;
 
 //========================================================================
 	public void setPrefixPath(String prefix)

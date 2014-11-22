@@ -11,7 +11,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
 */
 
-package ch.lowres.audio_rxtx.gui;
+package ch.lowres.audio_rxtx.gui.osc;
+import ch.lowres.audio_rxtx.gui.*;
+import ch.lowres.audio_rxtx.gui.api.*;
 
 import java.awt.Panel;
 

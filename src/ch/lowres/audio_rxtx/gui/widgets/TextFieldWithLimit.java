@@ -11,7 +11,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
 */
 
-package ch.lowres.audio_rxtx.gui;
+package ch.lowres.audio_rxtx.gui.widgets;
+import ch.lowres.audio_rxtx.gui.*;
+import ch.lowres.audio_rxtx.gui.helpers.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -41,7 +43,7 @@ Declared in javax.swing.text.JTextComponent
 */
 
 //========================================================================
-class TextFieldWithLimit extends JTextField implements KeyListener, FocusListener, MouseListener
+public class TextFieldWithLimit extends JTextField implements KeyListener, FocusListener, MouseListener
 {
 	private int maxLength;
 

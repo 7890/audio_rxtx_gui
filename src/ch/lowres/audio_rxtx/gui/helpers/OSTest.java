@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
 */
 
-package ch.lowres.audio_rxtx.gui;
+package ch.lowres.audio_rxtx.gui.helpers;
 
 //========================================================================
 public class OSTest
@@ -76,37 +76,37 @@ public class OSTest
 	}
 
 //========================================================================
-	boolean isUnix()
+	public boolean isUnix()
 	{
 		return isUnix;
 	}
 
 //========================================================================
-	boolean isLinux()
+	public boolean isLinux()
 	{
 		return isUnix;
 	}
 
 //========================================================================
-	boolean isMac()
+	public boolean isMac()
 	{
 		return isMac;
 	}
 
 //========================================================================
-	boolean isWindows()
+	public boolean isWindows()
 	{
 		return isWindows;
 	}
 
 //========================================================================
-	boolean is32Bits()
+	public boolean is32Bits()
 	{
 		return is32Bits;
 	}
 
 //========================================================================
-	boolean is64Bits()
+	public boolean is64Bits()
 	{
 		return is64Bits;
 	}

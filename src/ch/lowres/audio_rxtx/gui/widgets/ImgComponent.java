@@ -11,7 +11,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
 */
 
-package ch.lowres.audio_rxtx.gui;
+package ch.lowres.audio_rxtx.gui.widgets;
+import ch.lowres.audio_rxtx.gui.*;
+import ch.lowres.audio_rxtx.gui.helpers.*;
 
 import java.awt.*;
 
@@ -21,9 +23,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 //========================================================================
-class ImgComponent extends Component
+public class ImgComponent extends Component
 {
-	static Main g;
+	private Main g;
 
 	private ImageIcon audio_rxtx_logo;
 	private int imageTop=370;

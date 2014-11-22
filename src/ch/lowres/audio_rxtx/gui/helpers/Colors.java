@@ -11,12 +11,12 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
 */
 
-package ch.lowres.audio_rxtx.gui;
+package ch.lowres.audio_rxtx.gui.helpers;
 
 import java.awt.Color;
 
 //========================================================================
-class Colors
+public class Colors
 {
 	//forms
 	public static Color form_background=new Color(38,38,42);

@@ -11,24 +11,24 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
 */
 
-package ch.lowres.audio_rxtx.gui;
+package ch.lowres.audio_rxtx.gui.api;
 
 //========================================================================
 public class jack_audio_receive_cmdline_API extends CmdlineAPI
 {
 	//variables starting with _ are 1:1 options of jack_audio_send
 	//initially set at startup, read from properties file
-	static int 	_out=-1;
+	public static int 	_out=-1;
 	
-	static int 	_offset=-1;
-	static int 	_pre=-1;
-	static int 	_max=-1;
+	public static int 	_offset=-1;
+	public static int 	_pre=-1;
+	public static int 	_max=-1;
 
-	static boolean 	_rere=false;
-	static boolean 	_reuf=false;
-	static boolean 	_nozero=false;
-	static boolean 	_norbc=false;
-	static boolean 	_close=false;
+	public static boolean 	_rere=false;
+	public static boolean 	_reuf=false;
+	public static boolean 	_nozero=false;
+	public static boolean 	_norbc=false;
+	public static boolean 	_close=false;
 
 //...
 

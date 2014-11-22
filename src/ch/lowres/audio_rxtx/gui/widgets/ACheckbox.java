@@ -11,7 +11,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
 */
 
-package ch.lowres.audio_rxtx.gui;
+package ch.lowres.audio_rxtx.gui.widgets;
+import ch.lowres.audio_rxtx.gui.*;
+import ch.lowres.audio_rxtx.gui.helpers.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -21,22 +23,29 @@ import javax.swing.*;
 import java.awt.geom.*;
 
 //========================================================================
-public class ARadioButton extends JRadioButton implements MouseListener
+public class ACheckbox extends JCheckBox implements KeyListener, FocusListener, MouseListener
 {
 	//0: invisible overlay
 	private float alpha = 0.0f;
 
 //========================================================================
-	public ARadioButton()
+	public ACheckbox()
 	{
 		super("");
 		init();
 	}
 
 //========================================================================
-	public ARadioButton(String label)
+	public ACheckbox(String label)
 	{
 		super(label);
+		init();
+	}
+
+//========================================================================
+	public ACheckbox(String label, boolean state)
+	{
+		super(label, state);
 		init();
 	}
 
@@ -44,7 +53,16 @@ public class ARadioButton extends JRadioButton implements MouseListener
 	void init()
 	{
 		setOpaque(false);
+		addKeyListener(this);
+		addFocusListener(this);
 		addMouseListener(this);
+	}
+
+//========================================================================
+	@Override
+	public Dimension getPreferredSize()
+	{
+		return new Dimension(200,30);
 	}
 
 //========================================================================
@@ -69,6 +87,11 @@ public class ARadioButton extends JRadioButton implements MouseListener
 	}
 
 //========================================================================
+	public void keyTyped(KeyEvent e) {}
+	public void keyReleased(KeyEvent e) {}
+	public void keyPressed(KeyEvent e) {repaint();}
+
+//========================================================================
 	public void mouseEntered(MouseEvent e) 
 	{
 		alpha=0.2f;
@@ -84,10 +107,31 @@ public class ARadioButton extends JRadioButton implements MouseListener
 	public void mouseClicked(MouseEvent e) {}
 
 //========================================================================
-	@Override
-	public Dimension getPreferredSize()
+	public void focusLost(FocusEvent fe) {repaint();}
+
+	public void focusGained(FocusEvent fe) 
 	{
-		return new Dimension(200,30);
+		repaint();
+		Component c=getParent();
+
+		while(c!=null)
+		{
+			//System.out.println(c);
+			if(c instanceof JScrollPane)
+			{
+				JScrollBar sb=((JScrollPane)c).getVerticalScrollBar();
+
+				int vp_height=(int)((JScrollPane)c).getViewport().getHeight();
+
+				if(getBounds().y + getBounds().height > sb.getValue()+vp_height
+					|| getBounds().y < sb.getValue())
+				{
+					sb.setValue(getBounds().y);
+				}
+				break;
+			}
+			c=c.getParent();
+		}
 	}
 
 //legacy wrappers
@@ -102,12 +146,4 @@ public class ARadioButton extends JRadioButton implements MouseListener
 	{
 		return isSelected();
 	}
-
-//========================================================================
-/*	@Override
-	public Dimension getPreferredSize()
-	{
-		return new Dimension(200,30);
-	}
-*/
-}//end class ARadioButton
+}//end class ACheckbox

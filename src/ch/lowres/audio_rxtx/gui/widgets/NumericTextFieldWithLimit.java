@@ -11,7 +11,8 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
 */
 
-package ch.lowres.audio_rxtx.gui;
+package ch.lowres.audio_rxtx.gui.widgets;
+import ch.lowres.audio_rxtx.gui.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -19,7 +20,7 @@ import java.awt.event.*;
 import javax.swing.JTextField;
 
 //========================================================================
-class NumericTextFieldWithLimit extends TextFieldWithLimit implements KeyListener 
+public class NumericTextFieldWithLimit extends TextFieldWithLimit implements KeyListener 
 {
 	Integer minInclusive=null;
 	Integer maxInclusive=null;

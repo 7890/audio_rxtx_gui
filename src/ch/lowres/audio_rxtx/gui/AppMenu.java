@@ -12,6 +12,7 @@
 */
 
 package ch.lowres.audio_rxtx.gui;
+import ch.lowres.audio_rxtx.gui.helpers.*;
 
 import java.awt.*;
 import java.awt.event.*;

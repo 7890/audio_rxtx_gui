@@ -10,7 +10,8 @@
 //adopted to use with audio_rxtx_gui
 //tb/1410
 
-package ch.lowres.audio_rxtx.gui;
+package ch.lowres.audio_rxtx.gui.helpers;
+import ch.lowres.audio_rxtx.gui.widgets.*;
 
 import java.awt.*;
 import javax.swing.*;

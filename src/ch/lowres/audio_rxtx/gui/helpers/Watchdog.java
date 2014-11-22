@@ -11,7 +11,8 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
 */
 
-package ch.lowres.audio_rxtx.gui;
+package ch.lowres.audio_rxtx.gui.helpers;
+import ch.lowres.audio_rxtx.gui.*;
 
 //========================================================================
 public class Watchdog extends Thread 

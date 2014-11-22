@@ -12,6 +12,10 @@
 */
 
 package ch.lowres.audio_rxtx.gui;
+import ch.lowres.audio_rxtx.gui.widgets.*;
+import ch.lowres.audio_rxtx.gui.helpers.*;
+import ch.lowres.audio_rxtx.gui.api.*;
+import ch.lowres.audio_rxtx.gui.osc.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -44,110 +48,119 @@ To dump the AWT component hierarchy, press Ctrl+Shift+F1.
 public class Main implements ChangeListener
 // implements TabSelectionListener
 {
-	static String progName="audio_rxtx GUI";
-	static String progVersion="0.2";
-	static String progNameSymbol="audio_rxtx_gui_v"+progVersion+"_"+141030;
+	public final static String progName="audio_rxtx GUI";
+	public final static String progVersion="0.2";
+	public final static String progNameSymbol="audio_rxtx_gui_v"+progVersion+"_"+141030;
 
-	static String defaultPropertiesFileName="audio_rxtx_gui.properties";
+	public static String defaultPropertiesFileName="audio_rxtx_gui.properties";
 
-	static String reportIssueUrl="https://github.com/7890/audio_rxtx_gui/issues";
+	public static String reportIssueUrl="https://github.com/7890/audio_rxtx_gui/issues";
 	//dummy
-	static String newestVersionFileUrl="https://raw.githubusercontent.com/7890/audio_rxtx_gui/master/README.md";
+	public static String newestVersionFileUrl="https://raw.githubusercontent.com/7890/audio_rxtx_gui/master/README.md";
 
-	static int panelWidth=10;
-	static int panelHeight=10;
+	public static int panelWidth=10;
+	public static int panelHeight=10;
 
 	//osc gui io
 	//will be set by .properties file
-	static boolean gui_osc_port_random_s=false;
-	static int gui_osc_port_s=-1;
+	public static boolean gui_osc_port_random_s=false;
+	public static int gui_osc_port_s=-1;
 
-	static boolean gui_osc_port_random_r=false;
-	static int gui_osc_port_r=-1;
+	public static boolean gui_osc_port_random_r=false;
+	public static int gui_osc_port_r=-1;
 
-	static boolean keep_cache=false;
+	public static boolean keep_cache=false;
 
 	//osc sender, receiver for communication gui<->jack_audio_send
-	static OSCPortOut portOutSend; //sender
-	static OSCPortIn portInSend; //receiver
+	public static OSCPortOut portOutSend; //sender
+	public static OSCPortIn portInSend; //receiver
 
-	static OSCPortOut portOutReceive; //sender
-	static OSCPortIn portInReceive; //receiver
+	public static OSCPortOut portOutReceive; //sender
+	public static OSCPortIn portInReceive; //receiver
 
-	final long WAIT_FOR_SOCKET_CLOSE=3;
+	public final long WAIT_FOR_SOCKET_CLOSE=3;
 
 	//handler for osc messages
-	static GuiOscListenerSend goscs;
-	static GuiOscListenerReceive goscr;
+	public static GuiOscListenerSend goscs;
+	public static GuiOscListenerReceive goscr;
 
 	//dalogs
-	static ConfigureDialog configure;
-	static AboutDialog about;
+	public static ConfigureDialog configure;
+	public static AboutDialog about;
 
 	//holding several config values, construct command line for jack_audio_send
-	static jack_audio_send_cmdline_API apis;
-	static jack_audio_receive_cmdline_API apir;
+	public static jack_audio_send_cmdline_API apis;
+	public static jack_audio_receive_cmdline_API apir;
 
-	static Image appIcon;
+	public static Image appIcon;
 
 	//the main window
-	static JFrame mainframe;
+	public static JFrame mainframe;
 
-	static AppMenu applicationMenu;
+	public static AppMenu applicationMenu;
 
-	static JScrollPane scrollerTabSend;
-	static JScrollPane scrollerTabReceive;
+	public static JScrollPane scrollerTabSend;
+	public static JScrollPane scrollerTabReceive;
 
-	static JPanel tabSend;
-	static JPanel tabReceive;
+	public static JPanel tabSend;
+	public static JPanel tabReceive;
 
-	static JTabbedPane tabPanel = new JTabbedPane();
+	public static JTabbedPane tabPanel = new JTabbedPane()
+	{
+		@Override
+		public void paintComponent(Graphics g) 
+		{
+			//FocusPaint.gradient(g,tabPanel);
+			super.paintComponent(g);
+			FocusPaint.paint(g,tabPanel);
+		}	
+	};
 
-	static JPanel mainGrid;
+	public static JPanel mainGrid;
 
-	static JPanel cardPanelSend;
-	static CardLayout cardLaySend;
+	public static JPanel cardPanelSend;
+	public static CardLayout cardLaySend;
 
-	static JPanel cardPanelReceive;
-	static CardLayout cardLayReceive;
+	public static JPanel cardPanelReceive;
+	public static CardLayout cardLayReceive;
 
 	//cards
-	static FrontCardSend frontSend;
-	static RunningCardSend runningSend;
+	public static FrontCardSend frontSend;
+	public static RunningCardSend runningSend;
 
-	static FrontCardReceive frontReceive;
-	static RunningCardReceive runningReceive;
+	public static FrontCardReceive frontReceive;
+	public static RunningCardReceive runningReceive;
 
-	static JLabel labelStatus;
+	public static JLabel labelStatus;
 
-	final static int FRONT=0;
-	final static int RUNNING=1;
+	public final static int FRONT=0;
+	public final static int RUNNING=1;
 
-	static int sendStatus=FRONT;
-	static int receiveStatus=FRONT;
+	public static int sendStatus=FRONT;
+	public static int receiveStatus=FRONT;
 
 	//convenience class to add widgets to form
-	static FormUtility formUtility;
+	public static FormUtility formUtility;
 
-	static Dimension screenDimension;
+	public static Dimension screenDimension;
 
-	static Font fontLarge;
+	public static Font fontLarge;
 
 	//platform specific system tmp directory
-	static String tmpDir;
+	public static String tmpDir;
 
 	//thread to run binaries
-	static RunCmd cmdSend;
-	static RunCmd cmdReceive;
+	public static RunCmd cmdSend;
+	public static RunCmd cmdReceive;
 
 	//watching RunCmd
-	static Watchdog dogSend;
-	static Watchdog dogReceive;
+	public static Watchdog dogSend;
+	public static Watchdog dogReceive;
 
-	static OSTest os;
+	public static OSTest os;
 
 	//map containing all global key actions
-	static HashMap<KeyStroke, Action> actionMap = new HashMap<KeyStroke, Action>();
+	public static HashMap<KeyStroke, Action> actionMap = new HashMap<KeyStroke, Action>();
 
 //========================================================================
 	public static void main(String[] args) 
@@ -282,12 +295,9 @@ public class Main implements ChangeListener
 		createForm();
 	}
 
-
-
-
 //========================================================================
 	//http://stackoverflow.com/questions/11116386/java-gtk-native-look-and-feel-looks-bad-and-bold
-	public static void setNativeLAF()
+	static void setNativeLAF()
 	{
 		// Native L&F
 		try
@@ -301,7 +311,7 @@ public class Main implements ChangeListener
 	}
 
 //========================================================================
-	public static void setCrossPlatformLAF()
+	static void setCrossPlatformLAF()
 	{
 		//http://stackoverflow.com/questions/1065691/how-to-set-the-background-color-of-a-jbutton-on-the-mac-os
 		try
@@ -364,7 +374,7 @@ public class Main implements ChangeListener
 		tabPanel.setUI(new BasicTabbedPaneUI()
 		{
 			//top,left,right,bottom
-			private final Insets borderInsets = new Insets(2, 2, 2, 2);
+			private final Insets borderInsets = new Insets(0,0,0,0);
 			@Override
 			protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex)
 			{
@@ -451,7 +461,7 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 	}//end createForm
 
 //========================================================================
-	static void setStatus(String s)
+	public static void setStatus(String s)
 	{
 		if(labelStatus!=null)
 		{
@@ -461,7 +471,7 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 	}
 
 //========================================================================
-	static void startTransmissionSend()
+	public static void startTransmissionSend()
 	{
 		//form already read/vaildated in front button handler
 
@@ -508,7 +518,7 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 	}//end startTransmissionSend
 
 //========================================================================
-	static void startTransmissionReceive()
+	public static void startTransmissionReceive()
 	{
 		//form already read/vaildated in front button handler
 
@@ -554,7 +564,7 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 	}//end startTransmissionReceive
 
 //========================================================================
-	static void stopTransmissionSend()
+	public static void stopTransmissionSend()
 	{
 		//terminate jack_audio_send running in thread
 		OSCMessage msg=new OSCMessage("/quit");
@@ -609,7 +619,7 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 	}//end stopTransmissionSend
 
 //========================================================================
-	static void stopTransmissionReceive()
+	public static void stopTransmissionReceive()
 	{
 		//terminate jack_audio_receive running in thread
 		OSCMessage msg=new OSCMessage("/quit");
@@ -691,7 +701,7 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 	}//end addWindowListeners
 
 //========================================================================
-	static int startOscServerSend()
+	public static int startOscServerSend()
 	{
 		try
 		{
@@ -736,7 +746,7 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 	}//end startOscServerSend
 
 //========================================================================
-	static int startOscServerReceive()
+	public static int startOscServerReceive()
 	{
 		try
 		{
@@ -807,27 +817,27 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 
 //generic print to std out
 //========================================================================
-	static void p(String s)
+	public static void p(String s)
 	{
 		System.out.println(s);
 	}
 
 //styled print to std out, warning
 //========================================================================
-	static void w(String s)
+	public static void w(String s)
 	{
 		System.out.println("/:\\ "+s);
 	}
 
 //styled print to std err
 //========================================================================
-	static void e(String s)
+	public static void e(String s)
 	{
 		System.out.println("/!\\ "+s);
 	}
 
 //========================================================================
-	static void setWindowCentered(Frame f)
+	public static void setWindowCentered(Frame f)
 	{
 		f.setLocation(
 			(int)((screenDimension.getWidth()-f.getWidth()) / 2),

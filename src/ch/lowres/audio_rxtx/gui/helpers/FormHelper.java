@@ -11,16 +11,18 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
 */
 
-package ch.lowres.audio_rxtx.gui;
+package ch.lowres.audio_rxtx.gui.helpers;
+import ch.lowres.audio_rxtx.gui.*;
+import ch.lowres.audio_rxtx.gui.widgets.*;
 
 import java.awt.*;
 
-class FormHelper
+public class FormHelper
 {
 	static Main g;
 
 //========================================================================
-	static void validate(Container container)
+	public static void validate(Container container)
 	{
 		Component c[]=container.getComponents();
 		for(int i=0;i<c.length;i++)
@@ -33,7 +35,7 @@ class FormHelper
 	}//end validate
 
 //========================================================================
-	static void defaultCardAction(Component comp)
+	public static void defaultCardAction(Component comp)
 	{
 		Component c=comp.getParent();
 
@@ -48,7 +50,7 @@ class FormHelper
 	}
 
 //========================================================================
-	static void viewSendPanel()
+	public static void viewSendPanel()
 	{
 		g.mainGrid.removeAll();
 		g.tabPanel.removeAll();
@@ -69,7 +71,7 @@ class FormHelper
 	}
 
 //========================================================================
-	static void viewReceivePanel()
+	public static void viewReceivePanel()
 	{
 		g.mainGrid.removeAll();
 		g.tabPanel.removeAll();
@@ -90,7 +92,7 @@ class FormHelper
 	}
 
 //========================================================================
-	static void viewBothPanels()
+	public static void viewBothPanels()
 	{
 		g.mainGrid.removeAll();
 		g.tabPanel.removeAll();

@@ -12,6 +12,8 @@
 */
 
 package ch.lowres.audio_rxtx.gui;
+import ch.lowres.audio_rxtx.gui.widgets.*;
+import ch.lowres.audio_rxtx.gui.helpers.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -24,6 +26,8 @@ import java.util.Vector;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
 import java.awt.geom.*;
+
+import javax.swing.plaf.ColorUIResource;
 
 //========================================================================
 public class ConfigureDialog extends JDialog implements ChangeListener
@@ -70,15 +74,24 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 	static AButton 				button_cancel_settings=new AButton("Cancel");
 	static AButton 				button_confirm_settings=new AButton("OK");
 
-	static JScrollPane scrollerTabSend_;
-	static JScrollPane scrollerTabReceive_;
-	static JScrollPane scrollerTabGUI_;
+	static JScrollPane scrollerTabSend;
+	static JScrollPane scrollerTabReceive;
+	static JScrollPane scrollerTabGUI;
 
-	static APanel tabSend_;
-	static APanel tabReceive_;
-	static APanel tabGUI_;
+	static APanel tabSend;
+	static APanel tabReceive;
+	static APanel tabGUI;
 
-	static JTabbedPane tabPanel_ = new JTabbedPane();
+	static JTabbedPane tabPanel = new JTabbedPane()
+	{
+        	@Override
+		public void paintComponent(Graphics g) 
+		{
+			//FocusPaint.gradient(g,tabPanel);
+			super.paintComponent(g);
+			FocusPaint.paint(g,tabPanel);
+		}        
+	};
 
 	static NormalFocusTraversalPolicy focusPolicySend;
 	static NormalFocusTraversalPolicy focusPolicyReceive;
@@ -186,6 +199,52 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 //========================================================================
 	void createForm()
 	{
+
+//http://stackoverflow.com/questions/2120728/controlling-color-in-java-tabbed-pane
+tabPanel.setOpaque(true);
+
+UIManager.put("TabbedPane.selected", Colors.form_background);
+UIManager.put("TabbedPane.background",Colors.form_background.brighter().brighter().brighter());
+UIManager.put("TabbedPane.selectedForeground",Colors.form_foreground);
+
+/*
+TabbedPane.actionMap	ActionMap
+TabbedPane.ancestorInputMap	InputMap
+TabbedPane.background	Color
+TabbedPane.borderHightlightColor	Color
+TabbedPane.contentAreaColor	Color
+TabbedPane.contentBorderInsets	Insets
+TabbedPane.contentOpaque	Boolean
+TabbedPane.darkShadow	Color
+TabbedPane.focus	Color
+TabbedPane.focusInputMap	InputMap
+TabbedPane.font	Font
+TabbedPane.foreground	Color
+TabbedPane.highlight	Color
+TabbedPane.light	Color
+TabbedPane.opaque	Boolean
+TabbedPane.selected	Color
+TabbedPane.selectedForeground	Color
+TabbedPane.selectedTabPadInsets	Insets
+TabbedPane.selectHighlight	Color
+TabbedPane.selectionFollowsFocus	Boolean
+TabbedPane.shadow	Color
+TabbedPane.tabAreaBackground	Color
+TabbedPane.tabAreaInsets	Insets
+TabbedPane.tabInsets	Insets
+TabbedPane.tabRunOverlay	Integer
+TabbedPane.tabsOpaque	Boolean
+TabbedPane.tabsOverlapBorder	Boolean
+TabbedPane.textIconGap	Integer
+TabbedPane.unselectedBackground	Color
+TabbedPane.unselectedTabBackground	Color
+TabbedPane.unselectedTabForeground	Color
+TabbedPane.unselectedTabHighlight	Color
+TabbedPane.unselectedTabShadow	Color
+TabbedPaneUI	String
+*/
+
+
 		formSend=new JPanel();
 		formReceive=new JPanel();
 		formGUI=new JPanel();
@@ -202,43 +261,43 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 		formReceive.setOpaque(false);
 		formGUI.setOpaque(false);
 
-		tabSend_=new APanel(new BorderLayout());
-		tabSend_.setBackground(Colors.form_background);
-		tabSend_.add(formSend,BorderLayout.NORTH);
+		tabSend=new APanel(new BorderLayout());
+		tabSend.setBackground(Colors.form_background);
+		tabSend.add(formSend,BorderLayout.NORTH);
 
-		scrollerTabSend_=new JScrollPane (tabSend_, 
+		scrollerTabSend=new JScrollPane (tabSend, 
 			ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-		scrollerTabSend_.getViewport().setBackground(Colors.form_background);
+		scrollerTabSend.getViewport().setBackground(Colors.form_background);
 
-		tabReceive_=new APanel(new BorderLayout());
-		tabReceive_.setBackground(Colors.form_background);
-		tabReceive_.add(formReceive,BorderLayout.NORTH);
-		scrollerTabReceive_=new JScrollPane (tabReceive_, 
+		tabReceive=new APanel(new BorderLayout());
+		tabReceive.setBackground(Colors.form_background);
+		tabReceive.add(formReceive,BorderLayout.NORTH);
+		scrollerTabReceive=new JScrollPane (tabReceive, 
 			ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-		scrollerTabReceive_.getViewport().setBackground(Colors.form_background);
+		scrollerTabReceive.getViewport().setBackground(Colors.form_background);
 
-		tabGUI_=new APanel(new BorderLayout());
-		tabGUI_.setBackground(Colors.form_background);
-		tabGUI_.add(formGUI,BorderLayout.NORTH);
-		scrollerTabGUI_=new JScrollPane (tabGUI_, 
+		tabGUI=new APanel(new BorderLayout());
+		tabGUI.setBackground(Colors.form_background);
+		tabGUI.add(formGUI,BorderLayout.NORTH);
+		scrollerTabGUI=new JScrollPane (tabGUI, 
 			ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-		scrollerTabGUI_.getViewport().setBackground(Colors.form_background);
+		scrollerTabGUI.getViewport().setBackground(Colors.form_background);
 
-		tabPanel_.add("Send",scrollerTabSend_);
-		tabPanel_.add("Receive",scrollerTabReceive_);
-		tabPanel_.add("GUI",scrollerTabGUI_);
+		tabPanel.add("Send",scrollerTabSend);
+		tabPanel.add("Receive",scrollerTabReceive);
+		tabPanel.add("GUI",scrollerTabGUI);
 
 		//http://stackoverflow.com/questions/5183687/java-remove-margin-padding-on-a-jtabbedpane
-		tabPanel_.setUI(new BasicTabbedPaneUI()
+		tabPanel.setUI(new BasicTabbedPaneUI()
 		{
 			//top,left,right,bottom
-			private final Insets borderInsets = new Insets(2, 2, 2, 2);
+			private final Insets borderInsets = new Insets(0, 0, 0, 0);
 			@Override
 			protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex)
 			{
@@ -250,10 +309,28 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 			}
 		});
 
-		tabPanel_.addChangeListener(this);
+		tabPanel.addChangeListener(this);
+
+tabPanel.addFocusListener(
+new FocusListener()
+{
+
+	Component c=null;
+	public void focusLost(FocusEvent fe)
+	{
+		c=null;
+		repaint();
+	}
+        public void focusGained(FocusEvent fe)
+	{
+		c=fe.getComponent();
+		repaint();
+	}
+}
+);
 
 		//======
-		add(tabPanel_,BorderLayout.CENTER);
+		add(tabPanel,BorderLayout.CENTER);
 
 		g.formUtility.addLabel("Connect To This JACK Server:", formSend);
 		g.formUtility.addLastField(text_sname_s, formSend);
@@ -388,7 +465,7 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 		orderSend.add(button_confirm_settings);
 
 		focusPolicySend = new NormalFocusTraversalPolicy(orderSend);
-		setFocusTraversalPolicy(focusPolicySend);
+//		setFocusTraversalPolicy(focusPolicySend);
 
 		Vector<Component> orderReceive = new Vector<Component>();
 		orderReceive.add(text_sname_r);
@@ -600,27 +677,24 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 	}//end addWindowListeners
 
 //========================================================================
+//tabstate
+	public void stateChanged(ChangeEvent e)
+	{
+
+/*
+tabPanel.setBackgroundAt(tabPanel.getSelectedIndex(),Colors.form_foreground);
+tabPanel.setForegroundAt(tabPanel.getSelectedIndex(),Colors.form_background);
+tabPanel.repaint();
+*/
+
+		//setFocusedWidget();
+	}
+
+//========================================================================
 	public void setFocusedWidget()
 	{
-		String tabname=tabPanel_.getTitleAt(tabPanel_.getSelectedIndex());
+		String tabname=tabPanel.getTitleAt(tabPanel.getSelectedIndex());
 		setFocusedWidget(tabname);
-	}
-
-//========================================================================
-	public void nextTab()
-	{
-		int newIndex=tabPanel_.getSelectedIndex();
-		newIndex++;
-		newIndex=newIndex % tabPanel_.getTabCount();
-		tabPanel_.setSelectedIndex(newIndex);
-	}
-
-//========================================================================
-	public void prevTab()
-	{
-		int newIndex=tabPanel_.getSelectedIndex();
-		newIndex--;
-		tabPanel_.setSelectedIndex(newIndex < 0 ? tabPanel_.getTabCount()-1 : newIndex);
 	}
 
 //========================================================================
@@ -629,24 +703,41 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 		if(tabname.equals("Send"))
 		{
 			text_name_s.requestFocus();
-			setFocusTraversalPolicy(focusPolicySend);
+			//setFocusTraversalPolicy(focusPolicySend);
 		}
 		else if(tabname.equals("Receive"))
 		{
 			text_name_r.requestFocus();
-			setFocusTraversalPolicy(focusPolicyReceive);
+			//setFocusTraversalPolicy(focusPolicyReceive);
 		}
 		else if(tabname.equals("GUI"))
 		{
 			checkbox_gui_osc_port_random.requestFocus();
-			setFocusTraversalPolicy(focusPolicyGUI);
+			//setFocusTraversalPolicy(focusPolicyGUI);
 		}
+	}
+
+//========================================================================
+	public void nextTab()
+	{
+		int newIndex=tabPanel.getSelectedIndex();
+		newIndex++;
+		newIndex=newIndex % tabPanel.getTabCount();
+		tabPanel.setSelectedIndex(newIndex);
+	}
+
+//========================================================================
+	public void prevTab()
+	{
+		int newIndex=tabPanel.getSelectedIndex();
+		newIndex--;
+		tabPanel.setSelectedIndex(newIndex < 0 ? tabPanel.getTabCount()-1 : newIndex);
 	}
 
 //========================================================================
 	public void scrollUp()
 	{
-		JScrollPane jp=(JScrollPane)tabPanel_.getSelectedComponent();
+		JScrollPane jp=(JScrollPane)tabPanel.getSelectedComponent();
 		JScrollBar sb=jp.getVerticalScrollBar();
 		int val=sb.getValue();
 		sb.setValue(val-=30);
@@ -655,7 +746,7 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 //========================================================================
 	public void scrollDown()
 	{
-		JScrollPane jp=(JScrollPane)tabPanel_.getSelectedComponent();
+		JScrollPane jp=(JScrollPane)tabPanel.getSelectedComponent();
 		JScrollBar sb=jp.getVerticalScrollBar();
 		int val=sb.getValue();
 		sb.setValue(val+=30);
@@ -664,7 +755,7 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 //========================================================================
 	public void scrollTop()
 	{
-		JScrollPane jp=(JScrollPane)tabPanel_.getSelectedComponent();
+		JScrollPane jp=(JScrollPane)tabPanel.getSelectedComponent();
 		JScrollBar sb=jp.getVerticalScrollBar();
 		sb.setValue(sb.getMinimum());
 	}
@@ -672,15 +763,9 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 //========================================================================
 	public void scrollBottom()
 	{
-		JScrollPane jp=(JScrollPane)tabPanel_.getSelectedComponent();
+		JScrollPane jp=(JScrollPane)tabPanel.getSelectedComponent();
 		JScrollBar sb=jp.getVerticalScrollBar();
 		sb.setValue(sb.getMaximum());
-	}
-
-//========================================================================
-	public void stateChanged(ChangeEvent e)
-	{
-		setFocusedWidget();
 	}
 
 //========================================================================

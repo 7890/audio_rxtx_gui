@@ -12,6 +12,8 @@
 */
 
 package ch.lowres.audio_rxtx.gui;
+import ch.lowres.audio_rxtx.gui.widgets.*;
+import ch.lowres.audio_rxtx.gui.helpers.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -28,7 +30,7 @@ public abstract class Card extends APanel implements CardInterface
 	static Main g;
 	JPanel form;
 	JLabel 				label_status=new JLabel("Ready");
-	AButton 			button_default=new AButton("Default");
+	public AButton 			button_default=new AButton("Default");
 
 	boolean formCreated=false;
 

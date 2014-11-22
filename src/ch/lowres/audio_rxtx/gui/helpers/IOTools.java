@@ -11,41 +11,27 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
 */
 
-package ch.lowres.audio_rxtx.gui;
+package ch.lowres.audio_rxtx.gui.helpers;
+import ch.lowres.audio_rxtx.gui.*;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.File;
+import java.io.*;
 
-import java.util.jar.JarInputStream;
-import java.util.jar.JarEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipEntry;
-import java.util.Enumeration;
+import java.util.*;
+import java.util.jar.*;
+import java.util.zip.*;
 
-import java.awt.Font;
+import java.awt.*;
 
 import javax.swing.ImageIcon;
 import javax.imageio.ImageIO;
 
-import java.awt.Desktop;
-
-import java.util.Properties;
-
-import java.net.URI;
-import java.net.URL;
-
-import java.io.Reader;
-import java.io.InputStreamReader;
+import java.net.*;
 
 //========================================================================
 public class IOTools
 {
-	static Main g;
-
-	static String jarFileString="";
+	private static Main g;
+	private static String jarFileString="";
 
 //========================================================================
 	//default: read from own jar
@@ -64,7 +50,7 @@ public class IOTools
 //========================================================================
 	//https://community.oracle.com/thread/1188356?start=0&tstart=0
 	//Copies an entire folder out of a jar to a physical location.
-	static boolean copyJarContent(String folderName, String destUri)
+	public static boolean copyJarContent(String folderName, String destUri)
 	{
 		boolean found=false;
 		//cut leading "/"
@@ -120,7 +106,7 @@ public class IOTools
 	* Doesn't need to be private, uses a resource stream, so may have
 	* security errors if ran from webstart application 
 	*/
-	static boolean copyFileFromJar(String sResource, File fDest)
+	public static boolean copyFileFromJar(String sResource, File fDest)
 	{
 		if(sResource==null || fDest==null) 
 		{
@@ -170,7 +156,7 @@ public class IOTools
 	}//end copyFileFromJar
 
 //========================================================================
-	static Font createFontFromJar(String fontUriInJar, float fontSize)
+	public static Font createFontFromJar(String fontUriInJar, float fontSize)
 	{
 		InputStream is;
 		Font f;
@@ -190,7 +176,7 @@ public class IOTools
 	}//end createFontFromJar
 
 //========================================================================
-	static ImageIcon createImageIconFromJar(String imageUriInJar)
+	public static ImageIcon createImageIconFromJar(String imageUriInJar)
 	{
 		InputStream is;
 		ImageIcon ii;
@@ -210,7 +196,7 @@ public class IOTools
 
 //========================================================================
 	//http://www.rgagnon.com/javadetails/java-0483.html
-	static boolean deleteDirectory(File path) 
+	public static boolean deleteDirectory(File path) 
 	{
 		if( path.exists() ) 
 		{
@@ -232,7 +218,7 @@ public class IOTools
 
 //========================================================================
 	////http://stackoverflow.com/questions/2546968/open-pdf-file-on-fly-from-java-application
-	static boolean openFile(File f) 
+	public static boolean openFile(File f) 
 	{
 		Desktop desktop=Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
 		if(desktop!=null && desktop.isSupported(Desktop.Action.OPEN)) 
@@ -256,7 +242,7 @@ public class IOTools
 	}//end openFile
 
 //========================================================================
-	static void checkForNewerVersion(String url)
+	public static void checkForNewerVersion(String url)
 	{
 		final String url_=url;
 
@@ -287,7 +273,7 @@ public class IOTools
 
 //========================================================================
 //http://stackoverflow.com/questions/19375091/how-to-open-url-by-desktop-object-in-java
-	static boolean openInBrowser(String url) 
+	public static boolean openInBrowser(String url) 
 	{
 		Desktop desktop=Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
 		if(desktop!=null && desktop.isSupported(Desktop.Action.BROWSE)) 
@@ -311,7 +297,7 @@ public class IOTools
 	}//end openFile
 
 //========================================================================
-	static boolean loadProps(Properties props)
+	public static boolean loadProps(Properties props)
 	{
 		if(props!=null)
 		{
@@ -374,7 +360,7 @@ catch(Exception e)
 
 //========================================================================
 	//http://www.drdobbs.com/jvm/readwrite-properties-files-in-java/231000005
-	static boolean loadSettings(String propertiesFileUri)
+	public static boolean loadSettings(String propertiesFileUri)
 	{
 		Properties props=new Properties();
 		InputStream is=null;
@@ -438,7 +424,7 @@ catch(Exception e)
 	}//end loadSettings
 
 //========================================================================
-	static boolean saveSettings(String propertiesFileUri)
+	public static boolean saveSettings(String propertiesFileUri)
 	{
 		try 
 		{

@@ -11,24 +11,19 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
 */
 
-package ch.lowres.audio_rxtx.gui;
-
-import java.awt.event.KeyListener;
+package ch.lowres.audio_rxtx.gui.api;
 
 //========================================================================
-class HostTextFieldWithLimit extends TextFieldWithLimit implements KeyListener 
+public interface CmdlineAPIInterface
 {
 //========================================================================
-	public HostTextFieldWithLimit (String initialStr, int col, int maxLength) 
-	{
-		super(initialStr, col, maxLength);
-	}
+	void setPrefixPath(String prefix);
 
 //========================================================================
-	@Override
-	public boolean disallowedChar(char c)
-	{
-		//blacklist, true if not allowed
-		return (!Character.isLetterOrDigit(c) && c!='.' && c!='-' && c!='_');
-	}
-}//end HostTextFieldWithLimit
+	String getCommandLineString();
+
+//========================================================================
+//0: send
+//1: receive
+	int getType();
+}//end interface CmdlineAPIInteface

@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
 */
 
-package ch.lowres.audio_rxtx.gui;
+package ch.lowres.audio_rxtx.gui.helpers;
 
 import java.awt.*;
 
@@ -28,7 +28,7 @@ public class FocusPaint
 	}
 
 //========================================================================
-	static void paint(Graphics g, Component c) 
+	public static void paint(Graphics g, Component c) 
 	{
 		Dimension size = c.getSize();
 
@@ -66,7 +66,7 @@ public class FocusPaint
 
 //========================================================================
 	//http://stackoverflow.com/questions/14364291/jpanel-gradient-background
-	static void gradient(Graphics g, Component c)
+	public static void gradient(Graphics g, Component c)
 	{
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
