@@ -203,6 +203,7 @@ public class FormUtility
 	{
 		GridBagLayout gbl=(GridBagLayout)parent.getLayout();
 		JPanel c=new JPanel();
+		c.setOpaque(false);
 		gbl.setConstraints(c, lastConstraints);
 		c.setBackground(Colors.form_background);
 		parent.add(c);
@@ -234,10 +235,10 @@ public class FormUtility
 	public void addButtons(Component c, Container parent, Font f)
 	{
 		GridBagLayout gbl=(GridBagLayout)parent.getLayout();
+		gbl.setConstraints(c, lastConstraints);
 		c.setBackground(Colors.button_background);
 		c.setForeground(Colors.button_foreground);
 		c.setFont(f);
-		gbl.setConstraints(c, lastConstraints);
 		parent.add(c);
 	}
 }//end class FormUtility

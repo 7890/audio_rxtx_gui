@@ -80,6 +80,7 @@ setBorder(
 ));
 */
 
+		setOpaque(false);
 		addKeyListener(this);
 		addFocusListener(this);
 		addMouseListener(this);
@@ -105,16 +106,17 @@ setBorder(
 
 //========================================================================
         @Override
-        public Dimension getPreferredSize()
+	public Dimension getPreferredSize()
         {
 		return new Dimension(200,30);
-        }
+	}
 
 
 //========================================================================
 	@Override
 	public void paintComponent(Graphics g) 
 	{
+		FocusPaint.gradient(g,this);
 		super.paintComponent(g);
 
 		//hover

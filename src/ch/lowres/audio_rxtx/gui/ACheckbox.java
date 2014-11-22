@@ -50,6 +50,7 @@ public class ACheckbox extends JCheckBox implements KeyListener, FocusListener, 
 //========================================================================
 	void init()
 	{
+		setOpaque(false);
 		addKeyListener(this);
 		addFocusListener(this);
 		addMouseListener(this);
@@ -66,6 +67,7 @@ public class ACheckbox extends JCheckBox implements KeyListener, FocusListener, 
 	@Override
 	public void paintComponent(Graphics g) 
 	{
+		FocusPaint.gradient(g,this);
 		super.paintComponent(g);
 
 		//hover

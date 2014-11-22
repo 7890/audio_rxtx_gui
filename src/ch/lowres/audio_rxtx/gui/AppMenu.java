@@ -466,7 +466,7 @@ public class AppMenu extends JMenuBar
 	static void setForRunningSend()
 	{
 		mi_load_default_settings.setEnabled(false);
-		mi_load_settings.setEnabled(false);;
+		mi_load_settings.setEnabled(false);
 		mi_configure_dialog.setEnabled(false);
 		mi_start_transmissionSend.setEnabled(false);
 		mi_stop_transmissionSend.setEnabled(true);
@@ -476,7 +476,7 @@ public class AppMenu extends JMenuBar
 	static void setForFrontScreenSend()
 	{
 		mi_load_default_settings.setEnabled(true);
-		mi_load_settings.setEnabled(true);;
+		mi_load_settings.setEnabled(true);
 		mi_configure_dialog.setEnabled(true);
 		mi_start_transmissionSend.setEnabled(true);
 		mi_stop_transmissionSend.setEnabled(false);
@@ -486,7 +486,7 @@ public class AppMenu extends JMenuBar
 	static void setForRunningReceive()
 	{
 		mi_load_default_settings.setEnabled(false);
-		mi_load_settings.setEnabled(false);;
+		mi_load_settings.setEnabled(false);
 		mi_configure_dialog.setEnabled(false);
 		mi_start_transmissionReceive.setEnabled(false);
 		mi_stop_transmissionReceive.setEnabled(true);
@@ -496,7 +496,7 @@ public class AppMenu extends JMenuBar
 	static void setForFrontScreenReceive()
 	{
 		mi_load_default_settings.setEnabled(true);
-		mi_load_settings.setEnabled(true);;
+		mi_load_settings.setEnabled(true);
 		mi_configure_dialog.setEnabled(true);
 		mi_start_transmissionReceive.setEnabled(true);
 		mi_stop_transmissionReceive.setEnabled(false);

@@ -20,8 +20,10 @@ import java.net.InetAddress;
 
 import javax.swing.*;
 
+import java.awt.geom.*;
+
 //========================================================================
-public abstract class Card extends JPanel implements CardInterface
+public abstract class Card extends APanel implements CardInterface
 {
 	static Main g;
 	JPanel form;
@@ -51,6 +53,9 @@ public abstract class Card extends JPanel implements CardInterface
 
 		form=new JPanel();
 		form.setBackground(Colors.form_background);
+
+		form.setOpaque(false);
+
 		add(form,BorderLayout.NORTH);
 
 		button_default.setBackground(Colors.button_background);

@@ -43,14 +43,15 @@ public class ARadioButton extends JRadioButton implements MouseListener
 //========================================================================
 	void init()
 	{
+		setOpaque(false);
 		addMouseListener(this);
 	}
 
 //========================================================================
-
 	@Override
 	public void paintComponent(Graphics g) 
 	{
+		FocusPaint.gradient(g,this);
 		super.paintComponent(g);
 
 		//hover

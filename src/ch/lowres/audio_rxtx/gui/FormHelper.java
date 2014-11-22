@@ -51,14 +51,14 @@ class FormHelper
 	static void viewSendPanel()
 	{
 		g.mainGrid.removeAll();
-		g.tabPanel_.removeAll();
+		g.tabPanel.removeAll();
 
-		g.tabPanel_.add("Send", g.scrollerTabSend_);
-		g.tabPanel_.add("Receive", g.scrollerTabReceive_);
+		g.tabPanel.add("Send", g.scrollerTabSend);
+		g.tabPanel.add("Receive", g.scrollerTabReceive);
 
-		g.tabPanel_.setSelectedIndex(0);
+		g.tabPanel.setSelectedIndex(0);
 
-		g.mainGrid.add(g.tabPanel_);
+		g.mainGrid.add(g.tabPanel);
 		g.mainGrid.validate();
 
 		g.mainframe.pack();
@@ -72,14 +72,14 @@ class FormHelper
 	static void viewReceivePanel()
 	{
 		g.mainGrid.removeAll();
-		g.tabPanel_.removeAll();
+		g.tabPanel.removeAll();
 
-		g.tabPanel_.add("Send", g.scrollerTabSend_);
-		g.tabPanel_.add("Receive", g.scrollerTabReceive_);
+		g.tabPanel.add("Send", g.scrollerTabSend);
+		g.tabPanel.add("Receive", g.scrollerTabReceive);
 
-		g.tabPanel_.setSelectedIndex(1);
+		g.tabPanel.setSelectedIndex(1);
 
-		g.mainGrid.add(g.tabPanel_);
+		g.mainGrid.add(g.tabPanel);
 		g.mainGrid.validate();
 
 		g.mainframe.pack();
@@ -93,10 +93,10 @@ class FormHelper
 	static void viewBothPanels()
 	{
 		g.mainGrid.removeAll();
-		g.tabPanel_.removeAll();
+		g.tabPanel.removeAll();
 
-		g.mainGrid.add(g.scrollerTabSend_);
-		g.mainGrid.add(g.scrollerTabReceive_);
+		g.mainGrid.add(g.scrollerTabSend);
+		g.mainGrid.add(g.scrollerTabReceive);
 		g.mainGrid.validate();
 
 		g.mainframe.pack();

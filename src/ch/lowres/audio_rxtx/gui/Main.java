@@ -95,16 +95,15 @@ public class Main implements ChangeListener
 
 	static AppMenu applicationMenu;
 
-	static JScrollPane scrollerTabSend_;
-	static JScrollPane scrollerTabReceive_;
+	static JScrollPane scrollerTabSend;
+	static JScrollPane scrollerTabReceive;
 
-	static JPanel tabSend_;
-	static JPanel tabReceive_;
-	static JPanel tabGUI_;
+	static JPanel tabSend;
+	static JPanel tabReceive;
 
-static JTabbedPane tabPanel_ = new JTabbedPane();
+	static JTabbedPane tabPanel = new JTabbedPane();
 
-static JPanel mainGrid;
+	static JPanel mainGrid;
 
 	static JPanel cardPanelSend;
 	static CardLayout cardLaySend;
@@ -263,7 +262,7 @@ static JPanel mainGrid;
 		//will remove tmpdir on program exit if keep_cache==false
 		createShutDownHook();
 
-setCrossPlatformLAF();
+		setCrossPlatformLAF();
 
 		//http://stackoverflow.com/questions/209812/how-do-i-change-the-default-application-icon-in-java
 		java.net.URL url = ClassLoader.getSystemResource("resources/audio_rxtx_icon.png");
@@ -324,7 +323,6 @@ setCrossPlatformLAF();
 		mainframe.setBackground(Colors.form_background);
 		mainframe.setForeground(Colors.form_foreground);
 		mainframe.setLayout(new BorderLayout());
-
 		mainframe.setIconImage(appIcon);
 
 		//"cards" / for switching views / all in one window
@@ -336,33 +334,34 @@ setCrossPlatformLAF();
 		cardLayReceive=new CardLayout();
 		cardPanelReceive.setLayout(cardLayReceive);
 
-		tabSend_=new JPanel(new BorderLayout());
-		tabSend_.setBackground(Colors.form_background);
-		tabSend_.add(cardPanelSend,BorderLayout.CENTER);
-		scrollerTabSend_=new JScrollPane (tabSend_, 
+		tabSend=new JPanel(new BorderLayout());
+		tabSend.setBackground(Colors.form_background);
+		tabSend.add(cardPanelSend,BorderLayout.CENTER);
+
+		scrollerTabSend=new JScrollPane (tabSend, 
 			ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-		scrollerTabSend_.getViewport().setBackground(Colors.form_background);
+		scrollerTabSend.getViewport().setBackground(Colors.form_background);
 
-		tabReceive_=new JPanel(new BorderLayout());
-		tabReceive_.setBackground(Colors.form_background);
-		tabReceive_.add(cardPanelReceive,BorderLayout.CENTER);
-		scrollerTabReceive_=new JScrollPane (tabReceive_, 
+		tabReceive=new JPanel(new BorderLayout());
+		tabReceive.setBackground(Colors.form_background);
+		tabReceive.add(cardPanelReceive,BorderLayout.CENTER);
+		scrollerTabReceive=new JScrollPane (tabReceive, 
 			ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-		scrollerTabReceive_.getViewport().setBackground(Colors.form_background);
+		scrollerTabReceive.getViewport().setBackground(Colors.form_background);
 
 //start tabbed
-		tabPanel_.add("Send", scrollerTabSend_);
-		tabPanel_.add("Receive", scrollerTabReceive_);
+		tabPanel.add("Send", scrollerTabSend);
+		tabPanel.add("Receive", scrollerTabReceive);
 
-		tabPanel_.addChangeListener(this);
+		tabPanel.addChangeListener(this);
 
 		//http://stackoverflow.com/questions/5183687/java-remove-margin-padding-on-a-jtabbedpane
 
-		tabPanel_.setUI(new BasicTabbedPaneUI()
+		tabPanel.setUI(new BasicTabbedPaneUI()
 		{
 			//top,left,right,bottom
 			private final Insets borderInsets = new Insets(2, 2, 2, 2);
@@ -379,10 +378,10 @@ setCrossPlatformLAF();
 
 		mainGrid=new JPanel(new GridLayout(1,2)); //y,x
 
-//		mainGrid.add(scrollerTabSend_);
-//		mainGrid.add(scrollerTabReceive_);
+//		mainGrid.add(scrollerTabSend);
+//		mainGrid.add(scrollerTabReceive);
 
-		mainGrid.add(tabPanel_);
+		mainGrid.add(tabPanel);
 		mainframe.add(mainGrid,BorderLayout.CENTER);
 
 		//menu always on top
@@ -428,22 +427,22 @@ setCrossPlatformLAF();
 
 //tmp
 p("cardPanelSend "+cardPanelSend.getPreferredSize().getWidth()+" "+cardPanelSend.getPreferredSize().getHeight());
-p("tabSend "+tabSend_.getPreferredSize().getWidth()+" "+tabSend_.getPreferredSize().getHeight());
+p("tabSend "+tabSend.getPreferredSize().getWidth()+" "+tabSend.getPreferredSize().getHeight());
 p("frontSend "+frontSend.getPreferredSize().getWidth()+" "+frontSend.getPreferredSize().getHeight());
 p("insets "+mainframe.getInsets().left+" "+mainframe.getInsets().right+" "+mainframe.getInsets().top+" "+mainframe.getInsets().bottom);
 p("application_menu "+applicationMenu.getPreferredSize().getWidth()+" "+applicationMenu.getPreferredSize().getHeight());
 p("label_status "+labelStatus.getPreferredSize().getWidth()+" "+labelStatus.getPreferredSize().getHeight());
 p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+frontSend.button_default.getPreferredSize().getHeight());
 
-	panelHeight=(int)(
-		cardPanelSend.getPreferredSize().getHeight()
+		panelHeight=(int)(
+			cardPanelSend.getPreferredSize().getHeight()
 /*	+mainframe.getInsets().top+mainframe.getInsets().bottom*/
-		+applicationMenu.getPreferredSize().getHeight()
-		+labelStatus.getPreferredSize().getHeight()
-		+frontSend.button_default.getPreferredSize().getHeight()
-		/*+10*/);
+			+applicationMenu.getPreferredSize().getHeight()
+			+labelStatus.getPreferredSize().getHeight()
+			+frontSend.button_default.getPreferredSize().getHeight()
+			/*+10*/);
 
-	panelWidth=(int)(mainGrid.getPreferredSize().getWidth());
+		panelWidth=(int)(mainGrid.getPreferredSize().getWidth());
 
 		mainframe.setSize(
 			panelWidth+mainframe.getInsets().left+mainframe.getInsets().right,
@@ -848,33 +847,33 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 	public void setFocusedWidget()
 	{
 ////////////////////
-//		String tabname=tabPanel_.getTitleAt(tabPanel_.getSelectedIndex());
+//		String tabname=tabPanel.getTitleAt(tabPanel.getSelectedIndex());
 //		setFocusedWidget(tabname);
 	}
 
 //========================================================================
 	public void nextTab()
 	{
-		if(tabPanel_.getTabCount()<1)
+		if(tabPanel.getTabCount()<1)
 		{
 			return;
 		}
-		int newIndex=tabPanel_.getSelectedIndex();
+		int newIndex=tabPanel.getSelectedIndex();
 		newIndex++;
-		newIndex=newIndex % tabPanel_.getTabCount();
-		tabPanel_.setSelectedIndex(newIndex);
+		newIndex=newIndex % tabPanel.getTabCount();
+		tabPanel.setSelectedIndex(newIndex);
 	}
 
 //========================================================================
 	public void prevTab()
 	{
-		if(tabPanel_.getTabCount()<1)
+		if(tabPanel.getTabCount()<1)
 		{
 			return;
 		}
-		int newIndex=tabPanel_.getSelectedIndex();
+		int newIndex=tabPanel.getSelectedIndex();
 		newIndex--;
-		tabPanel_.setSelectedIndex(newIndex < 0 ? tabPanel_.getTabCount()-1 : newIndex);
+		tabPanel.setSelectedIndex(newIndex < 0 ? tabPanel.getTabCount()-1 : newIndex);
 	}
 
 //========================================================================

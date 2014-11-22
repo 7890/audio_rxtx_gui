@@ -23,6 +23,8 @@ import java.util.Vector;
 
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
+import java.awt.geom.*;
+
 //========================================================================
 public class ConfigureDialog extends JDialog implements ChangeListener
 {
@@ -72,9 +74,9 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 	static JScrollPane scrollerTabReceive_;
 	static JScrollPane scrollerTabGUI_;
 
-	static JPanel tabSend_;
-	static JPanel tabReceive_;
-	static JPanel tabGUI_;
+	static APanel tabSend_;
+	static APanel tabReceive_;
+	static APanel tabGUI_;
 
 	static JTabbedPane tabPanel_ = new JTabbedPane();
 
@@ -196,16 +198,21 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 		formReceive.setBackground(Colors.form_background);
 		formGUI.setBackground(Colors.form_background);
 
-		tabSend_=new JPanel(new BorderLayout());
+		formSend.setOpaque(false);
+		formReceive.setOpaque(false);
+		formGUI.setOpaque(false);
+
+		tabSend_=new APanel(new BorderLayout());
 		tabSend_.setBackground(Colors.form_background);
 		tabSend_.add(formSend,BorderLayout.NORTH);
+
 		scrollerTabSend_=new JScrollPane (tabSend_, 
 			ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 		scrollerTabSend_.getViewport().setBackground(Colors.form_background);
 
-		tabReceive_=new JPanel(new BorderLayout());
+		tabReceive_=new APanel(new BorderLayout());
 		tabReceive_.setBackground(Colors.form_background);
 		tabReceive_.add(formReceive,BorderLayout.NORTH);
 		scrollerTabReceive_=new JScrollPane (tabReceive_, 
@@ -214,7 +221,7 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 
 		scrollerTabReceive_.getViewport().setBackground(Colors.form_background);
 
-		tabGUI_=new JPanel(new BorderLayout());
+		tabGUI_=new APanel(new BorderLayout());
 		tabGUI_.setBackground(Colors.form_background);
 		tabGUI_.add(formGUI,BorderLayout.NORTH);
 		scrollerTabGUI_=new JScrollPane (tabGUI_, 

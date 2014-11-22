@@ -62,5 +62,25 @@ public class FocusPaint
 
 			g2.fill(gp);
 		}
-	}//end paoint
+	}//end paint
+
+//========================================================================
+	//http://stackoverflow.com/questions/14364291/jpanel-gradient-background
+	static void gradient(Graphics g, Component c)
+	{
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+			RenderingHints.VALUE_ANTIALIAS_ON);
+		GradientPaint gp = new GradientPaint(0, 0,
+			c.getBackground(), 0, c.getHeight()/2,
+			c.getBackground().brighter());
+		g2.setPaint(gp);
+		g2.fillRect(0, 0, c.getWidth(), c.getHeight()/2);
+
+		gp = new GradientPaint(0, c.getHeight()/2,
+			c.getBackground().brighter(), 0, c.getHeight(),
+			c.getBackground());
+		g2.setPaint(gp);
+		g2.fillRect(0, c.getHeight()/2, c.getWidth(), c.getHeight());
+	}
 }//end class FocusPaint
