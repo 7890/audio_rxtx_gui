@@ -22,10 +22,13 @@ import javax.swing.ImageIcon;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+* Used in {@link AboutDialog}, image with version paint.
+*/
 //========================================================================
 public class ImgComponent extends Component
 {
-	private Main g;
+	private static Main g;
 
 	private ImageIcon audio_rxtx_logo;
 	private int imageTop=370;

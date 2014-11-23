@@ -22,6 +22,9 @@ import javax.swing.*;
 
 import java.net.InetAddress;
 
+/**
+* Extended {@link Card}, showing send form.
+*/
 //========================================================================
 public class FrontCardSend extends Card
 {
@@ -145,12 +148,4 @@ public class FrontCardSend extends Card
 	{
 		checkbox_format_16.requestFocus();
 	}
-
-//========================================================================
-/*
-	public void addActionListeners()
-	{
-		super.addActionListeners();
-	}//end addActionListeners
-*/
 }//end class FrontCardSend

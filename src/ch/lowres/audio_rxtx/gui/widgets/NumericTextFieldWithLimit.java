@@ -19,6 +19,13 @@ import java.awt.event.*;
 
 import javax.swing.JTextField;
 
+/**
+* Extended {@link TextFieldWithLimit} allowing only digits.
+* The minimum / maximum values can be configured.
+* Arrow keys up / down allow increment / decrement of natural number.
+* Validation takes place on focus lost or when incrementing / decrementing.
+* Text is selected, caret position at end when focused.
+*/
 //========================================================================
 public class NumericTextFieldWithLimit extends TextFieldWithLimit implements KeyListener 
 {

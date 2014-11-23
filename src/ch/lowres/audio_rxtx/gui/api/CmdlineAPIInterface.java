@@ -13,6 +13,9 @@
 
 package ch.lowres.audio_rxtx.gui.api;
 
+/**
+* Interface for command line APIs.
+*/
 //========================================================================
 public interface CmdlineAPIInterface
 {

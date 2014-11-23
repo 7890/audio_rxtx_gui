@@ -24,6 +24,9 @@ import javax.swing.*;
 
 import java.awt.geom.*;
 
+/**
+* Abstract {@link CardInterface}, extended {@link APanel}, handling common card aspects.
+*/
 //========================================================================
 public abstract class Card extends APanel implements CardInterface
 {

@@ -17,9 +17,14 @@ import ch.lowres.audio_rxtx.gui.widgets.*;
 
 import java.awt.*;
 
+/**
+* Helper to validate input widgets in a Container, trigger default action.
+* Helper to switch or combine send and receive panels.
+*/
+//========================================================================
 public class FormHelper
 {
-	static Main g;
+	private static Main g;
 
 //========================================================================
 	public static void validate(Container container)

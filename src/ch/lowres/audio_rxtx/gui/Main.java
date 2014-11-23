@@ -21,12 +21,9 @@ import java.awt.*;
 import java.awt.event.*;
 
 import com.illposed.osc.*;
-import java.net.InetAddress;
-import java.net.DatagramSocket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.HashMap;
+import java.net.*;
+import java.util.*;
+
 import java.io.File;
 
 import javax.swing.*;
@@ -34,29 +31,34 @@ import javax.swing.event.*;
 
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
-//java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -cp .:build/classes/ ch.lowres.audio_rxtx.gui.Main
-
-/*
-//http://stackoverflow.com/questions/6671021/how-to-debug-java-swing-layouts/6674624#6674624
-Take a look at page: Troubleshooting AWT
-
-It provides the following debugging tip:
-To dump the AWT component hierarchy, press Ctrl+Shift+F1.
+/**
+* audio_rxtx GUI main class. This is the application entry point (having a main method).
+* <p>
+* Run: java -cp .:build/classes/ ch.lowres.audio_rxtx.gui.Main 
+* <p>
+* Run with splashscreen, more allocated memory: java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -cp .:build/classes/ ch.lowres.audio_rxtx.gui.Main
+* <p>
+* Run distributable multiplatform .jar: java -jar audio_rxtx_gui_1416691911.jar
+* <p>
+* To dump the AWT component hierarchy, focus any component and press Ctrl+Shift+F1.
+*
+* @author <tom@trellis.ch>
+* @see <a href="https://github.com/7890/audio_rxtx_gui">https://github.com/7890/audio_rxtx_gui</a>
+* @see <a href="https://github.com/7890/jack_tools">https://github.com/7890/jack_tools</a>
+* @see <a href="http://stackoverflow.com/questions/6671021/how-to-debug-java-swing-layouts/6674624#6674624">http://stackoverflow.com/questions/6671021/how-to-debug-java-swing-layouts/6674624#6674624</a>
 */
-
 //========================================================================
-public class Main implements ChangeListener
-// implements TabSelectionListener
+public class Main
 {
 	public final static String progName="audio_rxtx GUI";
 	public final static String progVersion="0.2";
 	public final static String progNameSymbol="audio_rxtx_gui_v"+progVersion+"_"+141030;
 
-	public static String defaultPropertiesFileName="audio_rxtx_gui.properties";
+	public final static String defaultPropertiesFileName="audio_rxtx_gui.properties";
 
-	public static String reportIssueUrl="https://github.com/7890/audio_rxtx_gui/issues";
+	public final static String reportIssueUrl="https://github.com/7890/audio_rxtx_gui/issues";
 	//dummy
-	public static String newestVersionFileUrl="https://raw.githubusercontent.com/7890/audio_rxtx_gui/master/README.md";
+	public final static String newestVersionFileUrl="https://raw.githubusercontent.com/7890/audio_rxtx_gui/master/README.md";
 
 	public static int panelWidth=10;
 	public static int panelHeight=10;
@@ -78,7 +80,7 @@ public class Main implements ChangeListener
 	public static OSCPortOut portOutReceive; //sender
 	public static OSCPortIn portInReceive; //receiver
 
-	public final long WAIT_FOR_SOCKET_CLOSE=3;
+	public static final long WAIT_FOR_SOCKET_CLOSE=3;
 
 	//handler for osc messages
 	public static GuiOscListenerSend goscs;
@@ -278,6 +280,9 @@ public class Main implements ChangeListener
 		setCrossPlatformLAF();
 
 		//http://stackoverflow.com/questions/209812/how-do-i-change-the-default-application-icon-in-java
+/**
+* @see <a href="http://stackoverflow.com/questions/209812/how-do-i-change-the-default-application-icon-in-java"></a>
+*/
 		java.net.URL url = ClassLoader.getSystemResource("resources/audio_rxtx_icon.png");
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		appIcon = kit.createImage(url);
@@ -295,9 +300,11 @@ public class Main implements ChangeListener
 		createForm();
 	}
 
+/**
+* @see <a href="http://stackoverflow.com/questions/11116386/java-gtk-native-look-and-feel-looks-bad-and-bold"></a>
+*/
 //========================================================================
-	//http://stackoverflow.com/questions/11116386/java-gtk-native-look-and-feel-looks-bad-and-bold
-	static void setNativeLAF()
+	public static void setNativeLAF()
 	{
 		// Native L&F
 		try
@@ -310,10 +317,12 @@ public class Main implements ChangeListener
 		}
 	}
 
+/**
+* @see <a href="http://stackoverflow.com/questions/1065691/how-to-set-the-background-color-of-a-jbutton-on-the-mac-os"></a>
+*/
 //========================================================================
-	static void setCrossPlatformLAF()
+	public static void setCrossPlatformLAF()
 	{
-		//http://stackoverflow.com/questions/1065691/how-to-set-the-background-color-of-a-jbutton-on-the-mac-os
 		try
 		{
 			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
@@ -324,7 +333,7 @@ public class Main implements ChangeListener
 	}
 
 //========================================================================
-	void createForm()
+	private static void createForm()
 	{
 		//setCrossPlatformLAF();
 		//setNativeLAF();
@@ -367,10 +376,18 @@ public class Main implements ChangeListener
 		tabPanel.add("Send", scrollerTabSend);
 		tabPanel.add("Receive", scrollerTabReceive);
 
-		tabPanel.addChangeListener(this);
+		tabPanel.addChangeListener(new ChangeListener()
+		{
+			@Override
+			public void stateChanged(ChangeEvent e)
+			{
+				setFocusedWidget();
+			}
+		});
 
-		//http://stackoverflow.com/questions/5183687/java-remove-margin-padding-on-a-jtabbedpane
-
+/**
+* @see <a href="http://stackoverflow.com/questions/5183687/java-remove-margin-padding-on-a-jtabbedpane"></a>
+*/
 		tabPanel.setUI(new BasicTabbedPaneUI()
 		{
 			//top,left,right,bottom
@@ -671,7 +688,7 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 	}//end stopTransmissionReceive
 
 //========================================================================
-	static void addWindowListeners()
+	private static void addWindowListeners()
 	{
 		mainframe.addWindowListener(new WindowListener() 
 		{
@@ -790,8 +807,10 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 		return 0;
 	}//end startOscServerReceive
 
+/**
+* @see <a href="http://stackoverflow.com/questions/11435533/how-does-ctrl-c-work-with-java-program"></a>
+*/
 //========================================================================
-	//http://stackoverflow.com/questions/11435533/how-does-ctrl-c-work-with-java-program
 	private static void createShutDownHook()
 	{
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable()
@@ -845,16 +864,8 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 		);
 	}
 
-
 //========================================================================
-	public void stateChanged(ChangeEvent e)
-	{
-		setFocusedWidget();
-	}
-
-
-//========================================================================
-	public void setFocusedWidget()
+	public static void setFocusedWidget()
 	{
 ////////////////////
 //		String tabname=tabPanel.getTitleAt(tabPanel.getSelectedIndex());
@@ -862,7 +873,7 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 	}
 
 //========================================================================
-	public void nextTab()
+	public static void nextTab()
 	{
 		if(tabPanel.getTabCount()<1)
 		{
@@ -875,7 +886,7 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 	}
 
 //========================================================================
-	public void prevTab()
+	public static void prevTab()
 	{
 		if(tabPanel.getTabCount()<1)
 		{
@@ -887,7 +898,7 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 	}
 
 //========================================================================
-	public void setFocusedWidget(String tabname)
+	public static void setFocusedWidget(String tabname)
 	{
 		if(tabname.equals("Send"))
 		{
@@ -898,7 +909,7 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 	}
 
 //========================================================================
-	void addGlobalKeyListeners()
+	private static void addGlobalKeyListeners()
 	{
 		KeyStroke keyPageUp = KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP,0);
 		actionMap.put(keyPageUp, new AbstractAction("pgup") 
@@ -1047,7 +1058,9 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 				{
 					m=mainframe.getJMenuBar().getMenu(ssm.getSelectedIndex());
 
-					//http://www.java2s.com/Tutorial/Java/0240__Swing/GettingtheCurrentlySelectedMenuorMenuItem.htm
+/**
+* @see <a href="http://www.java2s.com/Tutorial/Java/0240__Swing/GettingtheCurrentlySelectedMenuorMenuItem.htm"></a>
+*/
 					MenuElement[] path = MenuSelectionManager.defaultManager().getSelectedPath();
 					if (path.length > 1)
 					{
@@ -1118,7 +1131,9 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 			}
 		});
 
-		//http://stackoverflow.com/questions/100123/application-wide-keyboard-shortcut-java-swing
+/**
+* @see <a href="http://stackoverflow.com/questions/100123/application-wide-keyboard-shortcut-java-swing"></a>
+*/
 		KeyboardFocusManager kfm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		kfm.addKeyEventDispatcher( new KeyEventDispatcher() 
 		{
@@ -1147,15 +1162,17 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 
 }//end class Main
 
-/*
-http://tldp.org/LDP/abs/html/exitcodes.html
-Exit Code Number	Meaning	Example	Comments
-1	Catchall for general errors	let "var1 = 1/0"	Miscellaneous errors, such as "divide by zero" and other impermissible operations
-2	Misuse of shell builtins (according to Bash documentation)	empty_function() {}	Missing keyword or command, or permission problem (and diff return code on a failed binary file comparison).
-126	Command invoked cannot execute	/dev/null	Permission problem or command is not an executable
-127	"command not found"	illegal_command	Possible problem with $PATH or a typo
-128	Invalid argument to exit	exit 3.14159	exit takes only integer args in the range 0 - 255 (see first footnote)
-128+n	Fatal error signal "n"	kill -9 $PPID of script	$? returns 137 (128 + 9)
-130	Script terminated by Control-C	Ctl-C	Control-C is fatal error signal 2, (130 = 128 + 2, see above)
-255*	Exit status out of range	exit -1	exit takes only integer args in the range 0 - 255
+//should be in a table
+/**
+* @see <a href="http://tldp.org/LDP/abs/html/exitcodes.html"></a>
+*
+* Exit Code Number	Meaning	Example	Comments
+* 1	Catchall for general errors	let "var1 = 1/0"	Miscellaneous errors, such as "divide by zero" and other impermissible operations
+* 2	Misuse of shell builtins (according to Bash documentation)	empty_function() {}	Missing keyword or command, or permission problem (and diff return code on a failed binary file comparison).
+* 126	Command invoked cannot execute	/dev/null	Permission problem or command is not an executable
+* 127	"command not found"	illegal_command	Possible problem with $PATH or a typo
+* 128	Invalid argument to exit	exit 3.14159	exit takes only integer args in the range 0 - 255 (see first footnote)
+* 128+n	Fatal error signal "n"	kill -9 $PPID of script	$? returns 137 (128 + 9)
+* 130	Script terminated by Control-C	Ctl-C	Control-C is fatal error signal 2, (130 = 128 + 2, see above)
+* 255	Exit status out of range	exit -1	exit takes only integer args in the range 0 - 255
 */

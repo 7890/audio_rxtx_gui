@@ -22,6 +22,9 @@ import javax.swing.*;
 
 import java.awt.geom.*;
 
+/**
+* Extended JRadioButton with gradient, focus and mouse hover paint.
+*/
 //========================================================================
 public class ARadioButton extends JRadioButton implements MouseListener
 {

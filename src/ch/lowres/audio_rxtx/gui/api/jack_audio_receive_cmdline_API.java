@@ -13,6 +13,9 @@
 
 package ch.lowres.audio_rxtx.gui.api;
 
+/**
+* Extended {@link CmdlineAPI}, handling command line parameters specific to jack_osc_receive.
+*/
 //========================================================================
 public class jack_audio_receive_cmdline_API extends CmdlineAPI
 {

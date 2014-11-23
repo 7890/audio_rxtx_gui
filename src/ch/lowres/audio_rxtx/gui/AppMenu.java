@@ -24,40 +24,43 @@ import java.io.File;
 
 import javax.swing.*;
 
+/**
+* Extended JMenuBar, holding all menu items, actions and shortcuts.
+*/
 //========================================================================
 public class AppMenu extends JMenuBar
 {
-	static Main g;
+	private static Main g;
 
-	static JMenu menu_main;
-	static JMenu menu_settings;
-	static JMenu menu_view;
-	static JMenu menu_help;
+	private static JMenu menu_main;
+	private static JMenu menu_settings;
+	private static JMenu menu_view;
+	private static JMenu menu_help;
 
-	static JMenuItem mi_start_transmissionSend;
-	static JMenuItem mi_stop_transmissionSend;
+	private static JMenuItem mi_start_transmissionSend;
+	private static JMenuItem mi_stop_transmissionSend;
 
-	static JMenuItem mi_start_transmissionReceive;
-	static JMenuItem mi_stop_transmissionReceive;
+	private static JMenuItem mi_start_transmissionReceive;
+	private static JMenuItem mi_stop_transmissionReceive;
 
-	static JMenuItem mi_quit;
+	private static JMenuItem mi_quit;
 
-	static JMenuItem mi_load_default_settings;
-	static JMenuItem mi_save_default_settings;
-	static JMenuItem mi_load_settings;
-	static JMenuItem mi_save_settings_as;
-	static JMenuItem mi_configure_dialog;
+	private static JMenuItem mi_load_default_settings;
+	private static JMenuItem mi_save_default_settings;
+	private static JMenuItem mi_load_settings;
+	private static JMenuItem mi_save_settings_as;
+	private static JMenuItem mi_configure_dialog;
 
-	static JMenuItem mi_view_send;
-	static JMenuItem mi_view_receive;
-	static JMenuItem mi_view_both;
+	private static JMenuItem mi_view_send;
+	private static JMenuItem mi_view_receive;
+	private static JMenuItem mi_view_both;
 
-	static JMenuItem mi_about;
-	static JMenuItem mi_license;
-	static JMenuItem mi_doc;
+	private static JMenuItem mi_about;
+	private static JMenuItem mi_license;
+	private static JMenuItem mi_doc;
 
-	static JMenuItem mi_report_issue;
-	static JMenuItem mi_check_for_update;
+	private static JMenuItem mi_report_issue;
+	private static JMenuItem mi_check_for_update;
 
 //========================================================================
 	public AppMenu()
@@ -67,7 +70,7 @@ public class AppMenu extends JMenuBar
 	}
 
 //========================================================================
-	void createMenu()
+	private void createMenu()
 	{
 		//http://stackoverflow.com/questions/17767950/java-menubar-cuts-into-my-applet
 
@@ -187,7 +190,7 @@ public class AppMenu extends JMenuBar
 	}//end createMenu
 
 //========================================================================
-	void addActionListeners()
+	private void addActionListeners()
 	{
 		mi_start_transmissionSend.addActionListener(new ActionListener()
 		{
@@ -464,7 +467,7 @@ public class AppMenu extends JMenuBar
 	}//end addActionListeners
 
 //========================================================================
-	static void setForRunningSend()
+	public static void setForRunningSend()
 	{
 		mi_load_default_settings.setEnabled(false);
 		mi_load_settings.setEnabled(false);
@@ -474,7 +477,7 @@ public class AppMenu extends JMenuBar
 	}
 
 //========================================================================
-	static void setForFrontScreenSend()
+	public static void setForFrontScreenSend()
 	{
 		mi_load_default_settings.setEnabled(true);
 		mi_load_settings.setEnabled(true);
@@ -484,7 +487,7 @@ public class AppMenu extends JMenuBar
 	}
 
 //========================================================================
-	static void setForRunningReceive()
+	public static void setForRunningReceive()
 	{
 		mi_load_default_settings.setEnabled(false);
 		mi_load_settings.setEnabled(false);
@@ -494,7 +497,7 @@ public class AppMenu extends JMenuBar
 	}
 
 //========================================================================
-	static void setForFrontScreenReceive()
+	public static void setForFrontScreenReceive()
 	{
 		mi_load_default_settings.setEnabled(true);
 		mi_load_settings.setEnabled(true);

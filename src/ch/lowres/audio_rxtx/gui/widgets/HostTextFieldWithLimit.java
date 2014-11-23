@@ -16,6 +16,10 @@ import ch.lowres.audio_rxtx.gui.*;
 
 import java.awt.event.KeyListener;
 
+/**
+* Extended {@link TextFieldWithLimit} allowing digits, letters, '.', '-' and '_'.
+* (space is not allowed).
+*/
 //========================================================================
 public class HostTextFieldWithLimit extends TextFieldWithLimit implements KeyListener 
 {

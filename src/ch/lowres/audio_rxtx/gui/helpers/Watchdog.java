@@ -14,10 +14,13 @@
 package ch.lowres.audio_rxtx.gui.helpers;
 import ch.lowres.audio_rxtx.gui.*;
 
+/**
+* Thread to watch if another thread is running or terminated.
+*/
 //========================================================================
 public class Watchdog extends Thread 
 {
-	static Main g;
+	private static Main g;
 
 	static RunCmd cmd;
 

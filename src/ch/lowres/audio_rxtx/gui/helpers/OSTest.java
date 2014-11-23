@@ -13,6 +13,9 @@
 
 package ch.lowres.audio_rxtx.gui.helpers;
 
+/**
+* Read basic platform specific properties, processor architecture.
+*/
 //========================================================================
 public class OSTest
 {

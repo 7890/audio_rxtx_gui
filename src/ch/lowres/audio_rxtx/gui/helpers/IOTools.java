@@ -27,6 +27,9 @@ import javax.imageio.ImageIO;
 
 import java.net.*;
 
+/**
+* Input/Output operations: read resources from JAR file, load / save settings, open in browser etc.
+*/
 //========================================================================
 public class IOTools
 {

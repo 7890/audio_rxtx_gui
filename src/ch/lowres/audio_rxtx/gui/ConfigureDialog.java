@@ -29,60 +29,63 @@ import java.awt.geom.*;
 
 import javax.swing.plaf.ColorUIResource;
 
+/**
+* Modal tabbed dialog to configure jack_audio_send, jack_audio_receive and GUI options.
+*/
 //========================================================================
 public class ConfigureDialog extends JDialog implements ChangeListener
 {
-	static Main g;
+	private static Main g;
 
-	static JPanel formSend;
-	static HostTextFieldWithLimit		text_name_s=new HostTextFieldWithLimit("",32,32);
-	static HostTextFieldWithLimit		text_sname_s=new HostTextFieldWithLimit("",32,32);
-	static ACheckbox 			checkbox_connect_s=new ACheckbox("Autoconnect");
-	static ACheckbox 			checkbox_nopause_s=new ACheckbox("No Pause On Sender Deny");
-	static ACheckbox 			checkbox_test_s=new ACheckbox("Enable Testmode");
-	static NumericTextFieldWithLimit 	text_limit_s=new NumericTextFieldWithLimit("",32,24);
-	static NumericTextFieldWithLimit 	text_drop_s=new NumericTextFieldWithLimit("",32,24);
-	static ACheckbox 			checkbox_verbose_s=new ACheckbox("Verbose Shell Output");
-	static NumericTextFieldWithLimit 	text_update_s=new NumericTextFieldWithLimit("",32,4);
-	static ACheckbox 			checkbox_lport_random_s=new ACheckbox("Use Random Port");
-	static NumericTextFieldWithLimit 	text_lport_s=new NumericTextFieldWithLimit("",32,5);
+	private static JPanel formSend;
+	private static HostTextFieldWithLimit		text_name_s=new HostTextFieldWithLimit("",32,32);
+	private static HostTextFieldWithLimit		text_sname_s=new HostTextFieldWithLimit("",32,32);
+	private static ACheckbox 			checkbox_connect_s=new ACheckbox("Autoconnect");
+	private static ACheckbox 			checkbox_nopause_s=new ACheckbox("No Pause On Sender Deny");
+	private static ACheckbox 			checkbox_test_s=new ACheckbox("Enable Testmode");
+	private static NumericTextFieldWithLimit 	text_limit_s=new NumericTextFieldWithLimit("",32,24);
+	private static NumericTextFieldWithLimit 	text_drop_s=new NumericTextFieldWithLimit("",32,24);
+	private static ACheckbox 			checkbox_verbose_s=new ACheckbox("Verbose Shell Output");
+	private static NumericTextFieldWithLimit 	text_update_s=new NumericTextFieldWithLimit("",32,4);
+	private static ACheckbox 			checkbox_lport_random_s=new ACheckbox("Use Random Port");
+	private static NumericTextFieldWithLimit 	text_lport_s=new NumericTextFieldWithLimit("",32,5);
 
-	static JPanel formReceive;
-	static HostTextFieldWithLimit		text_name_r=new HostTextFieldWithLimit("",32,32);
-	static HostTextFieldWithLimit		text_sname_r=new HostTextFieldWithLimit("",32,32);
-	static ACheckbox 			checkbox_connect_r=new ACheckbox("Autoconnect");
-	static ACheckbox 			checkbox_test_r=new ACheckbox("Enable Testmode");
-	static NumericTextFieldWithLimit 	text_limit_r=new NumericTextFieldWithLimit("",32,24);
-	static ACheckbox 			checkbox_verbose_r=new ACheckbox("Verbose Shell Output");
-	static NumericTextFieldWithLimit 	text_update_r=new NumericTextFieldWithLimit("",32,4);
-	static NumericTextFieldWithLimit 	text_offset_r=new NumericTextFieldWithLimit("",32,24);
-	static NumericTextFieldWithLimit 	text_pre_r=new NumericTextFieldWithLimit("",32,24);
-	static NumericTextFieldWithLimit 	text_max_r=new NumericTextFieldWithLimit("",32,24);
-	static ACheckbox 			checkbox_rere_r=new ACheckbox("Rebuffer On Sender Restart");
-	static ACheckbox 			checkbox_reuf_r=new ACheckbox("Rebuffer On Underflow");
-	static ACheckbox 			checkbox_nozero_r=new ACheckbox("Re-Use Old Data On Underflow");
-	static ACheckbox 			checkbox_norbc_r=new ACheckbox("Disallow Ext. Buffer Control");
-	static ACheckbox 			checkbox_close_r=new ACheckbox("Stop Transmission On Incompat.");
+	private static JPanel formReceive;
+	private static HostTextFieldWithLimit		text_name_r=new HostTextFieldWithLimit("",32,32);
+	private static HostTextFieldWithLimit		text_sname_r=new HostTextFieldWithLimit("",32,32);
+	private static ACheckbox 			checkbox_connect_r=new ACheckbox("Autoconnect");
+	private static ACheckbox 			checkbox_test_r=new ACheckbox("Enable Testmode");
+	private static NumericTextFieldWithLimit 	text_limit_r=new NumericTextFieldWithLimit("",32,24);
+	private static ACheckbox 			checkbox_verbose_r=new ACheckbox("Verbose Shell Output");
+	private static NumericTextFieldWithLimit 	text_update_r=new NumericTextFieldWithLimit("",32,4);
+	private static NumericTextFieldWithLimit 	text_offset_r=new NumericTextFieldWithLimit("",32,24);
+	private static NumericTextFieldWithLimit 	text_pre_r=new NumericTextFieldWithLimit("",32,24);
+	private static NumericTextFieldWithLimit 	text_max_r=new NumericTextFieldWithLimit("",32,24);
+	private static ACheckbox 			checkbox_rere_r=new ACheckbox("Rebuffer On Sender Restart");
+	private static ACheckbox 			checkbox_reuf_r=new ACheckbox("Rebuffer On Underflow");
+	private static ACheckbox 			checkbox_nozero_r=new ACheckbox("Re-Use Old Data On Underflow");
+	private static ACheckbox 			checkbox_norbc_r=new ACheckbox("Disallow Ext. Buffer Control");
+	private static ACheckbox 			checkbox_close_r=new ACheckbox("Stop Transmission On Incompat.");
 
-	static JPanel formGUI;
-	static ACheckbox 			checkbox_gui_osc_port_random=new ACheckbox("Use Random Port");
-	static NumericTextFieldWithLimit 	text_gui_osc_port_s=new NumericTextFieldWithLimit("",32,5);
-	static ACheckbox 			checkbox_gui_osc_port_random_r=new ACheckbox("Use Random Port");
-	static NumericTextFieldWithLimit 	text_gui_osc_port_r=new NumericTextFieldWithLimit("",32,5);
-	static ACheckbox 			checkbox_keep_cache=new ACheckbox("Use Cache");
+	private static JPanel formGUI;
+	private static ACheckbox 			checkbox_gui_osc_port_random=new ACheckbox("Use Random Port");
+	private static NumericTextFieldWithLimit 	text_gui_osc_port_s=new NumericTextFieldWithLimit("",32,5);
+	private static ACheckbox 			checkbox_gui_osc_port_random_r=new ACheckbox("Use Random Port");
+	private static NumericTextFieldWithLimit 	text_gui_osc_port_r=new NumericTextFieldWithLimit("",32,5);
+	private static ACheckbox 			checkbox_keep_cache=new ACheckbox("Use Cache");
 
-	static AButton 				button_cancel_settings=new AButton("Cancel");
-	static AButton 				button_confirm_settings=new AButton("OK");
+	private static AButton 				button_cancel_settings=new AButton("Cancel");
+	private static AButton 				button_confirm_settings=new AButton("OK");
 
-	static JScrollPane scrollerTabSend;
-	static JScrollPane scrollerTabReceive;
-	static JScrollPane scrollerTabGUI;
+	private static JScrollPane scrollerTabSend;
+	private static JScrollPane scrollerTabReceive;
+	private static JScrollPane scrollerTabGUI;
 
-	static APanel tabSend;
-	static APanel tabReceive;
-	static APanel tabGUI;
+	private static APanel tabSend;
+	private static APanel tabReceive;
+	private static APanel tabGUI;
 
-	static JTabbedPane tabPanel = new JTabbedPane()
+	private static JTabbedPane tabPanel = new JTabbedPane()
 	{
         	@Override
 		public void paintComponent(Graphics g) 
@@ -93,9 +96,9 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 		}        
 	};
 
-	static NormalFocusTraversalPolicy focusPolicySend;
-	static NormalFocusTraversalPolicy focusPolicyReceive;
-	static NormalFocusTraversalPolicy focusPolicyGUI;
+	private static NormalFocusTraversalPolicy focusPolicySend;
+	private static NormalFocusTraversalPolicy focusPolicyReceive;
+	private static NormalFocusTraversalPolicy focusPolicyGUI;
 
 //========================================================================
 	public ConfigureDialog(Frame f,String title, boolean modality)
@@ -134,7 +137,7 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 	}//end constructor
 
 //========================================================================
-	void setValues()
+	public void setValues()
 	{
 		text_name_s.setText(g.apis._name);
 		text_sname_s.setText(g.apis._sname);
@@ -173,7 +176,7 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 	}//end setValues
 
 //========================================================================
-	void dialogCancelled()
+	public void dialogCancelled()
 	{
 		//reset values to previous
 		setValues();
@@ -185,7 +188,7 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 	}//end dialogCancelled
 
 //========================================================================
-	void dialogConfirmed()
+	public void dialogConfirmed()
 	{
 		//read form, store values
 		readForm();
@@ -197,7 +200,7 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 	}//end dialogConfirmed
 
 //========================================================================
-	void createForm()
+	private void createForm()
 	{
 
 //http://stackoverflow.com/questions/2120728/controlling-color-in-java-tabbed-pane
@@ -243,7 +246,6 @@ TabbedPane.unselectedTabHighlight	Color
 TabbedPane.unselectedTabShadow	Color
 TabbedPaneUI	String
 */
-
 
 		formSend=new JPanel();
 		formReceive=new JPanel();
@@ -309,25 +311,32 @@ TabbedPaneUI	String
 			}
 		});
 
-		tabPanel.addChangeListener(this);
+		tabPanel.addChangeListener(new ChangeListener()
+		{
 
-tabPanel.addFocusListener(
-new FocusListener()
-{
+			@Override
+			public void stateChanged(ChangeEvent e)
+			{
+				//setFocusedWidget();
+			}
+		});
 
-	Component c=null;
-	public void focusLost(FocusEvent fe)
-	{
-		c=null;
-		repaint();
-	}
-        public void focusGained(FocusEvent fe)
-	{
-		c=fe.getComponent();
-		repaint();
-	}
-}
-);
+		tabPanel.addFocusListener(
+		new FocusListener()
+		{
+			Component c=null;
+			public void focusLost(FocusEvent fe)
+			{
+				c=null;
+				repaint();
+			}
+		        public void focusGained(FocusEvent fe)
+			{
+				c=fe.getComponent();
+				repaint();
+			}
+		}
+		);
 
 		//======
 		add(tabPanel,BorderLayout.CENTER);
@@ -521,7 +530,7 @@ new FocusListener()
 	}//end createForm
 
 //=============================================================================
-	static void readForm()
+	public void readForm()
 	{
 		FormHelper.validate(formSend);
 		FormHelper.validate(formReceive);
@@ -640,7 +649,7 @@ new FocusListener()
 	}//end readForm
 
 //========================================================================
-	void addActionListeners()
+	private void addActionListeners()
 	{
 		button_cancel_settings.addActionListener(new ActionListener()
 		{
@@ -662,7 +671,7 @@ new FocusListener()
 	}//end addActionListeners
 
 //========================================================================
-	void addWindowListeners()
+	private void addWindowListeners()
 	{
 		addWindowListener(new WindowListener()
 		{

@@ -18,10 +18,12 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.GeneralPath;
 
+/**
+* Helper to overlay indication on focused input widgets, paint gradients.
+*/
 //========================================================================
 public class FocusPaint
 {
-
 //========================================================================
 	public FocusPaint()
 	{

@@ -18,6 +18,9 @@ import java.awt.*;
 
 import javax.swing.*;
 
+/**
+* Extended JPanel, with background gradient.
+*/
 //========================================================================
 public class APanel extends JPanel
 {

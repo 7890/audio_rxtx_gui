@@ -20,6 +20,9 @@ import java.awt.event.*;
 
 import javax.swing.JButton;
 
+/**
+* Extended JButton with focus paint.
+*/
 //========================================================================
 public class AButton extends JButton implements KeyListener, FocusListener
 {

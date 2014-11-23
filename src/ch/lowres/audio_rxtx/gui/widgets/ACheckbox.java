@@ -22,6 +22,9 @@ import javax.swing.*;
 
 import java.awt.geom.*;
 
+/**
+* Extended JCheckBox with gradient, focus and mouse hover paint.
+*/
 //========================================================================
 public class ACheckbox extends JCheckBox implements KeyListener, FocusListener, MouseListener
 {

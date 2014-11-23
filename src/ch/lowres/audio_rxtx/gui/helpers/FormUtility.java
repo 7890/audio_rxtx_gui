@@ -1,14 +1,15 @@
-/**
- * Simple utility class for creating forms that have a column
- * of labels and a column of fields. All of the labels have the
- * same width, determined by the width of the widest label
- * component.
- * 
- * Philip Isenhour - 060628 - http://javatechniques.com/
- */
-//http://javatechniques.com/blog/gridbaglayout-example-a-simple-form-layout/
-//adopted to use with audio_rxtx_gui
-//tb/1410
+/* part of audio_rxtx GUI
+ * https://github.com/7890/audio_rxtx_gui
+ *
+ * Copyright (C) 2014 Thomas Brand <tom@trellis.ch>
+ *
+ * This program is free software; feel free to redistribute it and/or 
+ * modify it.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. bla.
+*/
 
 package ch.lowres.audio_rxtx.gui.helpers;
 import ch.lowres.audio_rxtx.gui.widgets.*;
@@ -16,6 +17,20 @@ import ch.lowres.audio_rxtx.gui.widgets.*;
 import java.awt.*;
 import javax.swing.*;
 
+/**
+* Simple utility class for creating forms that have a column
+* of labels and a column of fields. All of the labels have the
+* same width, determined by the width of the widest label
+* component.
+* <p>
+* Original Code by Philip Isenhour - 060628 - http://javatechniques.com/
+* <p>
+* Adopted to use with audio_rxtx_gui 
+* <p>
+* http://javatechniques.com/blog/gridbaglayout-example-a-simple-form-layout/
+* <p>
+* http://docs.oracle.com/javase/6/docs/api/java/awt/GridBagConstraints.html
+*/
 //========================================================================
 public class FormUtility 
 {
@@ -27,7 +42,6 @@ public class FormUtility
 	private GridBagConstraints lastConstraints=null;
 
 //========================================================================
-	//http://docs.oracle.com/javase/6/docs/api/java/awt/GridBagConstraints.html
 	public FormUtility()
 	{
 		//Set up the constraints for the "last" field in each 

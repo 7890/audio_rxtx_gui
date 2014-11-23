@@ -13,6 +13,9 @@
 
 package ch.lowres.audio_rxtx.gui;
 
+/**
+* Interface for cards.
+*/
 //========================================================================
 public interface CardInterface
 {

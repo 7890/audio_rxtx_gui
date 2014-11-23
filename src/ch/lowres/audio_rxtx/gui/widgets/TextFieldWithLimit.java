@@ -22,26 +22,10 @@ import javax.swing.*;
 
 import java.awt.geom.*;
 
-/*
-Declared in javax.swing.text.JTextComponent
-
-    caret <javax.swing.text.Caret> the caret used to select/navigate
-    caretColor <Color> the color used to render the caret
-    caretPosition <int> the caret position
-    disabledTextColor <Color> color used to render disabled text
-    document <javax.swing.text.Document> the text document model
-    editable <boolean> specifies if the text can be edited
-    focusAccelerator <char> accelerator character used to grab focus
-    highlighter <javax.swing.text.Highlighter> object responsible for background highlights
-    margin <Insets> desired space between the border and text area
-    selectedText <String> selectedText
-    selectedTextColor <Color> color used to render selected text
-    selectionColor <Color> color used to render selection background
-    selectionEnd <int> ending location of the selection.
-    selectionStart <int> starting location of the selection.
-    text <String> the text of this component
+/**
+* Extended JTextField, imposing a limit on maximum length.
+* Focus and mouse hover paint.
 */
-
 //========================================================================
 public class TextFieldWithLimit extends JTextField implements KeyListener, FocusListener, MouseListener
 {
@@ -112,7 +96,6 @@ setBorder(
         {
 		return new Dimension(200,30);
 	}
-
 
 //========================================================================
 	@Override
@@ -268,3 +251,23 @@ setBorder(
 	public void validate_() {}
 
 }//end TextFieldWithLimit
+
+/*
+Declared in javax.swing.text.JTextComponent
+
+    caret <javax.swing.text.Caret> the caret used to select/navigate
+    caretColor <Color> the color used to render the caret
+    caretPosition <int> the caret position
+    disabledTextColor <Color> color used to render disabled text
+    document <javax.swing.text.Document> the text document model
+    editable <boolean> specifies if the text can be edited
+    focusAccelerator <char> accelerator character used to grab focus
+    highlighter <javax.swing.text.Highlighter> object responsible for background highlights
+    margin <Insets> desired space between the border and text area
+    selectedText <String> selectedText
+    selectedTextColor <Color> color used to render selected text
+    selectionColor <Color> color used to render selection background
+    selectionEnd <int> ending location of the selection.
+    selectionStart <int> starting location of the selection.
+    text <String> the text of this component
+*/

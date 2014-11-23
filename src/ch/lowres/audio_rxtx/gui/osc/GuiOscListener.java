@@ -25,13 +25,16 @@ import java.util.List;
 
 import java.text.DecimalFormat;
 
+/**
+* Abstract class handling common incoming OSC messages.
+*/
 //========================================================================
 public abstract class GuiOscListener implements OSCListener
 {
 	static Main g;
 
-	public Card card;
-	public CmdlineAPI api;
+	Card card;
+	CmdlineAPI api;
 
 //========================================================================
 	public GuiOscListener(Card c, CmdlineAPI a)

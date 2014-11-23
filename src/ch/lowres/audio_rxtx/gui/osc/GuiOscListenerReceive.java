@@ -25,6 +25,9 @@ import java.util.List;
 
 import java.text.DecimalFormat;
 
+/**
+* Extended {@link GuiOscListener}, handling incoming OSC messages specific to jack_osc_receive.
+*/
 //========================================================================
 public class GuiOscListenerReceive extends GuiOscListener
 {

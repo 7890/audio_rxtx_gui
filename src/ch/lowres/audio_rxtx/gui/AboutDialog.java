@@ -20,15 +20,18 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+/**
+* Borderless modal dialog showing version of audio_rxtx_gui, used libs, project url, fancy.
+*/
 //========================================================================
 public class AboutDialog extends Dialog
 {
-	static Main g;
+	private static Main g;
 
-	static JPanel form;
-	static ImgComponent aboutImg;
+	private static JPanel form;
+	private static ImgComponent aboutImg;
 
-	static AButton button_about_ok=new AButton ("OK");
+	private static AButton button_about_ok=new AButton ("OK");
 
 //========================================================================
 	public AboutDialog(Frame f,String title, boolean modality) 
@@ -46,7 +49,7 @@ public class AboutDialog extends Dialog
 	}
 
 //========================================================================
-	void createForm()
+	private void createForm()
 	{
 		form=new JPanel();
 		form.setLayout(new GridBagLayout());
@@ -79,7 +82,7 @@ public class AboutDialog extends Dialog
 	}//end createForm
 
 //========================================================================
-	void addActionListeners()
+	private void addActionListeners()
 	{
 		button_about_ok.addActionListener (new ActionListener()
 		{

@@ -18,6 +18,9 @@ import java.awt.event.*;
 
 import javax.swing.JLabel;
 
+/**
+* Extended {@link Card}, show running information while receiving.
+*/
 //========================================================================
 public class RunningCardReceive extends Card
 {

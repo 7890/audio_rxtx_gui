@@ -18,6 +18,9 @@ import java.awt.*;
 
 import javax.swing.*;
 
+/**
+* Extended JLabel.
+*/
 //========================================================================
 public class ALabel extends JLabel
 {

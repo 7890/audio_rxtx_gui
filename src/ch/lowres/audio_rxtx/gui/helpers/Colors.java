@@ -15,6 +15,9 @@ package ch.lowres.audio_rxtx.gui.helpers;
 
 import java.awt.Color;
 
+/**
+* Holding colors to be accessed statically by any component.
+*/
 //========================================================================
 public class Colors
 {

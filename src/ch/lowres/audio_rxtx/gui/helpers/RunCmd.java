@@ -15,12 +15,12 @@ package ch.lowres.audio_rxtx.gui.helpers;
 import ch.lowres.audio_rxtx.gui.*;
 
 /**
-* Running a shell command in a Thread using {@link ProcessBuilder}
+* Running a shell command in a Thread using {@link ProcessBuilder}.
 */
 //========================================================================
 public class RunCmd extends Thread 
 {
-	private Main g;
+	private static Main g;
 	private String commandLineString="";
 	private int exitStatus=-1;
 	private boolean devNull=false;

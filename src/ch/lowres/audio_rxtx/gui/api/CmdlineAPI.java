@@ -14,7 +14,9 @@
 package ch.lowres.audio_rxtx.gui.api;
 import ch.lowres.audio_rxtx.gui.*;
 
-//Common for jack_audio_send, jack_audio_receive
+/**
+* A {@link CmdlineAPIInterface} handling common command line parameters.
+*/
 //========================================================================
 public abstract class CmdlineAPI implements CmdlineAPIInterface
 {
