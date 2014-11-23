@@ -49,6 +49,7 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 	private static NumericTextFieldWithLimit 	text_update_s=new NumericTextFieldWithLimit("",32,4);
 	private static ACheckbox 			checkbox_lport_random_s=new ACheckbox("Use Random Port");
 	private static NumericTextFieldWithLimit 	text_lport_s=new NumericTextFieldWithLimit("",32,5);
+	private static ACheckbox 			checkbox_autostart_s=new ACheckbox("Autostart Transmission");
 
 	private static JPanel formReceive;
 	private static HostTextFieldWithLimit		text_name_r=new HostTextFieldWithLimit("",32,32);
@@ -66,6 +67,7 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 	private static ACheckbox 			checkbox_nozero_r=new ACheckbox("Re-Use Old Data On Underflow");
 	private static ACheckbox 			checkbox_norbc_r=new ACheckbox("Disallow Ext. Buffer Control");
 	private static ACheckbox 			checkbox_close_r=new ACheckbox("Stop Transmission On Incompat.");
+	private static ACheckbox 			checkbox_autostart_r=new ACheckbox("Autostart Transmission");
 
 	private static JPanel formGUI;
 	private static ACheckbox 			checkbox_gui_osc_port_random=new ACheckbox("Use Random Port");
@@ -73,6 +75,7 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 	private static ACheckbox 			checkbox_gui_osc_port_random_r=new ACheckbox("Use Random Port");
 	private static NumericTextFieldWithLimit 	text_gui_osc_port_r=new NumericTextFieldWithLimit("",32,5);
 	private static ACheckbox 			checkbox_keep_cache=new ACheckbox("Use Cache");
+	private static ACheckbox 			checkbox_both_panels=new ACheckbox("Show Both Panels On Start");
 
 	private static AButton 				button_cancel_settings=new AButton("Cancel");
 	private static AButton 				button_confirm_settings=new AButton("OK");
@@ -95,10 +98,6 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 			FocusPaint.paint(g,tabPanel);
 		}        
 	};
-
-	private static NormalFocusTraversalPolicy focusPolicySend;
-	private static NormalFocusTraversalPolicy focusPolicyReceive;
-	private static NormalFocusTraversalPolicy focusPolicyGUI;
 
 //========================================================================
 	public ConfigureDialog(Frame f,String title, boolean modality)
@@ -150,6 +149,7 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 		text_update_s.setText(""+g.apis._update);
 		checkbox_lport_random_s.setState(g.apis.lport_random);
 		text_lport_s.setText(""+g.apis._lport);
+		checkbox_autostart_s.setState(g.apis.autostart);
 
 		text_name_r.setText(g.apir._name);
 		text_sname_r.setText(g.apir._sname);
@@ -166,6 +166,7 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 		checkbox_nozero_r.setState(g.apir._nozero);
 		checkbox_norbc_r.setState(g.apir._norbc);
 		checkbox_close_r.setState(g.apir._close);
+		checkbox_autostart_r.setState(g.apir.autostart);
 
 		checkbox_gui_osc_port_random.setState(g.gui_osc_port_random_s);
 		text_gui_osc_port_s.setText(""+g.gui_osc_port_s);
@@ -173,6 +174,7 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 		text_gui_osc_port_r.setText(""+g.gui_osc_port_r);
 
 		checkbox_keep_cache.setState(g.keep_cache);
+		checkbox_both_panels.setState(g.show_both_panels);
 	}//end setValues
 
 //========================================================================
@@ -374,6 +376,9 @@ TabbedPaneUI	String
 		g.formUtility.addLabel("Fixed Port (If Not Random):", formSend);
 		g.formUtility.addLastField(text_lport_s, formSend);
 
+		g.formUtility.addLabel("Start Transmission On Startup:", formSend);
+		g.formUtility.addLastField(checkbox_autostart_s, formSend);
+
 //receive
 		g.formUtility.addLabel("Connect To This JACK Server:", formReceive);
 		g.formUtility.addLastField(text_sname_r, formReceive);
@@ -420,6 +425,9 @@ TabbedPaneUI	String
 		g.formUtility.addLabel("", formReceive);
 		g.formUtility.addLastField(checkbox_close_r, formReceive);
 
+		g.formUtility.addLabel("Start Transmission On Startup:", formReceive);
+		g.formUtility.addLastField(checkbox_autostart_r, formReceive);
+
 //GUI
 		g.formUtility.addLabel("UDP Port For GUI (Send):", formGUI);
 		g.formUtility.addLastField(checkbox_gui_osc_port_random, formGUI);
@@ -440,6 +448,9 @@ TabbedPaneUI	String
 		g.formUtility.addLabel("Keep Dumped Resources In Cache:", formGUI);
 		g.formUtility.addLastField(checkbox_keep_cache, formGUI);
 
+		g.formUtility.addLabel("", formGUI);
+		g.formUtility.addLastField(checkbox_both_panels, formGUI);
+
 //buttons
 		Panel button_panel=new Panel();
 
@@ -456,57 +467,6 @@ TabbedPaneUI	String
 		button_panel.add(button_confirm_settings);
 
 		add(button_panel,BorderLayout.SOUTH);
-
-//focus orders
-		Vector<Component> orderSend = new Vector<Component>();
-		orderSend.add(text_sname_s);
-		orderSend.add(text_name_s);
-		orderSend.add(checkbox_connect_s);
-		orderSend.add(checkbox_nopause_s);
-		orderSend.add(checkbox_test_s);
-		orderSend.add(text_limit_s);
-		orderSend.add(text_drop_s);
-		orderSend.add(checkbox_verbose_s);
-		orderSend.add(text_update_s);
-		orderSend.add(checkbox_lport_random_s);
-		orderSend.add(text_lport_s);
-		orderSend.add(button_cancel_settings);
-		orderSend.add(button_confirm_settings);
-
-		focusPolicySend = new NormalFocusTraversalPolicy(orderSend);
-//		setFocusTraversalPolicy(focusPolicySend);
-
-		Vector<Component> orderReceive = new Vector<Component>();
-		orderReceive.add(text_sname_r);
-		orderReceive.add(text_name_r);
-		orderReceive.add(checkbox_connect_r);
-		orderReceive.add(checkbox_test_r);
-		orderReceive.add(text_limit_r);
-		orderReceive.add(checkbox_verbose_r);
-		orderReceive.add(text_update_r);
-		orderReceive.add(text_offset_r);
-		orderReceive.add(text_pre_r);
-		orderReceive.add(text_max_r);
-		orderReceive.add(checkbox_rere_r);
-		orderReceive.add(checkbox_reuf_r);
-		orderReceive.add(checkbox_nozero_r);
-		orderReceive.add(checkbox_norbc_r);
-		orderReceive.add(checkbox_close_r);
-		orderReceive.add(button_cancel_settings);
-		orderReceive.add(button_confirm_settings);
-
-		focusPolicyReceive = new NormalFocusTraversalPolicy(orderReceive);
-
-		Vector<Component> orderGUI = new Vector<Component>();
-		orderGUI.add(checkbox_gui_osc_port_random);
-		orderGUI.add(text_gui_osc_port_s);
-		orderGUI.add(checkbox_gui_osc_port_random_r);
-		orderGUI.add(text_gui_osc_port_r);
-		orderGUI.add(checkbox_keep_cache);
-		orderGUI.add(button_cancel_settings);
-		orderGUI.add(button_confirm_settings);
-
-		focusPolicyGUI = new NormalFocusTraversalPolicy(orderGUI);
 
 //		pack();
 //		setSize(600,500);
@@ -577,6 +537,7 @@ TabbedPaneUI	String
 		g.apis._update=Integer.parseInt(text_update_s.getText());
 		g.apis.lport_random=checkbox_lport_random_s.getState();
 		g.apis._lport=Integer.parseInt(text_lport_s.getText());
+		g.apis.autostart=checkbox_autostart_s.getState();
 
 		if(text_name_r.getText().equals(""))
 		{
@@ -628,6 +589,7 @@ TabbedPaneUI	String
 		g.apir._nozero=checkbox_nozero_r.getState();
 		g.apir._norbc=checkbox_norbc_r.getState();
 		g.apir._close=checkbox_close_r.getState();
+		g.apir.autostart=checkbox_autostart_r.getState();
 
 		if(text_gui_osc_port_s.getText().equals(""))
 		{
@@ -646,6 +608,7 @@ TabbedPaneUI	String
 		g.gui_osc_port_r=Integer.parseInt(text_gui_osc_port_r.getText());
 
 		g.keep_cache=checkbox_keep_cache.getState();
+		g.show_both_panels=checkbox_both_panels.getState();
 	}//end readForm
 
 //========================================================================
@@ -712,17 +675,14 @@ tabPanel.repaint();
 		if(tabname.equals("Send"))
 		{
 			text_name_s.requestFocus();
-			//setFocusTraversalPolicy(focusPolicySend);
 		}
 		else if(tabname.equals("Receive"))
 		{
 			text_name_r.requestFocus();
-			//setFocusTraversalPolicy(focusPolicyReceive);
 		}
 		else if(tabname.equals("GUI"))
 		{
 			checkbox_gui_osc_port_random.requestFocus();
-			//setFocusTraversalPolicy(focusPolicyGUI);
 		}
 	}
 
@@ -776,51 +736,4 @@ tabPanel.repaint();
 		JScrollBar sb=jp.getVerticalScrollBar();
 		sb.setValue(sb.getMaximum());
 	}
-
-//========================================================================
-//http://www.java2s.com/Tutorial/Java/0260__Swing-Event/UseFocusTraversalPolicy.htm
-	public class NormalFocusTraversalPolicy extends FocusTraversalPolicy
-	{
-		Vector<Component> order;
-
-//========================================================================
-		public NormalFocusTraversalPolicy(Vector<Component> order)
-		{
-			this.order = new Vector<Component>(order.size());
-			this.order.addAll(order);
-		}
-
-//========================================================================
-		public Component getComponentAfter(Container focusCycleRoot, Component aComponent)
-		{
-			int idx = (order.indexOf(aComponent) + 1) % order.size();
-			return order.get(idx);
-		}
-
-//========================================================================
-		public Component getComponentBefore(Container focusCycleRoot, Component aComponent)
-		{
-			int idx = order.indexOf(aComponent) - 1;
-			if (idx < 0)
-			{
-				idx = order.size() - 1;
-			}
-				return order.get(idx);
-		}
-
-		public Component getDefaultComponent(Container focusCycleRoot)
-		{
-			return order.get(0);
-		}
-
-		public Component getLastComponent(Container focusCycleRoot)
-		{
-			return order.lastElement();
-		}
-
-		public Component getFirstComponent(Container focusCycleRoot)
-		{
-			return order.get(0);
-		}
-	}//end inner class NormalFocusTraversalPolicy
 }//end class ConfigureDialog

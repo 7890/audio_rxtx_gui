@@ -39,9 +39,9 @@ public abstract class CmdlineAPI implements CmdlineAPIInterface
 	public int _limit=-1;
 
 	//other vars
-
 	//passthrough jack_audio_* std output
 	public boolean verbose=false;
+	public boolean autostart=false;
 
 	//filled by config_dump received from jack_audio_send
 

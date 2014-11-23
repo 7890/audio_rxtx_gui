@@ -72,6 +72,7 @@ public class Main
 	public static int gui_osc_port_r=-1;
 
 	public static boolean keep_cache=false;
+	public static boolean show_both_panels=false;
 
 	//osc sender, receiver for communication gui<->jack_audio_send
 	public static OSCPortOut portOutSend; //sender
@@ -279,7 +280,6 @@ public class Main
 
 		setCrossPlatformLAF();
 
-		//http://stackoverflow.com/questions/209812/how-do-i-change-the-default-application-icon-in-java
 /**
 * @see <a href="http://stackoverflow.com/questions/209812/how-do-i-change-the-default-application-icon-in-java"></a>
 */
@@ -298,7 +298,21 @@ public class Main
 		about=new AboutDialog(mainframe, "About "+progName, true);
 
 		createForm();
-	}
+
+		if(apis.autostart)
+		{
+			startTransmissionSend();
+		}
+		if(apir.autostart)
+		{
+			startTransmissionReceive();
+		}
+
+		if(show_both_panels)
+		{
+			FormHelper.viewBothPanels();			
+		}
+	}//end constructor
 
 /**
 * @see <a href="http://stackoverflow.com/questions/11116386/java-gtk-native-look-and-feel-looks-bad-and-bold"></a>
@@ -375,7 +389,6 @@ public class Main
 //start tabbed
 		tabPanel.add("Send", scrollerTabSend);
 		tabPanel.add("Receive", scrollerTabReceive);
-
 		tabPanel.addChangeListener(new ChangeListener()
 		{
 			@Override
@@ -409,6 +422,7 @@ public class Main
 //		mainGrid.add(scrollerTabReceive);
 
 		mainGrid.add(tabPanel);
+
 		mainframe.add(mainGrid,BorderLayout.CENTER);
 
 		//menu always on top
@@ -452,7 +466,7 @@ public class Main
 		//"run" GUI
 		mainframe.setVisible(true);
 
-//tmp
+/*
 p("cardPanelSend "+cardPanelSend.getPreferredSize().getWidth()+" "+cardPanelSend.getPreferredSize().getHeight());
 p("tabSend "+tabSend.getPreferredSize().getWidth()+" "+tabSend.getPreferredSize().getHeight());
 p("frontSend "+frontSend.getPreferredSize().getWidth()+" "+frontSend.getPreferredSize().getHeight());
@@ -460,14 +474,13 @@ p("insets "+mainframe.getInsets().left+" "+mainframe.getInsets().right+" "+mainf
 p("application_menu "+applicationMenu.getPreferredSize().getWidth()+" "+applicationMenu.getPreferredSize().getHeight());
 p("label_status "+labelStatus.getPreferredSize().getWidth()+" "+labelStatus.getPreferredSize().getHeight());
 p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+frontSend.button_default.getPreferredSize().getHeight());
-
+*/
 		panelHeight=(int)(
 			cardPanelSend.getPreferredSize().getHeight()
-/*	+mainframe.getInsets().top+mainframe.getInsets().bottom*/
 			+applicationMenu.getPreferredSize().getHeight()
 			+labelStatus.getPreferredSize().getHeight()
 			+frontSend.button_default.getPreferredSize().getHeight()
-			/*+10*/);
+		);
 
 		panelWidth=(int)(mainGrid.getPreferredSize().getWidth());
 

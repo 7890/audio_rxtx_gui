@@ -317,6 +317,11 @@ try{
 			if(props.getProperty("s.lport_random")!=null){g.apis.lport_random=Boolean.parseBoolean(props.getProperty("s.lport_random"));}
 			if(props.getProperty("s._lport")!=null){g.apis._lport=Integer.parseInt(props.getProperty("s._lport"));}
 
+///////////////////
+			if(props.getProperty("s.autostart")!=null){g.apis.autostart=Boolean.parseBoolean(props.getProperty("s.autostart"));}
+
+
+
 			if(props.getProperty("s._16")!=null){g.apis._16=Boolean.parseBoolean(props.getProperty("s._16"));}
 			if(props.getProperty("s._in")!=null){g.apis._in=Integer.parseInt(props.getProperty("s._in"));}
 			if(props.getProperty("s._target_host")!=null){g.apis._target_host=props.getProperty("s._target_host");}
@@ -340,6 +345,11 @@ try{
 			if(props.getProperty("r._norbc")!=null){g.apir._norbc=Boolean.parseBoolean(props.getProperty("r._norbc"));}
 			if(props.getProperty("r._close")!=null){g.apir._close=Boolean.parseBoolean(props.getProperty("r._close"));}
 
+
+//////////////
+			if(props.getProperty("r.autostart")!=null){g.apir.autostart=Boolean.parseBoolean(props.getProperty("r.autostart"));}
+
+
 			if(props.getProperty("r._16")!=null){g.apir._16=Boolean.parseBoolean(props.getProperty("r._16"));}
 			if(props.getProperty("r._out")!=null){g.apir._out=Integer.parseInt(props.getProperty("r._out"));}
 			if(props.getProperty("r._lport")!=null){g.apir._lport=Integer.parseInt(props.getProperty("r._lport"));}
@@ -351,6 +361,7 @@ try{
 			if(props.getProperty("r.gui_osc_port")!=null){g.gui_osc_port_r=Integer.parseInt(props.getProperty("r.gui_osc_port"));}
 
 			if(props.getProperty("keep_cache")!=null){g.keep_cache=Boolean.parseBoolean(props.getProperty("keep_cache"));}
+			if(props.getProperty("show_both_panels")!=null){g.show_both_panels=Boolean.parseBoolean(props.getProperty("show_both_panels"));}
 
 			return true;
 }
@@ -445,6 +456,12 @@ catch(Exception e)
 			props.setProperty("s.lport_random", g.apis.lport_random ? "true" : "false");
 			props.setProperty("s._lport", ""+g.apis._lport);
 
+
+//////////
+			props.setProperty("s.autostart", ""+g.apis.autostart);
+
+
+
 			props.setProperty("s._16", g.apis._16 ? "true" : "false");
 			props.setProperty("s._in", ""+g.apis._in);
 			props.setProperty("s._target_host", g.apis._target_host);
@@ -467,6 +484,10 @@ catch(Exception e)
 			props.setProperty("r._norbc", g.apir._norbc ? "true" : "false");
 			props.setProperty("r._close", g.apir._close ? "true" : "false");
 
+/////////
+			props.setProperty("r.autostart", ""+g.apir.autostart);
+
+
 			props.setProperty("r._16", g.apir._16 ? "true" : "false");
 			props.setProperty("r._out", ""+g.apir._out);
 			props.setProperty("r.lport_random", g.apir.lport_random ? "true" : "false"); //no on gui
@@ -479,6 +500,7 @@ catch(Exception e)
 			props.setProperty("r.gui_osc_port", ""+g.gui_osc_port_r);
 
 			props.setProperty("keep_cache", g.keep_cache ? "true" : "false");
+			props.setProperty("show_both_panels", g.show_both_panels ? "true" : "false");
 
 			File f = new File(propertiesFileUri);
 			OutputStream out = new FileOutputStream(f);
