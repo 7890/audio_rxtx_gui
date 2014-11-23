@@ -8,6 +8,7 @@ src="$cur"/src
 build="$cur"/build
 archive="$cur"/archive
 classes="$build"/classes
+doc="$cur"/doc
 
 package_path=ch/lowres/audio_rxtx/gui
 
@@ -161,6 +162,19 @@ function build_jar
 	echo "done."
 }
 
+function build_javadoc
+{
+	mkdir -p "$doc"
+	javadoc -private -linksource -sourcetab 2 -d "$doc" \
+	-classpath "$classes" \
+	-sourcepath "$src" \
+		ch.lowres.audio_rxtx.gui \
+		ch.lowres.audio_rxtx.gui.widgets \
+		ch.lowres.audio_rxtx.gui.helpers \
+		ch.lowres.audio_rxtx.gui.api \
+		ch.lowres.audio_rxtx.gui.osc
+}
+
 #execute:
 
 mkdir -p "$build"
@@ -171,3 +185,4 @@ compile_java_osc
 #compile_tabsplitter
 compile_audio_rxtx
 build_jar
+build_javadoc
