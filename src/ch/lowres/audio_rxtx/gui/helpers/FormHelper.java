@@ -111,5 +111,15 @@ public class FormHelper
 			2*g.panelWidth+g.mainframe.getInsets().left+g.mainframe.getInsets().right,
 			g.panelHeight+g.mainframe.getInsets().top+g.mainframe.getInsets().bottom
 		);
+
+		//force JMenuBar to not display menus offset (hack)
+		g.mainframe.setLocation(
+                        (int)g.mainframe.getLocation().x+1,
+                        (int)g.mainframe.getLocation().y
+                );
+		g.mainframe.setLocation(
+                        (int)g.mainframe.getLocation().x-1,
+                        (int)g.mainframe.getLocation().y
+                );
 	}
 }//end class FormHelper
