@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="500"
+   height="300"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="audio_rxtx_dmg_background.svg"
+   inkscape:export-filename="/home/srv/source/git/7890/audio_rxtx_gui/src/gfx/audio_rxtx_dmg_background.png"
+   inkscape:export-xdpi="180"
+   inkscape:export-ydpi="180">
+  <defs
+     id="defs4">
+    <filter
+       inkscape:collect="always"
+       id="filter3854">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="11.342603"
+         id="feGaussianBlur3856" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="371.21577"
+     inkscape:cy="240.3417"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1439"
+     inkscape:window-height="836"
+     inkscape:window-x="118"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-752.36218)">
+    <rect
+       style="fill:#b1aeaf;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       id="rect3004-1"
+       width="503.05594"
+       height="302.03561"
+       x="-1.5279694"
+       y="751.34436"
+       ry="6.0561342" />
+    <rect
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;opacity:1;stroke-opacity:1;filter:url(#filter3854)"
+       id="rect3004"
+       width="486.89352"
+       height="287.89349"
+       x="6.5532379"
+       y="758.41541"
+       ry="28.804031" />
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#000000;fill-opacity:1;stroke:none"
+       d="m 250,772.11849 c 22.275,0 40.33244,18.05747 40.33244,40.33245 0,22.27497 -18.05744,40.33245 -40.33244,40.33245 -22.27499,0 -40.33244,-18.05748 -40.33244,-40.33245 0,-22.27498 18.05745,-40.33245 40.33244,-40.33245 z m 4.4803,19.97424 -30.53982,20.35821 30.53982,20.35821 0,-10.96933 21.57922,0 0,-18.77777 -21.57922,0 0,-10.96932 z"
+       id="path3038" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2994"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       transform="matrix(0.48268944,0,0,0.48268944,28.404066,887.61507)"><flowRegion
+         id="flowRegion2996"><rect
+           id="rect2998"
+           width="900.0459"
+           height="156.57364"
+           x="8.0812206"
+           y="207.06596"
+           style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;font-family:Sans;-inkscape-font-specification:Sans" /></flowRegion><flowPara
+         id="flowPara3000">Install to Macintosh HD:</flowPara><flowPara
+         id="flowPara3002">Drag audio_rxtx_gui.app to Applications</flowPara></flowRoot>  </g>
+</svg>
