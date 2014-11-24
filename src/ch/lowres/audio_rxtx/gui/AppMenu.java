@@ -171,7 +171,7 @@ public class AppMenu extends JMenuBar
 
 		//help items
 		mi_about=new JMenuItem("About...");
-		mi_license=new JMenuItem("Liecense...");
+		mi_license=new JMenuItem("License...");
 		mi_doc=new JMenuItem("Manual (PDF)...");
 		mi_doc.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_1, InputEvent.CTRL_MASK));
