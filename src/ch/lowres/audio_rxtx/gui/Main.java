@@ -189,13 +189,14 @@ public class Main
 	public Main(String[] args)
 	{
 		IOTools iot=new IOTools();
-		p("md5sum of jar: "+iot.getJarMd5Sum());
-		p("build info:\n"+BuildInfo.get());
+		p("\nmd5sum of jar: "+iot.getJarMd5Sum()+"\n");
+		p("build info");
+		p("----------\n"+BuildInfo.get()+"\n");
 
 		os=new OSTest();
-		p("running info:");
-		p("host OS: "+os.getOSName());
-		p("jvm: "+os.getVMName());
+		p("running info");
+		p("------------\nhost OS: "+os.getOSName());
+		p("jvm: "+os.getVMName()+"\n");
 
 		//os specific / or \ path separator
 		tmpDir=System.getProperty("java.io.tmpdir")+File.separator+progNameSymbol;
@@ -302,19 +303,29 @@ public class Main
 
 		createForm();
 
+		if(show_both_panels)
+		{
+			FormHelper.viewBothPanels();			
+		}
+
+		if(apis.autostart || apir.autostart)
+		{
+			try{Thread.sleep(500);}catch(Exception ign){}
+		}
+
 		if(apis.autostart)
 		{
 			startTransmissionSend();
+			if(apir.autostart)
+			{
+				try{Thread.sleep(100);}catch(Exception ign){}
+			}
 		}
 		if(apir.autostart)
 		{
 			startTransmissionReceive();
 		}
 
-		if(show_both_panels)
-		{
-			FormHelper.viewBothPanels();			
-		}
 	}//end constructor
 
 /**
