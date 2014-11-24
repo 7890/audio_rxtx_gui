@@ -51,6 +51,17 @@ public class IOTools
 	}
 
 //========================================================================
+	public static String getJarMd5Sum()
+	{
+		try
+		{
+			return MD5Checksum.getMD5Checksum(jarFileString);
+		}
+		catch(Exception ign){}
+		return "n/a";
+	}
+
+//========================================================================
 	//https://community.oracle.com/thread/1188356?start=0&tstart=0
 	//Copies an entire folder out of a jar to a physical location.
 	public static boolean copyJarContent(String folderName, String destUri)

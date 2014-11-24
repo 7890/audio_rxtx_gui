@@ -192,6 +192,9 @@ public class Main
 		p("host OS: "+os.getOSName());
 		p("jvm: "+os.getVMName());
 
+		IOTools iot=new IOTools();
+		p("md5sum of jar: "+iot.getJarMd5Sum());
+
 		//os specific / or \ path separator
 		tmpDir=System.getProperty("java.io.tmpdir")+File.separator+progNameSymbol;
 		p("temporary cache dir: '"+tmpDir+"'");
@@ -219,8 +222,6 @@ public class Main
 			apis.setPrefixPath(tmpDir+File.separator+"resources"+File.separator+dir);
 			apir.setPrefixPath(tmpDir+File.separator+"resources"+File.separator+dir);
 		}
-
-		IOTools iot=new IOTools();
 
 		if(args.length>0)
 		{
