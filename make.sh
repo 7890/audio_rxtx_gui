@@ -23,10 +23,38 @@ windows_binaries_zip="/tmp/$windows_binaries_zip_name"
 
 #-Xlint:all 
 
+function create_build_info()
+{
+	now="`date`"
+	uname="`uname -m -o`"
+	jvm="`javac -version 2>&1 | head -1 | sed 's/"/''/g'`"
+##
+	javac_opts=" -source 1.6 -target 1.6"
+
+	cat - << __EOF__
+//generated at build time
+package ch.lowres.audio_rxtx.gui.helpers;
+public class BuildInfo
+{
+	public static String get()
+	{
+		return "date: $now\nuname -a: $uname\njavac: $jvm\njavac options: $javac_opts";
+	}
+	public static void main(String[] args)
+	{
+		System.out.println(get());
+	}
+}
+__EOF__
+}
+
 function compile_audio_rxtx()
 {
 	echo "building audio_rxtx gui application"
 	echo "==================================="
+
+	create_build_info > "$src"/$package_path/helpers/BuildInfo.java
+	cat "$src"/$package_path/helpers/BuildInfo.java
 
 	javac -source 1.6 -target 1.6 -classpath "$classes" -sourcepath "$src" -d "$classes" "$src"/$package_path/*.java
 	ret=$?

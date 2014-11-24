@@ -188,12 +188,14 @@ public class Main
 //========================================================================
 	public Main(String[] args)
 	{
-		os=new OSTest();
-		p("host OS: "+os.getOSName());
-		p("jvm: "+os.getVMName());
-
 		IOTools iot=new IOTools();
 		p("md5sum of jar: "+iot.getJarMd5Sum());
+		p("build info:\n"+BuildInfo.get());
+
+		os=new OSTest();
+		p("running info:");
+		p("host OS: "+os.getOSName());
+		p("jvm: "+os.getVMName());
 
 		//os specific / or \ path separator
 		tmpDir=System.getProperty("java.io.tmpdir")+File.separator+progNameSymbol;
