@@ -152,6 +152,7 @@ public class Main
 
 	public static Dimension screenDimension;
 
+	public static Font fontNormal;
 	public static Font fontLarge;
 
 	//platform specific system tmp directory
@@ -201,7 +202,7 @@ public class Main
 		os=new OSTest();
 		p("running info");
 		p("------------\nhost OS: "+os.getOSName());
-		p("jvm: "+os.getVMName()+"\n");
+		p("JVM: "+os.getVMName()+"\n");
 
 		//os specific / or \ path separator
 		tmpDir=System.getProperty("java.io.tmpdir")+File.separator+progNameSymbol;
@@ -298,6 +299,7 @@ public class Main
 	
 		screenDimension=Toolkit.getDefaultToolkit().getScreenSize();
 
+		fontNormal=new JLabel().getFont();
 		fontLarge=iot.createFontFromJar("/resources/AudioMono.ttf",18f);
 
 		formUtility=new FormUtility();
@@ -1146,8 +1148,6 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 		actionMap.put(keyCtrlD, new AbstractAction("ctrl_d") 
 		{
 //same as esc -> should merge
-//conflicts with ctrl+a / ctrl+d
-//ctrl+a conflicts with select all in text fields
 
 			@Override
 			public void actionPerformed(ActionEvent e)
