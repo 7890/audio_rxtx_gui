@@ -314,6 +314,10 @@ public class Main
 		{
 			FormHelper.viewBothPanels();			
 		}
+		else
+		{
+			FormHelper.viewSendPanel();
+		}
 
 		if(apis.autostart || apir.autostart)
 		{
@@ -513,10 +517,13 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 
 		panelWidth=(int)(mainGrid.getPreferredSize().getWidth());
 
+/*
+//new: let FormHelper set size
 		mainframe.setSize(
 			panelWidth+mainframe.getInsets().left+mainframe.getInsets().right,
 			panelHeight+mainframe.getInsets().top+mainframe.getInsets().bottom
 		);
+*/
 	}//end createForm
 
 //========================================================================
