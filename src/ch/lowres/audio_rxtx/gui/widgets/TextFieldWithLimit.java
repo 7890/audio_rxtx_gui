@@ -70,6 +70,9 @@ setBorder(
 		addKeyListener(this);
 		addFocusListener(this);
 		addMouseListener(this);
+
+		setSelectionColor(Colors.selected_text);
+		setFont(Main.fontNormal);
 	}
 
 //========================================================================
@@ -106,7 +109,7 @@ setBorder(
 
 		//hover
 		Graphics2D g2 = (Graphics2D) g;
-		if(alpha!=0)
+		if(alpha!=0 && !hasFocus())
 		{
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 			g2.setPaint(Colors.hovered_overlay);
