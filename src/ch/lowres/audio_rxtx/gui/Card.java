@@ -73,8 +73,7 @@ public abstract class Card extends APanel implements CardInterface
 		button_default.setForeground(Colors.button_foreground);
 		button_default.setFont(g.fontLarge);
 
-		Font f=new JLabel().getFont();
-		label_status.setFont(f);
+		label_status.setFont(g.fontNormal);
 
 		JPanel pSouth=new JPanel(new GridLayout(2,1));
 		pSouth.setBackground(Colors.status_background);
