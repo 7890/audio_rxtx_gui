@@ -5,6 +5,9 @@ package ch.lowres.audio_rxtx.gui.helpers;
 import java.io.*;
 import java.security.MessageDigest;
 
+/**
+* Create MD5 hash from a file
+*/
 public class MD5Checksum {
 
    public static byte[] createChecksum(String filename) throws Exception {
