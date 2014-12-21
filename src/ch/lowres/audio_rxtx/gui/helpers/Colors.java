@@ -42,4 +42,7 @@ public class Colors
 
 	//hovered widget overlay
 	public static Color hovered_overlay=new Color(150,160,240);
+
+	//selected text
+	public static Color selected_text=new Color(200,200,255);
 }//end class Colors
