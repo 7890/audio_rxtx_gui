@@ -95,6 +95,27 @@ public class NumericTextFieldWithLimit extends TextFieldWithLimit implements Key
 	}
 
 //========================================================================
+	public int getNumericStep(KeyEvent e)
+	{
+		if(e.isControlDown() && e.isShiftDown())
+		{
+			return 1000;
+		}
+		else if(!e.isControlDown() && e.isShiftDown())
+		{
+			return 100;
+		}
+		else if(e.isControlDown() && !e.isShiftDown())
+		{
+			return 10;
+		}
+		else
+		{
+			return 1;
+		}
+	}
+
+//========================================================================
 	@Override
 	public void keyPressed(KeyEvent e)
 	{
@@ -111,7 +132,7 @@ event will never be generated, and during all other events, the key character wi
 			try
 			{
 				int number=Integer.parseInt(getText());
-				number++;
+				number+=getNumericStep(e);
 				setText(""+number);
 				validate_();
 			}catch(Exception ign){}
@@ -123,7 +144,7 @@ event will never be generated, and during all other events, the key character wi
 			try
 			{
 				int number=Integer.parseInt(getText());
-				number--;
+				number-=getNumericStep(e);
 				setText(""+number);
 				validate_();
 			}catch(Exception ign){}
