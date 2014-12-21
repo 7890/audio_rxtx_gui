@@ -91,23 +91,28 @@ public class AppMenu extends JMenuBar
 		add(menu_view);
 		add(menu_help);
 
+//shortcuts used by textfields:
+//ctrl+a: select all
+//ctrl+c: copy to clipboard
+//ctrl+v: paste from clipboard
+//ctrl+x: cut to clipboard
+
 		//main items
 		mi_start_transmissionSend=new JMenuItem("Start Transmission (Send)");
 		mi_start_transmissionSend.setAccelerator(
-			KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
-
+			KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK));
 
 		mi_stop_transmissionSend=new JMenuItem("Stop Transmission (Send)");
 		mi_stop_transmissionSend.setAccelerator(
-			KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_MASK));
+			KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
 
 		mi_start_transmissionReceive=new JMenuItem("Start Transmission (Receive)");
 		mi_start_transmissionReceive.setAccelerator(
-			KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK));
+			KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_MASK));
 
 		mi_stop_transmissionReceive=new JMenuItem("Stop Transmission (Receive)");
 		mi_stop_transmissionReceive.setAccelerator(
-			KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_MASK));
+			KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK));
 
 		mi_quit=new JMenuItem("Quit");
 		mi_quit.setAccelerator(
