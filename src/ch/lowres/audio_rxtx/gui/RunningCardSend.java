@@ -53,6 +53,7 @@ public class RunningCardSend extends Card
 		label_8.setText("");
 		label_9.setText("");
 		button_default.setLabel("Stop Transmission");
+		setName("runningSend");
 	}
 
 //========================================================================
