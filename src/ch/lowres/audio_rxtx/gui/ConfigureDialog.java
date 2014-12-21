@@ -84,6 +84,10 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 	private static JScrollPane scrollerTabReceive;
 	private static JScrollPane scrollerTabGUI;
 
+	private static JScrollBar scrollbarSend;
+	private static JScrollBar scrollbarReceive;
+	private static JScrollBar scrollbarGUI;
+
 	private static APanel tabSend;
 	private static APanel tabReceive;
 	private static APanel tabGUI;
@@ -274,6 +278,10 @@ TabbedPaneUI	String
 			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 		scrollerTabSend.getViewport().setBackground(Colors.form_background);
+		scrollerTabSend.setWheelScrollingEnabled(true);
+
+		scrollbarSend=scrollerTabSend.getVerticalScrollBar();
+		scrollbarSend.setUnitIncrement(g.scrollbarIncrement);
 
 		tabReceive=new APanel(new BorderLayout());
 		tabReceive.setBackground(Colors.form_background);
@@ -283,6 +291,10 @@ TabbedPaneUI	String
 			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 		scrollerTabReceive.getViewport().setBackground(Colors.form_background);
+		scrollerTabReceive.setWheelScrollingEnabled(true);
+
+		scrollbarReceive=scrollerTabReceive.getVerticalScrollBar();
+		scrollbarReceive.setUnitIncrement(g.scrollbarIncrement);
 
 		tabGUI=new APanel(new BorderLayout());
 		tabGUI.setBackground(Colors.form_background);
@@ -292,6 +304,10 @@ TabbedPaneUI	String
 			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 		scrollerTabGUI.getViewport().setBackground(Colors.form_background);
+		scrollerTabGUI.setWheelScrollingEnabled(true);
+
+		scrollbarGUI=scrollerTabGUI.getVerticalScrollBar();
+		scrollbarGUI.setUnitIncrement(g.scrollbarIncrement);
 
 		tabPanel.add("Send",scrollerTabSend);
 		tabPanel.add("Receive",scrollerTabReceive);

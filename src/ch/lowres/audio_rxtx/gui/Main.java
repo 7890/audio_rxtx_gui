@@ -105,6 +105,11 @@ public class Main
 	public static JScrollPane scrollerTabSend;
 	public static JScrollPane scrollerTabReceive;
 
+	public static JScrollBar scrollbarSend;
+	public static JScrollBar scrollbarReceive;
+
+	public static int scrollbarIncrement=11;
+
 	public static JPanel tabSend;
 	public static JPanel tabReceive;
 
@@ -390,6 +395,10 @@ public class Main
 			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 		scrollerTabSend.getViewport().setBackground(Colors.form_background);
+		scrollerTabSend.setWheelScrollingEnabled(true);
+
+		scrollbarSend=scrollerTabSend.getVerticalScrollBar();
+		scrollbarSend.setUnitIncrement(scrollbarIncrement);
 
 		tabReceive=new JPanel(new BorderLayout());
 		tabReceive.setBackground(Colors.form_background);
@@ -399,6 +408,10 @@ public class Main
 			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 		scrollerTabReceive.getViewport().setBackground(Colors.form_background);
+		scrollerTabReceive.setWheelScrollingEnabled(true);
+
+		scrollbarReceive=scrollerTabReceive.getVerticalScrollBar();
+		scrollbarReceive.setUnitIncrement(scrollbarIncrement);
 
 //start tabbed
 		tabPanel.add("Send", scrollerTabSend);
