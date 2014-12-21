@@ -40,6 +40,12 @@ public abstract class Card extends APanel implements CardInterface
 //========================================================================
 	public Card() 
 	{
+		init();
+	}
+
+//========================================================================
+	public void init() 
+	{
 		setBackground(Colors.form_background);
 		setForeground(Colors.form_foreground);
 		setLayout(new BorderLayout());
