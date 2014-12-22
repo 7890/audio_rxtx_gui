@@ -1,0 +1,316 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: audio_rxtx_gui\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-12-22 22:45+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Thomas Brand <tom@trellis.ch>\n"
+"Language-Team: \n"
+"Language: German\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/AboutDialog.java:34
+msgid "Close"
+msgstr "Schliessen"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/AppMenu.java:77
+msgid "Main"
+msgstr "Hauptmenu"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/AppMenu.java:80
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/AppMenu.java:83
+msgid "View"
+msgstr "Ansicht"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/AppMenu.java:86
+msgid "Help"
+msgstr "Hilfe"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/AppMenu.java:101
+msgid "Start Transmission (Send)"
+msgstr "Übertragung Starten (Sender)"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/AppMenu.java:105
+msgid "Stop Transmission (Send)"
+msgstr "Übertragung Stoppen (Sender)"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/AppMenu.java:109
+msgid "Start Transmission (Receive)"
+msgstr "Übertragung Starten (Empfänger)"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/AppMenu.java:113
+msgid "Stop Transmission (Receive)"
+msgstr "Übertragung Stoppen (Empfänger)"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/AppMenu.java:117
+msgid "Quit"
+msgstr "Beenden"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/AppMenu.java:132
+msgid "Load Default"
+msgstr "Voreinstellung Laden"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/AppMenu.java:136
+msgid "Save As Default"
+msgstr "Als Voreinstellung Speichern"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/AppMenu.java:140
+msgid "Load"
+msgstr "Laden"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/AppMenu.java:144
+msgid "Save As"
+msgstr "Speichern unter"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/AppMenu.java:148
+msgid "Configure"
+msgstr "Konfigurieren"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/AppMenu.java:161
+msgid "Show Send"
+msgstr "Sender Anzeigen"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/AppMenu.java:165
+msgid "Show Receive"
+msgstr "Empfänger Anzeigen"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/AppMenu.java:169
+msgid "Show Both"
+msgstr "Beide Tafeln Anzeigen"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/AppMenu.java:178
+msgid "About"
+msgstr "Impressum"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/AppMenu.java:179
+msgid "License"
+msgstr "Lizenz"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/AppMenu.java:180
+msgid "Manual (PDF)"
+msgstr "Handbuch (PDF)"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/AppMenu.java:184
+msgid "Report Issuse"
+msgstr "Angelegenheit Mitteilen"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/AppMenu.java:185
+msgid "Check For Updates"
+msgstr "Neuere Programmversion Abfragen"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:43
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:57
+msgid "Autoconnect"
+msgstr "Automatisch Verbinden"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:44
+msgid "No Pause On Receiver Deny"
+msgstr "Nicht Pausieren wenn Empfänger Verbindung ablehnt"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:45
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:58
+msgid "Enable Testmode"
+msgstr "Testmodus Aktivieren"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:48
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:60
+msgid "Verbose Shell Output"
+msgstr "Ausführliche Ausgabe in Kommandozeileninterpreter"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:50
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:73
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:75
+msgid "Use Random Port"
+msgstr "Zufälligen Port Verwenden"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:52
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:70
+msgid "Autostart Transmission"
+msgstr "Übertragung automatisch Starten"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:65
+msgid "Rebuffer On Sender Restart"
+msgstr "Bei Sender Neustart neu Puffern"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:66
+msgid "Rebuffer On Underflow"
+msgstr "Bei Unterlauf neu Puffern"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:67
+msgid "Re-Use Old Data On Underflow"
+msgstr "Bei Unterlauf alte Daten WIederverweden"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:68
+msgid "Disallow Ext. Buffer Control"
+msgstr "Ext. Pufferkontrolle Unterbinden"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:69
+msgid "Stop Transmission On Incompat."
+msgstr "Übertragung bei Inkompat. Stoppen"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:77
+msgid "Use Cache"
+msgstr "Zwischenspeicher Verwenden"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:78
+msgid "Show Both Panels On Start"
+msgstr "Nach Programmstart beide Tafeln Anzeigen"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:80
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:81
+msgid "OK"
+msgstr "Bestätigen"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:312
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:692
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/Main.java:433
+msgid "Send"
+msgstr "Senden"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:313
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:696
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/Main.java:434
+msgid "Receive"
+msgstr "Empfangen"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:314
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:700
+msgid "GUI"
+msgstr "Benutzeroberfläche"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:362
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:399
+msgid "Connect To This JACK Server"
+msgstr "Mit diesem JACK Server Verbinden"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:365
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:402
+msgid "Name Of JACK Client"
+msgstr "Name des JACK Clients"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:368
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:405
+msgid "JACK system:* ports"
+msgstr "JACK system:* Ports"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:371
+msgid "For 1:n Broadcast Scenario"
+msgstr "Für 1:n Verbreitungsszenario"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:374
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:408
+msgid "Limit Totally Sent Messages"
+msgstr "Total gesendete Meldungen Limitieren"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:377
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:411
+msgid "Message Count Limit"
+msgstr "Maximale Anzahl Meldungen"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:380
+msgid "Drop Every Nth Message"
+msgstr "Jede n-te Meldung Verwerfen"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:383
+msgid "jack_audio_send std Passthrough"
+msgstr "jack_audio_send std Weiterleitung"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:386
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:417
+msgid "Status Update Interval"
+msgstr "Status Aktualisierungsintervall"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:389
+msgid "UDP Port For jack_audio_send"
+msgstr "UDP Port für jack_audio_send"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:392
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:451
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:459
+msgid "Fixed Port (If Not Random)"
+msgstr "Fixer Port (wenn nicht zufällig)"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:395
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:444
+msgid "Start Transmission On Startup"
+msgstr "Nach Programmstart Übertragung Starten"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:414
+msgid "jack_audio_receive std Passthrough"
+msgstr "jack_audio_receive std Weiterleitung"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:420
+msgid "Channel Offset"
+msgstr "Kanal Verschiebung"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:423
+msgid "Initial Buffer Size (MCP)"
+msgstr "Initiale Puffergrösse (MCP)"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:426
+msgid "Max Buffer Size (>= Init)"
+msgstr "Maximale Puffergrösse (>= Init.)"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:448
+msgid "UDP Port For GUI (Send)"
+msgstr "UDP Port für Benutzeroberfläche (Sender)"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:456
+msgid "UDP Port For GUI (Receive)"
+msgstr "UDP Port für Benutzeroberfläche (Empfänger)"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/ConfigureDialog.java:464
+msgid "Keep Dumped Resources In Cache"
+msgstr "Zwischengespeicherte Ressourcen behalten"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/FrontCardReceive.java:41
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/FrontCardSend.java:43
+msgid "Start Transmission"
+msgstr "Übertragung Starten"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/FrontCardReceive.java:67
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/FrontCardSend.java:70
+msgid "Audio Format"
+msgstr "Audio Format"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/FrontCardReceive.java:72
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/FrontCardSend.java:75
+msgid "Channels"
+msgstr "Kanäle"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/FrontCardReceive.java:75
+msgid "Receive On"
+msgstr "Empfangen auf"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/FrontCardReceive.java:77
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/FrontCardSend.java:83
+msgid "Port (UDP)"
+msgstr "Port (UDP)"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/FrontCardSend.java:78
+msgid "Send To (Receiver)"
+msgstr "Senden an (Empfänger)"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/FrontCardSend.java:80
+msgid "IP / Hostname"
+msgstr "IP / Hostname"
+
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/RunningCardReceive.java:40
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/RunningCardReceive.java:55
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/RunningCardSend.java:40
+#: /home/srv/source/git/7890/audio_rxtx_gui/src/ch/lowres/audio_rxtx/gui/RunningCardSend.java:55
+msgid "Stop Transmission"
+msgstr "Übertragung Stoppen"
+
+#~ msgid "This text will be translated"
+#~ msgstr "Dieser Text wird übersetzt"
