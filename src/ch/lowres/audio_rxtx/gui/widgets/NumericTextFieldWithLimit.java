@@ -124,7 +124,7 @@ public class NumericTextFieldWithLimit extends TextFieldWithLimit implements Key
 http://stackoverflow.com/questions/11380406/how-to-use-vk-up-or-vk-down-to-move-to-the-previous-or-next-textfield
 The code you quoted won't work because you should use getKeyCode instead of getKeyChar. 
 The former corresponds to those VK_ constants, whereas the latter will result in the character for a 
-“normal” (i.e. printing) key, and only during the KEY_TYPED event. For non-printing keys, the KEY_TYPED 
+"normal" (i.e. printing) key, and only during the KEY_TYPED event. For non-printing keys, the KEY_TYPED 
 event will never be generated, and during all other events, the key character will be CHAR_UNDEFINED instead.
 */
 		if(e.getKeyCode()==KeyEvent.VK_UP)

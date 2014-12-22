@@ -37,7 +37,7 @@ public class RunningCardReceive extends Card
 //========================================================================
 	public RunningCardReceive() 
 	{
-		button_default.setLabel("Stop Transmission");
+		button_default.setLabel(g.tr("Stop Transmission"));
 	}
 
 //========================================================================
@@ -52,7 +52,7 @@ public class RunningCardReceive extends Card
 		label_7.setText("");
 		label_8.setText("");
 		label_9.setText("");
-		button_default.setLabel("Stop Transmission");
+		button_default.setLabel(g.tr("Stop Transmission"));
 		setName("runningReceive");
 	}
 

@@ -31,6 +31,8 @@ import javax.swing.event.*;
 
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
+import org.xnap.commons.i18n.*;
+
 /**
 * audio_rxtx GUI main class. This is the application entry point (having a main method).
 * <p>
@@ -50,6 +52,9 @@ import javax.swing.plaf.basic.BasicTabbedPaneUI;
 //========================================================================
 public class Main
 {
+	//multilanguage
+	public static I18n i18n;
+
 	public final static String progName="audio_rxtx GUI";
 	public final static String progVersion="0.2";
 	public final static String progNameSymbol="audio_rxtx_gui_v"+progVersion+"_"+141030;
@@ -139,7 +144,7 @@ public class Main
 	public static FrontCardReceive frontReceive;
 	public static RunningCardReceive runningReceive;
 
-	public static JLabel labelStatus;
+	public static StatusLabel labelStatus;
 
 	public final static int FRONT=0;
 	public final static int RUNNING=1;
@@ -179,21 +184,24 @@ public class Main
 		p(progName+" v"+progVersion);
 		p("(c) 2014 Thomas Brand <tom@trellis.ch>");
 
-		if(args.length>0 && (args[0].equals("--help") || args[0].equals("-h")))
-		{
-			p("");
-			p("First argument: <URI af .properties file to use>");
-			p("A file called '"+defaultPropertiesFileName+"' in the current directory will be loaded if no argument was given and the file is available.");
-			p("");
-			System.exit(0);
-		}
 		Main m=new Main(args);
-
 	}//end main
 
 //========================================================================
 	public Main(String[] args)
 	{
+		///test
+		i18n = I18nFactory.getI18n(getClass(), "ch.lowres.audio_rxtx.gui.i18n.Messages", java.util.Locale.GERMAN);
+
+		if(args.length>0 && (args[0].equals("--help") || args[0].equals("-h")))
+		{
+			p("");
+			p("First argument: <URI of .properties file to use>");
+			p("A file called '"+defaultPropertiesFileName+"' in the current directory will be loaded if no argument was given and the file is available.");
+			p("");
+			System.exit(0);
+		}
+
 		IOTools iot=new IOTools();
 		p("\nmd5sum of jar: "+iot.getJarMd5Sum()+"\n");
 		p("build info");
@@ -299,12 +307,13 @@ public class Main
 	
 		screenDimension=Toolkit.getDefaultToolkit().getScreenSize();
 
-		fontNormal=new JLabel().getFont();
+		fontNormal=new ALabel().getFont();
 		fontLarge=iot.createFontFromJar("/resources/AudioMono.ttf",18f);
 
 		formUtility=new FormUtility();
 
 		//dialogs
+
 		configure=new ConfigureDialog(mainframe,"Configure "+progName, true);
 		about=new AboutDialog(mainframe, "About "+progName, true);
 
@@ -419,9 +428,9 @@ public class Main
 		scrollbarReceive=scrollerTabReceive.getVerticalScrollBar();
 		scrollbarReceive.setUnitIncrement(scrollbarIncrement);
 
-//start tabbed
-		tabPanel.add("Send", scrollerTabSend);
-		tabPanel.add("Receive", scrollerTabReceive);
+		//start tabbed
+		tabPanel.add(Main.tr("Send"), scrollerTabSend);
+		tabPanel.add(Main.tr("Receive"), scrollerTabReceive);
 		tabPanel.addChangeListener(new ChangeListener()
 		{
 			@Override
@@ -451,9 +460,6 @@ public class Main
 
 		mainGrid=new JPanel(new GridLayout(1,2)); //y,x
 
-//		mainGrid.add(scrollerTabSend);
-//		mainGrid.add(scrollerTabReceive);
-
 		mainGrid.add(tabPanel);
 
 		mainframe.add(mainGrid,BorderLayout.CENTER);
@@ -480,7 +486,7 @@ public class Main
 		runningReceive.setValues();
 		cardPanelReceive.add(runningReceive, "2");
 
-		labelStatus=new JLabel("Ready");
+		labelStatus=new StatusLabel("Ready");
 		labelStatus.setBackground(Colors.status_background);
 		labelStatus.setForeground(Colors.status_foreground);
 
@@ -518,7 +524,6 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 		panelWidth=(int)(mainGrid.getPreferredSize().getWidth());
 
 /*
-//new: let FormHelper set size
 		mainframe.setSize(
 			panelWidth+mainframe.getInsets().left+mainframe.getInsets().right,
 			panelHeight+mainframe.getInsets().top+mainframe.getInsets().bottom
@@ -527,11 +532,11 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 	}//end createForm
 
 //========================================================================
-	public static void setStatus(String s)
+	public static void setStatus(String message)
 	{
 		if(labelStatus!=null)
 		{
-			labelStatus.setText(s);
+			labelStatus.setStatus(message,2000);
 		}
 		//p("MAIN STATUS "+s);
 	}
@@ -949,12 +954,14 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 //========================================================================
 	public static void setFocusedWidget(String tabname)
 	{
-		if(tabname.equals("Send"))
+/*
+		if(tabname.equals(this.tr("Send")))
 		{
 		}
-		else if(tabname.equals("Receive"))
+		else if(tabname.equals(this.tr("Receive")))
 		{
 		}
+*/
 	}
 
 //========================================================================
@@ -1154,8 +1161,8 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 		KeyStroke keyCtrlD = KeyStroke.getKeyStroke(KeyEvent.VK_D,InputEvent.CTRL_MASK);
 		actionMap.put(keyCtrlD, new AbstractAction("ctrl_d") 
 		{
+////
 //same as esc -> should merge
-
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -1206,6 +1213,12 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 			}
 		});
 	}//end addGlobalKeyListeners
+
+	//========================================================================
+	public static String tr(String text)
+	{
+		return i18n.tr(text);
+	}
 
 }//end class Main
 

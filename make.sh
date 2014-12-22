@@ -12,7 +12,7 @@ doc="$cur"/doc
 
 package_path=ch/lowres/audio_rxtx/gui
 
-windows_binaries_zip_name=audio_rxtx_1414983653.zip
+windows_binaries_zip_name=audio_rxtx_1416837145.zip
 windows_binaries_uri="https://raw.githubusercontent.com/7890/jack_tools/master/audio_rxtx/dist/win/$windows_binaries_zip_name"
 
 #dl to (incl. filename)
@@ -28,7 +28,6 @@ function create_build_info()
 	now="`date`"
 	uname="`uname -m -o`"
 	jvm="`javac -version 2>&1 | head -1 | sed 's/"/''/g'`"
-##
 	javac_opts=" -source 1.6 -target 1.6"
 
 	cat - << __EOF__
@@ -38,7 +37,7 @@ public class BuildInfo
 {
 	public static String get()
 	{
-		return "date: $now\nuname -a: $uname\njavac: $jvm\njavac options: $javac_opts";
+		return "date: $now\nuname -m -o: $uname\njavac: $jvm\njavac options: $javac_opts";
 	}
 	public static void main(String[] args)
 	{
@@ -55,6 +54,8 @@ function compile_audio_rxtx()
 
 	create_build_info > "$src"/$package_path/helpers/BuildInfo.java
 	cat "$src"/$package_path/helpers/BuildInfo.java
+
+	mkdir -p "$classes"
 
 	javac -source 1.6 -target 1.6 -classpath "$classes" -sourcepath "$src" -d "$classes" "$src"/$package_path/*.java
 	ret=$?
@@ -90,30 +91,52 @@ function compile_java_osc
 	find "$classes"
 }
 
-function compile_tabsplitter
+function compile_gettext
 {
-	echo "building tabsplitter library (com.magelang.splitter)"
-	echo "===================================================="
-	mkdir "$build"/tabsplitter
-	cp "$archive"/tabsplitter.zip "$build"/tabsplitter
-	cd "$build"/tabsplitter
-	unzip tabsplitter.zip
-
+	echo "building gettext library (org.xnap.commons.i18n)"
+	echo "================================================"
+	cp "$archive"/gettext-commons-0.9.8-sources.jar "$build"
+	cd "$build"
+	jar xfv gettext-commons-0.9.8-sources.jar
 	cd "$cur"
 
-	####
-	cp "$archive"/tabsplitter_mod/TabPanel.java.mod "$build"/tabsplitter/com/magelang/tabsplitter/TabPanel.java
-	cp "$archive"/tabsplitter_mod/TabSplitter.java.mod "$build"/tabsplitter/com/magelang/tabsplitter/TabSplitter.java
-	cp "$archive"/tabsplitter_mod/TabLabelPanel.java.mod "$build"/tabsplitter/com/magelang/tabsplitter/TabLabelPanel.java
-	cp "$archive"/tabsplitter_mod/SplitterPanel.java.mod "$build"/tabsplitter/com/magelang/tabsplitter/SplitterPanel.java
-
-	PREF="$build"/tabsplitter
+	PREF="$build"/
 
 	echo "compiling files in $PREF to direcotry $classes ..."
 
 	mkdir -p "$classes"
-	javac -source 1.6 -target 1.6 -classpath $PREF -sourcepath $PREF -d "$classes" $PREF/com/magelang/tabsplitter/*.java
+	javac -source 1.6 -target 1.6 -classpath $PREF -sourcepath $PREF -d "$classes" $PREF/org/xnap/commons/i18n/*.java
 	find "$classes"
+}
+
+function create_languages
+{
+	xgettext -ktrc:1c,2 -ktrnc:1c,2,3 -ktr -kmarktr -ktrn:1,2 -o "$build"/keys.pot \
+		"$src"/ch/lowres/audio_rxtx/gui/*.java \
+		"$src"/ch/lowres/audio_rxtx/gui/api/*.java \
+		"$src"/ch/lowres/audio_rxtx/gui/widgets/*.java \
+		"$src"/ch/lowres/audio_rxtx/gui/osc/*.java
+
+	#de
+	touch "$build"/de.po
+	cp "$src"/lang/de.po "$build"/de.po
+	
+	msgmerge -U "$build"/de.po "$build"/keys.pot
+
+#	echo "edit $src/lang/de.po with poedit? y or enter"
+#	read a
+a=0
+
+	if [ x"$a" = "xy" ]
+	then
+		echo "opening file $src/lang/de.po..."
+		poedit "$src"/lang/de.po
+	fi
+
+	echo "creating i18n.Messages..."
+
+	#de
+	msgfmt --java2 -d "$classes" -r ch.lowres.audio_rxtx.gui.i18n.Messages -l de "$src"/lang/de.po
 }
 
 function build_jar
@@ -136,7 +159,6 @@ function build_jar
 	then
 		echo "curl -o $windows_binaries_zip $windows_binaries_uri"
 		curl -o "$windows_binaries_zip" "$windows_binaries_uri"
-		#cp "/home/srv/source/git/7890/jack_tools/audio_rxtx/dist/win/$windows_binaries_zip_name" "$windows_binaries_zip"
 	fi
 
 	cp "$windows_binaries_zip" "$build"
@@ -148,10 +170,8 @@ function build_jar
 	cd "$zip_dirname"
 	rm bin/*.bat
 	rm bin/osc*.exe
-#	rm bin/jack_audio_receive.exe
 	rm bin/audio_post_send.exe
 	mkdir "$classes"/resources/win
-#	cp -r bin "$classes"/resources
 	cp bin/* "$classes"/resources/win
 	cp -r doc "$classes"/resources
 	cp *.txt "$classes"/resources
@@ -175,7 +195,8 @@ function build_jar
 	now=`date +"%s"`
 
 	echo "creating jar..."
-	jar cfvm audio_rxtx_gui_"$now".jar "$build"/Manifest.txt ch/ com/ resources/
+
+	jar cfvm audio_rxtx_gui_"$now".jar "$build"/Manifest.txt ch/ com/ org/ resources/
 	ls -l audio_rxtx_gui_"$now".jar
 	echo "move audio_rxtx_gui_$now.jar to build dir..."
 	mv audio_rxtx_gui_"$now".jar "$build"
@@ -183,9 +204,8 @@ function build_jar
 	echo "start with"
 	echo "java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -jar build/audio_rxtx_gui_$now.jar"
 
-###################
-#	cd "$cur"
-#	java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -jar build/audio_rxtx_gui_$now.jar
+	cd "$cur"
+	java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -jar build/audio_rxtx_gui_$now.jar
 
 	echo "done."
 }
@@ -207,10 +227,10 @@ function build_javadoc
 
 mkdir -p "$build"
 rm -rf "$build"/*
-#rm -f "$build"/*.zip
 
 compile_java_osc
-#compile_tabsplitter
+compile_gettext
+create_languages
 compile_audio_rxtx
+#build_javadoc
 build_jar
-build_javadoc

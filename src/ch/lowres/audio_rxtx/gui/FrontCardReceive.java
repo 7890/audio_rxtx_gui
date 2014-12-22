@@ -38,7 +38,7 @@ public class FrontCardReceive extends Card
 //========================================================================
 	public FrontCardReceive()
 	{
-		button_default.setLabel("Start Transmission");
+		button_default.setLabel(g.tr("Start Transmission"));
 		text_output_channels.setMinInclusive(1);
 		text_output_channels.setMaxInclusive(512);
 		text_lport.setMinInclusive(1024);
@@ -64,17 +64,17 @@ public class FrontCardReceive extends Card
 		audio_transmission_format_group.add(checkbox_format_16);
 		audio_transmission_format_group.add(checkbox_format_32);
 
-		g.formUtility.addLabel("Audio Format: ", form);
+		g.formUtility.addLabel(g.tr("Audio Format")+": ", form);
 		g.formUtility.addLastField(checkbox_format_16, form);
 		g.formUtility.addLabel("", form);
 		g.formUtility.addLastField(checkbox_format_32, form);
 
-		g.formUtility.addLabel("Channels: ", form);
+		g.formUtility.addLabel(g.tr("Channels")+": ", form);
 		g.formUtility.addLastField(text_output_channels, form);
 
-		g.formUtility.addTitle("Receive On", form);
+		g.formUtility.addTitle(g.tr("Receive On"), form);
 
-		g.formUtility.addLabel("Port (UDP): ", form);
+		g.formUtility.addLabel(g.tr("Port (UDP)")+": ", form);
 		g.formUtility.addLastField(text_lport, form);
 
 	}//end createForm

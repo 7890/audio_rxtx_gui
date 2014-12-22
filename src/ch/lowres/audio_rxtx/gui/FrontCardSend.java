@@ -40,7 +40,7 @@ public class FrontCardSend extends Card
 //========================================================================
 	public FrontCardSend() 
 	{
-		button_default.setLabel("Start Transmission");
+		button_default.setLabel(g.tr("Start Transmission"));
 		text_input_channels.setMinInclusive(1);
 		text_input_channels.setMaxInclusive(512);
 		text_target_port.setMinInclusive(1024);
@@ -67,20 +67,20 @@ public class FrontCardSend extends Card
 		audio_transmission_format_group.add(checkbox_format_16);
 		audio_transmission_format_group.add(checkbox_format_32);
 
-		g.formUtility.addLabel("Audio Format: ", form);
+		g.formUtility.addLabel(g.tr("Audio Format")+": ", form);
 		g.formUtility.addLastField(checkbox_format_16, form);
 		g.formUtility.addLabel("", form);
 		g.formUtility.addLastField(checkbox_format_32, form);
 
-		g.formUtility.addLabel("Channels: ", form);
+		g.formUtility.addLabel(g.tr("Channels")+": ", form);
 		g.formUtility.addLastField(text_input_channels, form);
 
-		g.formUtility.addTitle("Send To (Receiver)", form);
+		g.formUtility.addTitle(g.tr("Send To (Receiver)"), form);
 
-		g.formUtility.addLabel("IP / Hostname: ", form);
+		g.formUtility.addLabel(g.tr("IP / Hostname")+": ", form);
 		g.formUtility.addLastField(text_target_host, form);
 
-		g.formUtility.addLabel("Port (UDP): ", form);
+		g.formUtility.addLabel(g.tr("Port (UDP)")+": ", form);
 		g.formUtility.addLastField(text_target_port, form);
 	}//end createForm
 
@@ -117,6 +117,7 @@ public class FrontCardSend extends Card
 		try
 		{
 			InetAddress host=InetAddress.getByName(g.apis._target_host);
+			setStatus("Host Is Valid");
 		}
 		catch(Exception hostEx)
 		{

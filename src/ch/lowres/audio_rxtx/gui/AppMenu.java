@@ -74,16 +74,16 @@ public class AppMenu extends JMenuBar
 	{
 		//http://stackoverflow.com/questions/17767950/java-menubar-cuts-into-my-applet
 
-		menu_main=new JMenu("Main",true);
+		menu_main=new JMenu(g.tr("Main"),true);
 		menu_main.setMnemonic(KeyEvent.VK_M);
 
-		menu_settings=new JMenu("Settings");
+		menu_settings=new JMenu(g.tr("Settings"));
 		menu_settings.setMnemonic(KeyEvent.VK_S);
 
-		menu_view=new JMenu("View");
+		menu_view=new JMenu(g.tr("View"));
 		menu_view.setMnemonic(KeyEvent.VK_V);
 
-		menu_help=new JMenu("Help");
+		menu_help=new JMenu(g.tr("Help"));
 		menu_help.setMnemonic(KeyEvent.VK_H);
 
 		add(menu_main);
@@ -98,23 +98,23 @@ public class AppMenu extends JMenuBar
 //ctrl+x: cut to clipboard
 
 		//main items
-		mi_start_transmissionSend=new JMenuItem("Start Transmission (Send)");
+		mi_start_transmissionSend=new JMenuItem(g.tr("Start Transmission (Send)"));
 		mi_start_transmissionSend.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK));
 
-		mi_stop_transmissionSend=new JMenuItem("Stop Transmission (Send)");
+		mi_stop_transmissionSend=new JMenuItem(g.tr("Stop Transmission (Send)"));
 		mi_stop_transmissionSend.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
 
-		mi_start_transmissionReceive=new JMenuItem("Start Transmission (Receive)");
+		mi_start_transmissionReceive=new JMenuItem(g.tr("Start Transmission (Receive)"));
 		mi_start_transmissionReceive.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_MASK));
 
-		mi_stop_transmissionReceive=new JMenuItem("Stop Transmission (Receive)");
+		mi_stop_transmissionReceive=new JMenuItem(g.tr("Stop Transmission (Receive)"));
 		mi_stop_transmissionReceive.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK));
 
-		mi_quit=new JMenuItem("Quit");
+		mi_quit=new JMenuItem(g.tr("Quit"));
 		mi_quit.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_MASK));
 
@@ -129,23 +129,23 @@ public class AppMenu extends JMenuBar
 		menu_main.add(mi_quit);
 
 		//settings items
-		mi_load_default_settings=new JMenuItem("Load Default");
+		mi_load_default_settings=new JMenuItem(g.tr("Load Default"));
 		mi_load_default_settings.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_COMMA, InputEvent.CTRL_MASK));
 
-		mi_save_default_settings=new JMenuItem("Save As Default");
+		mi_save_default_settings=new JMenuItem(g.tr("Save As Default"));
 		mi_save_default_settings.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_PERIOD, InputEvent.CTRL_MASK));
 
-		mi_load_settings=new JMenuItem("Load...");
+		mi_load_settings=new JMenuItem(g.tr("Load")+"...");
 		mi_load_settings.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
 
-		mi_save_settings_as=new JMenuItem("Save As...");
+		mi_save_settings_as=new JMenuItem(g.tr("Save As")+"...");
 		mi_save_settings_as.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
 
-		mi_configure_dialog=new JMenuItem("Configure...");
+		mi_configure_dialog=new JMenuItem(g.tr("Configure")+"...");
 		mi_configure_dialog.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_MASK));
 
@@ -158,15 +158,15 @@ public class AppMenu extends JMenuBar
 		menu_settings.add(mi_configure_dialog);
 
 		//view items
-		mi_view_send=new JMenuItem("Show Send");
+		mi_view_send=new JMenuItem(g.tr("Show Send"));
 		mi_view_send.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.CTRL_MASK));
 
-		mi_view_receive=new JMenuItem("Show Receive");
+		mi_view_receive=new JMenuItem(g.tr("Show Receive"));
 		mi_view_receive.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_MASK));
 
-		mi_view_both=new JMenuItem("Show Both");
+		mi_view_both=new JMenuItem(g.tr("Show Both"));
 		mi_view_both.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_J, InputEvent.CTRL_MASK));
 
@@ -175,14 +175,14 @@ public class AppMenu extends JMenuBar
 		menu_view.add(mi_view_both);
 
 		//help items
-		mi_about=new JMenuItem("About...");
-		mi_license=new JMenuItem("License...");
-		mi_doc=new JMenuItem("Manual (PDF)...");
+		mi_about=new JMenuItem(g.tr("About")+"...");
+		mi_license=new JMenuItem(g.tr("License")+"...");
+		mi_doc=new JMenuItem(g.tr("Manual (PDF)")+"...");
 		mi_doc.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_1, InputEvent.CTRL_MASK));
 
-		mi_report_issue=new JMenuItem("Report Issuse...");
-		mi_check_for_update=new JMenuItem("Check For Updates...");
+		mi_report_issue=new JMenuItem(g.tr("Report Issuse")+"...");
+		mi_check_for_update=new JMenuItem(g.tr("Check For Updates")+"...");
 
 		menu_help.add(mi_about);
 		menu_help.add(mi_license);

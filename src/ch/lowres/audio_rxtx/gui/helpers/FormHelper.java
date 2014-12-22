@@ -60,8 +60,8 @@ public class FormHelper
 		g.mainGrid.removeAll();
 		g.tabPanel.removeAll();
 
-		g.tabPanel.add("Send", g.scrollerTabSend);
-		g.tabPanel.add("Receive", g.scrollerTabReceive);
+		g.tabPanel.add(g.tr("Send"), g.scrollerTabSend);
+		g.tabPanel.add(g.tr("Receive"), g.scrollerTabReceive);
 
 		g.tabPanel.setSelectedIndex(0);
 
@@ -81,8 +81,8 @@ public class FormHelper
 		g.mainGrid.removeAll();
 		g.tabPanel.removeAll();
 
-		g.tabPanel.add("Send", g.scrollerTabSend);
-		g.tabPanel.add("Receive", g.scrollerTabReceive);
+		g.tabPanel.add(g.tr("Send"), g.scrollerTabSend);
+		g.tabPanel.add(g.tr("Receive"), g.scrollerTabReceive);
 
 		g.tabPanel.setSelectedIndex(1);
 

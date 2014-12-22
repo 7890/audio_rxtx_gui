@@ -40,45 +40,45 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 	private static JPanel formSend;
 	private static HostTextFieldWithLimit		text_name_s=new HostTextFieldWithLimit("",32,32);
 	private static HostTextFieldWithLimit		text_sname_s=new HostTextFieldWithLimit("",32,32);
-	private static ACheckbox 			checkbox_connect_s=new ACheckbox("Autoconnect");
-	private static ACheckbox 			checkbox_nopause_s=new ACheckbox("No Pause On Sender Deny");
-	private static ACheckbox 			checkbox_test_s=new ACheckbox("Enable Testmode");
+	private static ACheckbox 			checkbox_connect_s=new ACheckbox(g.tr("Autoconnect"));
+	private static ACheckbox 			checkbox_nopause_s=new ACheckbox(g.tr("No Pause On Receiver Deny"));
+	private static ACheckbox 			checkbox_test_s=new ACheckbox(g.tr("Enable Testmode"));
 	private static NumericTextFieldWithLimit 	text_limit_s=new NumericTextFieldWithLimit("",32,24);
 	private static NumericTextFieldWithLimit 	text_drop_s=new NumericTextFieldWithLimit("",32,24);
-	private static ACheckbox 			checkbox_verbose_s=new ACheckbox("Verbose Shell Output");
+	private static ACheckbox 			checkbox_verbose_s=new ACheckbox(g.tr("Verbose Shell Output"));
 	private static NumericTextFieldWithLimit 	text_update_s=new NumericTextFieldWithLimit("",32,4);
-	private static ACheckbox 			checkbox_lport_random_s=new ACheckbox("Use Random Port");
+	private static ACheckbox 			checkbox_lport_random_s=new ACheckbox(g.tr("Use Random Port"));
 	private static NumericTextFieldWithLimit 	text_lport_s=new NumericTextFieldWithLimit("",32,5);
-	private static ACheckbox 			checkbox_autostart_s=new ACheckbox("Autostart Transmission");
+	private static ACheckbox 			checkbox_autostart_s=new ACheckbox(g.tr("Autostart Transmission"));
 
 	private static JPanel formReceive;
 	private static HostTextFieldWithLimit		text_name_r=new HostTextFieldWithLimit("",32,32);
 	private static HostTextFieldWithLimit		text_sname_r=new HostTextFieldWithLimit("",32,32);
-	private static ACheckbox 			checkbox_connect_r=new ACheckbox("Autoconnect");
-	private static ACheckbox 			checkbox_test_r=new ACheckbox("Enable Testmode");
+	private static ACheckbox 			checkbox_connect_r=new ACheckbox(g.tr("Autoconnect"));
+	private static ACheckbox 			checkbox_test_r=new ACheckbox(g.tr("Enable Testmode"));
 	private static NumericTextFieldWithLimit 	text_limit_r=new NumericTextFieldWithLimit("",32,24);
-	private static ACheckbox 			checkbox_verbose_r=new ACheckbox("Verbose Shell Output");
+	private static ACheckbox 			checkbox_verbose_r=new ACheckbox(g.tr("Verbose Shell Output"));
 	private static NumericTextFieldWithLimit 	text_update_r=new NumericTextFieldWithLimit("",32,4);
 	private static NumericTextFieldWithLimit 	text_offset_r=new NumericTextFieldWithLimit("",32,24);
 	private static NumericTextFieldWithLimit 	text_pre_r=new NumericTextFieldWithLimit("",32,24);
 	private static NumericTextFieldWithLimit 	text_max_r=new NumericTextFieldWithLimit("",32,24);
-	private static ACheckbox 			checkbox_rere_r=new ACheckbox("Rebuffer On Sender Restart");
-	private static ACheckbox 			checkbox_reuf_r=new ACheckbox("Rebuffer On Underflow");
-	private static ACheckbox 			checkbox_nozero_r=new ACheckbox("Re-Use Old Data On Underflow");
-	private static ACheckbox 			checkbox_norbc_r=new ACheckbox("Disallow Ext. Buffer Control");
-	private static ACheckbox 			checkbox_close_r=new ACheckbox("Stop Transmission On Incompat.");
-	private static ACheckbox 			checkbox_autostart_r=new ACheckbox("Autostart Transmission");
+	private static ACheckbox 			checkbox_rere_r=new ACheckbox(g.tr("Rebuffer On Sender Restart"));
+	private static ACheckbox 			checkbox_reuf_r=new ACheckbox(g.tr("Rebuffer On Underflow"));
+	private static ACheckbox 			checkbox_nozero_r=new ACheckbox(g.tr("Re-Use Old Data On Underflow"));
+	private static ACheckbox 			checkbox_norbc_r=new ACheckbox(g.tr("Disallow Ext. Buffer Control"));
+	private static ACheckbox 			checkbox_close_r=new ACheckbox(g.tr("Stop Transmission On Incompat."));
+	private static ACheckbox 			checkbox_autostart_r=new ACheckbox(g.tr("Autostart Transmission"));
 
 	private static JPanel formGUI;
-	private static ACheckbox 			checkbox_gui_osc_port_random=new ACheckbox("Use Random Port");
+	private static ACheckbox 			checkbox_gui_osc_port_random=new ACheckbox(g.tr("Use Random Port"));
 	private static NumericTextFieldWithLimit 	text_gui_osc_port_s=new NumericTextFieldWithLimit("",32,5);
-	private static ACheckbox 			checkbox_gui_osc_port_random_r=new ACheckbox("Use Random Port");
+	private static ACheckbox 			checkbox_gui_osc_port_random_r=new ACheckbox(g.tr("Use Random Port"));
 	private static NumericTextFieldWithLimit 	text_gui_osc_port_r=new NumericTextFieldWithLimit("",32,5);
-	private static ACheckbox 			checkbox_keep_cache=new ACheckbox("Use Cache");
-	private static ACheckbox 			checkbox_both_panels=new ACheckbox("Show Both Panels On Start");
+	private static ACheckbox 			checkbox_keep_cache=new ACheckbox(g.tr("Use Cache"));
+	private static ACheckbox 			checkbox_both_panels=new ACheckbox(g.tr("Show Both Panels On Start"));
 
-	private static AButton 				button_cancel_settings=new AButton("Cancel");
-	private static AButton 				button_confirm_settings=new AButton("OK");
+	private static AButton 				button_cancel_settings=new AButton(g.tr("Cancel"));
+	private static AButton 				button_confirm_settings=new AButton(g.tr("OK"));
 
 	private static JScrollPane scrollerTabSend;
 	private static JScrollPane scrollerTabReceive;
@@ -309,9 +309,9 @@ TabbedPaneUI	String
 		scrollbarGUI=scrollerTabGUI.getVerticalScrollBar();
 		scrollbarGUI.setUnitIncrement(g.scrollbarIncrement);
 
-		tabPanel.add("Send",scrollerTabSend);
-		tabPanel.add("Receive",scrollerTabReceive);
-		tabPanel.add("GUI",scrollerTabGUI);
+		tabPanel.add(g.tr("Send"),scrollerTabSend);
+		tabPanel.add(g.tr("Receive"),scrollerTabReceive);
+		tabPanel.add(g.tr("GUI"),scrollerTabGUI);
 
 		//http://stackoverflow.com/questions/5183687/java-remove-margin-padding-on-a-jtabbedpane
 		tabPanel.setUI(new BasicTabbedPaneUI()
@@ -359,71 +359,71 @@ TabbedPaneUI	String
 		//======
 		add(tabPanel,BorderLayout.CENTER);
 
-		g.formUtility.addLabel("Connect To This JACK Server:", formSend);
+		g.formUtility.addLabel(g.tr("Connect To This JACK Server")+":", formSend);
 		g.formUtility.addLastField(text_sname_s, formSend);
 
-		g.formUtility.addLabel("Name Of JACK Client:", formSend);
+		g.formUtility.addLabel(g.tr("Name Of JACK Client")+":", formSend);
 		g.formUtility.addLastField(text_name_s, formSend);
 
-		g.formUtility.addLabel("JACK system:* ports:", formSend);
+		g.formUtility.addLabel(g.tr("JACK system:* ports")+":", formSend);
 		g.formUtility.addLastField(checkbox_connect_s, formSend);
 
-		g.formUtility.addLabel("For 1:n Broadcast Scenario:", formSend);
+		g.formUtility.addLabel(g.tr("For 1:n Broadcast Scenario")+":", formSend);
 		g.formUtility.addLastField(checkbox_nopause_s, formSend);
 
-		g.formUtility.addLabel("Limit Totally Sent Messages:", formSend);
+		g.formUtility.addLabel(g.tr("Limit Totally Sent Messages")+":", formSend);
 		g.formUtility.addLastField(checkbox_test_s, formSend);
 
-		g.formUtility.addLabel("Message Count Limit:", formSend);
+		g.formUtility.addLabel(g.tr("Message Count Limit")+":", formSend);
 		g.formUtility.addLastField(text_limit_s, formSend);
 
-		g.formUtility.addLabel("Drop Every Nth Message:", formSend);
+		g.formUtility.addLabel(g.tr("Drop Every Nth Message")+":", formSend);
 		g.formUtility.addLastField(text_drop_s, formSend);
 
-		g.formUtility.addLabel("jack_audio_send std Passthrough:", formSend);
+		g.formUtility.addLabel(g.tr("jack_audio_send std Passthrough")+":", formSend);
 		g.formUtility.addLastField(checkbox_verbose_s, formSend);
 
-		g.formUtility.addLabel("Status Update Interval:", formSend);
+		g.formUtility.addLabel(g.tr("Status Update Interval")+":", formSend);
 		g.formUtility.addLastField(text_update_s, formSend);
 
-		g.formUtility.addLabel("UDP Port For jack_audio_send:", formSend);
+		g.formUtility.addLabel(g.tr("UDP Port For jack_audio_send")+":", formSend);
 		g.formUtility.addLastField(checkbox_lport_random_s, formSend);
 
-		g.formUtility.addLabel("Fixed Port (If Not Random):", formSend);
+		g.formUtility.addLabel(g.tr("Fixed Port (If Not Random)")+":", formSend);
 		g.formUtility.addLastField(text_lport_s, formSend);
 
-		g.formUtility.addLabel("Start Transmission On Startup:", formSend);
+		g.formUtility.addLabel(g.tr("Start Transmission On Startup")+":", formSend);
 		g.formUtility.addLastField(checkbox_autostart_s, formSend);
 
 //receive
-		g.formUtility.addLabel("Connect To This JACK Server:", formReceive);
+		g.formUtility.addLabel(g.tr("Connect To This JACK Server")+":", formReceive);
 		g.formUtility.addLastField(text_sname_r, formReceive);
 
-		g.formUtility.addLabel("Name Of JACK Client:", formReceive);
+		g.formUtility.addLabel(g.tr("Name Of JACK Client")+":", formReceive);
 		g.formUtility.addLastField(text_name_r, formReceive);
 
-		g.formUtility.addLabel("JACK system:* ports:", formReceive);
+		g.formUtility.addLabel(g.tr("JACK system:* ports")+":", formReceive);
 		g.formUtility.addLastField(checkbox_connect_r, formReceive);
 
-		g.formUtility.addLabel("Limit Totally Sent Messages:", formReceive);
+		g.formUtility.addLabel(g.tr("Limit Totally Sent Messages")+":", formReceive);
 		g.formUtility.addLastField(checkbox_test_r, formReceive);
 
-		g.formUtility.addLabel("Message Count Limit:", formReceive);
+		g.formUtility.addLabel(g.tr("Message Count Limit")+":", formReceive);
 		g.formUtility.addLastField(text_limit_r, formReceive);
 
-		g.formUtility.addLabel("jack_audio_receive std Passthrough:", formReceive);
+		g.formUtility.addLabel(g.tr("jack_audio_receive std Passthrough")+":", formReceive);
 		g.formUtility.addLastField(checkbox_verbose_r, formReceive);
 
-		g.formUtility.addLabel("Status Update Interval:", formReceive);
+		g.formUtility.addLabel(g.tr("Status Update Interval")+":", formReceive);
 		g.formUtility.addLastField(text_update_r, formReceive);
 
-		g.formUtility.addLabel("Channel Offset:", formReceive);
+		g.formUtility.addLabel(g.tr("Channel Offset")+":", formReceive);
 		g.formUtility.addLastField(text_offset_r, formReceive);
 
-		g.formUtility.addLabel("Initial Buffer Size (MCP):", formReceive);
+		g.formUtility.addLabel(g.tr("Initial Buffer Size (MCP)")+":", formReceive);
 		g.formUtility.addLastField(text_pre_r, formReceive);
 
-		g.formUtility.addLabel("Max Buffer Size (>= Init):", formReceive);
+		g.formUtility.addLabel(g.tr("Max Buffer Size (>= Init)")+":", formReceive);
 		g.formUtility.addLastField(text_max_r, formReceive);
 
 		g.formUtility.addLabel("", formReceive);
@@ -441,27 +441,27 @@ TabbedPaneUI	String
 		g.formUtility.addLabel("", formReceive);
 		g.formUtility.addLastField(checkbox_close_r, formReceive);
 
-		g.formUtility.addLabel("Start Transmission On Startup:", formReceive);
+		g.formUtility.addLabel(g.tr("Start Transmission On Startup")+":", formReceive);
 		g.formUtility.addLastField(checkbox_autostart_r, formReceive);
 
 //GUI
-		g.formUtility.addLabel("UDP Port For GUI (Send):", formGUI);
+		g.formUtility.addLabel(g.tr("UDP Port For GUI (Send)")+":", formGUI);
 		g.formUtility.addLastField(checkbox_gui_osc_port_random, formGUI);
 
-		g.formUtility.addLabel("Fixed Port (If Not Random):", formGUI);
+		g.formUtility.addLabel(g.tr("Fixed Port (If Not Random)")+":", formGUI);
 		g.formUtility.addLastField(text_gui_osc_port_s, formGUI);
 
 		g.formUtility.addSpacer(formGUI);
 
-		g.formUtility.addLabel("UDP Port For GUI (Receive):", formGUI);
+		g.formUtility.addLabel(g.tr("UDP Port For GUI (Receive)")+":", formGUI);
 		g.formUtility.addLastField(checkbox_gui_osc_port_random_r, formGUI);
 
-		g.formUtility.addLabel("Fixed Port (If Not Random):", formGUI);
+		g.formUtility.addLabel(g.tr("Fixed Port (If Not Random)")+":", formGUI);
 		g.formUtility.addLastField(text_gui_osc_port_r, formGUI);
 
 		g.formUtility.addSpacer(formGUI);
 
-		g.formUtility.addLabel("Keep Dumped Resources In Cache:", formGUI);
+		g.formUtility.addLabel(g.tr("Keep Dumped Resources In Cache")+":", formGUI);
 		g.formUtility.addLastField(checkbox_keep_cache, formGUI);
 
 		g.formUtility.addLabel("", formGUI);
@@ -484,9 +484,10 @@ TabbedPaneUI	String
 
 		add(button_panel,BorderLayout.SOUTH);
 
-//		pack();
+		pack();
 //		setSize(600,500);
-		int panelWidth=600;
+//		int panelWidth=600;
+		int panelWidth=(int)getPreferredSize().getWidth();
 		int panelHeight=500;
 		setSize(
 			panelWidth+getInsets().left+getInsets().right,
@@ -688,15 +689,15 @@ tabPanel.repaint();
 //========================================================================
 	public void setFocusedWidget(String tabname)
 	{
-		if(tabname.equals("Send"))
+		if(tabname.equals(g.tr("Send")))
 		{
 			text_name_s.requestFocus();
 		}
-		else if(tabname.equals("Receive"))
+		else if(tabname.equals(g.tr("Receive")))
 		{
 			text_name_r.requestFocus();
 		}
-		else if(tabname.equals("GUI"))
+		else if(tabname.equals(g.tr("GUI")))
 		{
 			checkbox_gui_osc_port_random.requestFocus();
 		}

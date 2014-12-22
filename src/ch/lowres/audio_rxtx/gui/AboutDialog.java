@@ -31,7 +31,7 @@ public class AboutDialog extends Dialog
 	private static JPanel form;
 	private static ImgComponent aboutImg;
 
-	private static AButton button_about_ok=new AButton ("OK");
+	private static AButton button_about_close=new AButton (g.tr("Close"));
 
 //========================================================================
 	public AboutDialog(Frame f,String title, boolean modality) 
@@ -60,9 +60,9 @@ public class AboutDialog extends Dialog
 
 		g.formUtility.addImage(aboutImg, form);
 
-		button_about_ok.setFocusable(false);
+		button_about_close.setFocusable(false);
 
-		g.formUtility.addFullButton(button_about_ok, form, g.fontLarge);
+		g.formUtility.addFullButton(button_about_close, form, g.fontLarge);
 
 		setUndecorated(true);
 
@@ -84,7 +84,7 @@ public class AboutDialog extends Dialog
 //========================================================================
 	private void addActionListeners()
 	{
-		button_about_ok.addActionListener (new ActionListener()
+		button_about_close.addActionListener (new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
