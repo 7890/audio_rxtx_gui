@@ -92,7 +92,7 @@ public class ARadioButton extends JRadioButton implements MouseListener
 	@Override
 	public Dimension getPreferredSize()
 	{
-		return new Dimension(200,30);
+		return new Dimension((int)super.getPreferredSize().getWidth()+30,30);
 	}
 
 //legacy wrappers

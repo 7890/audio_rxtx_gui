@@ -59,10 +59,10 @@ public class ALabel extends JLabel
 	}
 
 //========================================================================
-/*	@Override
+	@Override
 	public Dimension getPreferredSize()
 	{
-		return new Dimension(200,30);
+		return new Dimension((int)super.getPreferredSize().getWidth(),getHeight());
 	}
-*/
+
 }//end class ALabel

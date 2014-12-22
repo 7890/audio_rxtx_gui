@@ -51,7 +51,7 @@ public class AButton extends JButton implements KeyListener, FocusListener
 	@Override
 	public Dimension getPreferredSize()
 	{
-		return new Dimension(50,30);
+		return new Dimension((int)super.getPreferredSize().getWidth(),30);
 	}
 
 //========================================================================
