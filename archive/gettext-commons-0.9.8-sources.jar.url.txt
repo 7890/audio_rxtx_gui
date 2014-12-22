@@ -1,0 +1,4 @@
+Mon Dec 22 17:09:06 CET 2014
+
+https://gettext-commons.googlecode.com/files/gettext-commons-0.9.8-sources.jar
+https://code.google.com/p/gettext-commons/
