@@ -13,6 +13,7 @@
 
 package ch.lowres.audio_rxtx.gui.widgets;
 import ch.lowres.audio_rxtx.gui.*;
+import ch.lowres.audio_rxtx.gui.helpers.*;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -26,6 +27,7 @@ import javax.swing.*;
 //========================================================================
 public class StatusLabel extends ALabel
 {
+	Main g;
 	Timer timer;
 
 //========================================================================
@@ -52,13 +54,14 @@ public class StatusLabel extends ALabel
 //========================================================================
 	void init()
 	{
-		setOpaque(false);
+		setOpaque(true);
 
 		ActionListener resetStatus = new ActionListener()
 		{
 			public void actionPerformed(ActionEvent evt)
 			{
-				StatusLabel.super.setText("Ready");
+				setBackground(Colors.status_background);
+				StatusLabel.super.setText(g.tr("Ready"));
 			}
 		};
 		timer=new Timer(0, resetStatus);
@@ -68,8 +71,19 @@ public class StatusLabel extends ALabel
 //========================================================================
 	public void setStatus(String message,int milliseconds)
 	{
+		setBackground(Colors.status_background);
 		super.setText(""+message);
 		timer.setInitialDelay(milliseconds);
 		timer.restart();
 	}
+
+//========================================================================
+	public void setStatusError(String message,int milliseconds)
+	{
+		setBackground(Colors.status_error_background);
+		super.setText(""+message);
+		timer.setInitialDelay(milliseconds);
+		timer.restart();
+	}
+
 }//end class StatusLabel
