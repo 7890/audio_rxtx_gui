@@ -74,7 +74,7 @@ public class AppMenu extends JMenuBar
 	{
 		//http://stackoverflow.com/questions/17767950/java-menubar-cuts-into-my-applet
 
-		menu_main=new JMenu(g.tr("Main"),true);
+		menu_main=new JMenu(g.tr("Transmission"),true);
 		menu_main.setMnemonic(KeyEvent.VK_M);
 
 		menu_settings=new JMenu(g.tr("Settings"));
@@ -98,19 +98,19 @@ public class AppMenu extends JMenuBar
 //ctrl+x: cut to clipboard
 
 		//main items
-		mi_start_transmissionSend=new JMenuItem(g.tr("Start Transmission (Send)"));
+		mi_start_transmissionSend=new JMenuItem(g.tr("Start (Send)"));
 		mi_start_transmissionSend.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK));
 
-		mi_stop_transmissionSend=new JMenuItem(g.tr("Stop Transmission (Send)"));
+		mi_stop_transmissionSend=new JMenuItem(g.tr("Stop (Send)"));
 		mi_stop_transmissionSend.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
 
-		mi_start_transmissionReceive=new JMenuItem(g.tr("Start Transmission (Receive)"));
+		mi_start_transmissionReceive=new JMenuItem(g.tr("Start (Receive)"));
 		mi_start_transmissionReceive.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_MASK));
 
-		mi_stop_transmissionReceive=new JMenuItem(g.tr("Stop Transmission (Receive)"));
+		mi_stop_transmissionReceive=new JMenuItem(g.tr("Stop (Receive)"));
 		mi_stop_transmissionReceive.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK));
 
