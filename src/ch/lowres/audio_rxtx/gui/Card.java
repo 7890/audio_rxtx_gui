@@ -32,7 +32,7 @@ public abstract class Card extends APanel implements CardInterface
 {
 	static Main g;
 	JPanel form;
-	StatusLabel			label_status=new StatusLabel("Ready");
+	StatusLabel			label_status=new StatusLabel(g.tr("Ready"));
 	public AButton 			button_default=new AButton("Default");
 
 	boolean formCreated=false;
@@ -119,7 +119,15 @@ public abstract class Card extends APanel implements CardInterface
 		{
 			label_status.setStatus(message,2000);
 		}
-		//g.p("CARD STATUS "+s);//log
+	}
+
+//========================================================================
+	public void setStatusError(String message)
+	{
+		if(label_status!=null)
+		{
+			label_status.setStatusError(message,2000);
+		}
 	}
 
 //========================================================================
