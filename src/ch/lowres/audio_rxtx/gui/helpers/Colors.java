@@ -21,6 +21,12 @@ import java.awt.Color;
 //========================================================================
 public class Colors
 {
+	public static Color red=new Color(255,0,0);
+	public static Color green=new Color(0,255,0);
+	public static Color blue=new Color(0,0,255);
+	public static Color white=new Color(255,255,255);
+	public static Color black=new Color(0,0,0);
+
 	//forms
 	public static Color form_background=new Color(38,38,42);
 	public static Color form_foreground=new Color(200,200,200);
@@ -36,6 +42,8 @@ public class Colors
 	//status bar
 	public static Color status_background=new Color(20,220,20);
 	public static Color status_foreground=new Color(0,0,0);
+
+	public static Color status_error_background=red;
 
 	//focused widget outline
 	public static Color status_focused_outline=new Color(60,20,10);
