@@ -61,6 +61,7 @@ public class StatusLabel extends ALabel
 			public void actionPerformed(ActionEvent evt)
 			{
 				setBackground(Colors.status_background);
+				setForeground(Colors.status_foreground);
 				StatusLabel.super.setText(g.tr("Ready"));
 			}
 		};
@@ -72,6 +73,7 @@ public class StatusLabel extends ALabel
 	public void setStatus(String message,int milliseconds)
 	{
 		setBackground(Colors.status_background);
+		setForeground(Colors.status_foreground);
 		super.setText(""+message);
 		timer.setInitialDelay(milliseconds);
 		timer.restart();
@@ -81,6 +83,7 @@ public class StatusLabel extends ALabel
 	public void setStatusError(String message,int milliseconds)
 	{
 		setBackground(Colors.status_error_background);
+		setForeground(Colors.status_error_foreground);
 		super.setText(""+message);
 		timer.setInitialDelay(milliseconds);
 		timer.restart();

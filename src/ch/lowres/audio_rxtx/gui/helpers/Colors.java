@@ -44,6 +44,7 @@ public class Colors
 	public static Color status_foreground=new Color(0,0,0);
 
 	public static Color status_error_background=red;
+	public static Color status_error_foreground=white;
 
 	//focused widget outline
 	public static Color status_focused_outline=new Color(60,20,10);
