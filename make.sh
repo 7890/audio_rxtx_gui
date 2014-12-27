@@ -115,6 +115,7 @@ function create_languages
 		"$src"/ch/lowres/audio_rxtx/gui/*.java \
 		"$src"/ch/lowres/audio_rxtx/gui/api/*.java \
 		"$src"/ch/lowres/audio_rxtx/gui/widgets/*.java \
+		"$src"/ch/lowres/audio_rxtx/gui/helpers/*.java \
 		"$src"/ch/lowres/audio_rxtx/gui/osc/*.java
 
 	#de
@@ -123,14 +124,17 @@ function create_languages
 	
 	msgmerge -U "$build"/de.po "$build"/keys.pot
 
-#	echo "edit $src/lang/de.po with poedit? y or enter"
+#	echo "edit $build/de.po with poedit? y or enter"
 #	read a
 a=0
 
 	if [ x"$a" = "xy" ]
 	then
-		echo "opening file $src/lang/de.po..."
-		poedit "$src"/lang/de.po
+		echo "opening file $build/de.po..."
+		poedit "$build"/de.po
+#cp back to src
+		cp "$build"/de.po "$src"/lang/de.po
+
 	fi
 
 	echo "creating i18n.Messages..."
@@ -204,10 +208,11 @@ function build_jar
 	echo "start with"
 	echo "java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -jar build/audio_rxtx_gui_$now.jar"
 
+	#start now
 	cd "$cur"
 	java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -jar build/audio_rxtx_gui_$now.jar
 
-	echo "done."
+	echo "build_jar done."
 }
 
 function build_javadoc
