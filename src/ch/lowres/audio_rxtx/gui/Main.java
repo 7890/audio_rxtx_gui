@@ -196,25 +196,26 @@ public class Main
 		if(args.length>0 && (args[0].equals("--help") || args[0].equals("-h")))
 		{
 			p("");
-			p("First argument: <URI of .properties file to use>");
-			p("A file called '"+defaultPropertiesFileName+"' in the current directory will be loaded if no argument was given and the file is available.");
+			p(Main.tr("First argument: <URI of .properties file to use>"));
+			p(Main.tr("A file called '")+defaultPropertiesFileName+Main.tr("' in the current directory will be loaded if no argument was given and the file is available."));
 			p("");
 			System.exit(0);
 		}
 
 		IOTools iot=new IOTools();
-		p("\nmd5sum of jar: "+iot.getJarMd5Sum()+"\n");
-		p("build info");
-		p("----------\n"+BuildInfo.get()+"\n");
+		p("");
+		p(Main.tr("MD5 Sum of jar")+": "+iot.getJarMd5Sum()+"\n");
+		p_undl(Main.tr("Build Information"));
+		p(BuildInfo.get()+"\n");
 
 		os=new OSTest();
-		p("running info");
-		p("------------\nhost OS: "+os.getOSName());
+		p_undl(Main.tr("Runtime Information"));
+		p("Host OS: "+os.getOSName());
 		p("JVM: "+os.getVMName()+"\n");
 
 		//os specific / or \ path separator
 		tmpDir=System.getProperty("java.io.tmpdir")+File.separator+progNameSymbol;
-		p("temporary cache dir: '"+tmpDir+"'");
+		p(Main.tr("Temporary Cache Directory: '")+tmpDir+"'");
 
 		apis=new jack_audio_send_cmdline_API();
 		apir=new jack_audio_receive_cmdline_API();
@@ -254,7 +255,7 @@ public class Main
 		File fTest=new File(tmpDir);
 		if(fTest!=null && fTest.exists() && fTest.canRead() && fTest.isDirectory())
 		{
-			p("using resources from cache");
+			p(Main.tr("Using resources from cache"));
 		}
 		else if(!fTest.exists())
 		{
@@ -271,8 +272,8 @@ public class Main
 			{
 				iot.copyJarContent("/resources/mac",tmpDir);
 
-				p("setting permissions of binaries");
-				RunCmd setPerms=new RunCmd("chmod 755 "+tmpDir+"/resources/mac/*");
+				p(Main.tr("Setting permissions of binaries"));
+				RunCmd setPerms=new RunCmd("chmod 750 "+tmpDir+"/resources/mac/*");
 				setPerms.start();
 			}
 			else if(os.isLinux())
@@ -283,8 +284,8 @@ public class Main
 					dir="lin64";
 				}
 				iot.copyJarContent("/resources/"+dir,tmpDir);
-				p("setting permissions of binaries");
-				RunCmd setPerms=new RunCmd("chmod 755 "+tmpDir+"/resources/"+dir+"/*");
+				p(Main.tr("Setting permissions of binaries"));
+				RunCmd setPerms=new RunCmd("chmod 750 "+tmpDir+"/resources/"+dir+"/*");
 				setPerms.start();
 			}
 		}
@@ -298,13 +299,8 @@ public class Main
 
 		setCrossPlatformLAF();
 
-/**
-* @see <a href="http://stackoverflow.com/questions/209812/how-do-i-change-the-default-application-icon-in-java"></a>
-*/
-		java.net.URL url = ClassLoader.getSystemResource("resources/audio_rxtx_icon.png");
-		Toolkit kit = Toolkit.getDefaultToolkit();
-		appIcon = kit.createImage(url);
-	
+		appIcon=iot.createImageFromJar("/resources/audio_rxtx_icon.png");
+
 		screenDimension=Toolkit.getDefaultToolkit().getScreenSize();
 
 		fontNormal=new ALabel().getFont();
@@ -361,7 +357,7 @@ public class Main
 		}
 		catch (Exception e)
 		{
-			w("unable to set native look and feel: " + e);
+			w(Main.tr("Unable to set native look and feel")+": " + e);
 		}
 	}
 
@@ -376,7 +372,7 @@ public class Main
 			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 		} catch (Exception e)
 		{
-			w("unable to set native look and feel: " + e);
+			w(Main.tr("Unable to set cross platform look and feel")+": " + e);
 		}
 	}
 
@@ -486,7 +482,7 @@ public class Main
 		runningReceive.setValues();
 		cardPanelReceive.add(runningReceive, "2");
 
-		labelStatus=new StatusLabel("Ready");
+		labelStatus=new StatusLabel(Main.tr("Ready"));
 		labelStatus.setBackground(Colors.status_background);
 		labelStatus.setForeground(Colors.status_foreground);
 
@@ -499,7 +495,7 @@ public class Main
 		addGlobalKeyListeners();
 
 		mainframe.pack();
-//		mainframe.setResizable(false);
+		mainframe.setResizable(false);
 		setWindowCentered(mainframe);
 
 		//"run" GUI
@@ -542,6 +538,18 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 	}
 
 //========================================================================
+	public static void setStatusError(String message)
+	{
+		if(labelStatus!=null)
+		{
+////
+labelStatus.setBackground(Colors.black);
+			labelStatus.setStatusError(message,2000);
+		}
+		//p("MAIN STATUS "+s);
+	}
+
+//========================================================================
 	public static void startTransmissionSend()
 	{
 		//form already read/vaildated in front button handler
@@ -557,13 +565,13 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 		}
 		else
 		{
-			p("osc gui server started on port "+gui_osc_port_s);
+			p(Main.tr("OSC GUI server started on UDP port")+" "+gui_osc_port_s);
 			frontSend.setStatus("GUI OSC Server Started");
 		}
 
 		frontSend.setStatus("Executing jack_audio_send");
 
-		p("execute: "+apis.getCommandLineString());
+		p(Main.tr("Execute")+": "+apis.getCommandLineString());
 		cmdSend=new RunCmd(apis.getCommandLineString());
 
 		cmdSend.devNull(!apis.verbose);
@@ -604,13 +612,13 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 		}
 		else
 		{
-			p("osc gui server started on port "+gui_osc_port_r);
+			p(Main.tr("OSC GUI server started on UDP port")+" "+gui_osc_port_r);
 			frontReceive.setStatus("GUI OSC Server Started");
 		}
 
 		frontReceive.setStatus("Executing jack_audio_receive");
 
-		p("execute: "+apir.getCommandLineString());
+		p(Main.tr("Execute")+": "+apir.getCommandLineString());
 		cmdReceive=new RunCmd(apir.getCommandLineString());
 
 		cmdReceive.devNull(!apir.verbose);
@@ -637,6 +645,8 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 //========================================================================
 	public static void stopTransmissionSend()
 	{
+		p(Main.tr("Stopping transmission (send)"));
+
 		//terminate jack_audio_send running in thread
 		OSCMessage msg=new OSCMessage("/quit");
 
@@ -683,7 +693,7 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 		//show main panel again
 		cardLaySend.show(cardPanelSend, "1");
 		frontSend.button_default.requestFocus();
-		frontSend.setStatus("Ready");
+		frontSend.setStatus(Main.tr("Ready"));
 
 		sendStatus=FRONT;
 
@@ -692,6 +702,8 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 //========================================================================
 	public static void stopTransmissionReceive()
 	{
+		p(Main.tr("Stopping transmission (receive)"));
+
 		//terminate jack_audio_receive running in thread
 		OSCMessage msg=new OSCMessage("/quit");
 
@@ -735,7 +747,7 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 		//show main panel again
 		cardLayReceive.show(cardPanelReceive, "1");
 		frontReceive.button_default.requestFocus();
-		frontReceive.setStatus("Ready");
+		frontReceive.setStatus(Main.tr("Ready"));
 
 		receiveStatus=FRONT;
 
@@ -781,7 +793,6 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 			{
 				ds=new DatagramSocket();
 				gui_osc_port_s=ds.getLocalPort();
-				p("random UDP port "+gui_osc_port_s);
 			}
 			else
 			{
@@ -809,7 +820,7 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 		}
 		catch(Exception oscex)
 		{
-			e("could not start osc gui server on port "+gui_osc_port_s+". "+oscex.getMessage());
+			e(Main.tr("Could not start OSC GUI server on UDP port")+" "+gui_osc_port_s+". "+oscex.getMessage());
 			return -1;
 		}
 
@@ -826,7 +837,6 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 			{
 				ds=new DatagramSocket();
 				gui_osc_port_r=ds.getLocalPort();
-				p("random UDP port "+gui_osc_port_r);
 			}
 			else
 			{
@@ -854,7 +864,7 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 		}
 		catch(Exception oscex)
 		{
-			e("could not start osc gui server on port "+gui_osc_port_r+". "+oscex.getMessage());
+			e(Main.tr("Could not start OSC GUI server on UDP port")+" "+gui_osc_port_r+". "+oscex.getMessage());
 			return -1;
 		}
 
@@ -872,20 +882,32 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 			@Override
 			public void run()
 			{
-				w("shutdown signal received!");
+				p("");
+				w(Main.tr("Shutdown signal received!"));
 				stopTransmissionSend();
 				stopTransmissionReceive();
 
 				if(!keep_cache)
 				{
-					p("cleaning up...");
-					p("removing tmp dir '"+tmpDir+"'");
+					p(Main.tr("Cleaning up..."));
+					p(Main.tr("Removing temporary cache directory '")+tmpDir+"'");
 					IOTools.deleteDirectory(new File(tmpDir));
 				}
 				//possibly more clean up tasks here 
-				p("done! bye");
+				p(Main.tr("Done! Bye"));
 			}
 		}));
+	}
+
+//========================================================================
+	public static String nTimes(String s, int count)
+	{
+		String ret="";
+		for(int i=0;i<count;i++)
+		{
+			ret+=s;
+		}
+		return ret;
 	}
 
 //generic print to std out
@@ -893,6 +915,14 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 	public static void p(String s)
 	{
 		System.out.println(s);
+	}
+
+//generic print to std out, underlined
+//========================================================================
+	public static void p_undl(String s)
+	{
+		System.out.println(s);
+		System.out.println(nTimes("-",s.length()));
 	}
 
 //styled print to std out, warning
@@ -916,14 +946,6 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 			(int)((screenDimension.getWidth()-f.getWidth()) / 2),
 			(int)((screenDimension.getHeight()-f.getHeight()) / 2)
 		);
-	}
-
-//========================================================================
-	public static void setFocusedWidget()
-	{
-////////////////////
-//		String tabname=tabPanel.getTitleAt(tabPanel.getSelectedIndex());
-//		setFocusedWidget(tabname);
 	}
 
 //========================================================================
@@ -952,13 +974,20 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 	}
 
 //========================================================================
+	public static void setFocusedWidget()
+	{
+//		String tabname=tabPanel.getTitleAt(tabPanel.getSelectedIndex());
+//		setFocusedWidget(tabname);
+	}
+
+//========================================================================
 	public static void setFocusedWidget(String tabname)
 	{
 /*
-		if(tabname.equals(this.tr("Send")))
+		if(tabname.equals(Main.tr("Send")))
 		{
 		}
-		else if(tabname.equals(this.tr("Receive")))
+		else if(tabname.equals(Main.tr("Receive")))
 		{
 		}
 */
@@ -1066,6 +1095,7 @@ p("button_default "+frontSend.button_default.getPreferredSize().getWidth()+" "+f
 			}
 		});
 
+		//if menu is disabled, the associated keyboard shortcuts (ctrl+_) won't work
 		KeyStroke keyCtrlM = KeyStroke.getKeyStroke(KeyEvent.VK_M,InputEvent.CTRL_MASK);
 		actionMap.put(keyCtrlM, new AbstractAction("ctrl_m") 
 		{

@@ -94,9 +94,9 @@ setBorder(
 	}
 
 //========================================================================
-        @Override
+	@Override
 	public Dimension getPreferredSize()
-        {
+	{
 		return new Dimension(200,30);
 	}
 

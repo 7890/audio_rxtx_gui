@@ -114,12 +114,12 @@ public class FormHelper
 
 		//force JMenuBar to not display menus offset (hack)
 		g.mainframe.setLocation(
-                        (int)g.mainframe.getLocation().x+1,
-                        (int)g.mainframe.getLocation().y
-                );
+			(int)g.mainframe.getLocation().x+1,
+			(int)g.mainframe.getLocation().y
+		);
 		g.mainframe.setLocation(
-                        (int)g.mainframe.getLocation().x-1,
-                        (int)g.mainframe.getLocation().y
-                );
+			(int)g.mainframe.getLocation().x-1,
+			(int)g.mainframe.getLocation().y
+		);
 	}
 }//end class FormHelper

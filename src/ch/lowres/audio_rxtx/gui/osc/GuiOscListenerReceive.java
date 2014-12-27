@@ -56,18 +56,18 @@ public class GuiOscListenerReceive extends GuiOscListener
 
 		else if(path.equals("/autoconnect") && argsSize==2)
 		{
-			card.setLabel(3,"Autoconnected Ports: "+g.apir.total_connected_ports+" / "+g.apir._out);
+			card.setLabel(3,g.tr("Autoconnected ports")+": "+g.apir.total_connected_ports+" / "+g.apir._out);
 		}
 
 		else if(path.equals("/wait_for_input") && argsSize==0)
 		{
-			card.setStatus("Waiting For Input...");
+			card.setStatus(g.tr("Waiting for input..."));
 		}
 
 		else if(path.equals("/buffering") && argsSize==2)
 		{
-			card.setStatus("Buffering #"+args.get(0)+"  ("+args.get(1)+" To Go)");
-			card.setLabel(4,"Buffering...");
+			card.setStatus(g.tr("Buffering #")+args.get(0)+" ("+args.get(1)+" "+g.tr("to go")+")");
+			card.setLabel(4,g.tr("Buffering..."));
 			card.setLabel(5,"");
 			card.setLabel(6,"");
 			card.setLabel(7,"");
@@ -76,7 +76,8 @@ public class GuiOscListenerReceive extends GuiOscListener
 
 		else if(path.equals("/sender_restarted") && argsSize==0)
 		{
-			card.setStatus("Sender Was Restarted");
+			card.setStatus(g.tr("Sender was (re)started"));
+////
 			card.setLabel(4,"Restarted");
 		}
 
@@ -121,24 +122,24 @@ public class GuiOscListenerReceive extends GuiOscListener
 (Float)args.get(11)
 */
 
-			card.setStatus("Receiving Audio Message #"+args.get(0));
+			card.setStatus(g.tr("Receiving audio message #")+args.get(0));
 
-			String s="Receiving Channels: ";
+			String s=g.tr("Receiving channels")+": ";
 			if( (Integer)args.get(2) > 0 )
 			{
 				s+="("+(Integer)args.get(2)+"+)";
 			}
 			card.setLabel(4,s+args.get(1));
 
-			card.setLabel(5,"Fill: "
+			card.setLabel(5,g.tr("Fill")+": "
 				+String.format(new DecimalFormat("0.00").format((Float)args.get(3)))
-				+" MC Periods, "+args.get(4)+" Bytes");
+				+" "+g.tr("MC Periods")+", "+args.get(4)+" Bytes");
 
-			card.setLabel(6,"Interval ms: "
+			card.setLabel(6,g.tr("Interval ms")+": "
 				+String.format(new DecimalFormat("0.00").format((Float)args.get(6)))
 				+" XRuns R: "+(Long)args.get(7)+" L: "+(Long)args.get(8));
 
-			card.setLabel(7,"Drops: "+(Long)args.get(9)+" Overflows: "+(Long)args.get(10)+" Busy: "
+			card.setLabel(7,g.tr("Underflows")+": "+(Long)args.get(9)+" "+g.tr("Overflows")+": "+(Long)args.get(10)+" "+g.tr("Busy")+": "
 				+String.format(new DecimalFormat("0.00").format((Float)args.get(11))) );
 		}
 

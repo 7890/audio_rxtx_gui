@@ -95,7 +95,7 @@ public class IOTools
 					{
 						if(copyFileFromJar("/"+entry.getName(), new File(destUri+"/"+entry.getName())))
 						{
-							g.p("extracted '" + entry.getName()+"'");// to '"+destUri+"'" );
+							g.p(g.tr("extracted '") + entry.getName()+"'");// to '"+destUri+"'" );
 						}
 					}
 				}
@@ -207,6 +207,25 @@ public class IOTools
 		}
 		return ii;
 	}//end createImageIconFromJar
+
+//========================================================================
+	public static Image createImageFromJar(String imageUriInJar)
+	{
+		InputStream is;
+		Image ii;
+		try
+		{
+			is=IOTools.class.getResourceAsStream(imageUriInJar);
+			ii=ImageIO.read(is);
+			is.close();
+		}
+		catch(Exception e)
+		{
+			g.w("could not load built-in imge. "+e.getMessage());
+			return null;
+		}
+		return ii;
+	}//end createImageFromJar
 
 //========================================================================
 	//http://www.rgagnon.com/javadetails/java-0483.html
@@ -327,11 +346,7 @@ try{
 			if(props.getProperty("s._update")!=null){g.apis._update=Integer.parseInt(props.getProperty("s._update"));}
 			if(props.getProperty("s.lport_random")!=null){g.apis.lport_random=Boolean.parseBoolean(props.getProperty("s.lport_random"));}
 			if(props.getProperty("s._lport")!=null){g.apis._lport=Integer.parseInt(props.getProperty("s._lport"));}
-
-///////////////////
 			if(props.getProperty("s.autostart")!=null){g.apis.autostart=Boolean.parseBoolean(props.getProperty("s.autostart"));}
-
-
 
 			if(props.getProperty("s._16")!=null){g.apis._16=Boolean.parseBoolean(props.getProperty("s._16"));}
 			if(props.getProperty("s._in")!=null){g.apis._in=Integer.parseInt(props.getProperty("s._in"));}
@@ -355,11 +370,7 @@ try{
 			if(props.getProperty("r._nozero")!=null){g.apir._nozero=Boolean.parseBoolean(props.getProperty("r._nozero"));}
 			if(props.getProperty("r._norbc")!=null){g.apir._norbc=Boolean.parseBoolean(props.getProperty("r._norbc"));}
 			if(props.getProperty("r._close")!=null){g.apir._close=Boolean.parseBoolean(props.getProperty("r._close"));}
-
-
-//////////////
 			if(props.getProperty("r.autostart")!=null){g.apir.autostart=Boolean.parseBoolean(props.getProperty("r.autostart"));}
-
 
 			if(props.getProperty("r._16")!=null){g.apir._16=Boolean.parseBoolean(props.getProperty("r._16"));}
 			if(props.getProperty("r._out")!=null){g.apir._out=Integer.parseInt(props.getProperty("r._out"));}
@@ -400,7 +411,7 @@ catch(Exception e)
 			{
 				props.load(is);
 				loadProps(props);
-				g.p("default built-in settings loaded");
+				g.p(g.tr("Default built-in settings loaded"));
 			}
 			else
 			{
@@ -422,28 +433,28 @@ catch(Exception e)
 					{
 						props.load(is);
 						loadProps(props);
-						g.p("settings '"+propertiesFileUri+"' loaded");
+						g.p(g.tr("Settings '")+propertiesFileUri+g.tr("' loaded"));
 						return true;
 					}
 					else
 					{
-						g.e("could not load settings '"+propertiesFileUri+"'");
+						g.e(g.tr("Could not load settings '")+propertiesFileUri+"'");
 					}
 				}
 				else
 				{
-					g.e("could not load settings '"+propertiesFileUri+"'");
+					g.e(g.tr("Could not load settings '")+propertiesFileUri+"'");
 				}
 			}
 			else
 			{
-				g.e("could not load settings '"+propertiesFileUri+"'");
+				g.e(g.tr("Could not load settings '")+propertiesFileUri+"'");
 			}
 		}
 		catch (Exception e)
 		{
 			is=null; 
-			g.e("file '"+propertiesFileUri+"' not found");
+			g.e(g.tr("File '")+propertiesFileUri+g.tr("' not found"));
 		}
 		return false;
 	}//end loadSettings
@@ -466,12 +477,7 @@ catch(Exception e)
 			props.setProperty("s._update", ""+g.apis._update);
 			props.setProperty("s.lport_random", g.apis.lport_random ? "true" : "false");
 			props.setProperty("s._lport", ""+g.apis._lport);
-
-
-//////////
 			props.setProperty("s.autostart", ""+g.apis.autostart);
-
-
 
 			props.setProperty("s._16", g.apis._16 ? "true" : "false");
 			props.setProperty("s._in", ""+g.apis._in);
@@ -494,10 +500,7 @@ catch(Exception e)
 			props.setProperty("r._nozero", g.apir._nozero ? "true" : "false");
 			props.setProperty("r._norbc", g.apir._norbc ? "true" : "false");
 			props.setProperty("r._close", g.apir._close ? "true" : "false");
-
-/////////
 			props.setProperty("r.autostart", ""+g.apir.autostart);
-
 
 			props.setProperty("r._16", g.apir._16 ? "true" : "false");
 			props.setProperty("r._out", ""+g.apir._out);
@@ -517,13 +520,13 @@ catch(Exception e)
 			OutputStream out = new FileOutputStream(f);
 			props.store(out, "This file is read by audio_rxtx GUI if found");
 
-			g.p("settings '"+propertiesFileUri+"' saved");
+			g.p(g.tr("Settings '")+propertiesFileUri+g.tr("' saved"));
 
 			return true;
 		}
 		catch (Exception e ) 
 		{
-			g.e("could not save settings '"+propertiesFileUri+"'");
+			g.e(g.tr("Could not save settings '")+propertiesFileUri+"'");
 			e.printStackTrace();
 		}
 		return false;

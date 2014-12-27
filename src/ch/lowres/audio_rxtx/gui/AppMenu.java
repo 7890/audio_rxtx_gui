@@ -114,7 +114,7 @@ public class AppMenu extends JMenuBar
 		mi_stop_transmissionReceive.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK));
 
-		mi_quit=new JMenuItem(g.tr("Quit"));
+		mi_quit=new JMenuItem(g.tr("Quit Program"));
 		mi_quit.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_MASK));
 
@@ -186,6 +186,7 @@ public class AppMenu extends JMenuBar
 
 		menu_help.add(mi_about);
 		menu_help.add(mi_license);
+//test
 		menu_help.add(mi_doc);
 		menu_help.add(new JSeparator());
 		menu_help.add(mi_report_issue);
@@ -418,7 +419,6 @@ public class AppMenu extends JMenuBar
 		});
 
 		//help
-
 		mi_about.addActionListener(new ActionListener()
 		{
 			@Override public void actionPerformed(ActionEvent e)

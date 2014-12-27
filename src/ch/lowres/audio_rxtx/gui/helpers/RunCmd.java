@@ -175,7 +175,11 @@ public class RunCmd extends Thread
 		}//end try
 		catch (Exception ex) //i.e. interrupted
 		{
-			g.p("RunCmd '"+commandLineString+"': "+ex.toString());
+			//don't display InterruptedException
+			if(!(ex instanceof InterruptedException))
+			{
+				g.p("RunCmd '"+commandLineString+"': "+ex.toString());
+			}
 		}
 		finally
 		{
@@ -184,11 +188,11 @@ public class RunCmd extends Thread
 
 		if(exitStatus==0)
 		{
-			g.p("RunCmd '"+commandLineString+"' done. Exit was "+exitStatus);
+			g.p("RunCmd '"+commandLineString+g.tr("' done. Exit was")+" "+exitStatus);
 		}
 		else
 		{
-			g.e("RunCmd '"+commandLineString+"' done. Exit was "+exitStatus);
+			g.e("RunCmd '"+commandLineString+g.tr("' done. Exit was")+" "+exitStatus);
 		}
 	}//end run
 } //end class RunCmd

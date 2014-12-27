@@ -63,16 +63,20 @@ public class GuiOscListenerSend extends GuiOscListener
 
 		else if(path.equals("/autoconnect") && argsSize==2)
 		{
-			card.setLabel(3,"Autoconnected Ports: "+g.apis.total_connected_ports+" / "+g.apis._in);
+			card.setLabel(3,g.tr("Autoconnected ports")+": "+g.apis.total_connected_ports+" / "+g.apis._in);
 		}
 
 		//else 
 		else if(path.equals("/offering") && argsSize==1)
 		{
-			card.setStatus("Offering Audio Message #"+args.get(0));
+			card.setStatus(g.tr("Offering audio message #")+args.get(0));
 
 			card.setLabel(4,":"+g.apis._lport+" -> "+g.apis._target_host+":"+g.apis._target_port);
-			card.setLabel(5,"Offering...");
+
+//remember sender host here
+//..
+
+			card.setLabel(5,g.tr("Offering..."));
 			card.setLabel(6,"");
 		}
 
@@ -83,18 +87,18 @@ public class GuiOscListenerSend extends GuiOscListener
 			//1: sample_rate
 			//2: bytes per sample
 
-			card.setLabel(4,"Transmission denied ("
+			card.setLabel(4,g.tr("Transmission denied (")
 				+args.get(0)+", "+args.get(1)+", "
 				+((Integer)args.get(2)==2 ? "16" : "32")+")");
 
-			card.setStatus("Receiver denied Transmission");
+			card.setStatusError(g.tr("Receiver denied transmission"));
 
-			card.button_default.setLabel("OK");
+			card.button_default.setLabel(Main.tr("Back"));
 		}
 
 		else if(path.equals("/receiver_accepted_transmission"))
 		{
-			card.setStatus("Receiver Accepted Transmission");
+			card.setStatus(g.tr("Receiver accepted transmission"));
 		}
 
 		else if(path.equals("/sending") && argsSize==7)
@@ -103,23 +107,23 @@ public class GuiOscListenerSend extends GuiOscListener
 
 			card.setLabel(5, 
 				String.format(new DecimalFormat("0.00").format(g.apis.expected_network_data_rate))
-				+" kbit/s   "
+				+" kbit/s "
 				+String.format(new DecimalFormat("0.00").format(g.apis.expected_network_data_rate/1000/8))
 				+" MB/s");
 
 			//hms, transferred mb
 			card.setLabel(6,(String)args.get(1)
-				+"   "+String.format(new DecimalFormat("0.00").format((Float)args.get(4)))
+				+" "+String.format(new DecimalFormat("0.00").format((Float)args.get(4)))
 				+" "+(String)args.get(5)
-				+"   ("+g.apis._in+" CH)");
+				+" ("+g.apis._in+" "+g.tr("ch.")+")");
 
 			//msg #
-			card.setStatus("Sending Audio Message #"+args.get(0));
+			card.setStatus(g.tr("Sending audio message #")+args.get(0));
 		}
 
 		else if(path.equals("/receiver_requested_pause"))
 		{
-			card.setStatus("Receiver requested Pause");
+			card.setStatus(g.tr("Receiver requested pause"));
 		}
 	}//end accept
 }//end GuiOscListener

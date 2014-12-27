@@ -34,7 +34,7 @@ public class FrontCardSend extends Card
 	static ARadioButton 			checkbox_format_32=new ARadioButton("32 bit Float");
 
 	static NumericTextFieldWithLimit 	text_input_channels= new NumericTextFieldWithLimit("",20,3);
-	static HostTextFieldWithLimit 		text_target_host=new HostTextFieldWithLimit("",20,128);
+	static HistorifiedHostTextFieldWithLimit text_target_host=new HistorifiedHostTextFieldWithLimit("",20,128);
 	static NumericTextFieldWithLimit 	text_target_port=new NumericTextFieldWithLimit("",20,5);
 
 //========================================================================
@@ -54,6 +54,8 @@ public class FrontCardSend extends Card
 		checkbox_format_32.setState(!g.apis._16);
 		text_input_channels.setText(""+g.apis._in);
 		text_target_host.setText(g.apis._target_host);
+		//set as first valid item in history
+		text_target_host.addHistoricItem(g.apis._target_host);
 		text_target_port.setText(""+g.apis._target_port);
 	}
 
@@ -97,7 +99,7 @@ public class FrontCardSend extends Card
 
 		if(text_target_host.getText().equals(""))
 		{
-			text_target_host.setText(""+g.apis._target_host);
+			text_target_host.setTextLast();
 		}
 
 		if(text_target_port.getText().equals(""))
@@ -117,16 +119,33 @@ public class FrontCardSend extends Card
 		try
 		{
 			InetAddress host=InetAddress.getByName(g.apis._target_host);
-			setStatus("Host Is Valid");
+			//timeout (ms) -> blocks
+/*
+			if(host.isReachable(50))
+			{
+				setStatus(g.tr("Host is valid"));
+			}
+			else
+			{
+				throw new Exception("");
+			}
+*/
 		}
 		catch(Exception hostEx)
 		{
 			//System.out.println("/!\\ host '"+g.apis._target_host+"' not found.");
 			formValid=false;
 
-			setStatus("Host Is Invalid Or Was Not Found");
+			setStatusError(g.tr("Host invalid or not found"));
 			text_target_host.requestFocus();
+//////////
+			text_target_host.setAfterLast();
 		}
+		if(formValid)
+		{
+			text_target_host.addHistoricItem(g.apis._target_host);
+		}
+
 		return formValid;
 	}
 
