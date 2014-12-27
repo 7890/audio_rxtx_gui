@@ -67,6 +67,9 @@ public class StatusLabel extends ALabel
 		};
 		timer=new Timer(0, resetStatus);
 		timer.setRepeats(false);
+
+		setBackground(Colors.status_background);
+		setForeground(Colors.status_foreground);
 	}
 
 //========================================================================
