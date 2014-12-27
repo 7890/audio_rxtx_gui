@@ -27,7 +27,7 @@ import javax.swing.JTextField;
 * Text is selected, caret position at end when focused.
 */
 //========================================================================
-public class NumericTextFieldWithLimit extends TextFieldWithLimit implements KeyListener 
+public class NumericTextFieldWithLimit extends TextFieldWithLimit
 {
 	Integer minInclusive=null;
 	Integer maxInclusive=null;
@@ -119,7 +119,7 @@ public class NumericTextFieldWithLimit extends TextFieldWithLimit implements Key
 	@Override
 	public void keyPressed(KeyEvent e)
 	{
-		repaint();
+		//repaint();
 /*
 http://stackoverflow.com/questions/11380406/how-to-use-vk-up-or-vk-down-to-move-to-the-previous-or-next-textfield
 The code you quoted won't work because you should use getKeyCode instead of getKeyChar. 

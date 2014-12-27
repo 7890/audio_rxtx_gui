@@ -21,7 +21,7 @@ import java.awt.event.KeyListener;
 * (space is not allowed).
 */
 //========================================================================
-public class HostTextFieldWithLimit extends TextFieldWithLimit implements KeyListener 
+public class HostTextFieldWithLimit extends TextFieldWithLimit
 {
 //========================================================================
 	public HostTextFieldWithLimit (String initialStr, int col, int maxLength) 
