@@ -13,10 +13,17 @@
 
 package ch.lowres.audio_rxtx.gui.widgets;
 import ch.lowres.audio_rxtx.gui.*;
+import ch.lowres.audio_rxtx.gui.helpers.*;
 
 
 import java.util.Vector;
 import java.awt.event.*;//KeyListener;
+
+import java.awt.*;
+
+import java.awt.geom.Line2D;
+import java.awt.geom.GeneralPath;
+
 
 /**
 * Extended {@link HostTextFieldWithLimit} with consolidated history (keyboard UP, DOWN).
@@ -111,4 +118,64 @@ public class HistorifiedHostTextFieldWithLimit extends HostTextFieldWithLimit //
 		validate_();
 		super.focusLost(fe);
 	}
+
+//========================================================================
+	@Override
+	public void paintComponent(Graphics g)
+	{
+		super.paintComponent(g);
+
+		Dimension size = this.getSize();
+
+		if(this.hasFocus())
+		{
+			if(history.size()>1)
+			{
+				g.setColor(Colors.status_focused_outline);
+				Graphics2D g2 = (Graphics2D) g;
+				g2.setStroke(new BasicStroke(5));
+				if(position > 0)
+				{
+/*
+      p1
+
+  p2      p3
+*/
+					g2.setStroke(new BasicStroke(2,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND));
+					Point p1 = new Point(size.width-25,0);
+					Point p2 = new Point(size.width-30,5);
+					Point p3 = new Point(size.width-20,5);
+
+					GeneralPath gp=new GeneralPath();
+					gp.moveTo((float)p1.x,(float)p1.y);
+					gp.lineTo(p2.x,p2.y);
+					gp.lineTo(p3.x,p3.y);
+					gp.closePath();
+
+					g2.fill(gp);
+
+				}
+				if(position < history.size()-1)
+				{
+/*
+  p1      p2
+
+      p3
+*/
+					g2.setStroke(new BasicStroke(2,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND));
+					Point p1 = new Point(size.width-30,size.height-5);
+					Point p2 = new Point(size.width-20,size.height-5);
+					Point p3 = new Point(size.width-25,size.height);
+
+					GeneralPath gp=new GeneralPath();
+					gp.moveTo((float)p1.x,(float)p1.y);
+					gp.lineTo(p2.x,p2.y);
+					gp.lineTo(p3.x,p3.y);
+					gp.closePath();
+
+					g2.fill(gp);
+				}
+			}
+		}
+	}//end paintComponent
 }//end HistorifiedHostTextFieldWithLimit
