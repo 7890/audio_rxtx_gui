@@ -43,9 +43,11 @@ public class FocusPaint
 */
 		if(c.hasFocus())
 		{
-			//m.p("getvisible rect "+((JComponent)c).getVisibleRect().toString());
-			int visibleWidth=(int)((JComponent)c).getVisibleRect().getWidth();
+			//m.p("getvisible rect "+c.getVisibleRect().toString());
+			int visibleWidth=(int)c.getVisibleRect().getWidth();
 			int height=(int)size.height;
+
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 
 			if(c instanceof JTabbedPane)
 			{
@@ -56,10 +58,7 @@ public class FocusPaint
 				//derived from UIManager.put("TabbedPane.selectedTabPadInsets",new Insets(5,0,0,0));
 				height=r.height+5;
 			}
-
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-
-			if(!(c instanceof JTabbedPane))
+			else
 			{
 				//~underline
 				g2.setColor(Colors.status_focused_outline);
