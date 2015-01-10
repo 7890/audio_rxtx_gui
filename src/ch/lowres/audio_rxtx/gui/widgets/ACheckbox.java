@@ -28,6 +28,9 @@ import java.awt.geom.*;
 //========================================================================
 public class ACheckbox extends JCheckBox implements KeyListener, FocusListener, MouseListener
 {
+	private static Main m;
+	private static Fonts f;
+
 	//0: invisible overlay
 	private float alpha = 0.0f;
 
@@ -53,9 +56,24 @@ public class ACheckbox extends JCheckBox implements KeyListener, FocusListener, 
 	}
 
 //========================================================================
-	void init()
+	public void init()
 	{
 		setOpaque(false);
+		setFont(f.fontNormal);
+		setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+		setIconTextGap(m.commonWidgetHeight);
+
+		//http://www.java2s.com/Code/Java/Swing-JFC/CustomizeJCheckBoxicons.htm
+		//"remove" standard icons
+		setIcon(new ImageIcon(""));
+		setSelectedIcon(new ImageIcon(""));
+		setDisabledIcon(new ImageIcon(""));
+		setDisabledSelectedIcon(new ImageIcon(""));
+		setPressedIcon(new ImageIcon(""));
+		setRolloverIcon(new ImageIcon(""));
+		setRolloverSelectedIcon(new ImageIcon(""));
+
 		addKeyListener(this);
 		addFocusListener(this);
 		addMouseListener(this);
@@ -65,7 +83,7 @@ public class ACheckbox extends JCheckBox implements KeyListener, FocusListener, 
 	@Override
 	public Dimension getPreferredSize()
 	{
-		return new Dimension((int)super.getPreferredSize().getWidth()+30,30);
+		return new Dimension((int)super.getPreferredSize().getWidth()+30,m.commonWidgetHeight);
 	}
 
 //========================================================================
@@ -75,8 +93,9 @@ public class ACheckbox extends JCheckBox implements KeyListener, FocusListener, 
 		FocusPaint.gradient(g,this);
 		super.paintComponent(g);
 
-		//hover
 		Graphics2D g2 = (Graphics2D) g;
+
+		//hover
 		if(alpha!=0 && !hasFocus())
 		{
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
@@ -87,7 +106,29 @@ public class ACheckbox extends JCheckBox implements KeyListener, FocusListener, 
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
 
 		FocusPaint.paint(g,this);
-	}
+
+		//draw the checkbox
+		g2.setPaint(Colors.black);
+		float padding=m.commonWidgetHeight*.15f;
+		g2.setStroke(new BasicStroke( (float)(Math.max(1,(m.commonWidgetHeight*0.05)) )));
+		g2.draw( new Rectangle2D.Float(
+			padding,
+			padding,
+			m.commonWidgetHeight-2*padding,
+			m.commonWidgetHeight-2*padding
+		));
+
+		if(isSelected())
+		{
+			padding=m.commonWidgetHeight*.25f;
+			g2.fill( new Rectangle2D.Float(
+				padding,
+				padding,
+				m.commonWidgetHeight-2*padding,
+				m.commonWidgetHeight-2*padding
+			));
+		}
+	}//end paintComponent
 
 //========================================================================
 	public void keyTyped(KeyEvent e) {}
@@ -112,11 +153,13 @@ public class ACheckbox extends JCheckBox implements KeyListener, FocusListener, 
 //========================================================================
 	public void focusLost(FocusEvent fe) {repaint();}
 
+//========================================================================
 	public void focusGained(FocusEvent fe) 
 	{
 		repaint();
 		Component c=getParent();
 
+		//makes sure widget is visible in scrollpane if got focus
 		while(c!=null)
 		{
 			//System.out.println(c);

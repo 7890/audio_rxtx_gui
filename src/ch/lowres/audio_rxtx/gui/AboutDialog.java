@@ -12,86 +12,78 @@
 */
 
 package ch.lowres.audio_rxtx.gui;
-import ch.lowres.audio_rxtx.gui.widgets.*;
 import ch.lowres.audio_rxtx.gui.helpers.*;
+import ch.lowres.audio_rxtx.gui.widgets.*;
 
 import java.awt.*;
-import java.awt.event.*;
-
-import javax.swing.*;
+import java.util.*;
 
 /**
-* Borderless modal dialog showing version of audio_rxtx_gui, used libs, project url, fancy.
+* Dialog showing version of audio_rxtx_gui, used libs, project url etc.
 */
 //========================================================================
-public class AboutDialog extends Dialog
+public class AboutDialog extends ADialog
 {
-	private static Main g;
-
-	private static JPanel form;
-	private static ImgComponent aboutImg;
-
-	private static AButton button_about_close=new AButton (g.tr("Close"));
-
 //========================================================================
-	public AboutDialog(Frame f,String title, boolean modality) 
+	public AboutDialog(Frame f, String title, boolean modality) 
 	{
 		super(f,title,modality);
-
-		setBackground(Colors.form_background);
-		setForeground(Colors.form_foreground);
-		setLayout(new BorderLayout());
-
-		setIconImage(g.appIcon);
-
-		createForm();
-		addActionListeners();
+		getTextPane().setHighlighter(null);
 	}
 
 //========================================================================
-	private void createForm()
+	public String getHtml()
 	{
-		form=new JPanel();
-		form.setLayout(new GridBagLayout());
+		StringBuffer sb=new StringBuffer();
+		sb.append("<html><body>");
 
-		add(form,BorderLayout.NORTH);
+		sb.append("<p><strong>"+m.tr("About  -- THIS PROGRAM IS NOT YET READY FOR ACTION")+"</strong><br>");
+		sb.append("<br>");
+		//http://stackoverflow.com/questions/9117814/jtextpane-with-html-local-image-wont-load
+		sb.append("<img src=\""
+			+this.getClass().getClassLoader().getResource(
+			"resources/images/audio_rxtx_about_screen.png"
+			).toString()+"\"/>");
+		sb.append("<br>");
+		sb.append(BuildInfo.getGitCommit()+" (V "+m.progVersion+")</p>");
 
-		aboutImg=new ImgComponent();
+		sb.append("<p><strong>"+m.tr("audio_rxtx GUI for jack_audio_{send, receive}")+"</strong></p>");
+		sb.append("<h2>"+m.tr("Live JACK Audio Data Transmission")+"</h2>");
 
-		g.formUtility.addImage(aboutImg, form);
+		sb.append("<p><strong>"+m.tr("Credits & Program Libraries")+"</strong></p>");
+		sb.append("<table>");// width=\"400px\">");
+		sb.append("<tr>");
 
-		button_about_close.setFocusable(false);
+		sb.append("<td>JACK</td><td>"+ahref("http://www.jackaudio.org")+"</td>");
+		sb.append("</tr><tr>");
 
-		g.formUtility.addFullButton(button_about_close, form, g.fontLarge);
+		sb.append("<td>liblo</td><td>"+ahref("http://liblo.sourceforge.net")+"</td>");
+		sb.append("</tr><tr>");
 
-		setUndecorated(true);
+		sb.append("<td>JavaOSC</td><td>"+ahref("https://github.com/hoijui/JavaOSC")+"</td>");
+		sb.append("</tr><tr>");
 
-		pack();
+		sb.append("<td>gettext</td><td>"+ahref("https://code.google.com/p/gettext-commons")+"</td>");
+		sb.append("</tr><tr>");
 
-		//center on screen
-		setLocation(
-			(int)((g.screenDimension.getWidth()-getWidth()) / 2),
-			(int)((g.screenDimension.getHeight()-getHeight()) / 2)
-		);
+		sb.append("<td>OpenJDK</td><td>"+ahref("http://openjdk.java.net")+"</td>");
+/*
+http://stackoverflow.com/
+http://javatechniques.com/
+*/
+		sb.append("</tr>");
+		sb.append("</table>");
+		sb.append("<p><strong>"+ahref("https://github.com/7890/audio_rxtx_gui")+"</strong></p>");
+		sb.append("<p>© 2014-2015 Thomas Brand &lt;tom@trellis.ch&gt;</p>");
+		sb.append("<p><small>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 or later.</small></p>");
+		sb.append("</body></html>");
+		return sb.toString();
+	}//end getAboutHtml
 
-		setResizable(false);
-
-		//done in calling object
-		//setVisible(true);
-
-	}//end createForm
-
-//========================================================================
-	private void addActionListeners()
+/*
+	public Dimension getPreferedSize()
 	{
-		button_about_close.addActionListener (new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				setVisible(false);
-				g.mainframe.toFront();
-			}
-		});
-	}//end addActionListeners
+		return new Dimension(getTextPane().getWidth(),100);
+	}
+*/
 }//end class AboutDialog

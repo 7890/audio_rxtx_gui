@@ -27,8 +27,9 @@ import javax.swing.*;
 //========================================================================
 public class StatusLabel extends ALabel
 {
-	Main g;
-	Timer timer;
+	private static Main m;
+	private static Fonts f;
+	private Timer timer;
 
 //========================================================================
 	public StatusLabel()
@@ -55,14 +56,14 @@ public class StatusLabel extends ALabel
 	void init()
 	{
 		setOpaque(true);
-
+		setFont(f.fontNormal);
 		ActionListener resetStatus = new ActionListener()
 		{
 			public void actionPerformed(ActionEvent evt)
 			{
 				setBackground(Colors.status_background);
 				setForeground(Colors.status_foreground);
-				StatusLabel.super.setText(g.tr("Ready"));
+				StatusLabel.super.setText(m.tr("Ready"));
 			}
 		};
 		timer=new Timer(0, resetStatus);
@@ -91,5 +92,4 @@ public class StatusLabel extends ALabel
 		timer.setInitialDelay(milliseconds);
 		timer.restart();
 	}
-
 }//end class StatusLabel

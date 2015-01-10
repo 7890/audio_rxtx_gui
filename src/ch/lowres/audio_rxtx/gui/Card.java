@@ -30,12 +30,14 @@ import java.awt.geom.*;
 //========================================================================
 public abstract class Card extends APanel implements CardInterface
 {
-	static Main g;
+	static Main m;
+	static Fonts f;
+
 	JPanel form;
-	StatusLabel			label_status=new StatusLabel(g.tr("Ready"));
+	StatusLabel			label_status=new StatusLabel(m.tr("Ready"));
 	public AButton 			button_default=new AButton("Default");
 
-	boolean formCreated=false;
+//	boolean formCreated=false;
 
 //========================================================================
 	public Card() 
@@ -46,41 +48,34 @@ public abstract class Card extends APanel implements CardInterface
 //========================================================================
 	public void init() 
 	{
-		setBackground(Colors.form_background);
-		setForeground(Colors.form_foreground);
-		setLayout(new BorderLayout());
-
 		createForm();
 		addActionListeners();
 	}
 
 //========================================================================
-	public abstract void setValues();
+	public abstract void setValues();{}
 
 //========================================================================
 	public void createForm()
 	{
-		if(formCreated){return;}
+		setLayout(new BorderLayout());
+		setOpaque(true);
+		setBackground(Colors.form_background);
+		setForeground(Colors.form_foreground);
+
+//		if(formCreated){return;}
 
 		form=new JPanel();
+		form.setOpaque(true);
 		form.setBackground(Colors.form_background);
-
-		form.setOpaque(false);
+		form.setForeground(Colors.form_foreground);
 
 		add(form,BorderLayout.NORTH);
 
-		button_default.setBackground(Colors.button_background);
-		button_default.setForeground(Colors.button_foreground);
-		button_default.setFont(g.fontLarge);
+		JPanel pSouth=new JPanel(new BorderLayout());
 
-		label_status.setFont(g.fontNormal);
-
-		JPanel pSouth=new JPanel(new GridLayout(2,1));
-		pSouth.setBackground(Colors.status_background);
-		pSouth.setForeground(Colors.status_foreground);
-
-		pSouth.add(label_status);
-		pSouth.add(button_default);
+		pSouth.add(label_status,BorderLayout.NORTH);
+		pSouth.add(button_default,BorderLayout.SOUTH);
 
 		//poorman style for a spring that fills space to bottom (label & button)
 		JTextArea fill=new JTextArea();
@@ -90,7 +85,7 @@ public abstract class Card extends APanel implements CardInterface
 
 		add(pSouth,BorderLayout.SOUTH);
 
-		formCreated=true;
+//		formCreated=true;
 	}//end createForm
 
 //========================================================================
@@ -135,5 +130,4 @@ public abstract class Card extends APanel implements CardInterface
 
 //========================================================================
 	public abstract void focusFirstInputWidget();
-
 }//end class Card

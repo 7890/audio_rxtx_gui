@@ -31,8 +31,8 @@ public class ImgComponent extends Component
 	private static Main g;
 
 	private ImageIcon audio_rxtx_logo;
-	private int imageTop=370;
-	private int preferredWidth=320;
+	private int imageTop=130;
+	private int preferredWidth=290;
 
 //========================================================================
 	@Override
@@ -81,6 +81,10 @@ public class ImgComponent extends Component
 
 		gfx.drawImage(audio_rxtx_logo.getImage(), x, y, audio_rxtx_logo.getIconWidth(), audio_rxtx_logo.getIconHeight(), this);
 		gfx.setColor(Color.BLACK);
-		gfx.drawString("v"+g.progVersion, getWidth()-75, 25);
+//		gfx.drawString("v"+g.progVersion, getWidth()-75, 25);
+
+
+
+
 	}//end paint
 }//end class ImgComponent

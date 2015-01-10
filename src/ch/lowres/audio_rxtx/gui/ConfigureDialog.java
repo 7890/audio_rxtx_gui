@@ -29,56 +29,72 @@ import java.awt.geom.*;
 
 import javax.swing.plaf.ColorUIResource;
 
+import java.util.*;
+
+import org.xnap.commons.i18n.*;
+
+
 /**
 * Modal tabbed dialog to configure jack_audio_send, jack_audio_receive and GUI options.
 */
 //========================================================================
-public class ConfigureDialog extends JDialog implements ChangeListener
+public class ConfigureDialog extends JDialog implements ChangeListener, ComponentListener
 {
-	private static Main g;
+	private static Main m;
+	private static Fonts f;
+	private static Languages l;
 
 	private static JPanel formSend;
+
 	private static HostTextFieldWithLimit		text_name_s=new HostTextFieldWithLimit("",32,32);
 	private static HostTextFieldWithLimit		text_sname_s=new HostTextFieldWithLimit("",32,32);
-	private static ACheckbox 			checkbox_connect_s=new ACheckbox(g.tr("Autoconnect"));
-	private static ACheckbox 			checkbox_nopause_s=new ACheckbox(g.tr("No pause when receiver denies transmission"));
-	private static ACheckbox 			checkbox_test_s=new ACheckbox(g.tr("Enable Testmode"));
+	private static ACheckbox 			checkbox_connect_s=new ACheckbox(m.tr("Autoconnect"));
+	private static ACheckbox 			checkbox_nopause_s=new ACheckbox(m.tr("No pause when receiver denies transmission"));
+	private static ACheckbox 			checkbox_test_s=new ACheckbox(m.tr("Enable Testmode"));
 	private static NumericTextFieldWithLimit 	text_limit_s=new NumericTextFieldWithLimit("",32,24);
 	private static NumericTextFieldWithLimit 	text_drop_s=new NumericTextFieldWithLimit("",32,24);
-	private static ACheckbox 			checkbox_verbose_s=new ACheckbox(g.tr("Verbose shell output"));
+	private static ACheckbox 			checkbox_verbose_s=new ACheckbox(m.tr("Verbose shell output"));
 	private static NumericTextFieldWithLimit 	text_update_s=new NumericTextFieldWithLimit("",32,4);
-	private static ACheckbox 			checkbox_lport_random_s=new ACheckbox(g.tr("Use random port"));
+	private static ACheckbox 			checkbox_lport_random_s=new ACheckbox(m.tr("Use random port"));
 	private static NumericTextFieldWithLimit 	text_lport_s=new NumericTextFieldWithLimit("",32,5);
-	private static ACheckbox 			checkbox_autostart_s=new ACheckbox(g.tr("Autostart transmission"));
+	private static ACheckbox 			checkbox_autostart_s=new ACheckbox(m.tr("Autostart transmission"));
 
 	private static JPanel formReceive;
+
 	private static HostTextFieldWithLimit		text_name_r=new HostTextFieldWithLimit("",32,32);
 	private static HostTextFieldWithLimit		text_sname_r=new HostTextFieldWithLimit("",32,32);
-	private static ACheckbox 			checkbox_connect_r=new ACheckbox(g.tr("Autoconnect"));
-	private static ACheckbox 			checkbox_test_r=new ACheckbox(g.tr("Enable testmode"));
+	private static ACheckbox 			checkbox_connect_r=new ACheckbox(m.tr("Autoconnect"));
+	private static ACheckbox 			checkbox_test_r=new ACheckbox(m.tr("Enable testmode"));
 	private static NumericTextFieldWithLimit 	text_limit_r=new NumericTextFieldWithLimit("",32,24);
-	private static ACheckbox 			checkbox_verbose_r=new ACheckbox(g.tr("Verbose shell output"));
+	private static ACheckbox 			checkbox_verbose_r=new ACheckbox(m.tr("Verbose shell output"));
 	private static NumericTextFieldWithLimit 	text_update_r=new NumericTextFieldWithLimit("",32,4);
 	private static NumericTextFieldWithLimit 	text_offset_r=new NumericTextFieldWithLimit("",32,24);
 	private static NumericTextFieldWithLimit 	text_pre_r=new NumericTextFieldWithLimit("",32,24);
 	private static NumericTextFieldWithLimit 	text_max_r=new NumericTextFieldWithLimit("",32,24);
-	private static ACheckbox 			checkbox_rere_r=new ACheckbox(g.tr("Rebuffer on sender restart"));
-	private static ACheckbox 			checkbox_reuf_r=new ACheckbox(g.tr("Rebuffer on underflow"));
-	private static ACheckbox 			checkbox_nozero_r=new ACheckbox(g.tr("Re-Use old data on underflow"));
-	private static ACheckbox 			checkbox_norbc_r=new ACheckbox(g.tr("Disallow external buffer control"));
-	private static ACheckbox 			checkbox_close_r=new ACheckbox(g.tr("Stop transmission on incompatibility"));
-	private static ACheckbox 			checkbox_autostart_r=new ACheckbox(g.tr("Autostart transmission"));
+	private static ACheckbox 			checkbox_rere_r=new ACheckbox(m.tr("Rebuffer on sender restart"));
+	private static ACheckbox 			checkbox_reuf_r=new ACheckbox(m.tr("Rebuffer on underflow"));
+	private static ACheckbox 			checkbox_nozero_r=new ACheckbox(m.tr("Re-Use old data on underflow"));
+	private static ACheckbox 			checkbox_norbc_r=new ACheckbox(m.tr("Disallow external buffer control"));
+	private static ACheckbox 			checkbox_close_r=new ACheckbox(m.tr("Stop transmission on incompatibility"));
+	private static ACheckbox 			checkbox_autostart_r=new ACheckbox(m.tr("Autostart transmission"));
 
 	private static JPanel formGUI;
-	private static ACheckbox 			checkbox_gui_osc_port_random=new ACheckbox(g.tr("Use random port"));
-	private static NumericTextFieldWithLimit 	text_gui_osc_port_s=new NumericTextFieldWithLimit("",32,5);
-	private static ACheckbox 			checkbox_gui_osc_port_random_r=new ACheckbox(g.tr("Use random port"));
-	private static NumericTextFieldWithLimit 	text_gui_osc_port_r=new NumericTextFieldWithLimit("",32,5);
-	private static ACheckbox 			checkbox_keep_cache=new ACheckbox(g.tr("Use Cache"));
-	private static ACheckbox 			checkbox_both_panels=new ACheckbox(g.tr("Show both panels after startup"));
 
-	private static AButton 				button_cancel_settings=new AButton(g.tr("Cancel"));
-	private static AButton 				button_confirm_settings=new AButton(g.tr("OK"));
+	private static ListTextFieldWithLimit 		list_languages = new ListTextFieldWithLimit(l.languages,32,32);
+	private static ACheckbox			checkbox_use_internal_font=new ACheckbox(m.tr("Use built-in font"));
+	private static ListTextFieldWithLimit 		list_fonts = new ListTextFieldWithLimit(f.getAll(),32,32);
+	private static NumericFloatTextFieldWithLimit 	text_font_size_normal=new NumericFloatTextFieldWithLimit("",4,128);
+	private static ListTextFieldWithLimit 		list_font_styles = new ListTextFieldWithLimit(f.styles,32,32);
+
+	private static ACheckbox 			checkbox_gui_osc_port_random_s=new ACheckbox(m.tr("Use random port"));
+	private static NumericTextFieldWithLimit 	text_gui_osc_port_s=new NumericTextFieldWithLimit("",32,5);
+	private static ACheckbox 			checkbox_gui_osc_port_random_r=new ACheckbox(m.tr("Use random port"));
+	private static NumericTextFieldWithLimit 	text_gui_osc_port_r=new NumericTextFieldWithLimit("",32,5);
+	private static ACheckbox 			checkbox_keep_cache=new ACheckbox(m.tr("Use Cache"));
+	private static ACheckbox 			checkbox_both_panels=new ACheckbox(m.tr("Show both panels"));
+
+	public static AButton 				button_cancel_settings=new AButton(l.removeMnemonic(m.tr("_Cancel")));
+	public static AButton 				button_confirm_settings=new AButton(l.removeMnemonic(m.tr("_Apply")));
 
 	private static JScrollPane scrollerTabSend;
 	private static JScrollPane scrollerTabReceive;
@@ -100,14 +116,162 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 			//FocusPaint.gradient(g,tabPanel);
 			super.paintComponent(g);
 			FocusPaint.paint(g,tabPanel);
-		}	
+		}
 	};
 
 //========================================================================
-	public ConfigureDialog(Frame f,String title, boolean modality)
+	public ConfigureDialog(Frame f, String title, boolean modality)
 	{
 		super(f,title,modality);
+		createForm();
+		addActionListeners();
+		addWindowListeners();
+		addComponentListener(this);
+		setValues();
+	}//end constructor
 
+//========================================================================
+	public void setValues()
+	{
+		text_name_s.setText(m.apis._name);
+		text_sname_s.setText(m.apis._sname);
+		checkbox_connect_s.setState(m.apis._connect);
+		checkbox_nopause_s.setState(m.apis._nopause);
+		checkbox_test_s.setState(m.apis.test_mode);
+
+		if(m.apis.test_mode)
+		{
+			text_limit_s.setEnabled(true);
+		}
+		else
+		{
+			text_limit_s.setEnabled(false);
+		}
+
+		text_limit_s.setText(""+m.apis._limit);
+		text_drop_s.setText(""+m.apis._drop);
+		checkbox_verbose_s.setState(m.apis.verbose);
+		text_update_s.setText(""+m.apis._update);
+		checkbox_lport_random_s.setState(m.apis.lport_random);
+
+		if(m.apis.lport_random)
+		{
+			text_lport_s.setEnabled(false);
+		}
+		else
+		{
+			text_lport_s.setEnabled(true);
+		}
+
+		text_lport_s.setText(""+m.apis._lport);
+		checkbox_autostart_s.setState(m.apis.autostart);
+
+		text_name_r.setText(m.apir._name);
+		text_sname_r.setText(m.apir._sname);
+		checkbox_connect_r.setState(m.apir._connect);
+		checkbox_test_r.setState(m.apir.test_mode);
+
+		if(m.apir.test_mode)
+		{
+			text_limit_r.setEnabled(true);
+		}
+		else
+		{
+			text_limit_r.setEnabled(false);
+		}
+
+		text_limit_r.setText(""+m.apir._limit);
+		checkbox_verbose_r.setState(m.apir.verbose);
+		text_update_r.setText(""+m.apir._update);
+		text_offset_r.setText(""+m.apir._offset);
+		text_pre_r.setText(""+m.apir._pre);
+		text_max_r.setText(""+m.apir._max);
+		checkbox_rere_r.setState(m.apir._rere);
+		checkbox_reuf_r.setState(m.apir._reuf);
+		checkbox_nozero_r.setState(m.apir._nozero);
+		checkbox_norbc_r.setState(m.apir._norbc);
+		checkbox_close_r.setState(m.apir._close);
+		checkbox_autostart_r.setState(m.apir.autostart);
+
+		text_font_size_normal.setText(""+f.fontDefaultSize);
+		
+		list_languages.setSelectedIndex(l.langIndex);
+
+		checkbox_use_internal_font.setState(f.use_internal_font);
+
+		if(f.use_internal_font)
+		{
+			list_fonts.setEnabled(false);
+		}
+		else
+		{
+			list_fonts.setEnabled(true);
+		}
+
+		list_fonts.setSelectedIndex(list_fonts.firstItemEqual(f.fontName));
+
+		text_font_size_normal.setText(""+f.fontDefaultSize);
+		list_font_styles.setSelectedIndex(f.fontNormalStyle);
+
+		checkbox_keep_cache.setState(m.keep_cache);
+		checkbox_both_panels.setState(m.show_both_panels);
+
+		checkbox_gui_osc_port_random_s.setState(m.gui_osc_port_random_s);
+		text_gui_osc_port_s.setText(""+m.gui_osc_port_s);
+		if(m.gui_osc_port_random_s)
+		{
+			text_gui_osc_port_s.setEnabled(false);
+		}
+		else
+		{
+			text_gui_osc_port_s.setEnabled(true);
+		}
+
+		checkbox_gui_osc_port_random_r.setState(m.gui_osc_port_random_r);
+		text_gui_osc_port_r.setText(""+m.gui_osc_port_r);
+		if(m.gui_osc_port_random_r)
+		{
+			text_gui_osc_port_r.setEnabled(false);
+		}
+		else
+		{
+			text_gui_osc_port_r.setEnabled(true);
+		}
+
+		tabPanel.requestFocus();
+	}//end setValues
+
+//========================================================================
+	public void dialogCancelled()
+	{
+		//reset values to previous
+		setValues();
+		setFocusedWidget();
+		//close window, set status, bring main to front
+		m.mainframe.toFront();
+		setVisible(false);
+		m.setStatus("Configuration Cancelled, Restored Values");
+	}//end dialogCancelled
+
+//========================================================================
+	public void dialogConfirmed()
+	{
+		//read form, store values
+		readForm();
+		setFocusedWidget();
+		//close window, set status, bring main to front
+		m.mainframe.toFront();
+		setVisible(false);
+		m.setStatus("Configuration Confirmed, Using Values");
+	}//end dialogConfirmed
+
+//========================================================================
+	private void createForm()
+	{
+		setIconImage(Images.appIcon);
+		setLayout(new BorderLayout());
+
+		//limits
 		text_limit_s.setMinInclusive(1);
 		text_drop_s.setMinInclusive(0);
 		text_update_s.setMinInclusive(1);
@@ -122,136 +286,16 @@ public class ConfigureDialog extends JDialog implements ChangeListener
 		//! max >= pre
 		text_max_r.setMinInclusive(10);
 
+		text_font_size_normal.setMinInclusive(6f);
+		text_font_size_normal.setMaxInclusive(64f);
+
 		text_gui_osc_port_s.setMinInclusive(1024);
 		text_gui_osc_port_s.setMaxInclusive(65535);
 
 		text_gui_osc_port_r.setMinInclusive(1024);
 		text_gui_osc_port_r.setMaxInclusive(65535);
 
-		setBackground(Colors.form_background);
-		setForeground(Colors.form_foreground);
-		setLayout(new BorderLayout());
-
-		setIconImage(g.appIcon);
-
-		createForm();
-		addActionListeners();
-		addWindowListeners();
-	}//end constructor
-
-//========================================================================
-	public void setValues()
-	{
-		text_name_s.setText(g.apis._name);
-		text_sname_s.setText(g.apis._sname);
-		checkbox_connect_s.setState(g.apis._connect);
-		checkbox_nopause_s.setState(g.apis._nopause);
-		checkbox_test_s.setState(g.apis.test_mode);
-		text_limit_s.setText(""+g.apis._limit);
-		text_drop_s.setText(""+g.apis._drop);
-		checkbox_verbose_s.setState(g.apis.verbose);
-		text_update_s.setText(""+g.apis._update);
-		checkbox_lport_random_s.setState(g.apis.lport_random);
-		text_lport_s.setText(""+g.apis._lport);
-		checkbox_autostart_s.setState(g.apis.autostart);
-
-		text_name_r.setText(g.apir._name);
-		text_sname_r.setText(g.apir._sname);
-		checkbox_connect_r.setState(g.apir._connect);
-		checkbox_test_r.setState(g.apir.test_mode);
-		text_limit_r.setText(""+g.apir._limit);
-		checkbox_verbose_r.setState(g.apir.verbose);
-		text_update_r.setText(""+g.apir._update);
-		text_offset_r.setText(""+g.apir._offset);
-		text_pre_r.setText(""+g.apir._pre);
-		text_max_r.setText(""+g.apir._max);
-		checkbox_rere_r.setState(g.apir._rere);
-		checkbox_reuf_r.setState(g.apir._reuf);
-		checkbox_nozero_r.setState(g.apir._nozero);
-		checkbox_norbc_r.setState(g.apir._norbc);
-		checkbox_close_r.setState(g.apir._close);
-		checkbox_autostart_r.setState(g.apir.autostart);
-
-		checkbox_gui_osc_port_random.setState(g.gui_osc_port_random_s);
-		text_gui_osc_port_s.setText(""+g.gui_osc_port_s);
-		checkbox_gui_osc_port_random_r.setState(g.gui_osc_port_random_r);
-		text_gui_osc_port_r.setText(""+g.gui_osc_port_r);
-
-		checkbox_keep_cache.setState(g.keep_cache);
-		checkbox_both_panels.setState(g.show_both_panels);
-	}//end setValues
-
-//========================================================================
-	public void dialogCancelled()
-	{
-		//reset values to previous
-		setValues();
-		setFocusedWidget();
-		//close window, set status, bring main to front
-		setVisible(false);
-		g.mainframe.toFront();
-		g.setStatus("Configuration Cancelled, Restored Values");
-	}//end dialogCancelled
-
-//========================================================================
-	public void dialogConfirmed()
-	{
-		//read form, store values
-		readForm();
-		setFocusedWidget();
-		//close window, set status, bring main to front
-		setVisible(false);
-		g.mainframe.toFront();
-		g.setStatus("Configuration Confirmed, Using Values");
-	}//end dialogConfirmed
-
-//========================================================================
-	private void createForm()
-	{
-
-//http://stackoverflow.com/questions/2120728/controlling-color-in-java-tabbed-pane
-tabPanel.setOpaque(true);
-
-UIManager.put("TabbedPane.selected", Colors.form_background);
-UIManager.put("TabbedPane.background",Colors.form_background.brighter().brighter().brighter());
-UIManager.put("TabbedPane.selectedForeground",Colors.form_foreground);
-
-/*
-TabbedPane.actionMap	ActionMap
-TabbedPane.ancestorInputMap	InputMap
-TabbedPane.background	Color
-TabbedPane.borderHightlightColor	Color
-TabbedPane.contentAreaColor	Color
-TabbedPane.contentBorderInsets	Insets
-TabbedPane.contentOpaque	Boolean
-TabbedPane.darkShadow	Color
-TabbedPane.focus	Color
-TabbedPane.focusInputMap	InputMap
-TabbedPane.font	Font
-TabbedPane.foreground	Color
-TabbedPane.highlight	Color
-TabbedPane.light	Color
-TabbedPane.opaque	Boolean
-TabbedPane.selected	Color
-TabbedPane.selectedForeground	Color
-TabbedPane.selectedTabPadInsets	Insets
-TabbedPane.selectHighlight	Color
-TabbedPane.selectionFollowsFocus	Boolean
-TabbedPane.shadow	Color
-TabbedPane.tabAreaBackground	Color
-TabbedPane.tabAreaInsets	Insets
-TabbedPane.tabInsets	Insets
-TabbedPane.tabRunOverlay	Integer
-TabbedPane.tabsOpaque	Boolean
-TabbedPane.tabsOverlapBorder	Boolean
-TabbedPane.textIconGap	Integer
-TabbedPane.unselectedBackground	Color
-TabbedPane.unselectedTabBackground	Color
-TabbedPane.unselectedTabForeground	Color
-TabbedPane.unselectedTabHighlight	Color
-TabbedPane.unselectedTabShadow	Color
-TabbedPaneUI	String
-*/
+		tabPanel.setFont(f.fontNormal);
 
 		formSend=new JPanel();
 		formReceive=new JPanel();
@@ -265,12 +309,11 @@ TabbedPaneUI	String
 		formReceive.setBackground(Colors.form_background);
 		formGUI.setBackground(Colors.form_background);
 
-		formSend.setOpaque(false);
-		formReceive.setOpaque(false);
-		formGUI.setOpaque(false);
+		formSend.setOpaque(true);
+		formReceive.setOpaque(true);
+		formGUI.setOpaque(true);
 
 		tabSend=new APanel(new BorderLayout());
-		tabSend.setBackground(Colors.form_background);
 		tabSend.add(formSend,BorderLayout.NORTH);
 
 		scrollerTabSend=new JScrollPane (tabSend, 
@@ -279,12 +322,14 @@ TabbedPaneUI	String
 
 		scrollerTabSend.getViewport().setBackground(Colors.form_background);
 		scrollerTabSend.setWheelScrollingEnabled(true);
+		scrollerTabSend.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		scrollbarSend=scrollerTabSend.getVerticalScrollBar();
-		scrollbarSend.setUnitIncrement(g.scrollbarIncrement);
+		scrollbarSend.setUnitIncrement(m.scrollbarIncrement);
+		scrollbarSend.setUI(new AScrollbarUI());
+		//need to set horizontal too
 
 		tabReceive=new APanel(new BorderLayout());
-		tabReceive.setBackground(Colors.form_background);
 		tabReceive.add(formReceive,BorderLayout.NORTH);
 		scrollerTabReceive=new JScrollPane (tabReceive, 
 			ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -292,12 +337,14 @@ TabbedPaneUI	String
 
 		scrollerTabReceive.getViewport().setBackground(Colors.form_background);
 		scrollerTabReceive.setWheelScrollingEnabled(true);
+		scrollerTabReceive.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		scrollbarReceive=scrollerTabReceive.getVerticalScrollBar();
-		scrollbarReceive.setUnitIncrement(g.scrollbarIncrement);
+		scrollbarReceive.setUnitIncrement(m.scrollbarIncrement);
+		scrollbarReceive.setUI(new AScrollbarUI());
+		//need to set horizontal too
 
 		tabGUI=new APanel(new BorderLayout());
-		tabGUI.setBackground(Colors.form_background);
 		tabGUI.add(formGUI,BorderLayout.NORTH);
 		scrollerTabGUI=new JScrollPane (tabGUI, 
 			ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -305,13 +352,20 @@ TabbedPaneUI	String
 
 		scrollerTabGUI.getViewport().setBackground(Colors.form_background);
 		scrollerTabGUI.setWheelScrollingEnabled(true);
+		scrollerTabGUI.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		scrollbarGUI=scrollerTabGUI.getVerticalScrollBar();
-		scrollbarGUI.setUnitIncrement(g.scrollbarIncrement);
+		scrollbarGUI.setUnitIncrement(m.scrollbarIncrement);
+		scrollbarGUI.setUI(new AScrollbarUI());
 
-		tabPanel.add(g.tr("Send"),scrollerTabSend);
-		tabPanel.add(g.tr("Receive"),scrollerTabReceive);
-		tabPanel.add(g.tr("GUI"),scrollerTabGUI);
+		tabPanel.add(l.removeMnemonic(m.tr("_Send")),scrollerTabSend);
+		tabPanel.add(l.removeMnemonic(m.tr("_Receive")),scrollerTabReceive);
+		tabPanel.add(l.removeMnemonic(m.tr("_GUI")),scrollerTabGUI);
+
+		//doesn't work on osx
+		tabPanel.setMnemonicAt(0, l.getMnemonicKeyEvent(m.tr("_Send")));
+		tabPanel.setMnemonicAt(1, l.getMnemonicKeyEvent(m.tr("_Receive")));
+		tabPanel.setMnemonicAt(2, l.getMnemonicKeyEvent(m.tr("_GUI")));
 
 		//http://stackoverflow.com/questions/5183687/java-remove-margin-padding-on-a-jtabbedpane
 		tabPanel.setUI(new BasicTabbedPaneUI()
@@ -328,183 +382,299 @@ TabbedPaneUI	String
 				return borderInsets;
 			}
 		});
-
+/*
 		tabPanel.addChangeListener(new ChangeListener()
 		{
-
 			@Override
 			public void stateChanged(ChangeEvent e)
 			{
-				//setFocusedWidget();
+
+				setFocusedWidget();
 			}
 		});
+*/
 
+		//force redraw (probably remove focus indication)
 		tabPanel.addFocusListener(
 		new FocusListener()
 		{
-			Component c=null;
 			public void focusLost(FocusEvent fe)
 			{
-				c=null;
 				repaint();
 			}
 			public void focusGained(FocusEvent fe)
 			{
-				c=fe.getComponent();
 				repaint();
 			}
 		}
 		);
 
+
 		//======
 		add(tabPanel,BorderLayout.CENTER);
 
-		g.formUtility.addLabel(g.tr("Connect to this JACK server")+":", formSend);
-		g.formUtility.addLastField(text_sname_s, formSend);
+		m.formUtility.addLabel(m.tr("Connect to this JACK server")+":", formSend);
+		m.formUtility.addLastField(text_sname_s, formSend);
 
-		g.formUtility.addLabel(g.tr("Name of JACK client")+":", formSend);
-		g.formUtility.addLastField(text_name_s, formSend);
+		m.formUtility.addLabel(m.tr("Name of JACK client")+":", formSend);
+		m.formUtility.addLastField(text_name_s, formSend);
 
-		g.formUtility.addLabel(g.tr("JACK system:* ports")+":", formSend);
-		g.formUtility.addLastField(checkbox_connect_s, formSend);
+		m.formUtility.addLabel(m.tr("JACK system:* ports")+":", formSend);
+		m.formUtility.addLastField(checkbox_connect_s, formSend);
 
-		g.formUtility.addLabel(g.tr("For 1:n Broadcast scenario")+":", formSend);
-		g.formUtility.addLastField(checkbox_nopause_s, formSend);
+		m.formUtility.addLabel(m.tr("For 1:n Broadcast scenario")+":", formSend);
+		m.formUtility.addLastField(checkbox_nopause_s, formSend);
 
-		g.formUtility.addLabel(g.tr("Limit totally sent messages")+":", formSend);
-		g.formUtility.addLastField(checkbox_test_s, formSend);
+		m.formUtility.addLabel(m.tr("Limit totally sent messages")+":", formSend);
+		m.formUtility.addLastField(checkbox_test_s, formSend);
 
-		g.formUtility.addLabel(g.tr("Message count limit")+":", formSend);
-		g.formUtility.addLastField(text_limit_s, formSend);
+		checkbox_test_s.addItemListener(new ItemListener()
+		{
+			@Override
+			public void itemStateChanged(ItemEvent e)
+			{
+				if (e.getStateChange() == ItemEvent.SELECTED)
+				{
+					text_limit_s.setEnabled(true);
+					text_limit_s.requestFocus();
+				}
+				else if (e.getStateChange() == ItemEvent.DESELECTED)
+				{
+					text_limit_s.setEnabled(false);
+				}
+			}
+		});
 
-		g.formUtility.addLabel(g.tr("Drop every Nth message")+":", formSend);
-		g.formUtility.addLastField(text_drop_s, formSend);
+		m.formUtility.addLabel(m.tr("Message count limit")+":", formSend);
+		m.formUtility.addLastField(text_limit_s, formSend);
 
-		g.formUtility.addLabel(g.tr("jack_audio_send std passthrough")+":", formSend);
-		g.formUtility.addLastField(checkbox_verbose_s, formSend);
+		m.formUtility.addLabel(m.tr("Drop every Nth message")+":", formSend);
+		m.formUtility.addLastField(text_drop_s, formSend);
 
-		g.formUtility.addLabel(g.tr("Status update interval")+":", formSend);
-		g.formUtility.addLastField(text_update_s, formSend);
+		m.formUtility.addLabel(m.tr("jack_audio_send std passthrough")+":", formSend);
+		m.formUtility.addLastField(checkbox_verbose_s, formSend);
 
-		g.formUtility.addLabel(g.tr("UDP port for jack_audio_send")+":", formSend);
-		g.formUtility.addLastField(checkbox_lport_random_s, formSend);
+		m.formUtility.addLabel(m.tr("Status update interval")+":", formSend);
+		m.formUtility.addLastField(text_update_s, formSend);
 
-		g.formUtility.addLabel(g.tr("Fixed port (if not random)")+":", formSend);
-		g.formUtility.addLastField(text_lport_s, formSend);
+		m.formUtility.addLabel(m.tr("UDP port for jack_audio_send")+":", formSend);
+		m.formUtility.addLastField(checkbox_lport_random_s, formSend);
 
-		g.formUtility.addLabel(g.tr("Start transmission after startup")+":", formSend);
-		g.formUtility.addLastField(checkbox_autostart_s, formSend);
+		checkbox_lport_random_s.addItemListener(new ItemListener()
+		{
+			@Override
+			public void itemStateChanged(ItemEvent e)
+			{
+				if (e.getStateChange() == ItemEvent.SELECTED)
+				{
+					text_lport_s.setEnabled(false);
+				}
+				else if (e.getStateChange() == ItemEvent.DESELECTED)
+				{
+					text_lport_s.setEnabled(true);
+					text_lport_s.requestFocus();
+				}
+			}
+		});
+
+		m.formUtility.addLabel(m.tr("Fixed port (if not random)")+":", formSend);
+		m.formUtility.addLastField(text_lport_s, formSend);
+
+		m.formUtility.addLabel(m.tr("Start transmission after startup")+":", formSend);
+		m.formUtility.addLastField(checkbox_autostart_s, formSend);
 
 //receive
-		g.formUtility.addLabel(g.tr("Connect to this JACK server")+":", formReceive);
-		g.formUtility.addLastField(text_sname_r, formReceive);
+		m.formUtility.addLabel(m.tr("Connect to this JACK server")+":", formReceive);
+		m.formUtility.addLastField(text_sname_r, formReceive);
 
-		g.formUtility.addLabel(g.tr("Name of JACK client")+":", formReceive);
-		g.formUtility.addLastField(text_name_r, formReceive);
+		m.formUtility.addLabel(m.tr("Name of JACK client")+":", formReceive);
+		m.formUtility.addLastField(text_name_r, formReceive);
 
-		g.formUtility.addLabel(g.tr("JACK system:* ports")+":", formReceive);
-		g.formUtility.addLastField(checkbox_connect_r, formReceive);
+		m.formUtility.addLabel(m.tr("JACK system:* ports")+":", formReceive);
+		m.formUtility.addLastField(checkbox_connect_r, formReceive);
 
-		g.formUtility.addLabel(g.tr("Limit totally sent messages")+":", formReceive);
-		g.formUtility.addLastField(checkbox_test_r, formReceive);
+		m.formUtility.addLabel(m.tr("Limit totally sent messages")+":", formReceive);
+		m.formUtility.addLastField(checkbox_test_r, formReceive);
 
-		g.formUtility.addLabel(g.tr("Message count limit")+":", formReceive);
-		g.formUtility.addLastField(text_limit_r, formReceive);
+		checkbox_test_r.addItemListener(new ItemListener()
+		{
+			@Override
+			public void itemStateChanged(ItemEvent e)
+			{
+				if (e.getStateChange() == ItemEvent.SELECTED)
+				{
+					text_limit_r.setEnabled(true);
+					text_limit_r.requestFocus();
+				}
+				else if (e.getStateChange() == ItemEvent.DESELECTED)
+				{
+					text_limit_r.setEnabled(false);
+				}
+			}
+		});
 
-		g.formUtility.addLabel(g.tr("jack_audio_receive std passthrough")+":", formReceive);
-		g.formUtility.addLastField(checkbox_verbose_r, formReceive);
+		m.formUtility.addLabel(m.tr("Message count limit")+":", formReceive);
+		m.formUtility.addLastField(text_limit_r, formReceive);
 
-		g.formUtility.addLabel(g.tr("Status update interval")+":", formReceive);
-		g.formUtility.addLastField(text_update_r, formReceive);
+		m.formUtility.addLabel(m.tr("jack_audio_receive std passthrough")+":", formReceive);
+		m.formUtility.addLastField(checkbox_verbose_r, formReceive);
 
-		g.formUtility.addLabel(g.tr("Channel offset")+":", formReceive);
-		g.formUtility.addLastField(text_offset_r, formReceive);
+		m.formUtility.addLabel(m.tr("Status update interval")+":", formReceive);
+		m.formUtility.addLastField(text_update_r, formReceive);
 
-		g.formUtility.addLabel(g.tr("Initial buffer size (MCP)")+":", formReceive);
-		g.formUtility.addLastField(text_pre_r, formReceive);
+		m.formUtility.addLabel(m.tr("Channel offset")+":", formReceive);
+		m.formUtility.addLastField(text_offset_r, formReceive);
 
-		g.formUtility.addLabel(g.tr("Max buffer size (>= initial)")+":", formReceive);
-		g.formUtility.addLastField(text_max_r, formReceive);
+		m.formUtility.addLabel(m.tr("Initial buffer size (MCP)")+":", formReceive);
+		m.formUtility.addLastField(text_pre_r, formReceive);
 
-		g.formUtility.addLabel("", formReceive);
-		g.formUtility.addLastField(checkbox_rere_r, formReceive);
+		m.formUtility.addLabel(m.tr("Max buffer size (>= initial)")+":", formReceive);
+		m.formUtility.addLastField(text_max_r, formReceive);
 
-		g.formUtility.addLabel("", formReceive);
-		g.formUtility.addLastField(checkbox_reuf_r, formReceive);
+		m.formUtility.addLabel("", formReceive);
+		m.formUtility.addLastField(checkbox_rere_r, formReceive);
 
-		g.formUtility.addLabel("", formReceive);
-		g.formUtility.addLastField(checkbox_nozero_r, formReceive);
+		m.formUtility.addLabel("", formReceive);
+		m.formUtility.addLastField(checkbox_reuf_r, formReceive);
 
-		g.formUtility.addLabel("", formReceive);
-		g.formUtility.addLastField(checkbox_norbc_r, formReceive);
+		m.formUtility.addLabel("", formReceive);
+		m.formUtility.addLastField(checkbox_nozero_r, formReceive);
 
-		g.formUtility.addLabel("", formReceive);
-		g.formUtility.addLastField(checkbox_close_r, formReceive);
+		m.formUtility.addLabel("", formReceive);
+		m.formUtility.addLastField(checkbox_norbc_r, formReceive);
 
-		g.formUtility.addLabel(g.tr("Start transmission after startup")+":", formReceive);
-		g.formUtility.addLastField(checkbox_autostart_r, formReceive);
+		m.formUtility.addLabel("", formReceive);
+		m.formUtility.addLastField(checkbox_close_r, formReceive);
+
+		m.formUtility.addLabel(m.tr("Start transmission after startup")+":", formReceive);
+		m.formUtility.addLastField(checkbox_autostart_r, formReceive);
 
 //GUI
-		g.formUtility.addLabel(g.tr("UDP port for GUI (send)")+":", formGUI);
-		g.formUtility.addLastField(checkbox_gui_osc_port_random, formGUI);
+		m.formUtility.addLabel(m.tr("Language")+": ", formGUI);
+		list_languages.setTitle(m.tr("Choose Language"));
+		m.formUtility.addLastField(list_languages, formGUI);
 
-		g.formUtility.addLabel(g.tr("Fixed port (if not random)")+":", formGUI);
-		g.formUtility.addLastField(text_gui_osc_port_s, formGUI);
+		checkbox_use_internal_font.addItemListener(new ItemListener()
+		{
+			@Override
+			public void itemStateChanged(ItemEvent e)
+			{
+				if (e.getStateChange() == ItemEvent.SELECTED)
+				{
+					list_fonts.setEnabled(false);
+				}
+				else if (e.getStateChange() == ItemEvent.DESELECTED)
+				{
+					list_fonts.setEnabled(true);
+					list_fonts.requestFocus();
+				}
+			}
+		});
 
-		g.formUtility.addSpacer(formGUI);
+		m.formUtility.addLabel("", formGUI);
+		m.formUtility.addLastField(checkbox_use_internal_font, formGUI);
 
-		g.formUtility.addLabel(g.tr("UDP port for GUI (receive)")+":", formGUI);
-		g.formUtility.addLastField(checkbox_gui_osc_port_random_r, formGUI);
+		m.formUtility.addLabel(m.tr("Local system font")+":", formGUI);
+		m.formUtility.addLastField(list_fonts, formGUI);
+		list_fonts.setTitle(m.tr("Choose Font"));
 
-		g.formUtility.addLabel(g.tr("Fixed port (f not random)")+":", formGUI);
-		g.formUtility.addLastField(text_gui_osc_port_r, formGUI);
+		m.formUtility.addLabel(m.tr("Font size \"normal\" [pt]")+":", formGUI);
+		m.formUtility.addLastField(text_font_size_normal, formGUI);
 
-		g.formUtility.addSpacer(formGUI);
+		m.formUtility.addLabel(m.tr("Font style")+":", formGUI);
+		m.formUtility.addLastField(list_font_styles, formGUI);
+		list_font_styles.setTitle(m.tr("Choose Font Style"));
 
-		g.formUtility.addLabel(g.tr("Keep dumped resources in cache")+":", formGUI);
-		g.formUtility.addLastField(checkbox_keep_cache, formGUI);
+		m.formUtility.addLabel(m.tr("After program startup")+":", formGUI);
+		m.formUtility.addLastField(checkbox_both_panels, formGUI);
 
-		g.formUtility.addLabel("", formGUI);
-		g.formUtility.addLastField(checkbox_both_panels, formGUI);
+		m.formUtility.addLabel(m.tr("UDP port for GUI (send)")+":", formGUI);
+		m.formUtility.addLastField(checkbox_gui_osc_port_random_s, formGUI);
+
+		checkbox_gui_osc_port_random_s.addItemListener(new ItemListener()
+		{
+			@Override
+			public void itemStateChanged(ItemEvent e)
+			{
+				if (e.getStateChange() == ItemEvent.SELECTED)
+				{
+					text_gui_osc_port_s.setEnabled(false);
+				}
+				else if (e.getStateChange() == ItemEvent.DESELECTED)
+				{
+					text_gui_osc_port_s.setEnabled(true);
+					text_gui_osc_port_s.requestFocus();
+				}
+			}
+		});
+
+		m.formUtility.addLabel(m.tr("Fixed port (if not random)")+":", formGUI);
+		m.formUtility.addLastField(text_gui_osc_port_s, formGUI);
+
+		m.formUtility.addLabel(m.tr("UDP port for GUI (receive)")+":", formGUI);
+		m.formUtility.addLastField(checkbox_gui_osc_port_random_r, formGUI);
+
+		checkbox_gui_osc_port_random_r.addItemListener(new ItemListener()
+		{
+			@Override
+			public void itemStateChanged(ItemEvent e)
+			{
+				if (e.getStateChange() == ItemEvent.SELECTED)
+				{
+					text_gui_osc_port_r.setEnabled(false);
+				}
+				else if (e.getStateChange() == ItemEvent.DESELECTED)
+				{
+					text_gui_osc_port_r.setEnabled(true);
+					text_gui_osc_port_r.requestFocus();
+				}
+			}
+		});
+
+		m.formUtility.addLabel(m.tr("Fixed port (f not random)")+":", formGUI);
+		m.formUtility.addLastField(text_gui_osc_port_r, formGUI);
+
+		m.formUtility.addLabel(m.tr("Keep dumped resources in cache")+":", formGUI);
+		m.formUtility.addLastField(checkbox_keep_cache, formGUI);
 
 //buttons
-		Panel button_panel=new Panel();
-
-		button_cancel_settings.setBackground(Colors.button_background);
-		button_cancel_settings.setForeground(Colors.button_foreground);
-		button_cancel_settings.setFont(g.fontLarge);
-
-		button_confirm_settings.setBackground(Colors.button_background);
-		button_confirm_settings.setForeground(Colors.button_foreground);
-		button_confirm_settings.setFont(g.fontLarge);
-
+		JPanel button_panel=new JPanel();
 		button_panel.setLayout(new GridLayout(1,2)); //y, x
+
+		button_cancel_settings.setMnemonic(l.getMnemonicKeyEvent(m.tr("_Cancel")));
+		button_confirm_settings.setMnemonic(l.getMnemonicKeyEvent(m.tr("_Apply")));
+
 		button_panel.add(button_cancel_settings);
 		button_panel.add(button_confirm_settings);
 
 		add(button_panel,BorderLayout.SOUTH);
 
-		pack();
-//		setSize(600,500);
-//		int panelWidth=600;
-		int panelWidth=(int)getPreferredSize().getWidth();
-		int panelHeight=500;
-		setSize(
-			panelWidth+getInsets().left+getInsets().right,
-			panelHeight+getInsets().top+getInsets().bottom
-		);
+		repack();
+		m.setDialogCentered(this);
 
-		//center on screen
-		setLocation(
-			(int)((g.screenDimension.getWidth()-getWidth()) / 2),
-			(int)((g.screenDimension.getHeight()-getHeight()) / 2)
-		);
-
-//		setResizable(false);
+		//setResizable(false);
 
 		//done in calling object
 		//setVisible(true);
 	}//end createForm
+
+//=============================================================================
+	public void repack()
+	{
+		//DisplayMode mode = this.getGraphicsConfiguration().getDevice().getDisplayMode();
+		Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(this.getGraphicsConfiguration());
+
+		pack();
+
+		int w=(int)Math.min(getPreferredSize().getWidth(),
+			m.screenDimension.getWidth()-insets.left-insets.right
+		);
+		int h=(int)Math.min(getPreferredSize().getHeight(),
+			m.screenDimension.getHeight()-insets.top-insets.bottom
+		);
+
+		setSize(w,h);
+	}
 
 //=============================================================================
 	public void readForm()
@@ -515,117 +685,136 @@ TabbedPaneUI	String
 
 		if(text_name_s.getText().equals(""))
 		{
-			text_name_s.setText(""+g.apis._name);
+			text_name_s.setText(""+m.apis._name);
 		}
 
 		if(text_sname_s.getText().equals(""))
 		{
-			text_sname_s.setText(""+g.apis._sname);
+			text_sname_s.setText(""+m.apis._sname);
 		}
 
 		if(text_limit_s.getText().equals(""))
 		{
-			text_limit_s.setText(""+g.apis._limit);
+			text_limit_s.setText(""+m.apis._limit);
 		}
 
 		if(text_drop_s.getText().equals(""))
 		{
-			text_drop_s.setText(""+g.apis._drop);
+			text_drop_s.setText(""+m.apis._drop);
 		}
 
 		if(text_update_s.getText().equals(""))
 		{
-			text_update_s.setText(""+g.apis._update);
+			text_update_s.setText(""+m.apis._update);
 		}
 
 		if(text_lport_s.getText().equals(""))
 		{
-			text_lport_s.setText(""+g.apis._lport);
+			text_lport_s.setText(""+m.apis._lport);
 		}
 
-		g.apis._name=text_name_s.getText();
-		g.apis._sname=text_sname_s.getText();
-		g.apis._connect=checkbox_connect_s.getState();
-		g.apis._nopause=checkbox_nopause_s.getState();
-		g.apis.test_mode=checkbox_test_s.getState();
-		g.apis._limit=Integer.parseInt(text_limit_s.getText());
-		g.apis._drop=Integer.parseInt(text_drop_s.getText());
-		g.apis.verbose=checkbox_verbose_s.getState();
-		g.apis._update=Integer.parseInt(text_update_s.getText());
-		g.apis.lport_random=checkbox_lport_random_s.getState();
-		g.apis._lport=Integer.parseInt(text_lport_s.getText());
-		g.apis.autostart=checkbox_autostart_s.getState();
+		m.apis._name=text_name_s.getText();
+		m.apis._sname=text_sname_s.getText();
+		m.apis._connect=checkbox_connect_s.getState();
+		m.apis._nopause=checkbox_nopause_s.getState();
+		m.apis.test_mode=checkbox_test_s.getState();
+		m.apis._limit=Integer.parseInt(text_limit_s.getText());
+		m.apis._drop=Integer.parseInt(text_drop_s.getText());
+		m.apis.verbose=checkbox_verbose_s.getState();
+		m.apis._update=Integer.parseInt(text_update_s.getText());
+		m.apis.lport_random=checkbox_lport_random_s.getState();
+		m.apis._lport=Integer.parseInt(text_lport_s.getText());
+		m.apis.autostart=checkbox_autostart_s.getState();
 
 		if(text_name_r.getText().equals(""))
 		{
-			text_name_r.setText(""+g.apir._name);
+			text_name_r.setText(""+m.apir._name);
 		}
 
 		if(text_sname_r.getText().equals(""))
 		{
-			text_sname_r.setText(""+g.apir._sname);
+			text_sname_r.setText(""+m.apir._sname);
 		}
 
 		if(text_limit_r.getText().equals(""))
 		{
-			text_limit_r.setText(""+g.apir._limit);
+			text_limit_r.setText(""+m.apir._limit);
 		}
 
 		if(text_update_r.getText().equals(""))
 		{
-			text_update_r.setText(""+g.apir._update);
+			text_update_r.setText(""+m.apir._update);
 		}
 
 		if(text_offset_r.getText().equals(""))
 		{
-			text_offset_r.setText(""+g.apir._offset);
+			text_offset_r.setText(""+m.apir._offset);
 		}
 
 		if(text_pre_r.getText().equals(""))
 		{
-			text_pre_r.setText(""+g.apir._pre);
+			text_pre_r.setText(""+m.apir._pre);
 		}
 
 		if(text_max_r.getText().equals(""))
 		{
-			text_max_r.setText(""+g.apir._pre);
+			text_max_r.setText(""+m.apir._pre);
 		}
 
-		g.apir._name=text_name_r.getText();
-		g.apir._sname=text_sname_r.getText();
-		g.apir._connect=checkbox_connect_r.getState();
-		g.apir.test_mode=checkbox_test_r.getState();
-		g.apir._limit=Integer.parseInt(text_limit_r.getText());
-		g.apir.verbose=checkbox_verbose_r.getState();
-		g.apir._update=Integer.parseInt(text_update_r.getText());
-		g.apir._offset=Integer.parseInt(text_offset_r.getText());
-		g.apir._pre=Integer.parseInt(text_pre_r.getText());
-		g.apir._max=Integer.parseInt(text_max_r.getText());
-		g.apir._rere=checkbox_rere_r.getState();
-		g.apir._reuf=checkbox_reuf_r.getState();
-		g.apir._nozero=checkbox_nozero_r.getState();
-		g.apir._norbc=checkbox_norbc_r.getState();
-		g.apir._close=checkbox_close_r.getState();
-		g.apir.autostart=checkbox_autostart_r.getState();
+		m.apir._name=text_name_r.getText();
+		m.apir._sname=text_sname_r.getText();
+		m.apir._connect=checkbox_connect_r.getState();
+		m.apir.test_mode=checkbox_test_r.getState();
+		m.apir._limit=Integer.parseInt(text_limit_r.getText());
+		m.apir.verbose=checkbox_verbose_r.getState();
+		m.apir._update=Integer.parseInt(text_update_r.getText());
+		m.apir._offset=Integer.parseInt(text_offset_r.getText());
+		m.apir._pre=Integer.parseInt(text_pre_r.getText());
+		m.apir._max=Integer.parseInt(text_max_r.getText());
+		m.apir._rere=checkbox_rere_r.getState();
+		m.apir._reuf=checkbox_reuf_r.getState();
+		m.apir._nozero=checkbox_nozero_r.getState();
+		m.apir._norbc=checkbox_norbc_r.getState();
+		m.apir._close=checkbox_close_r.getState();
+		m.apir.autostart=checkbox_autostart_r.getState();
 
 		if(text_gui_osc_port_s.getText().equals(""))
 		{
-			text_gui_osc_port_s.setText(""+g.gui_osc_port_s);
+			text_gui_osc_port_s.setText(""+m.gui_osc_port_s);
 		}
 
 		if(text_gui_osc_port_r.getText().equals(""))
 		{
-			text_gui_osc_port_r.setText(""+g.gui_osc_port_r);
+			text_gui_osc_port_r.setText(""+m.gui_osc_port_r);
 		}
 
-		g.gui_osc_port_random_s=checkbox_gui_osc_port_random.getState();
-		g.gui_osc_port_s=Integer.parseInt(text_gui_osc_port_s.getText());
+		m.keep_cache=checkbox_keep_cache.getState();
+		m.show_both_panels=checkbox_both_panels.getState();
 
-		g.gui_osc_port_random_r=checkbox_gui_osc_port_random_r.getState();
-		g.gui_osc_port_r=Integer.parseInt(text_gui_osc_port_r.getText());
+		m.gui_osc_port_random_s=checkbox_gui_osc_port_random_s.getState();
+		m.gui_osc_port_s=Integer.parseInt(text_gui_osc_port_s.getText());
 
-		g.keep_cache=checkbox_keep_cache.getState();
-		g.show_both_panels=checkbox_both_panels.getState();
+		m.gui_osc_port_random_r=checkbox_gui_osc_port_random_r.getState();
+		m.gui_osc_port_r=Integer.parseInt(text_gui_osc_port_r.getText());
+
+		l.set(list_languages.getText());
+
+		f.use_internal_font=checkbox_use_internal_font.getState();
+
+		if(text_font_size_normal.getText().equals(""))
+		{
+			text_font_size_normal.setText(""+f.fontDefaultSize);
+		}
+
+		f.fontName=list_fonts.getText();
+		f.fontDefaultSize=Float.parseFloat(text_font_size_normal.getText());
+		f.fontNormalStyle=list_font_styles.getSelectedIndex();
+
+/////////
+//should recreate conditionally..
+		Fonts.recreate();
+		m.updateFont();
+
 	}//end readForm
 
 //========================================================================
@@ -655,7 +844,7 @@ TabbedPaneUI	String
 	{
 		addWindowListener(new WindowListener()
 		{
-			public void windowClosed(WindowEvent arg0) {dialogCancelled();}
+			public void windowClosed(WindowEvent arg0) {}
 			public void windowClosing(WindowEvent arg0) {dialogCancelled();}
 			public void windowActivated(WindowEvent arg0) {}
 			public void windowDeactivated(WindowEvent arg0) {}
@@ -663,20 +852,167 @@ TabbedPaneUI	String
 			public void windowIconified(WindowEvent arg0) {}
 			public void windowOpened(WindowEvent arg0) {}
 		});
+
+		addWindowStateListener(new WindowStateListener()
+		{
+			//not sent by all window managers
+			public void windowStateChanged(WindowEvent e)
+			{
+				if ((e.getNewState() & Frame.ICONIFIED) == Frame.ICONIFIED)
+				{
+					//m.p("minimized");
+				}
+				else if ((e.getNewState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH)
+				{
+					//m.p("maximized");
+				}
+			}
+		});
 	}//end addWindowListeners
+
+//========================================================================
+//http://www.java2s.com/Tutorial/Java/0240__Swing/JDialogisspecifythatpressingtheEscapekeycancelsthedialog.htm
+	@Override
+	protected JRootPane createRootPane()
+	{
+		JRootPane rootPane = new JRootPane();
+
+		InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+		//InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+		KeyStroke keyEnter = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0);
+		Action actionListenerConfirm = new AbstractAction("CONFIRM")
+		{
+			public void actionPerformed(ActionEvent actionEvent)
+			{
+				dialogConfirmed();
+			}
+		};
+
+		inputMap.put(keyEnter, "ENTER");
+		rootPane.getActionMap().put("ENTER", actionListenerConfirm);
+
+		KeyStroke keyEscape = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0);
+		KeyStroke keyCtrlD = KeyStroke.getKeyStroke(KeyEvent.VK_D,m.ctrlOrCmd);
+		Action actionListenerCancel = new AbstractAction("CANCEL")
+		{
+			public void actionPerformed(ActionEvent actionEvent)
+			{
+				dialogCancelled();
+			}
+		};
+
+		inputMap.put(keyEscape, "ESCAPE");
+		rootPane.getActionMap().put("ESCAPE", actionListenerCancel);
+
+		inputMap.put(keyCtrlD, "CTRL_D");
+		rootPane.getActionMap().put("CTRL_D", actionListenerCancel);
+
+		KeyStroke keyPageUp = KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP,0);
+		Action actionListenerPrevTab = new AbstractAction("PREV_TAB")
+		{
+			public void actionPerformed(ActionEvent actionEvent)
+			{
+				prevTab();
+			}
+		};
+
+		inputMap.put(keyPageUp, "PAGE_UP");
+		rootPane.getActionMap().put("PAGE_UP", actionListenerPrevTab);
+
+		KeyStroke keyPageDown = KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN,0);
+		Action actionListenerNextTab = new AbstractAction("PREV_TAB")
+		{
+			public void actionPerformed(ActionEvent actionEvent)
+			{
+				nextTab();
+			}
+		};
+
+		inputMap.put(keyPageDown, "PAGE_DOWN");
+		rootPane.getActionMap().put("PAGE_DOWN", actionListenerNextTab);
+
+		//add keystroke actions to mimic mnemonic on tabs on osx
+		if(m.os.isMac())
+		{
+/*
+			tabPanel.setMnemonicAt(0, l.getMnemonicKeyEvent(m.tr("_Send")));
+			tabPanel.setMnemonicAt(1, l.getMnemonicKeyEvent(m.tr("_Receive")));
+			tabPanel.setMnemonicAt(2, l.getMnemonicKeyEvent(m.tr("_GUI")));
+*/
+
+			KeyStroke keyAltGotoSend = KeyStroke.getKeyStroke(l.getMnemonicKeyEvent(m.tr("_Send")),InputEvent.ALT_MASK);
+			Action actionListenerGotoSendTab = new AbstractAction("GOTO_SEND_TAB")
+			{
+				public void actionPerformed(ActionEvent actionEvent)
+				{
+					tabPanel.setSelectedIndex(0);
+				}
+			};
+
+			inputMap.put(keyAltGotoSend, "GOTO_SEND_TAB");
+			rootPane.getActionMap().put("GOTO_SEND_TAB", actionListenerGotoSendTab);
+
+			KeyStroke keyAltGotoReceive = KeyStroke.getKeyStroke(l.getMnemonicKeyEvent(m.tr("_Receive")),InputEvent.ALT_MASK);
+			Action actionListenerGotoReceiveTab = new AbstractAction("GOTO_RECEIVE_TAB")
+			{
+				public void actionPerformed(ActionEvent actionEvent)
+				{
+					tabPanel.setSelectedIndex(1);
+				}
+			};
+
+			inputMap.put(keyAltGotoReceive, "GOTO_RECEIVE_TAB");
+			rootPane.getActionMap().put("GOTO_RECEIVE_TAB", actionListenerGotoReceiveTab);
+
+			KeyStroke keyAltGotoGUI = KeyStroke.getKeyStroke(l.getMnemonicKeyEvent(m.tr("_GUI")),InputEvent.ALT_MASK);
+			Action actionListenerGotoGUITab = new AbstractAction("GOTO_GUI_TAB")
+			{
+				public void actionPerformed(ActionEvent actionEvent)
+				{
+					tabPanel.setSelectedIndex(2);
+				}
+			};
+
+			inputMap.put(keyAltGotoGUI, "GOTO_GUI_TAB");
+			rootPane.getActionMap().put("GOTO_GUI_TAB", actionListenerGotoGUITab);
+		}//end if os.isMac()
+		return rootPane;
+	}//end createRootPane()
+
+//componentlistener
+//========================================================================
+	public void componentHidden(ComponentEvent e)
+	{
+		//m.p(e.getComponent().getClass().getName() + " --- Hidden");
+	}
+
+//========================================================================
+	public void componentMoved(ComponentEvent e)
+	{
+		//m.p(e.getComponent().getClass().getName() + " --- Moved");
+		//m.p(e.toString());
+//////////
+		//move all visible listdialogs along
+	}
+
+//========================================================================
+	public void componentResized(ComponentEvent e)
+	{
+		//m.p(e.getComponent().getClass().getName() + " --- Resized ");
+	}
+
+//========================================================================
+	public void componentShown(ComponentEvent e)
+	{
+		//m.p(e.getComponent().getClass().getName() + " --- Shown ");
+	}
 
 //========================================================================
 //tabstate
 	public void stateChanged(ChangeEvent e)
 	{
-
-/*
-tabPanel.setBackgroundAt(tabPanel.getSelectedIndex(),Colors.form_foreground);
-tabPanel.setForegroundAt(tabPanel.getSelectedIndex(),Colors.form_background);
-tabPanel.repaint();
-*/
-
-		//setFocusedWidget();
+		setFocusedWidget();
 	}
 
 //========================================================================
@@ -689,18 +1025,20 @@ tabPanel.repaint();
 //========================================================================
 	public void setFocusedWidget(String tabname)
 	{
-		if(tabname.equals(g.tr("Send")))
+/*
+		if(tabname.equals(m.tr("Send")))
 		{
 			text_name_s.requestFocus();
 		}
-		else if(tabname.equals(g.tr("Receive")))
+		else if(tabname.equals(m.tr("Receive")))
 		{
 			text_name_r.requestFocus();
 		}
-		else if(tabname.equals(g.tr("GUI")))
+		else if(tabname.equals(m.tr("GUI")))
 		{
-			checkbox_gui_osc_port_random.requestFocus();
+			checkbox_gui_osc_port_random_s.requestFocus();
 		}
+*/
 	}
 
 //========================================================================
@@ -720,6 +1058,7 @@ tabPanel.repaint();
 		tabPanel.setSelectedIndex(newIndex < 0 ? tabPanel.getTabCount()-1 : newIndex);
 	}
 
+/*
 //========================================================================
 	public void scrollUp()
 	{
@@ -753,4 +1092,5 @@ tabPanel.repaint();
 		JScrollBar sb=jp.getVerticalScrollBar();
 		sb.setValue(sb.getMaximum());
 	}
+*/
 }//end class ConfigureDialog

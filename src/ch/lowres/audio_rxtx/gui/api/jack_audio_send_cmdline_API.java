@@ -52,7 +52,7 @@ public class jack_audio_send_cmdline_API extends CmdlineAPI
 		if(test_mode){command+="--limit "+_limit+" ";}
 		if(_drop>0){command+="--drop "+_drop+" ";}
 		if(lport_random){command+="--lport 0 ";}else{command+="--lport "+_lport+" ";}
-		command+="--ioport "+g.gui_osc_port_s+" ";
+		command+="--ioport "+m.gui_osc_port_s+" ";
 
 		command+=_target_host+" "+_target_port;
 		return command;

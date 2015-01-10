@@ -20,7 +20,7 @@ import ch.lowres.audio_rxtx.gui.*;
 //========================================================================
 public class Watchdog extends Thread 
 {
-	private static Main g;
+	private static Main m;
 
 	static RunCmd cmd;
 
@@ -52,12 +52,12 @@ public class Watchdog extends Thread
 				if(cmd.getState()!=Thread.State.TERMINATED)
 				{ 
 					//System.out.println("cmd still running");
-					//g.running.label_9.setText("proc running");
+					//m.running.label_9.setText("proc running");
 				}
 				else
 				{
 					//System.out.println("cmd terminated, exit status was "+cmd.getExitStatus());
-					//g.running.label_9.setText("proc terminated");
+					//m.running.label_9.setText("proc terminated");
 				}
 			}
 
@@ -69,6 +69,6 @@ public class Watchdog extends Thread
 			{///
 			}
 		}//end while not interrupted
-		g.p("Watchdog finished.");
+		m.p("Watchdog finished.");
 	}//end run
 } //end class Watchdog

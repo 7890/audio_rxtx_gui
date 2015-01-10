@@ -13,6 +13,7 @@
 
 package ch.lowres.audio_rxtx.gui.widgets;
 import ch.lowres.audio_rxtx.gui.*;
+import ch.lowres.audio_rxtx.gui.helpers.*;
 
 import java.awt.*;
 
@@ -24,6 +25,8 @@ import javax.swing.*;
 //========================================================================
 public class ALabel extends JLabel
 {
+	private static Main m;
+	private static Fonts f;
 //========================================================================
 	public ALabel()
 	{
@@ -49,13 +52,14 @@ public class ALabel extends JLabel
 	void init()
 	{
 		setOpaque(false);
+		setFont(f.fontNormal);
 	}
 
 //========================================================================
 	@Override
 	public int getHeight()
 	{
-		return 30;
+		return m.commonWidgetHeight;
 	}
 
 //========================================================================
@@ -64,5 +68,4 @@ public class ALabel extends JLabel
 	{
 		return new Dimension((int)super.getPreferredSize().getWidth(),getHeight());
 	}
-
 }//end class ALabel

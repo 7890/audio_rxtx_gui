@@ -26,6 +26,7 @@ public class Colors
 	public static Color blue=new Color(0,0,255);
 	public static Color white=new Color(255,255,255);
 	public static Color black=new Color(0,0,0);
+	public static Color gray=new Color(120,120,120);
 
 	//forms
 	public static Color form_background=new Color(38,38,42);
@@ -47,11 +48,22 @@ public class Colors
 	public static Color status_error_foreground=white;
 
 	//focused widget outline
-	public static Color status_focused_outline=new Color(60,20,10);
+	public static Color status_focused_outline=new Color(200,200,255);
 
 	//hovered widget overlay
 	public static Color hovered_overlay=new Color(150,160,240);
 
-	//selected text
+	//selected text (selection color)
 	public static Color selected_text=new Color(200,200,255);
+
+	//disabled text in fields
+	public static Color disabled_text=gray;
+
+	//ListDialog
+	public static Color list_background=white;
+	public static Color list_foreground=black;
+	public static Color list_selected_background=red;
+	public static Color list_selected_foreground=white;
+	public static Color list_hovered_background=green;
+	public static Color list_hovered_foreground=black;
 }//end class Colors

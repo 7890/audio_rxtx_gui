@@ -28,6 +28,9 @@ import java.awt.geom.*;
 //========================================================================
 public class ARadioButton extends JRadioButton implements MouseListener
 {
+	private static Main m;
+	private static Fonts f;
+
 	//0: invisible overlay
 	private float alpha = 0.0f;
 
@@ -46,9 +49,35 @@ public class ARadioButton extends JRadioButton implements MouseListener
 	}
 
 //========================================================================
-	void init()
+	public void init()
 	{
 		setOpaque(false);
+		setFont(f.fontNormal);
+
+		setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+//http://stackoverflow.com/questions/4274606/how-to-change-cursor-icon-in-java
+/*
+//Standard Cursor Image:
+//setCursor (Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+//User defined Image:
+Toolkit toolkit = Toolkit.getDefaultToolkit();
+Image image = toolkit.getImage("grabber.png");
+Cursor c = toolkit.createCustomCursor(image, new Point(getX(), getY()), "img");
+setCursor (c);
+*/
+		setIconTextGap(m.commonWidgetHeight);
+
+		//http://www.java2s.com/Code/Java/Swing-JFC/CustomizeJCheckBoxicons.htm
+		//"remove" standard icons
+		setIcon(new ImageIcon(""));
+		setSelectedIcon(new ImageIcon(""));
+		setDisabledIcon(new ImageIcon(""));
+		setDisabledSelectedIcon(new ImageIcon(""));
+		setPressedIcon(new ImageIcon(""));
+		setRolloverIcon(new ImageIcon(""));
+		setRolloverSelectedIcon(new ImageIcon(""));
+
 		addMouseListener(this);
 	}
 
@@ -59,8 +88,9 @@ public class ARadioButton extends JRadioButton implements MouseListener
 		FocusPaint.gradient(g,this);
 		super.paintComponent(g);
 
-		//hover
 		Graphics2D g2 = (Graphics2D) g;
+
+		//hover
 		if(alpha!=0 && !hasFocus())
 		{
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
@@ -71,7 +101,29 @@ public class ARadioButton extends JRadioButton implements MouseListener
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
 
 		FocusPaint.paint(g,this);
-	}
+
+		//draw the radiobutton
+		g2.setPaint(Colors.black);
+		float padding=m.commonWidgetHeight*.15f;
+		g2.setStroke(new BasicStroke( (float) (Math.max(1,(m.commonWidgetHeight*0.05)) )));
+		g2.draw( new Ellipse2D.Float(
+			padding,
+			padding,
+			m.commonWidgetHeight-2*padding,
+			m.commonWidgetHeight-2*padding
+		));
+
+		if(isSelected())
+		{
+			padding=m.commonWidgetHeight*.35f;
+			g2.fill( new Ellipse2D.Float(
+				padding,
+				padding,
+				m.commonWidgetHeight-2*padding,
+				m.commonWidgetHeight-2*padding
+			));
+		}
+	}//end paintComponent
 
 //========================================================================
 	public void mouseEntered(MouseEvent e) 
@@ -92,7 +144,7 @@ public class ARadioButton extends JRadioButton implements MouseListener
 	@Override
 	public Dimension getPreferredSize()
 	{
-		return new Dimension((int)super.getPreferredSize().getWidth()+30,30);
+		return new Dimension((int)super.getPreferredSize().getWidth()+30,m.commonWidgetHeight);
 	}
 
 //legacy wrappers

@@ -29,7 +29,10 @@ import java.awt.geom.*;
 //========================================================================
 public class TextFieldWithLimit extends JTextField implements KeyListener, FocusListener, MouseListener
 {
-	private int maxLength;
+	static Main m;
+	static Fonts f;
+
+	int maxLength;
 
 	//0: invisible overlay
 	private float alpha = 0.0f;
@@ -67,12 +70,14 @@ setBorder(
 */
 
 		setOpaque(false);
+
 		addKeyListener(this);
 		addFocusListener(this);
 		addMouseListener(this);
 
 		setSelectionColor(Colors.selected_text);
-		setFont(Main.fontNormal);
+		setDisabledTextColor(Colors.disabled_text);
+		setFont(f.fontNormal);
 	}
 
 //========================================================================
@@ -97,7 +102,7 @@ setBorder(
 	@Override
 	public Dimension getPreferredSize()
 	{
-		return new Dimension(200,30);
+		return new Dimension(200,m.commonWidgetHeight);
 	}
 
 //========================================================================
@@ -109,7 +114,7 @@ setBorder(
 
 		//hover
 		Graphics2D g2 = (Graphics2D) g;
-		if(alpha!=0 && !hasFocus())
+		if(alpha!=0 && !hasFocus() &&isEnabled())
 		{
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 			g2.setPaint(Colors.hovered_overlay);
@@ -129,9 +134,6 @@ setBorder(
 
 		//use navig/edit events
 		if((c==KeyEvent.VK_BACK_SPACE)||
-			(c==KeyEvent.VK_DELETE) ||
-			(c==KeyEvent.VK_ENTER)||
-			(c==KeyEvent.VK_TAB)||
 			e.isActionKey())
 		{
 			return;
@@ -261,7 +263,10 @@ Declared in javax.swing.text.JTextComponent
     caret <javax.swing.text.Caret> the caret used to select/navigate
     caretColor <Color> the color used to render the caret
     caretPosition <int> the caret position
+
     disabledTextColor <Color> color used to render disabled text
+
+
     document <javax.swing.text.Document> the text document model
     editable <boolean> specifies if the text can be edited
     focusAccelerator <char> accelerator character used to grab focus

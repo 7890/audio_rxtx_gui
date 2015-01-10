@@ -26,6 +26,9 @@ import javax.swing.JButton;
 //========================================================================
 public class AButton extends JButton implements KeyListener, FocusListener
 {
+	static Main m;
+	static Fonts f;
+
 //========================================================================
 	public AButton()
 	{
@@ -43,6 +46,11 @@ public class AButton extends JButton implements KeyListener, FocusListener
 //========================================================================
 	void init()
 	{
+		setFont(f.fontLarge);
+		setBackground(Colors.button_background);
+		setForeground(Colors.button_foreground);
+
+		setCursor(new Cursor(Cursor.HAND_CURSOR));
 		addKeyListener(this);
 		addFocusListener(this);
 	}
@@ -51,22 +59,16 @@ public class AButton extends JButton implements KeyListener, FocusListener
 	@Override
 	public Dimension getPreferredSize()
 	{
-		return new Dimension((int)super.getPreferredSize().getWidth(),30);
+		return new Dimension((int)super.getPreferredSize().getWidth(),
+			(int)(f.fontDefaultSize * f.fontLargeFactor * m.buttonHeightScale));
 	}
 
 //========================================================================
 	@Override
-	public void paint(Graphics g) 
+	public void paintComponent(Graphics g) 
 	{
-		super.paint(g);
+		super.paintComponent(g);
 		FocusPaint.paint(g,this);
-	}
-
-//========================================================================
-	@Override
-	public void update(Graphics g) 
-	{
-		paint(g);
 	}
 
 //========================================================================

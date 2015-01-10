@@ -97,15 +97,21 @@ public class NumericTextFieldWithLimit extends TextFieldWithLimit
 //========================================================================
 	public int getNumericStep(KeyEvent e)
 	{
-		if(e.isControlDown() && e.isShiftDown())
+		boolean isCtrlOrCmdDown=e.isControlDown();
+		if(m.os.isMac())
+		{
+			isCtrlOrCmdDown=e.isMetaDown();
+		}
+
+		if(isCtrlOrCmdDown && e.isShiftDown())
 		{
 			return 1000;
 		}
-		else if(!e.isControlDown() && e.isShiftDown())
+		else if(!isCtrlOrCmdDown && e.isShiftDown())
 		{
 			return 100;
 		}
-		else if(e.isControlDown() && !e.isShiftDown())
+		else if(isCtrlOrCmdDown && !e.isShiftDown())
 		{
 			return 10;
 		}

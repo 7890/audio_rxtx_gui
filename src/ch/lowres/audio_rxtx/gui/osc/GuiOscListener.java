@@ -31,7 +31,7 @@ import java.text.DecimalFormat;
 //========================================================================
 public abstract class GuiOscListener implements OSCListener
 {
-	static Main g;
+	static Main m;
 
 	Card card;
 	CmdlineAPI api;
@@ -70,7 +70,7 @@ public abstract class GuiOscListener implements OSCListener
 		//println("osc msg received: "+path+" ("+argsSize+" args)");
 		if(path.equals("/startup") && argsSize==2)
 		{
-			card.setStatus(api.command_name+" "+g.tr("started"));
+			card.setStatus(api.command_name+" "+m.tr("started"));
 			api.version=(Float)args.get(0);
 			api.format_version=(Float)args.get(1);
 
@@ -79,7 +79,7 @@ public abstract class GuiOscListener implements OSCListener
 
 		else if(path.equals("/client_name_changed"))
 		{
-			card.setStatus(g.tr("JACK client name changed"));
+			card.setStatus(m.tr("JACK client name changed"));
 		}
 
 //issiiiiiiiiiiiiiiiiisiiiiif
@@ -97,7 +97,7 @@ public abstract class GuiOscListener implements OSCListener
 					//reconfigure sender
 					try
 					{
-						g.portOutSend.setTarget(InetAddress.getLocalHost(),api._lport);
+						m.portOutSend.setTarget(InetAddress.getLocalHost(),api._lport);
 					}
 					catch(Exception ex)
 					{///
@@ -118,7 +118,7 @@ public abstract class GuiOscListener implements OSCListener
 				+", AF: "+ (api._16 ? "16 bit Integer" : "32 bit Float")
 			);
 
-			card.setLabel(3, g.tr("Initializing..."));
+			card.setLabel(3, m.tr("Initializing..."));
 
 
 		}//end /config_dump
@@ -132,34 +132,34 @@ public abstract class GuiOscListener implements OSCListener
 
 		else if(path.equals("/start_main_loop"))
 		{
-			card.setStatus(g.tr("Main loop started"));
+			card.setStatus(m.tr("Main loop started"));
 		}
 
 		else if(path.equals("/test_finished") && argsSize==1)
 		{
 			//0: # of cycles elapsed
-			card.setStatus(g.tr("Test finished"));
+			card.setStatus(m.tr("Test finished"));
 		}
 
 		else if(path.equals("/quit") && argsSize==1)
 		{
 			//tell quit reason
 
-			card.setLabel(3,g.tr("Process terminated"));
+			card.setLabel(3,m.tr("Process terminated"));
 
 			if(args.get(0).equals("nolibjack"))
 			{
-				card.setLabel(4,g.tr("No libjack found. Is JACK installed?"));
+				card.setLabel(4,m.tr("No libjack found. Is JACK installed?"));
 				card.setLabel(5,"See http://www.jackaudio.org");
 
 			}
 			else if(args.get(0).equals("nojack"))
 			{
-				card.setLabel(4,g.tr("JACK not running (server '")+api._sname+"')");
-				card.setLabel(5,g.tr("Please start JACK manually."));
+				card.setLabel(4,m.tr("JACK not running (server '")+api._sname+"')");
+				card.setLabel(5,m.tr("Please start JACK manually."));
 			}
 
-			card.button_default.setLabel(g.tr("Back"));
+			card.button_default.setLabel(m.tr("Back"));
 
 			card.setStatus("jack_audio_send Quit: "+args.get(0));
 		}

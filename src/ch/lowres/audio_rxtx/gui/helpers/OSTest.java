@@ -13,27 +13,22 @@
 
 package ch.lowres.audio_rxtx.gui.helpers;
 
+import java.awt.Toolkit;
+
 /**
 * Read basic platform specific properties, processor architecture.
 */
 //========================================================================
 public class OSTest
 {
-	private boolean isUnix;
-	private boolean isWindows;
-	private boolean isMac;
-	private boolean is32Bits;
-	private boolean is64Bits;
+	private static boolean isUnix;
+	private static boolean isWindows;
+	private static boolean isMac;
+	private static boolean is32Bits;
+	private static boolean is64Bits;
 
 //========================================================================
-	public OSTest()
-	{
-		determineOS();
-		determineArch();
-	}
-
-//========================================================================
-	public void determineOS()
+	private static void determineOS()
 	{
 		String os = System.getProperty("os.name").toLowerCase();
 		isUnix = os.indexOf("nix") >= 0 || os.indexOf("nux") >= 0;
@@ -43,7 +38,7 @@ public class OSTest
 
 //========================================================================
 	//https://community.oracle.com/thread/2086185?start=0&tstart=0
-	public void determineArch()
+	private static void determineArch()
 	{
 		String bits = System.getProperty("sun.arch.data.model", "?");
 		if(bits.equals("64"))
@@ -67,50 +62,80 @@ public class OSTest
 	}
 
 //========================================================================
-	public String getOSName()
+	public static String getOSName()
 	{
 		return System.getProperty("os.name");
 	}
 
 //========================================================================
-	public String getVMName()
+	public static String getVMName()
 	{
 		return System.getProperty("java.vm.name");
 	}
 
 //========================================================================
-	public boolean isUnix()
+	public static String getJavaVersion()
 	{
+		return System.getProperty("java.version");
+	}
+
+//========================================================================
+	public static String getVMVersion()
+	{
+		return System.getProperty("java.vm.version");
+	}
+
+//========================================================================
+	public static String getTempDir()
+	{
+		return System.getProperty("java.io.tmpdir");
+	}
+
+//========================================================================
+	public static int getDPI()
+	{
+		return Toolkit.getDefaultToolkit().getScreenResolution();
+	}
+
+//========================================================================
+	public static boolean isUnix()
+	{
+		determineOS();
 		return isUnix;
 	}
 
 //========================================================================
-	public boolean isLinux()
+	public static boolean isLinux()
 	{
+		determineOS();
 		return isUnix;
 	}
 
 //========================================================================
-	public boolean isMac()
+	public static boolean isMac()
 	{
+		determineOS();
 		return isMac;
 	}
 
 //========================================================================
-	public boolean isWindows()
+	public static boolean isWindows()
 	{
+		determineOS();
 		return isWindows;
 	}
 
 //========================================================================
-	public boolean is32Bits()
+	public static boolean is32Bits()
 	{
+		determineArch();
 		return is32Bits;
 	}
 
 //========================================================================
-	public boolean is64Bits()
+	public static boolean is64Bits()
 	{
+		determineArch();
 		return is64Bits;
 	}
 } //end class OSTest

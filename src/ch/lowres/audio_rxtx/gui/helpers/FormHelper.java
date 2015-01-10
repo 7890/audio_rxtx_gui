@@ -24,7 +24,7 @@ import java.awt.*;
 //========================================================================
 public class FormHelper
 {
-	private static Main g;
+	private static Main m;
 
 //========================================================================
 	public static void validate(Container container)
@@ -42,8 +42,7 @@ public class FormHelper
 //========================================================================
 	public static void defaultCardAction(Component comp)
 	{
-		Component c=comp.getParent();
-
+		Component c=comp;
 		while(c!=null)
 		{
 			if(c instanceof Card)
@@ -57,69 +56,52 @@ public class FormHelper
 //========================================================================
 	public static void viewSendPanel()
 	{
-		g.mainGrid.removeAll();
-		g.tabPanel.removeAll();
+		m.mainGrid.removeAll();
+		m.tabPanel.removeAll();
 
-		g.tabPanel.add(g.tr("Send"), g.scrollerTabSend);
-		g.tabPanel.add(g.tr("Receive"), g.scrollerTabReceive);
+		m.tabPanel.add(m.tr("Send"), m.scrollerTabSend);
+		m.tabPanel.add(m.tr("Receive"), m.scrollerTabReceive);
 
-		g.tabPanel.setSelectedIndex(0);
+		m.mainGrid.add(m.tabPanel);
+		m.mainGrid.validate();
 
-		g.mainGrid.add(g.tabPanel);
-		g.mainGrid.validate();
+		m.mainframe.pack();
 
-		g.mainframe.pack();
-		g.mainframe.setSize(
-			g.panelWidth+g.mainframe.getInsets().left+g.mainframe.getInsets().right,
-			g.panelHeight+g.mainframe.getInsets().top+g.mainframe.getInsets().bottom
-		);
+		m.tabPanel.setSelectedIndex(0);
+		m.tabPanel.requestFocus();
 	}
 
 //========================================================================
 	public static void viewReceivePanel()
 	{
-		g.mainGrid.removeAll();
-		g.tabPanel.removeAll();
+		m.mainGrid.removeAll();
+		m.tabPanel.removeAll();
 
-		g.tabPanel.add(g.tr("Send"), g.scrollerTabSend);
-		g.tabPanel.add(g.tr("Receive"), g.scrollerTabReceive);
+		m.tabPanel.add(m.tr("Send"), m.scrollerTabSend);
+		m.tabPanel.add(m.tr("Receive"), m.scrollerTabReceive);
 
-		g.tabPanel.setSelectedIndex(1);
+		m.mainGrid.add(m.tabPanel);
+		m.mainGrid.validate();
 
-		g.mainGrid.add(g.tabPanel);
-		g.mainGrid.validate();
+		m.mainframe.pack();
 
-		g.mainframe.pack();
-		g.mainframe.setSize(
-			g.panelWidth+g.mainframe.getInsets().left+g.mainframe.getInsets().right,
-			g.panelHeight+g.mainframe.getInsets().top+g.mainframe.getInsets().bottom
-		);
+		m.tabPanel.setSelectedIndex(1);
+		m.tabPanel.requestFocus();
 	}
 
 //========================================================================
 	public static void viewBothPanels()
 	{
-		g.mainGrid.removeAll();
-		g.tabPanel.removeAll();
+		m.mainGrid.removeAll();
+		m.tabPanel.removeAll();
 
-		g.mainGrid.add(g.scrollerTabSend);
-		g.mainGrid.add(g.scrollerTabReceive);
-		g.mainGrid.validate();
+		m.mainGrid.add(m.scrollerTabSend);
+		m.mainGrid.add(m.scrollerTabReceive);
+		m.mainGrid.validate();
 
-		g.mainframe.pack();
-		g.mainframe.setSize(
-			2*g.panelWidth+g.mainframe.getInsets().left+g.mainframe.getInsets().right,
-			g.panelHeight+g.mainframe.getInsets().top+g.mainframe.getInsets().bottom
-		);
+		m.mainframe.pack();
+//		m.setWindowCentered(m.mainframe);
 
-		//force JMenuBar to not display menus offset (hack)
-		g.mainframe.setLocation(
-			(int)g.mainframe.getLocation().x+1,
-			(int)g.mainframe.getLocation().y
-		);
-		g.mainframe.setLocation(
-			(int)g.mainframe.getLocation().x-1,
-			(int)g.mainframe.getLocation().y
-		);
+		m.frontSend.focusFirstInputWidget();
 	}
 }//end class FormHelper

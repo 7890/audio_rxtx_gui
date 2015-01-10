@@ -20,7 +20,7 @@ import ch.lowres.audio_rxtx.gui.*;
 //========================================================================
 public class RunCmd extends Thread 
 {
-	private static Main g;
+	private static Main m;
 	private String commandLineString="";
 	private int exitStatus=-1;
 	private boolean devNull=false;
@@ -124,7 +124,7 @@ public class RunCmd extends Thread
 	{
 		if(commandLineString==null)
 		{
-			g.w("RunCmd: command was not set");
+			m.w("RunCmd: command was not set");
 			return;
 		}
 
@@ -140,11 +140,11 @@ public class RunCmd extends Thread
 			//http://stackoverflow.com/questions/671049/how-do-you-kill-a-thread-in-java
 			//while(!Thread.currentThread().isInterrupted()) 
 
-			if (g.os.isUnix() || g.os.isMac())
+			if (m.os.isUnix() || m.os.isMac())
 			{
 				pb = new ProcessBuilder("/bin/sh", "-c", commandLineString);
 			}
-			else if (g.os.isWindows())
+			else if (m.os.isWindows())
 			{
 				pb = new ProcessBuilder("cmd.exe", "/C", commandLineString);
 			}
@@ -178,7 +178,7 @@ public class RunCmd extends Thread
 			//don't display InterruptedException
 			if(!(ex instanceof InterruptedException))
 			{
-				g.p("RunCmd '"+commandLineString+"': "+ex.toString());
+				m.p("RunCmd '"+commandLineString+"': "+ex.toString());
 			}
 		}
 		finally
@@ -188,11 +188,11 @@ public class RunCmd extends Thread
 
 		if(exitStatus==0)
 		{
-			g.p("RunCmd '"+commandLineString+g.tr("' done. Exit was")+" "+exitStatus);
+			m.p("RunCmd '"+commandLineString+m.tr("' done. Exit was")+" "+exitStatus);
 		}
 		else
 		{
-			g.e("RunCmd '"+commandLineString+g.tr("' done. Exit was")+" "+exitStatus);
+			m.e("RunCmd '"+commandLineString+m.tr("' done. Exit was")+" "+exitStatus);
 		}
 	}//end run
 } //end class RunCmd

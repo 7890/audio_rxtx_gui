@@ -40,23 +40,18 @@ public class FrontCardSend extends Card
 //========================================================================
 	public FrontCardSend() 
 	{
-		button_default.setLabel(g.tr("Start Transmission"));
-		text_input_channels.setMinInclusive(1);
-		text_input_channels.setMaxInclusive(512);
-		text_target_port.setMinInclusive(1024);
-		text_target_port.setMaxInclusive(65535);
 	}
 
 //========================================================================
 	public void setValues()
 	{
-		checkbox_format_16.setState(g.apis._16);
-		checkbox_format_32.setState(!g.apis._16);
-		text_input_channels.setText(""+g.apis._in);
-		text_target_host.setText(g.apis._target_host);
+		checkbox_format_16.setState(m.apis._16);
+		checkbox_format_32.setState(!m.apis._16);
+		text_input_channels.setText(""+m.apis._in);
+		text_target_host.setText(m.apis._target_host);
 		//set as first valid item in history
-		text_target_host.addHistoricItem(g.apis._target_host);
-		text_target_port.setText(""+g.apis._target_port);
+		text_target_host.addHistoricItem(m.apis._target_host);
+		text_target_port.setText(""+m.apis._target_port);
 	}
 
 //========================================================================
@@ -64,26 +59,34 @@ public class FrontCardSend extends Card
 	{
 		super.createForm();
 
+		//limits
+		text_input_channels.setMinInclusive(1);
+		text_input_channels.setMaxInclusive(512);
+		text_target_port.setMinInclusive(1024);
+		text_target_port.setMaxInclusive(65535);	
+
+		button_default.setLabel(m.tr("Start Transmission"));
+
 		form.setLayout(new GridBagLayout());
 
 		audio_transmission_format_group.add(checkbox_format_16);
 		audio_transmission_format_group.add(checkbox_format_32);
 
-		g.formUtility.addLabel(g.tr("Audio Format")+": ", form);
-		g.formUtility.addLastField(checkbox_format_16, form);
-		g.formUtility.addLabel("", form);
-		g.formUtility.addLastField(checkbox_format_32, form);
+		m.formUtility.addLabel(m.tr("Audio Format")+": ", form);
+		m.formUtility.addLastField(checkbox_format_16, form);
+		m.formUtility.addLabel("", form);
+		m.formUtility.addLastField(checkbox_format_32, form);
 
-		g.formUtility.addLabel(g.tr("Channels")+": ", form);
-		g.formUtility.addLastField(text_input_channels, form);
+		m.formUtility.addLabel(m.tr("Channels")+": ", form);
+		m.formUtility.addLastField(text_input_channels, form);
 
-		g.formUtility.addTitle(g.tr("Send To (Receiver)"), form);
+		m.formUtility.addTitle(m.tr("Send To (Receiver)"), form);
 
-		g.formUtility.addLabel(g.tr("IP / Hostname")+": ", form);
-		g.formUtility.addLastField(text_target_host, form);
+		m.formUtility.addLabel(m.tr("IP / Hostname")+": ", form);
+		m.formUtility.addLastField(text_target_host, form);
 
-		g.formUtility.addLabel(g.tr("Port (UDP)")+": ", form);
-		g.formUtility.addLastField(text_target_port, form);
+		m.formUtility.addLabel(m.tr("Port (UDP)")+": ", form);
+		m.formUtility.addLastField(text_target_port, form);
 	}//end createForm
 
 //=============================================================================
@@ -94,7 +97,7 @@ public class FrontCardSend extends Card
 
 		if(text_input_channels.getText().equals(""))
 		{
-			text_input_channels.setText(""+g.apis._in);
+			text_input_channels.setText(""+m.apis._in);
 		}
 
 		if(text_target_host.getText().equals(""))
@@ -104,13 +107,13 @@ public class FrontCardSend extends Card
 
 		if(text_target_port.getText().equals(""))
 		{
-			text_target_port.setText(""+g.apis._target_port);
+			text_target_port.setText(""+m.apis._target_port);
 		}
 
-		g.apis._16=checkbox_format_16.getState();
-		g.apis._in=Integer.parseInt(text_input_channels.getText());
-		g.apis._target_host=text_target_host.getText();
-		g.apis._target_port=Integer.parseInt(text_target_port.getText());
+		m.apis._16=checkbox_format_16.getState();
+		m.apis._in=Integer.parseInt(text_input_channels.getText());
+		m.apis._target_host=text_target_host.getText();
+		m.apis._target_port=Integer.parseInt(text_target_port.getText());
 
 		boolean formValid=true;
 
@@ -118,12 +121,12 @@ public class FrontCardSend extends Card
 
 		try
 		{
-			InetAddress host=InetAddress.getByName(g.apis._target_host);
+			InetAddress host=InetAddress.getByName(m.apis._target_host);
 			//timeout (ms) -> blocks
 /*
 			if(host.isReachable(50))
 			{
-				setStatus(g.tr("Host is valid"));
+				setStatus(m.tr("Host is valid"));
 			}
 			else
 			{
@@ -133,17 +136,16 @@ public class FrontCardSend extends Card
 		}
 		catch(Exception hostEx)
 		{
-			//System.out.println("/!\\ host '"+g.apis._target_host+"' not found.");
+			//System.out.println("/!\\ host '"+m.apis._target_host+"' not found.");
 			formValid=false;
 
-			setStatusError(g.tr("Host invalid or not found"));
+			setStatusError(m.tr("Host invalid or not found"));
 			text_target_host.requestFocus();
-//////////
 			text_target_host.setAfterLast();
 		}
 		if(formValid)
 		{
-			text_target_host.addHistoricItem(g.apis._target_host);
+			text_target_host.addHistoricItem(m.apis._target_host);
 		}
 
 		return formValid;
@@ -154,14 +156,12 @@ public class FrontCardSend extends Card
 	{
 		if(readForm())
 		{
-			g.startTransmissionSend();
+			m.startTransmissionSend();
 		}
 	}
 
 //========================================================================
-	public void setLabel(int i, String s)
-	{
-	}
+	public void setLabel(int i, String s) {}
 
 //========================================================================
 	public void focusFirstInputWidget()

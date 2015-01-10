@@ -18,26 +18,37 @@ windows_binaries_uri="https://raw.githubusercontent.com/7890/jack_tools/master/a
 #dl to (incl. filename)
 windows_binaries_zip="/tmp/$windows_binaries_zip_name"
 
+###
+cp /home/srv/source/git/7890/jack_tools/audio_rxtx/dist/win/$windows_binaries_zip_name \
+	"$windows_binaries_zip"
+
 #splash_screen_image="$src"/gfx/audio_rxtx_splash_screen.png
 #icon_image="$src"/gfx/audio_rxtx_icon.png
 
 #-Xlint:all 
 
+#========================================================================
 function create_build_info()
 {
 	now="`date`"
 	uname="`uname -m -o`"
 	jvm="`javac -version 2>&1 | head -1 | sed 's/"/''/g'`"
 	javac_opts=" -source 1.6 -target 1.6"
+	git_head_commit_id="`git rev-parse HEAD`"
 
 	cat - << __EOF__
 //generated at build time
 package ch.lowres.audio_rxtx.gui.helpers;
+import ch.lowres.audio_rxtx.gui.Main;
 public class BuildInfo
 {
 	public static String get()
 	{
-		return "date: $now\nuname -m -o: $uname\njavac: $jvm\njavac options: $javac_opts";
+		return "date: $now\nuname -m -o: $uname\njavac -version: $jvm\njavac "+Main.tr("Options")+": $javac_opts\ngit rev-parse HEAD: $git_head_commit_id";
+	}
+	public static String getGitCommit()
+	{
+		return "$git_head_commit_id";
 	}
 	public static void main(String[] args)
 	{
@@ -47,17 +58,20 @@ public class BuildInfo
 __EOF__
 }
 
+#========================================================================
 function compile_audio_rxtx()
 {
 	echo "building audio_rxtx gui application"
 	echo "==================================="
 
-	create_build_info > "$src"/$package_path/helpers/BuildInfo.java
-	cat "$src"/$package_path/helpers/BuildInfo.java
-
 	mkdir -p "$classes"
 
-	javac -source 1.6 -target 1.6 -classpath "$classes" -sourcepath "$src" -d "$classes" "$src"/$package_path/*.java
+	#apple extension are stubs used just at compile time on non-osx machines
+	unzip -p "$archive"/AppleJavaExtensions.zip \
+		AppleJavaExtensions/AppleJavaExtensions.jar > "$classes"/AppleJavaExtensions.jar
+
+	javac -source 1.6 -target 1.6 -classpath "$classes":"$classes"/AppleJavaExtensions.jar -sourcepath "$src" -d "$classes" "$src"/$package_path/*.java
+
 	ret=$?
 	if [ $ret -ne 0 ]
 	then
@@ -69,6 +83,7 @@ function compile_audio_rxtx()
 	echo "java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -cp .:build/classes/ ch.lowres.audio_rxtx.gui.Main"
 }
 
+#========================================================================
 function compile_java_osc
 {
 	echo "building JavaOSC library (com.illposed.osc)"
@@ -91,6 +106,7 @@ function compile_java_osc
 	find "$classes"
 }
 
+#========================================================================
 function compile_gettext
 {
 	echo "building gettext library (org.xnap.commons.i18n)"
@@ -109,14 +125,23 @@ function compile_gettext
 	find "$classes"
 }
 
+#========================================================================
 function create_languages
 {
-	xgettext -ktrc:1c,2 -ktrnc:1c,2,3 -ktr -kmarktr -ktrn:1,2 -o "$build"/keys.pot \
-		"$src"/ch/lowres/audio_rxtx/gui/*.java \
-		"$src"/ch/lowres/audio_rxtx/gui/api/*.java \
-		"$src"/ch/lowres/audio_rxtx/gui/widgets/*.java \
-		"$src"/ch/lowres/audio_rxtx/gui/helpers/*.java \
-		"$src"/ch/lowres/audio_rxtx/gui/osc/*.java
+	xgettext -ktrc:1c,2 -ktrnc:1c,2,3 -ktr -kmarktr -ktrn:1,2 \
+		--from-code UTF-8 \
+		-o "$build"/keys.pot \
+		"$src"/$package_path/*.java \
+		"$src"/$package_path/api/*.java \
+		"$src"/$package_path/widgets/*.java \
+		"$src"/$package_path/helpers/*.java \
+		"$src"/$package_path/osc/*.java
+
+
+	touch "$build"/en.po
+	cp "$src"/lang/en.po "$build"/en.po
+	msgmerge -U "$build"/en.po "$build"/keys.pot
+	#--no-fuzzy-matching
 
 	#de
 	touch "$build"/de.po
@@ -126,23 +151,28 @@ function create_languages
 
 #	echo "edit $build/de.po with poedit? y or enter"
 #	read a
-a=0
+	a=0
 
 	if [ x"$a" = "xy" ]
 	then
 		echo "opening file $build/de.po..."
 		poedit "$build"/de.po
-#cp back to src
-		cp "$build"/de.po "$src"/lang/de.po
-
+		cp "$build"/de.po "$src"/lang/de.po		
 	fi
 
 	echo "creating i18n.Messages..."
 
+	#source (en)
+	msgfmt --java2 -d "$classes" -r ch.lowres.audio_rxtx.gui.i18n.Messages -l en "$src"/lang/en.po
+
 	#de
 	msgfmt --java2 -d "$classes" -r ch.lowres.audio_rxtx.gui.i18n.Messages -l de "$src"/lang/de.po
+
+#detect errors / stop on error
+
 }
 
+#========================================================================
 function build_jar
 {
 	echo "creating audio_rxtx application jar (audio_rxtx_gui_xxx.jar)"
@@ -150,13 +180,39 @@ function build_jar
 
 	cur="`pwd`"
 
-	mkdir -p "$classes"/resources
-	cp "$archive"/AudioMono.ttf "$classes"/resources
+	mkdir -p "$classes"/resources/etc
+	mkdir -p "$classes"/resources/fonts
+	mkdir -p "$classes"/resources/images
+	mkdir -p "$classes"/resources/licenses/ubuntu-font-family
+	mkdir -p "$classes"/resources/licenses/JavaOSC
+	mkdir -p "$classes"/resources/licenses/gettext-commons
 
-	cp "$src"/gfx/audio_rxtx_icon.png "$classes"/resources
-	cp "$src"/gfx/audio_rxtx_about_screen.png "$classes"/resources
+	cp "$src"/gfx/audio_rxtx_icon.png "$classes"/resources/images
+	cp "$src"/gfx/audio_rxtx_about_screen.png "$classes"/resources/images
 
-	cp "$src"/etc/audio_rxtx_gui.properties "$classes"/resources
+	cp "$src"/gfx/arrow-up.png "$classes"/resources/images
+	cp "$src"/gfx/arrow-left.png "$classes"/resources/images
+	cp "$src"/gfx/arrow-right.png "$classes"/resources/images
+	cp "$src"/gfx/arrow-down.png "$classes"/resources/images
+
+	cp "$src"/etc/audio_rxtx_gui.properties "$classes"/resources/etc
+
+	cp "$archive"/ubuntu-font-family-0.80.zip "$build"
+	cd "$build"
+	unzip ubuntu-font-family-0.80.zip
+	cd "$cur"
+
+	cp "$build"/ubuntu-font-family-0.80/Ubuntu-C.ttf "$classes"/resources/fonts/Ubuntu-C.ttf
+
+	cp "$build"/ubuntu-font-family-0.80/LICENCE-FAQ.txt "$classes"/resources/licenses/ubuntu-font-family
+	cp "$build"/ubuntu-font-family-0.80/copyright.txt "$classes"/resources/licenses/ubuntu-font-family
+	cp "$build"/ubuntu-font-family-0.80/README.txt "$classes"/resources/licenses/ubuntu-font-family
+	cp "$build"/ubuntu-font-family-0.80/TRADEMARKS.txt "$classes"/resources/licenses/ubuntu-font-family
+	cp "$build"/ubuntu-font-family-0.80/LICENCE.txt "$classes"/resources/licenses/ubuntu-font-family
+
+	cp "$build"/JavaOSC-master/LICENSE "$classes"/resources/licenses/JavaOSC
+
+	cp "$archive"/gettext-commons-0.9.8-sources/* "$classes"/resources/licenses/gettext-commons
 
 	##############################
 	if [ ! -e "$windows_binaries_zip" ]
@@ -208,6 +264,9 @@ function build_jar
 	echo "start with"
 	echo "java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -jar build/audio_rxtx_gui_$now.jar"
 
+#osx:
+#-Xdock:name="audio_rxtx GUI"
+
 	#start now
 	cd "$cur"
 	java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -jar build/audio_rxtx_gui_$now.jar
@@ -215,6 +274,7 @@ function build_jar
 	echo "build_jar done."
 }
 
+#========================================================================
 function build_javadoc
 {
 	mkdir -p "$doc"
@@ -235,6 +295,10 @@ rm -rf "$build"/*
 
 compile_java_osc
 compile_gettext
+
+create_build_info > "$src"/$package_path/helpers/BuildInfo.java
+cat "$src"/$package_path/helpers/BuildInfo.java
+
 create_languages
 compile_audio_rxtx
 #build_javadoc

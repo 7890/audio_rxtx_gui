@@ -35,12 +35,6 @@ public class RunningCardSend extends Card
 	static JLabel label_9=new JLabel("");
 
 //========================================================================
-	public RunningCardSend() 
-	{
-		button_default.setLabel(g.tr("Stop Transmission"));
-	}
-
-//========================================================================
 	public void setValues()
 	{
 		label_1.setText("");
@@ -52,7 +46,7 @@ public class RunningCardSend extends Card
 		label_7.setText("");
 		label_8.setText("");
 		label_9.setText("");
-		button_default.setLabel(g.tr("Stop Transmission"));
+		button_default.setLabel(m.tr("Stop Transmission"));
 		setName("runningSend");
 	}
 
@@ -61,17 +55,19 @@ public class RunningCardSend extends Card
 	{
 		super.createForm();
 
+		button_default.setLabel(m.tr("Stop Transmission"));
+
 		form.setLayout(new GridBagLayout());
 
-		g.formUtility.addLastLabel(label_1, form);
-		g.formUtility.addLastLabel(label_2, form);
-		g.formUtility.addLastLabel(label_3, form);
-		g.formUtility.addLastLabel(label_4, form);
-		g.formUtility.addLastLabel(label_5, form);
-		g.formUtility.addLastLabel(label_6, form);
-		g.formUtility.addLastLabel(label_7, form);
-		g.formUtility.addLastLabel(label_8, form);
-		g.formUtility.addLastLabel(label_9, form);
+		m.formUtility.addLastLabel(label_1, form);
+		m.formUtility.addLastLabel(label_2, form);
+		m.formUtility.addLastLabel(label_3, form);
+		m.formUtility.addLastLabel(label_4, form);
+		m.formUtility.addLastLabel(label_5, form);
+		m.formUtility.addLastLabel(label_6, form);
+		m.formUtility.addLastLabel(label_7, form);
+		m.formUtility.addLastLabel(label_8, form);
+		m.formUtility.addLastLabel(label_9, form);
 	}//end createForm
 
 //========================================================================
@@ -83,7 +79,7 @@ public class RunningCardSend extends Card
 //========================================================================
 	public void defaultAction()
 	{
-		g.stopTransmissionSend();
+		m.stopTransmissionSend();
 	}
 
 //========================================================================

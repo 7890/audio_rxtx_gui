@@ -15,15 +15,13 @@ package ch.lowres.audio_rxtx.gui.widgets;
 import ch.lowres.audio_rxtx.gui.*;
 import ch.lowres.audio_rxtx.gui.helpers.*;
 
-
-import java.util.Vector;
-import java.awt.event.*;//KeyListener;
-
 import java.awt.*;
+import java.awt.event.*;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.GeneralPath;
 
+import java.util.Vector;
 
 /**
 * Extended {@link HostTextFieldWithLimit} with consolidated history (keyboard UP, DOWN).
@@ -91,7 +89,6 @@ public class HistorifiedHostTextFieldWithLimit extends HostTextFieldWithLimit //
 
 		if(!history.isEmpty())
 		{
-
 			position=Math.min(position,history.size()-1);
 			position=Math.max(position,0);
 			setText((String)history.elementAt(position));
@@ -125,14 +122,23 @@ public class HistorifiedHostTextFieldWithLimit extends HostTextFieldWithLimit //
 	{
 		super.paintComponent(g);
 
-		Dimension size = this.getSize();
-
 		if(this.hasFocus())
 		{
+			Dimension size = this.getSize();
+			int visibleWidth=(int)getVisibleRect().getWidth();
+
+			int rightOffsetBase=20;
+
+			if(visibleWidth<60)
+			{
+				rightOffsetBase=5;
+			}
+
 			if(history.size()>1)
 			{
 				g.setColor(Colors.status_focused_outline);
 				Graphics2D g2 = (Graphics2D) g;
+				g2.setColor(Colors.black);
 				g2.setStroke(new BasicStroke(5));
 				if(position > 0)
 				{
@@ -142,9 +148,9 @@ public class HistorifiedHostTextFieldWithLimit extends HostTextFieldWithLimit //
   p2      p3
 */
 					g2.setStroke(new BasicStroke(2,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND));
-					Point p1 = new Point(size.width-25,0);
-					Point p2 = new Point(size.width-30,5);
-					Point p3 = new Point(size.width-20,5);
+					Point p1 = new Point(visibleWidth-rightOffsetBase-5,0);
+					Point p2 = new Point(visibleWidth-rightOffsetBase,5);
+					Point p3 = new Point(visibleWidth-rightOffsetBase-10,5);
 
 					GeneralPath gp=new GeneralPath();
 					gp.moveTo((float)p1.x,(float)p1.y);
@@ -163,9 +169,9 @@ public class HistorifiedHostTextFieldWithLimit extends HostTextFieldWithLimit //
       p3
 */
 					g2.setStroke(new BasicStroke(2,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND));
-					Point p1 = new Point(size.width-30,size.height-5);
-					Point p2 = new Point(size.width-20,size.height-5);
-					Point p3 = new Point(size.width-25,size.height);
+					Point p1 = new Point(visibleWidth-rightOffsetBase,size.height-5);
+					Point p2 = new Point(visibleWidth-rightOffsetBase-10,size.height-5);
+					Point p3 = new Point(visibleWidth-rightOffsetBase-5,size.height);
 
 					GeneralPath gp=new GeneralPath();
 					gp.moveTo((float)p1.x,(float)p1.y);
@@ -175,7 +181,7 @@ public class HistorifiedHostTextFieldWithLimit extends HostTextFieldWithLimit //
 
 					g2.fill(gp);
 				}
-			}
-		}
+			}//end history size>1
+		}//end if has focus
 	}//end paintComponent
 }//end HistorifiedHostTextFieldWithLimit

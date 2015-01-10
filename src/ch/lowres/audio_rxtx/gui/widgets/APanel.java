@@ -13,9 +13,9 @@
 
 package ch.lowres.audio_rxtx.gui.widgets;
 import ch.lowres.audio_rxtx.gui.*;
+import ch.lowres.audio_rxtx.gui.helpers.*;
 
 import java.awt.*;
-
 import javax.swing.*;
 
 /**
@@ -42,10 +42,14 @@ public class APanel extends JPanel
 	void init()
 	{
 		setOpaque(false);
+		setForeground(Colors.form_foreground);
+		setBackground(Colors.form_background);
 	}
 
 //========================================================================
 //http://stackoverflow.com/questions/14364291/jpanel-gradient-background
+/*
+//no gradient for now
 	@Override
 	protected void paintComponent(Graphics g)
 	{
@@ -59,4 +63,5 @@ public class APanel extends JPanel
 		g2d.setPaint(gp);
 		g2d.fillRect(0, 0, getWidth(), getHeight()); 
 	}
+*/
 }//end class APanel

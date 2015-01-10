@@ -38,20 +38,15 @@ public class FrontCardReceive extends Card
 //========================================================================
 	public FrontCardReceive()
 	{
-		button_default.setLabel(g.tr("Start Transmission"));
-		text_output_channels.setMinInclusive(1);
-		text_output_channels.setMaxInclusive(512);
-		text_lport.setMinInclusive(1024);
-		text_lport.setMaxInclusive(65535);
 	}
 
 //========================================================================
 	public void setValues()
 	{
-		checkbox_format_16.setState(g.apir._16);
-		checkbox_format_32.setState(!g.apir._16);
-		text_output_channels.setText(""+g.apir._out);
-		text_lport.setText(""+g.apir._lport);
+		checkbox_format_16.setState(m.apir._16);
+		checkbox_format_32.setState(!m.apir._16);
+		text_output_channels.setText(""+m.apir._out);
+		text_lport.setText(""+m.apir._lport);
 	}
 
 //========================================================================
@@ -59,23 +54,31 @@ public class FrontCardReceive extends Card
 	{
 		super.createForm();
 
+		//limits
+		text_output_channels.setMinInclusive(1);
+		text_output_channels.setMaxInclusive(512);
+		text_lport.setMinInclusive(1024);
+		text_lport.setMaxInclusive(65535);
+
+		button_default.setLabel(m.tr("Start Transmission"));
+
 		form.setLayout(new GridBagLayout());
 
 		audio_transmission_format_group.add(checkbox_format_16);
 		audio_transmission_format_group.add(checkbox_format_32);
 
-		g.formUtility.addLabel(g.tr("Audio Format")+": ", form);
-		g.formUtility.addLastField(checkbox_format_16, form);
-		g.formUtility.addLabel("", form);
-		g.formUtility.addLastField(checkbox_format_32, form);
+		m.formUtility.addLabel(m.tr("Audio Format")+": ", form);
+		m.formUtility.addLastField(checkbox_format_16, form);
+		m.formUtility.addLabel("", form);
+		m.formUtility.addLastField(checkbox_format_32, form);
 
-		g.formUtility.addLabel(g.tr("Channels")+": ", form);
-		g.formUtility.addLastField(text_output_channels, form);
+		m.formUtility.addLabel(m.tr("Channels")+": ", form);
+		m.formUtility.addLastField(text_output_channels, form);
 
-		g.formUtility.addTitle(g.tr("Receive On"), form);
+		m.formUtility.addTitle(m.tr("Receive On"), form);
 
-		g.formUtility.addLabel(g.tr("Port (UDP)")+": ", form);
-		g.formUtility.addLastField(text_lport, form);
+		m.formUtility.addLabel(m.tr("Port (UDP)")+": ", form);
+		m.formUtility.addLastField(text_lport, form);
 
 	}//end createForm
 
@@ -86,17 +89,17 @@ public class FrontCardReceive extends Card
 
 		if(text_output_channels.getText().equals(""))
 		{
-			text_output_channels.setText(""+g.apir._out);
+			text_output_channels.setText(""+m.apir._out);
 		}
 
 		if(text_lport.getText().equals(""))
 		{
-			text_lport.setText(""+g.apir._lport);
+			text_lport.setText(""+m.apir._lport);
 		}
 
-		g.apir._16=checkbox_format_16.getState();
-		g.apir._out=Integer.parseInt(text_output_channels.getText());
-		g.apir._lport=Integer.parseInt(text_lport.getText());
+		m.apir._16=checkbox_format_16.getState();
+		m.apir._out=Integer.parseInt(text_output_channels.getText());
+		m.apir._lport=Integer.parseInt(text_lport.getText());
 
 		//boolean formValid=true;
 		//return formValid;
@@ -108,7 +111,7 @@ public class FrontCardReceive extends Card
 	{
 		if(readForm())
 		{
-			g.startTransmissionReceive();
+			m.startTransmissionReceive();
 		}
 	}
 
