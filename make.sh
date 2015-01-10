@@ -18,14 +18,13 @@ windows_binaries_uri="https://raw.githubusercontent.com/7890/jack_tools/master/a
 #dl to (incl. filename)
 windows_binaries_zip="/tmp/$windows_binaries_zip_name"
 
-###
-cp /home/srv/source/git/7890/jack_tools/audio_rxtx/dist/win/$windows_binaries_zip_name \
-	"$windows_binaries_zip"
-
 #splash_screen_image="$src"/gfx/audio_rxtx_splash_screen.png
 #icon_image="$src"/gfx/audio_rxtx_icon.png
 
 #-Xlint:all 
+
+#needs tool check
+#
 
 #========================================================================
 function create_build_info()
@@ -138,13 +137,12 @@ function create_languages
 		"$src"/$package_path/osc/*.java
 
 
-	touch "$build"/en.po
+	#en.po is header only
 	cp "$src"/lang/en.po "$build"/en.po
 	msgmerge -U "$build"/en.po "$build"/keys.pot
 	#--no-fuzzy-matching
 
 	#de
-	touch "$build"/de.po
 	cp "$src"/lang/de.po "$build"/de.po
 	
 	msgmerge -U "$build"/de.po "$build"/keys.pot
@@ -163,10 +161,10 @@ function create_languages
 	echo "creating i18n.Messages..."
 
 	#source (en)
-	msgfmt --java2 -d "$classes" -r ch.lowres.audio_rxtx.gui.i18n.Messages -l en "$src"/lang/en.po
+	msgfmt --java2 -d "$classes" -r ch.lowres.audio_rxtx.gui.i18n.Messages -l en "$build"/en.po
 
 	#de
-	msgfmt --java2 -d "$classes" -r ch.lowres.audio_rxtx.gui.i18n.Messages -l de "$src"/lang/de.po
+	msgfmt --java2 -d "$classes" -r ch.lowres.audio_rxtx.gui.i18n.Messages -l de "$build"/de.po
 
 #detect errors / stop on error
 
