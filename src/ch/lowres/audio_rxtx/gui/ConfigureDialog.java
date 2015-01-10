@@ -631,7 +631,7 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 			}
 		});
 
-		m.formUtility.addLabel(m.tr("Fixed port (f not random)")+":", formGUI);
+		m.formUtility.addLabel(m.tr("Fixed port (if not random)")+":", formGUI);
 		m.formUtility.addLastField(text_gui_osc_port_r, formGUI);
 
 		m.formUtility.addLabel(m.tr("Keep dumped resources in cache")+":", formGUI);
