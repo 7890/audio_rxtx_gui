@@ -524,7 +524,7 @@ public class Main
 				{
 					p(l.tr("Cleaning up..."));
 					p(l.tr("Removing temporary cache directory '")+tmpDir+"'");
-					IOTools.deleteDirectory(new File(tmpDir));
+					iot.deleteDirectory(new File(tmpDir));
 				}
 				//possibly more clean up tasks here 
 				p(l.tr("Done! Bye"));
