@@ -135,8 +135,7 @@ setBorder(
 		int len = getText().length();
 
 		//use navig/edit events
-		if((c==KeyEvent.VK_BACK_SPACE)||
-			e.isActionKey())
+		if(e.isActionKey())
 		{
 			return;
 		}
