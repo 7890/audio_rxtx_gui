@@ -86,8 +86,19 @@ public abstract class Card extends APanel implements CardInterface
 		add(fill,BorderLayout.CENTER);
 
 		add(pSouth,BorderLayout.SOUTH);
-
 //		formCreated=true;
+
+		getActionMap().put("CONFIRM", new AbstractAction()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				defaultAction();
+			}
+		});
+
+		InputMap inputMap=getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+		inputMap.put( KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0), "CONFIRM");
 	}//end createForm
 
 //========================================================================
@@ -132,4 +143,5 @@ public abstract class Card extends APanel implements CardInterface
 
 //========================================================================
 	public abstract void focusFirstInputWidget();
+
 }//end class Card
