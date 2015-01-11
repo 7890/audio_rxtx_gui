@@ -258,7 +258,6 @@ public class GUI
 		tabPanel.setFont(f.fontNormal);
 		tabPanel.add(l.tr("Send"), scrollerTabSend);
 		tabPanel.add(l.tr("Receive"), scrollerTabReceive);
-
 /*
 		tabPanel.addChangeListener(new ChangeListener()
 		{
@@ -431,15 +430,13 @@ public class GUI
 		InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 		//InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
+/*
 		KeyStroke keyEnter = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0);
 
 		Action actionListenerConfirm = new AbstractAction("CONFIRM")
 		{
 			public void actionPerformed(ActionEvent actionEvent)
 			{
-/////doesnt work
-//FormHelper.defaultCardAction((Component)actionEvent.getSource());
-
 				//check if a menu is selected, enter will act like a click or space
 				SingleSelectionModel ssm=mainframe.getJMenuBar().getSelectionModel();
 				//p("is selected: "+ssm.isSelected()+" index: "+ssm.getSelectedIndex());
@@ -463,8 +460,9 @@ public class GUI
 
 		inputMap.put(keyEnter, "ENTER");
 		rootPane.getActionMap().put("ENTER", actionListenerConfirm);
+*/
 
-//////////////
+		//for debug
 		KeyStroke keyAltRight = KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,InputEvent.ALT_MASK);
 		actionMap.put(keyAltRight, new AbstractAction("DEBUG_FOCUS") 
 		{
