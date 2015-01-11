@@ -43,7 +43,7 @@ public class BuildInfo
 {
 	public static String get()
 	{
-		return "date: $now\nuname -m -o: $uname\njavac -version: $jvm\njavac "+Main.tr("Options")+": $javac_opts\ngit rev-parse HEAD: $git_head_commit_id";
+		return "date: $now\nuname -m -o: $uname\njavac -version: $jvm\njavac "+Languages.tr("Options")+": $javac_opts\ngit rev-parse HEAD: $git_head_commit_id";
 	}
 	public static String getGitCommit()
 	{

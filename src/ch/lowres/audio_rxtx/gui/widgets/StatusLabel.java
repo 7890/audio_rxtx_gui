@@ -27,8 +27,9 @@ import javax.swing.*;
 //========================================================================
 public class StatusLabel extends ALabel
 {
-	private static Main m;
 	private static Fonts f;
+	private static Languages l;
+
 	private Timer timer;
 
 //========================================================================
@@ -63,7 +64,7 @@ public class StatusLabel extends ALabel
 			{
 				setBackground(Colors.status_background);
 				setForeground(Colors.status_foreground);
-				StatusLabel.super.setText(m.tr("Ready"));
+				StatusLabel.super.setText(l.tr("Ready"));
 			}
 		};
 		timer=new Timer(0, resetStatus);

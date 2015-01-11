@@ -65,28 +65,28 @@ public class FrontCardSend extends Card
 		text_target_port.setMinInclusive(1024);
 		text_target_port.setMaxInclusive(65535);	
 
-		button_default.setLabel(m.tr("Start Transmission"));
+		button_default.setLabel(l.tr("Start Transmission"));
 
 		form.setLayout(new GridBagLayout());
 
 		audio_transmission_format_group.add(checkbox_format_16);
 		audio_transmission_format_group.add(checkbox_format_32);
 
-		m.formUtility.addLabel(m.tr("Audio Format")+": ", form);
-		m.formUtility.addLastField(checkbox_format_16, form);
-		m.formUtility.addLabel("", form);
-		m.formUtility.addLastField(checkbox_format_32, form);
+		g.formUtility.addLabel(l.tr("Audio Format")+": ", form);
+		g.formUtility.addLastField(checkbox_format_16, form);
+		g.formUtility.addLabel("", form);
+		g.formUtility.addLastField(checkbox_format_32, form);
 
-		m.formUtility.addLabel(m.tr("Channels")+": ", form);
-		m.formUtility.addLastField(text_input_channels, form);
+		g.formUtility.addLabel(l.tr("Channels")+": ", form);
+		g.formUtility.addLastField(text_input_channels, form);
 
-		m.formUtility.addTitle(m.tr("Send To (Receiver)"), form);
+		g.formUtility.addTitle(l.tr("Send To (Receiver)"), form);
 
-		m.formUtility.addLabel(m.tr("IP / Hostname")+": ", form);
-		m.formUtility.addLastField(text_target_host, form);
+		g.formUtility.addLabel(l.tr("IP / Hostname")+": ", form);
+		g.formUtility.addLastField(text_target_host, form);
 
-		m.formUtility.addLabel(m.tr("Port (UDP)")+": ", form);
-		m.formUtility.addLastField(text_target_port, form);
+		g.formUtility.addLabel(l.tr("Port (UDP)")+": ", form);
+		g.formUtility.addLastField(text_target_port, form);
 	}//end createForm
 
 //=============================================================================
@@ -126,7 +126,7 @@ public class FrontCardSend extends Card
 /*
 			if(host.isReachable(50))
 			{
-				setStatus(m.tr("Host is valid"));
+				setStatus(l.tr("Host is valid"));
 			}
 			else
 			{
@@ -139,7 +139,7 @@ public class FrontCardSend extends Card
 			//System.out.println("/!\\ host '"+m.apis._target_host+"' not found.");
 			formValid=false;
 
-			setStatusError(m.tr("Host invalid or not found"));
+			setStatusError(l.tr("Host invalid or not found"));
 			text_target_host.requestFocus();
 			text_target_host.setAfterLast();
 		}

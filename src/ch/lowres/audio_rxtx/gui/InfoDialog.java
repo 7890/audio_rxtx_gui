@@ -31,7 +31,6 @@ import java.net.*;
 //========================================================================
 public class InfoDialog extends ADialog
 {
-	private static Main m;
 
 //========================================================================
 	public InfoDialog(Frame f, String title, boolean modality) 
@@ -42,7 +41,7 @@ public class InfoDialog extends ADialog
 //========================================================================
 	public String getHtml()
 	{
-		return getHtml(m.tr("unknown"));
+		return getHtml(l.tr("unknown"));
 	}
 
 //========================================================================
@@ -65,19 +64,19 @@ public class InfoDialog extends ADialog
 		StringBuffer sb=new StringBuffer();
 		sb.append("<html><body>");
 
-		sb.append("<h2>"+m.tr("Build Information")+"</h2>");
+		sb.append("<h2>"+l.tr("Build Information")+"</h2>");
 		sb.append("<p>"+BuildInfo.get().replace("\n", "<br>")+"</p>");
 
-		sb.append("<h2>"+m.tr("Runtime Information")+"</h2>");
+		sb.append("<h2>"+l.tr("Runtime Information")+"</h2>");
 		sb.append("<p>java.version: "+m.os.getJavaVersion()+"<br>");
 		sb.append("java.vm.name: "+m.os.getVMName()+"<br>");
 		sb.append("java.vm.version: "+m.os.getVMVersion()+"<br>");
 		sb.append("os.name: "+m.os.getOSName()+"<br>");
 		sb.append("64bit: "+m.os.is64Bits()+"<br>");
 		sb.append("DPI: "+m.os.getDPI()+"<br>");
-		sb.append(m.tr("Temporary cache dir")+":<br>"+m.tmpDir+"<br>");
-		sb.append(m.tr("MD5 Sum of jar")+": "+m.iot.getJarMd5Sum()+"<br>");
-		sb.append(m.tr("IP address of default NIC")+": "+ipAddress+"</p>");
+		sb.append(l.tr("Temporary cache dir")+":<br>"+m.tmpDir+"<br>");
+		sb.append(l.tr("MD5 Sum of jar")+": "+m.iot.getJarMd5Sum()+"<br>");
+		sb.append(l.tr("IP address of default NIC")+": "+ipAddress+"</p>");
 
 		sb.append("</body></html>");
 		return sb.toString();

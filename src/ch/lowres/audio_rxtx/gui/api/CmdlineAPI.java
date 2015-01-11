@@ -20,7 +20,8 @@ import ch.lowres.audio_rxtx.gui.*;
 //========================================================================
 public abstract class CmdlineAPI implements CmdlineAPIInterface
 {
-	static Main m;
+//	static Main m;
+	static GUI g;
 
 	public String prefixPath="";
 

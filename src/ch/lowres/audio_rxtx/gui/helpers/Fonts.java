@@ -27,6 +27,8 @@ import java.awt.geom.AffineTransform;
 public class Fonts
 {
 	static Main m;
+	static GUI g;
+	static Languages l;
 
 	public static Font fontNormal;
 	public static Font fontLarge;
@@ -47,7 +49,7 @@ public class Fonts
 	public static int fontNormalStyle=Font.PLAIN;
 	public static int fontLargeStyle=Font.BOLD;
 
-	public static String[] styles = {m.tr("Regular"), m.tr("Bold"), m.tr("Italic"), m.tr("Bold Italic")};
+	public static String[] styles = {l.tr("Regular"), l.tr("Bold"), l.tr("Italic"), l.tr("Bold Italic")};
 
 //========================================================================
 	public static void set(String font)
@@ -65,13 +67,13 @@ public class Fonts
 	}
 
 //========================================================================
-	public static void recreate()//float fontsize, String fontname)
+	public static void init()//float fontsize, String fontname)
 	{
 		//in native java @72dpi point units
 		fontNormalSize=dpiCorrectedPt(fontDefaultSize);
 		fontLargeSize=fontNormalSize*fontLargeFactor;
 
-		m.commonWidgetHeight=(int)(fontLargeSize*1.3);
+		g.commonWidgetHeight=(int)(fontLargeSize*1.3);
 
 		if(use_internal_font)
 		{

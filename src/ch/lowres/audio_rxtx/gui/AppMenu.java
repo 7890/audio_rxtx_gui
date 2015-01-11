@@ -34,7 +34,9 @@ public class AppMenu extends JMenuBar
 //http://stackoverflow.com/questions/27541334/how-to-change-the-color-font-of-the-shortcut-text-inside-a-java-jmenuitem-ctrl
 
 	private static Main m;
+	private static GUI g;
 	private static Fonts f;
+	private static Languages l;
 
 	private static JMenu menu_main;
 	private static JMenu menu_settings;
@@ -84,20 +86,20 @@ public class AppMenu extends JMenuBar
 		//cmd-h: hide cmd-q: quit
 
 		setFont(f.fontNormal);
-		menu_main=new JMenu(Languages.removeMnemonic(m.tr("_Transmission")));
-		menu_main.setMnemonic(Languages.getMnemonicKeyEvent(m.tr("_Transmission")));
+		menu_main=new JMenu(Languages.removeMnemonic(l.tr("_Transmission")));
+		menu_main.setMnemonic(Languages.getMnemonicKeyEvent(l.tr("_Transmission")));
 		menu_main.setFont(f.fontNormal);
 
-		menu_settings=new JMenu(Languages.removeMnemonic(m.tr("_Settings")));
-		menu_settings.setMnemonic(Languages.getMnemonicKeyEvent(m.tr("_Settings")));
+		menu_settings=new JMenu(Languages.removeMnemonic(l.tr("_Settings")));
+		menu_settings.setMnemonic(Languages.getMnemonicKeyEvent(l.tr("_Settings")));
 		menu_settings.setFont(f.fontNormal);
 
-		menu_view=new JMenu(Languages.removeMnemonic(m.tr("_View")));
-		menu_view.setMnemonic(Languages.getMnemonicKeyEvent(m.tr("_View")));
+		menu_view=new JMenu(Languages.removeMnemonic(l.tr("_View")));
+		menu_view.setMnemonic(Languages.getMnemonicKeyEvent(l.tr("_View")));
 		menu_view.setFont(f.fontNormal);
 
-		menu_help=new JMenu(Languages.removeMnemonic(m.tr("_Help")));
-		menu_help.setMnemonic(Languages.getMnemonicKeyEvent(m.tr("_Help")));
+		menu_help=new JMenu(Languages.removeMnemonic(l.tr("_Help")));
+		menu_help.setMnemonic(Languages.getMnemonicKeyEvent(l.tr("_Help")));
 		menu_help.setFont(f.fontNormal);
 
 		add(menu_main);
@@ -113,26 +115,26 @@ public class AppMenu extends JMenuBar
 		//on mac: command+..
 
 		//main items
-		mi_start_transmissionSend=new JMenuItem(m.tr("Start (Send)"));
+		mi_start_transmissionSend=new JMenuItem(l.tr("Start (Send)"));
 		mi_start_transmissionSend.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_W, m.ctrlOrCmd));
 		mi_start_transmissionSend.setFont(f.fontNormal);
 
-		mi_stop_transmissionSend=new JMenuItem(m.tr("Stop (Send)"));
+		mi_stop_transmissionSend=new JMenuItem(l.tr("Stop (Send)"));
 		mi_stop_transmissionSend.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_E, m.ctrlOrCmd));
 		mi_stop_transmissionSend.setFont(f.fontNormal);
-		mi_start_transmissionReceive=new JMenuItem(m.tr("Start (Receive)"));
+		mi_start_transmissionReceive=new JMenuItem(l.tr("Start (Receive)"));
 		mi_start_transmissionReceive.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_R, m.ctrlOrCmd));
 		mi_start_transmissionReceive.setFont(f.fontNormal);
 
-		mi_stop_transmissionReceive=new JMenuItem(m.tr("Stop (Receive)"));
+		mi_stop_transmissionReceive=new JMenuItem(l.tr("Stop (Receive)"));
 		mi_stop_transmissionReceive.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_T, m.ctrlOrCmd));
 		mi_stop_transmissionReceive.setFont(f.fontNormal);
 
-		mi_quit=new JMenuItem(m.tr("Quit Program"));
+		mi_quit=new JMenuItem(l.tr("Quit Program"));
 		mi_quit.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_Q, m.ctrlOrCmd));
 		mi_quit.setFont(f.fontNormal);
@@ -148,27 +150,27 @@ public class AppMenu extends JMenuBar
 		menu_main.add(mi_quit);
 
 		//settings items
-		mi_load_default_settings=new JMenuItem(m.tr("Load Default"));
+		mi_load_default_settings=new JMenuItem(l.tr("Load Default"));
 		mi_load_default_settings.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_M, m.ctrlOrCmd));
 		mi_load_default_settings.setFont(f.fontNormal);
 
-		mi_save_default_settings=new JMenuItem(m.tr("Save As Default"));
+		mi_save_default_settings=new JMenuItem(l.tr("Save As Default"));
 		mi_save_default_settings.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_PERIOD, m.ctrlOrCmd));
 		mi_save_default_settings.setFont(f.fontNormal);
 
-		mi_load_settings=new JMenuItem(m.tr("Load")+"...");
+		mi_load_settings=new JMenuItem(l.tr("Load")+"...");
 		mi_load_settings.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_O, m.ctrlOrCmd));
 		mi_load_settings.setFont(f.fontNormal);
 
-		mi_save_settings_as=new JMenuItem(m.tr("Save As")+"...");
+		mi_save_settings_as=new JMenuItem(l.tr("Save As")+"...");
 		mi_save_settings_as.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_S, m.ctrlOrCmd));
 		mi_save_settings_as.setFont(f.fontNormal);
 
-		mi_configure_dialog=new JMenuItem(m.tr("Configure")+"...");
+		mi_configure_dialog=new JMenuItem(l.tr("Configure")+"...");
 		mi_configure_dialog.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_COMMA, m.ctrlOrCmd));
 		mi_configure_dialog.setFont(f.fontNormal);
@@ -182,17 +184,17 @@ public class AppMenu extends JMenuBar
 		menu_settings.add(mi_configure_dialog);
 
 		//view items
-		mi_view_send=new JMenuItem(m.tr("Show Send"));
+		mi_view_send=new JMenuItem(l.tr("Show Send"));
 		mi_view_send.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_F, m.ctrlOrCmd));
 		mi_view_send.setFont(f.fontNormal);
 
-		mi_view_receive=new JMenuItem(m.tr("Show Receive"));
+		mi_view_receive=new JMenuItem(l.tr("Show Receive"));
 		mi_view_receive.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_G, m.ctrlOrCmd));
 		mi_view_receive.setFont(f.fontNormal);
 
-		mi_view_both=new JMenuItem(m.tr("Show Both"));
+		mi_view_both=new JMenuItem(l.tr("Show Both"));
 		mi_view_both.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_J, m.ctrlOrCmd));
 		mi_view_both.setFont(f.fontNormal);
@@ -202,24 +204,24 @@ public class AppMenu extends JMenuBar
 		menu_view.add(mi_view_both);
 
 		//help items
-		mi_doc=new JMenuItem(m.tr("Manual")+"...");
+		mi_doc=new JMenuItem(l.tr("Manual")+"...");
 		mi_doc.setAccelerator(
 			KeyStroke.getKeyStroke(KeyEvent.VK_1, m.ctrlOrCmd));
 		mi_doc.setFont(f.fontNormal);
 
-		mi_about=new JMenuItem(m.tr("About")+"...");
+		mi_about=new JMenuItem(l.tr("About")+"...");
 		mi_about.setFont(f.fontNormal);
 
-		mi_info=new JMenuItem(m.tr("Build- & Runtime Info")+"...");
+		mi_info=new JMenuItem(l.tr("Build- & Runtime Info")+"...");
 		mi_info.setFont(f.fontNormal);
 
-		mi_license=new JMenuItem(m.tr("License")+"...");
+		mi_license=new JMenuItem(l.tr("License")+"...");
 		mi_license.setFont(f.fontNormal);
 
-		mi_report_issue=new JMenuItem(m.tr("Report Issuse")+"...");
+		mi_report_issue=new JMenuItem(l.tr("Report Issuse")+"...");
 		mi_report_issue.setFont(f.fontNormal);
 
-		mi_check_for_update=new JMenuItem(m.tr("Check For Updates")+"...");
+		mi_check_for_update=new JMenuItem(l.tr("Check For Updates")+"...");
 		mi_check_for_update.setFont(f.fontNormal);
 
 //test
@@ -241,7 +243,7 @@ public class AppMenu extends JMenuBar
 		{
 			@Override public void actionPerformed(ActionEvent e)
 			{
-				if(m.frontSend.readForm())
+				if(g.frontSend.readForm())
 				{
 					m.startTransmissionSend();
 				}
@@ -261,7 +263,7 @@ public class AppMenu extends JMenuBar
 		{
 			@Override public void actionPerformed(ActionEvent e)
 			{
-				if(m.frontReceive.readForm())
+				if(g.frontReceive.readForm())
 				{
 					m.startTransmissionReceive();
 				}
@@ -285,6 +287,7 @@ public class AppMenu extends JMenuBar
 				{
 					OSCMessage msg=new OSCMessage("/quit");
 					m.portOutSend.send(msg);
+					m.portOutReceive.send(msg);
 				} 
 				catch (Exception oscex) 
 				{///
@@ -299,12 +302,12 @@ public class AppMenu extends JMenuBar
 			@Override public void actionPerformed(ActionEvent e)
 			{
 				Settings.load(m.defaultPropertiesFileName);
-				m.frontSend.setValues();
-				m.frontReceive.setValues();
-				m.configure.setValues();
-				f.recreate();
-				m.updateFont();
-				m.setStatus("Default Settings Loaded");
+				g.frontSend.setValues();
+				g.frontReceive.setValues();
+				g.configure.setValues();
+				f.init();
+				g.updateFont();
+				g.setStatus("Default Settings Loaded");
 			}
 		});
 
@@ -313,15 +316,15 @@ public class AppMenu extends JMenuBar
 			@Override public void actionPerformed(ActionEvent e)
 			{
 				//get current data from front form
-				if(m.frontSend.readForm() && m.frontReceive.readForm())
+				if(g.frontSend.readForm() && g.frontReceive.readForm())
 				{
 					Settings.save(m.defaultPropertiesFileName);
-					m.setStatus("Default Settings Saved");
+					g.setStatus("Default Settings Saved");
 				}
 				else
 				{
-					m.setStatus("Nothing Saved. Host is invalid or was not found");
-					m.frontSend.text_target_host.requestFocus();
+					g.setStatus("Nothing Saved. Host is invalid or was not found");
+					g.frontSend.text_target_host.requestFocus();
 				}
 			}
 		});
@@ -330,7 +333,7 @@ public class AppMenu extends JMenuBar
 		{
 			@Override public void actionPerformed(ActionEvent e)
 			{
-				FileDialog chooser = new FileDialog(m.mainframe);
+				FileDialog chooser = new FileDialog(g.mainframe);
 				//chooser.setFilenameFilter(new FolderFilter());
 				chooser.setMode(FileDialog.LOAD);
 				chooser.setVisible(true);
@@ -338,7 +341,7 @@ public class AppMenu extends JMenuBar
 
 				if(fileToLoad==null)
 				{
-					m.setStatus("No File Selected, Nothing Loaded");
+					g.setStatus("No File Selected, Nothing Loaded");
 				}
 				else
 				{
@@ -347,22 +350,22 @@ public class AppMenu extends JMenuBar
 					File file=new File(fileToLoad);
 					if(!file.canRead())
 					{
-						m.setStatus("Error: Could Not Read File");
+						g.setStatus("Error: Could Not Read File");
 					}
 					else
 					{
-						m.setStatus("Loading File '"+fileToLoad+"'...");
+						g.setStatus("Loading File '"+fileToLoad+"'...");
 						Settings.load(fileToLoad);
 						//set values in forms
-						m.frontSend.setValues();
-						m.frontReceive.setValues();
-						m.configure.setValues();
-						f.recreate();
-						m.updateFont();
-						m.setStatus("Settings Loaded");
+						g.frontSend.setValues();
+						g.frontReceive.setValues();
+						g.configure.setValues();
+						f.init();
+						g.updateFont();
+						g.setStatus("Settings Loaded");
 					}
 				}
-				m.frontSend.button_default.requestFocus();
+				g.frontSend.button_default.requestFocus();
 			}
 		});
 
@@ -371,9 +374,9 @@ public class AppMenu extends JMenuBar
 			@Override public void actionPerformed(ActionEvent e)
 			{
 				//get current data from front form
-				if(m.frontSend.readForm() && m.frontReceive.readForm())
+				if(g.frontSend.readForm() && g.frontReceive.readForm())
 				{
-					FileDialog chooser = new FileDialog(m.mainframe, "Save Settings As...");
+					FileDialog chooser = new FileDialog(g.mainframe, "Save Settings As...");
 					//chooser.setFilenameFilter(new FolderFilter());
 					chooser.setMode(FileDialog.SAVE);
 					chooser.setVisible(true);
@@ -381,7 +384,7 @@ public class AppMenu extends JMenuBar
 
 					if(fileToSave==null)
 					{
-						m.setStatus("No File Selected, Nothing Saved");
+						g.setStatus("No File Selected, Nothing Saved");
 					}
 					else
 					{
@@ -391,9 +394,9 @@ public class AppMenu extends JMenuBar
 						if(file.exists())
 						{
 							//overwrite
-							m.setStatus("Updating File '"+fileToSave+"'...");
+							g.setStatus("Updating File '"+fileToSave+"'...");
 							Settings.save(fileToSave);
-							m.setStatus("Settings Saved");
+							g.setStatus("Settings Saved");
 						}
 						else
 						{
@@ -401,13 +404,13 @@ public class AppMenu extends JMenuBar
 							{
 								if(!file.createNewFile())
 								{
-									m.setStatus("Error: Could Not Write File");
+									g.setStatus("Error: Could Not Write File");
 								}
 								else
 								{
-									m.setStatus("Saving File '"+fileToSave+"'...");
+									g.setStatus("Saving File '"+fileToSave+"'...");
 									Settings.save(fileToSave);
-									m.setStatus("Settings Saved");
+									g.setStatus("Settings Saved");
 								}
 							}catch(Exception fileEx)
 							{///
@@ -417,8 +420,8 @@ public class AppMenu extends JMenuBar
 				}
 				else
 				{
-					m.setStatus("Nothing Saved. Host is invalid or was not found");
-					m.frontSend.text_target_host.requestFocus();
+					g.setStatus("Nothing Saved. Host is invalid or was not found");
+					g.frontSend.text_target_host.requestFocus();
 					//text_target_host.selectAll();
 				}
 			}//end actionPerformed
@@ -428,12 +431,12 @@ public class AppMenu extends JMenuBar
 		{
 			@Override public void actionPerformed(ActionEvent e)
 			{
-				m.configure.setValues();
-				m.configure.setVisible(true);
+				g.configure.setValues();
+				g.configure.setVisible(true);
 
 //////////forces windows to be activated (if was deactivated)
 /////////////////should distinguish: if only one panel visible
-m.frontSend.button_default.requestFocus();
+g.frontSend.button_default.requestFocus();
 			}
 		});
 
@@ -480,8 +483,8 @@ m.frontSend.button_default.requestFocus();
 		{
 			@Override public void actionPerformed(ActionEvent e)
 			{
-				m.about.pack();
-				m.about.setVisible(true);
+				g.about.pack();
+				g.about.setVisible(true);
 			}
 		});
 
@@ -489,9 +492,9 @@ m.frontSend.button_default.requestFocus();
 		{
 			@Override public void actionPerformed(ActionEvent e)
 			{
-				m.info.updateHtml();
-				m.info.pack();
-				m.info.setVisible(true);
+				g.info.updateHtml();
+				g.info.pack();
+				g.info.setVisible(true);
 			}
 		});
 

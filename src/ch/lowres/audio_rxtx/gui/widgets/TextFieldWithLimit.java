@@ -30,7 +30,9 @@ import java.awt.geom.*;
 public class TextFieldWithLimit extends JTextField implements KeyListener, FocusListener, MouseListener
 {
 	static Main m;
+	static GUI g;
 	static Fonts f;
+	static Languages l;
 
 	int maxLength;
 
@@ -102,18 +104,18 @@ setBorder(
 	@Override
 	public Dimension getPreferredSize()
 	{
-		return new Dimension(200,m.commonWidgetHeight);
+		return new Dimension(200,g.commonWidgetHeight);
 	}
 
 //========================================================================
 	@Override
-	public void paintComponent(Graphics g) 
+	public void paintComponent(Graphics gfx) 
 	{
-		FocusPaint.gradient(g,this);
-		super.paintComponent(g);
+		FocusPaint.gradient(gfx,this);
+		super.paintComponent(gfx);
 
 		//hover
-		Graphics2D g2 = (Graphics2D) g;
+		Graphics2D g2 = (Graphics2D) gfx;
 		if(alpha!=0 && !hasFocus() &&isEnabled())
 		{
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
@@ -123,7 +125,7 @@ setBorder(
 
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
 
-		FocusPaint.paint(g,this);
+		FocusPaint.paint(gfx,this);
 	}
 
 //========================================================================

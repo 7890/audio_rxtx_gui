@@ -27,6 +27,7 @@ import javax.swing.JButton;
 public class AButton extends JButton implements KeyListener, FocusListener
 {
 	static Main m;
+	static GUI g;
 	static Fonts f;
 
 //========================================================================
@@ -60,7 +61,7 @@ public class AButton extends JButton implements KeyListener, FocusListener
 	public Dimension getPreferredSize()
 	{
 		return new Dimension((int)super.getPreferredSize().getWidth(),
-			(int)(f.fontDefaultSize * f.fontLargeFactor * m.buttonHeightScale));
+			(int)(f.fontDefaultSize * f.fontLargeFactor * g.buttonHeightScale));
 	}
 
 //========================================================================

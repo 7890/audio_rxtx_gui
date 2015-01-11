@@ -26,7 +26,9 @@ import java.util.*;
 public class Settings
 {
 	private static Main m;
+	private static GUI g;
 	private static Fonts f;
+	private static Languages l;
 
 //========================================================================
 	public static boolean loadProps(Properties props)
@@ -78,14 +80,14 @@ public class Settings
 			if(props.getProperty("r._out")!=null){m.apir._out=Integer.parseInt(props.getProperty("r._out"));}
 			if(props.getProperty("r._lport")!=null){m.apir._lport=Integer.parseInt(props.getProperty("r._lport"));}
 
-			if(props.getProperty("s.gui_osc_port_random")!=null){m.gui_osc_port_random_s=Boolean.parseBoolean(props.getProperty("s.gui_osc_port_random"));}
-			if(props.getProperty("s.gui_osc_port")!=null){m.gui_osc_port_s=Integer.parseInt(props.getProperty("s.gui_osc_port"));}
+			if(props.getProperty("s.gui_osc_port_random")!=null){g.gui_osc_port_random_s=Boolean.parseBoolean(props.getProperty("s.gui_osc_port_random"));}
+			if(props.getProperty("s.gui_osc_port")!=null){g.gui_osc_port_s=Integer.parseInt(props.getProperty("s.gui_osc_port"));}
 
-			if(props.getProperty("r.gui_osc_port_random")!=null){m.gui_osc_port_random_r=Boolean.parseBoolean(props.getProperty("r.gui_osc_port_random"));}
-			if(props.getProperty("r.gui_osc_port")!=null){m.gui_osc_port_r=Integer.parseInt(props.getProperty("r.gui_osc_port"));}
+			if(props.getProperty("r.gui_osc_port_random")!=null){g.gui_osc_port_random_r=Boolean.parseBoolean(props.getProperty("r.gui_osc_port_random"));}
+			if(props.getProperty("r.gui_osc_port")!=null){g.gui_osc_port_r=Integer.parseInt(props.getProperty("r.gui_osc_port"));}
 
-			if(props.getProperty("keep_cache")!=null){m.keep_cache=Boolean.parseBoolean(props.getProperty("keep_cache"));}
-			if(props.getProperty("show_both_panels")!=null){m.show_both_panels=Boolean.parseBoolean(props.getProperty("show_both_panels"));}
+			if(props.getProperty("keep_cache")!=null){g.keep_cache=Boolean.parseBoolean(props.getProperty("keep_cache"));}
+			if(props.getProperty("show_both_panels")!=null){g.show_both_panels=Boolean.parseBoolean(props.getProperty("show_both_panels"));}
 
 			if(props.getProperty("language")!=null){Languages.set(props.getProperty("language"));}
 
@@ -119,7 +121,7 @@ public class Settings
 			{
 				props.load(is);
 				loadProps(props);
-				m.p(m.tr("Default built-in settings loaded"));
+				m.p(l.tr("Default built-in settings loaded"));
 			}
 			else
 			{
@@ -141,28 +143,28 @@ public class Settings
 					{
 						props.load(is);
 						loadProps(props);
-						m.p(m.tr("Settings '")+propertiesFileUri+m.tr("' loaded"));
+						m.p(l.tr("Settings '")+propertiesFileUri+l.tr("' loaded"));
 						return true;
 					}
 					else
 					{
-						m.e(m.tr("Could not load settings '")+propertiesFileUri+"'");
+						m.e(l.tr("Could not load settings '")+propertiesFileUri+"'");
 					}
 				}
 				else
 				{
-					m.e(m.tr("Could not load settings '")+propertiesFileUri+"'");
+					m.e(l.tr("Could not load settings '")+propertiesFileUri+"'");
 				}
 			}
 			else
 			{
-				m.e(m.tr("Could not load settings '")+propertiesFileUri+"'");
+				m.e(l.tr("Could not load settings '")+propertiesFileUri+"'");
 			}
 		}
 		catch (Exception e)
 		{
 			is=null;
-			m.e(m.tr("File '")+propertiesFileUri+m.tr("' not found"));
+			m.e(l.tr("File '")+propertiesFileUri+l.tr("' not found"));
 		}
 		return false;
 	}//end loadSettings
@@ -215,14 +217,14 @@ public class Settings
 			props.setProperty("r.lport_random", m.apir.lport_random ? "true" : "false");//not on gui
 			props.setProperty("r._lport", ""+m.apir._lport);
 
-			props.setProperty("s.gui_osc_port_random", m.gui_osc_port_random_s ? "true" : "false");
-			props.setProperty("s.gui_osc_port", ""+m.gui_osc_port_s);
+			props.setProperty("s.gui_osc_port_random", g.gui_osc_port_random_s ? "true" : "false");
+			props.setProperty("s.gui_osc_port", ""+g.gui_osc_port_s);
 
-			props.setProperty("r.gui_osc_port_random", m.gui_osc_port_random_r ? "true" : "false");
-			props.setProperty("r.gui_osc_port", ""+m.gui_osc_port_r);
+			props.setProperty("r.gui_osc_port_random", g.gui_osc_port_random_r ? "true" : "false");
+			props.setProperty("r.gui_osc_port", ""+g.gui_osc_port_r);
 
-			props.setProperty("keep_cache", m.keep_cache ? "true" : "false");
-			props.setProperty("show_both_panels", m.show_both_panels ? "true" : "false");
+			props.setProperty("keep_cache", g.keep_cache ? "true" : "false");
+			props.setProperty("show_both_panels", g.show_both_panels ? "true" : "false");
 
 			props.setProperty("language",Languages.lang);
 
@@ -235,13 +237,13 @@ public class Settings
 			OutputStream out = new FileOutputStream(f);
 			props.store(out, "This file is read by audio_rxtx GUI if found");
 
-			m.p(m.tr("Settings '")+propertiesFileUri+m.tr("' saved"));
+			m.p(l.tr("Settings '")+propertiesFileUri+l.tr("' saved"));
 
 			return true;
 		}
 		catch (Exception e ) 
 		{
-			m.e(m.tr("Could not save settings '")+propertiesFileUri+"'");
+			m.e(l.tr("Could not save settings '")+propertiesFileUri+"'");
 			e.printStackTrace();
 		}
 		return false;

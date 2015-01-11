@@ -34,6 +34,7 @@ import javax.swing.border.*;
 public class ListDialog extends JDialog implements MouseListener, ComponentListener
 {
 	private static Main m;
+	private static GUI g;
 	private static Fonts f;
 
 	private JList list;
@@ -510,15 +511,14 @@ where to display on the screen, set via showDialog(..) by caller
 	{
 		isExpanded=true;
 		Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(this.getGraphicsConfiguration());
-		//expand.setLabel(m.tr("Shrink"));
 		button_expand.setLabel("-");
 
 		Dimension d=super.getPreferredSize();
 
-		if(d.getWidth() > m.screenDimension.getWidth()-insets.right-xOnOpen
+		if(d.getWidth() > g.screenDimension.getWidth()-insets.right-xOnOpen
 		)
 		{
-			xOffset=(int)(m.screenDimension.getWidth()-d.getWidth()-insets.right);
+			xOffset=(int)(g.screenDimension.getWidth()-d.getWidth()-insets.right);
 		}
 
 		yOffset=(int)Math.max(0,insets.top);
@@ -607,23 +607,23 @@ where to display on the screen, set via showDialog(..) by caller
 			return new Dimension(
 				Math.min(
 					(int)d.getWidth()
-					,(int)m.screenDimension.getWidth()-insets.right-xOffset
+					,(int)g.screenDimension.getWidth()-insets.right-xOffset
 				)
 				//use top and bottom
-				,(int)m.screenDimension.getHeight()-insets.top-insets.bottom
+				,(int)g.screenDimension.getHeight()-insets.top-insets.bottom
 			);
 		}
 		//else
 		return new Dimension(
 			Math.min(
 				(int)d.getWidth()
-				,(int)m.screenDimension.getWidth()-insets.right-xOffset
+				,(int)g.screenDimension.getWidth()-insets.right-xOffset
 			)
 			,Math.min(
 				(int)d.getHeight()
 				//only bottom, plus button		
 				,Math.min(
-					(int)m.screenDimension.getHeight()-insets.bottom-yOffset+button_close.getHeight()
+					(int)g.screenDimension.getHeight()-insets.bottom-yOffset+button_close.getHeight()
 					,(int)shrinkedHeight-insets.bottom+button_close.getHeight()
 				)
 			)

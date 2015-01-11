@@ -63,20 +63,20 @@ public class GuiOscListenerSend extends GuiOscListener
 
 		else if(path.equals("/autoconnect") && argsSize==2)
 		{
-			card.setLabel(3,m.tr("Autoconnected ports")+": "+m.apis.total_connected_ports+" / "+m.apis._in);
+			card.setLabel(3,l.tr("Autoconnected ports")+": "+m.apis.total_connected_ports+" / "+m.apis._in);
 		}
 
 		//else 
 		else if(path.equals("/offering") && argsSize==1)
 		{
-			card.setStatus(m.tr("Offering audio message #")+args.get(0));
+			card.setStatus(l.tr("Offering audio message #")+args.get(0));
 
 			card.setLabel(4,":"+m.apis._lport+" -> "+m.apis._target_host+":"+m.apis._target_port);
 
 //remember sender host here
 //..
 
-			card.setLabel(5,m.tr("Offering..."));
+			card.setLabel(5,l.tr("Offering..."));
 			card.setLabel(6,"");
 		}
 
@@ -87,18 +87,18 @@ public class GuiOscListenerSend extends GuiOscListener
 			//1: sample_rate
 			//2: bytes per sample
 
-			card.setLabel(4,m.tr("Transmission denied (")
+			card.setLabel(4,l.tr("Transmission denied (")
 				+args.get(0)+", "+args.get(1)+", "
 				+((Integer)args.get(2)==2 ? "16" : "32")+")");
 
-			card.setStatusError(m.tr("Receiver denied transmission"));
+			card.setStatusError(l.tr("Receiver denied transmission"));
 
-			card.button_default.setLabel(m.tr("Back"));
+			card.button_default.setLabel(l.tr("Back"));
 		}
 
 		else if(path.equals("/receiver_accepted_transmission"))
 		{
-			card.setStatus(m.tr("Receiver accepted transmission"));
+			card.setStatus(l.tr("Receiver accepted transmission"));
 		}
 
 		else if(path.equals("/sending") && argsSize==7)
@@ -115,15 +115,15 @@ public class GuiOscListenerSend extends GuiOscListener
 			card.setLabel(6,(String)args.get(1)
 				+" "+String.format(new DecimalFormat("0.00").format((Float)args.get(4)))
 				+" "+(String)args.get(5)
-				+" ("+m.apis._in+" "+m.tr("ch.")+")");
+				+" ("+m.apis._in+" "+l.tr("ch.")+")");
 
 			//msg #
-			card.setStatus(m.tr("Sending audio message #")+args.get(0));
+			card.setStatus(l.tr("Sending audio message #")+args.get(0));
 		}
 
 		else if(path.equals("/receiver_requested_pause"))
 		{
-			card.setStatus(m.tr("Receiver requested pause"));
+			card.setStatus(l.tr("Receiver requested pause"));
 		}
 	}//end accept
 }//end GuiOscListener

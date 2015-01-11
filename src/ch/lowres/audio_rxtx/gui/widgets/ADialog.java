@@ -29,11 +29,13 @@ import java.util.*;
 public abstract class ADialog extends JDialog
 {
 	public static Main m;
+	public static GUI g;
 	public static Fonts f;
+	public static Languages l;
 
 	public JPanel form;
 
-	public AButton button_close=new AButton (Languages.removeMnemonic(m.tr("_Close")));
+	public AButton button_close=new AButton (Languages.removeMnemonic(l.tr("_Close")));
 
 	private TransparentTextArea tta;
 
@@ -75,14 +77,14 @@ public abstract class ADialog extends JDialog
 		form.add(tta,BorderLayout.NORTH);
 
 		button_close.setFocusable(false);
-		button_close.setMnemonic(Languages.getMnemonicKeyEvent(m.tr("_Close")));
+		button_close.setMnemonic(Languages.getMnemonicKeyEvent(l.tr("_Close")));
 
 		form.add(button_close,BorderLayout.SOUTH);
 
 		decorate();
 
 		pack();
-		m.setDialogCentered(this);
+		g.setDialogCentered(this);
 		setResizable(false);
 
 		//done in calling object
@@ -106,7 +108,7 @@ public abstract class ADialog extends JDialog
 	public void closeDialog()
 	{
 		setVisible(false);
-		m.mainframe.toFront();
+		g.mainframe.toFront();
 	}
 //========================================================================
 	public void addActionListeners()

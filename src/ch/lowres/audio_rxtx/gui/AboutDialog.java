@@ -37,7 +37,7 @@ public class AboutDialog extends ADialog
 		StringBuffer sb=new StringBuffer();
 		sb.append("<html><body>");
 
-		sb.append("<p><strong>"+m.tr("About  -- THIS PROGRAM IS NOT YET READY FOR ACTION")+"</strong><br>");
+		sb.append("<p><strong>"+l.tr("About  -- THIS PROGRAM IS NOT YET READY FOR ACTION")+"</strong><br>");
 		sb.append("<br>");
 		//http://stackoverflow.com/questions/9117814/jtextpane-with-html-local-image-wont-load
 		sb.append("<img src=\""
@@ -47,10 +47,10 @@ public class AboutDialog extends ADialog
 		sb.append("<br>");
 		sb.append(BuildInfo.getGitCommit()+" (V "+m.progVersion+")</p>");
 
-		sb.append("<p><strong>"+m.tr("audio_rxtx GUI for jack_audio_{send, receive}")+"</strong></p>");
-		sb.append("<h2>"+m.tr("Live JACK Audio Data Transmission")+"</h2>");
+		sb.append("<p><strong>"+l.tr("audio_rxtx GUI for jack_audio_{send, receive}")+"</strong></p>");
+		sb.append("<h2>"+l.tr("Live JACK Audio Data Transmission")+"</h2>");
 
-		sb.append("<p><strong>"+m.tr("Credits & Program Libraries")+"</strong></p>");
+		sb.append("<p><strong>"+l.tr("Credits & Program Libraries")+"</strong></p>");
 		sb.append("<table>");// width=\"400px\">");
 		sb.append("<tr>");
 

@@ -41,6 +41,7 @@ import org.xnap.commons.i18n.*;
 public class ConfigureDialog extends JDialog implements ChangeListener, ComponentListener
 {
 	private static Main m;
+	private static GUI g;
 	private static Fonts f;
 	private static Languages l;
 
@@ -48,53 +49,53 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 
 	private static HostTextFieldWithLimit		text_name_s=new HostTextFieldWithLimit("",32,32);
 	private static HostTextFieldWithLimit		text_sname_s=new HostTextFieldWithLimit("",32,32);
-	private static ACheckbox 			checkbox_connect_s=new ACheckbox(m.tr("Autoconnect"));
-	private static ACheckbox 			checkbox_nopause_s=new ACheckbox(m.tr("No pause when receiver denies transmission"));
-	private static ACheckbox 			checkbox_test_s=new ACheckbox(m.tr("Enable Testmode"));
+	private static ACheckbox 			checkbox_connect_s=new ACheckbox(l.tr("Autoconnect"));
+	private static ACheckbox 			checkbox_nopause_s=new ACheckbox(l.tr("No pause when receiver denies transmission"));
+	private static ACheckbox 			checkbox_test_s=new ACheckbox(l.tr("Enable Testmode"));
 	private static NumericTextFieldWithLimit 	text_limit_s=new NumericTextFieldWithLimit("",32,24);
 	private static NumericTextFieldWithLimit 	text_drop_s=new NumericTextFieldWithLimit("",32,24);
-	private static ACheckbox 			checkbox_verbose_s=new ACheckbox(m.tr("Verbose shell output"));
+	private static ACheckbox 			checkbox_verbose_s=new ACheckbox(l.tr("Verbose shell output"));
 	private static NumericTextFieldWithLimit 	text_update_s=new NumericTextFieldWithLimit("",32,4);
-	private static ACheckbox 			checkbox_lport_random_s=new ACheckbox(m.tr("Use random port"));
+	private static ACheckbox 			checkbox_lport_random_s=new ACheckbox(l.tr("Use random port"));
 	private static NumericTextFieldWithLimit 	text_lport_s=new NumericTextFieldWithLimit("",32,5);
-	private static ACheckbox 			checkbox_autostart_s=new ACheckbox(m.tr("Autostart transmission"));
+	private static ACheckbox 			checkbox_autostart_s=new ACheckbox(l.tr("Autostart transmission"));
 
 	private static JPanel formReceive;
 
 	private static HostTextFieldWithLimit		text_name_r=new HostTextFieldWithLimit("",32,32);
 	private static HostTextFieldWithLimit		text_sname_r=new HostTextFieldWithLimit("",32,32);
-	private static ACheckbox 			checkbox_connect_r=new ACheckbox(m.tr("Autoconnect"));
-	private static ACheckbox 			checkbox_test_r=new ACheckbox(m.tr("Enable testmode"));
+	private static ACheckbox 			checkbox_connect_r=new ACheckbox(l.tr("Autoconnect"));
+	private static ACheckbox 			checkbox_test_r=new ACheckbox(l.tr("Enable testmode"));
 	private static NumericTextFieldWithLimit 	text_limit_r=new NumericTextFieldWithLimit("",32,24);
-	private static ACheckbox 			checkbox_verbose_r=new ACheckbox(m.tr("Verbose shell output"));
+	private static ACheckbox 			checkbox_verbose_r=new ACheckbox(l.tr("Verbose shell output"));
 	private static NumericTextFieldWithLimit 	text_update_r=new NumericTextFieldWithLimit("",32,4);
 	private static NumericTextFieldWithLimit 	text_offset_r=new NumericTextFieldWithLimit("",32,24);
 	private static NumericTextFieldWithLimit 	text_pre_r=new NumericTextFieldWithLimit("",32,24);
 	private static NumericTextFieldWithLimit 	text_max_r=new NumericTextFieldWithLimit("",32,24);
-	private static ACheckbox 			checkbox_rere_r=new ACheckbox(m.tr("Rebuffer on sender restart"));
-	private static ACheckbox 			checkbox_reuf_r=new ACheckbox(m.tr("Rebuffer on underflow"));
-	private static ACheckbox 			checkbox_nozero_r=new ACheckbox(m.tr("Re-Use old data on underflow"));
-	private static ACheckbox 			checkbox_norbc_r=new ACheckbox(m.tr("Disallow external buffer control"));
-	private static ACheckbox 			checkbox_close_r=new ACheckbox(m.tr("Stop transmission on incompatibility"));
-	private static ACheckbox 			checkbox_autostart_r=new ACheckbox(m.tr("Autostart transmission"));
+	private static ACheckbox 			checkbox_rere_r=new ACheckbox(l.tr("Rebuffer on sender restart"));
+	private static ACheckbox 			checkbox_reuf_r=new ACheckbox(l.tr("Rebuffer on underflow"));
+	private static ACheckbox 			checkbox_nozero_r=new ACheckbox(l.tr("Re-Use old data on underflow"));
+	private static ACheckbox 			checkbox_norbc_r=new ACheckbox(l.tr("Disallow external buffer control"));
+	private static ACheckbox 			checkbox_close_r=new ACheckbox(l.tr("Stop transmission on incompatibility"));
+	private static ACheckbox 			checkbox_autostart_r=new ACheckbox(l.tr("Autostart transmission"));
 
 	private static JPanel formGUI;
 
 	private static ListTextFieldWithLimit 		list_languages = new ListTextFieldWithLimit(l.languages,32,32);
-	private static ACheckbox			checkbox_use_internal_font=new ACheckbox(m.tr("Use built-in font"));
+	private static ACheckbox			checkbox_use_internal_font=new ACheckbox(l.tr("Use built-in font"));
 	private static ListTextFieldWithLimit 		list_fonts = new ListTextFieldWithLimit(f.getAll(),32,32);
 	private static NumericFloatTextFieldWithLimit 	text_font_size_normal=new NumericFloatTextFieldWithLimit("",4,128);
 	private static ListTextFieldWithLimit 		list_font_styles = new ListTextFieldWithLimit(f.styles,32,32);
 
-	private static ACheckbox 			checkbox_gui_osc_port_random_s=new ACheckbox(m.tr("Use random port"));
+	private static ACheckbox 			checkbox_gui_osc_port_random_s=new ACheckbox(l.tr("Use random port"));
 	private static NumericTextFieldWithLimit 	text_gui_osc_port_s=new NumericTextFieldWithLimit("",32,5);
-	private static ACheckbox 			checkbox_gui_osc_port_random_r=new ACheckbox(m.tr("Use random port"));
+	private static ACheckbox 			checkbox_gui_osc_port_random_r=new ACheckbox(l.tr("Use random port"));
 	private static NumericTextFieldWithLimit 	text_gui_osc_port_r=new NumericTextFieldWithLimit("",32,5);
-	private static ACheckbox 			checkbox_keep_cache=new ACheckbox(m.tr("Use Cache"));
-	private static ACheckbox 			checkbox_both_panels=new ACheckbox(m.tr("Show both panels"));
+	private static ACheckbox 			checkbox_keep_cache=new ACheckbox(l.tr("Use Cache"));
+	private static ACheckbox 			checkbox_both_panels=new ACheckbox(l.tr("Show both panels"));
 
-	public static AButton 				button_cancel_settings=new AButton(l.removeMnemonic(m.tr("_Cancel")));
-	public static AButton 				button_confirm_settings=new AButton(l.removeMnemonic(m.tr("_Apply")));
+	public static AButton 				button_cancel_settings=new AButton(l.removeMnemonic(l.tr("_Cancel")));
+	public static AButton 				button_confirm_settings=new AButton(l.removeMnemonic(l.tr("_Apply")));
 
 	private static JScrollPane scrollerTabSend;
 	private static JScrollPane scrollerTabReceive;
@@ -213,12 +214,12 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 		text_font_size_normal.setText(""+f.fontDefaultSize);
 		list_font_styles.setSelectedIndex(f.fontNormalStyle);
 
-		checkbox_keep_cache.setState(m.keep_cache);
-		checkbox_both_panels.setState(m.show_both_panels);
+		checkbox_keep_cache.setState(g.keep_cache);
+		checkbox_both_panels.setState(g.show_both_panels);
 
-		checkbox_gui_osc_port_random_s.setState(m.gui_osc_port_random_s);
-		text_gui_osc_port_s.setText(""+m.gui_osc_port_s);
-		if(m.gui_osc_port_random_s)
+		checkbox_gui_osc_port_random_s.setState(g.gui_osc_port_random_s);
+		text_gui_osc_port_s.setText(""+g.gui_osc_port_s);
+		if(g.gui_osc_port_random_s)
 		{
 			text_gui_osc_port_s.setEnabled(false);
 		}
@@ -227,9 +228,9 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 			text_gui_osc_port_s.setEnabled(true);
 		}
 
-		checkbox_gui_osc_port_random_r.setState(m.gui_osc_port_random_r);
-		text_gui_osc_port_r.setText(""+m.gui_osc_port_r);
-		if(m.gui_osc_port_random_r)
+		checkbox_gui_osc_port_random_r.setState(g.gui_osc_port_random_r);
+		text_gui_osc_port_r.setText(""+g.gui_osc_port_r);
+		if(g.gui_osc_port_random_r)
 		{
 			text_gui_osc_port_r.setEnabled(false);
 		}
@@ -248,9 +249,9 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 		setValues();
 		setFocusedWidget();
 		//close window, set status, bring main to front
-		m.mainframe.toFront();
+		g.mainframe.toFront();
 		setVisible(false);
-		m.setStatus("Configuration Cancelled, Restored Values");
+		g.setStatus("Configuration Cancelled, Restored Values");
 	}//end dialogCancelled
 
 //========================================================================
@@ -260,9 +261,9 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 		readForm();
 		setFocusedWidget();
 		//close window, set status, bring main to front
-		m.mainframe.toFront();
+		g.mainframe.toFront();
 		setVisible(false);
-		m.setStatus("Configuration Confirmed, Using Values");
+		g.setStatus("Configuration Confirmed, Using Values");
 	}//end dialogConfirmed
 
 //========================================================================
@@ -325,7 +326,7 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 		scrollerTabSend.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		scrollbarSend=scrollerTabSend.getVerticalScrollBar();
-		scrollbarSend.setUnitIncrement(m.scrollbarIncrement);
+		scrollbarSend.setUnitIncrement(g.scrollbarIncrement);
 		scrollbarSend.setUI(new AScrollbarUI());
 		//need to set horizontal too
 
@@ -340,7 +341,7 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 		scrollerTabReceive.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		scrollbarReceive=scrollerTabReceive.getVerticalScrollBar();
-		scrollbarReceive.setUnitIncrement(m.scrollbarIncrement);
+		scrollbarReceive.setUnitIncrement(g.scrollbarIncrement);
 		scrollbarReceive.setUI(new AScrollbarUI());
 		//need to set horizontal too
 
@@ -355,17 +356,17 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 		scrollerTabGUI.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		scrollbarGUI=scrollerTabGUI.getVerticalScrollBar();
-		scrollbarGUI.setUnitIncrement(m.scrollbarIncrement);
+		scrollbarGUI.setUnitIncrement(g.scrollbarIncrement);
 		scrollbarGUI.setUI(new AScrollbarUI());
 
-		tabPanel.add(l.removeMnemonic(m.tr("_Send")),scrollerTabSend);
-		tabPanel.add(l.removeMnemonic(m.tr("_Receive")),scrollerTabReceive);
-		tabPanel.add(l.removeMnemonic(m.tr("_GUI")),scrollerTabGUI);
+		tabPanel.add(l.removeMnemonic(l.tr("_Send")),scrollerTabSend);
+		tabPanel.add(l.removeMnemonic(l.tr("_Receive")),scrollerTabReceive);
+		tabPanel.add(l.removeMnemonic(l.tr("_GUI")),scrollerTabGUI);
 
 		//doesn't work on osx
-		tabPanel.setMnemonicAt(0, l.getMnemonicKeyEvent(m.tr("_Send")));
-		tabPanel.setMnemonicAt(1, l.getMnemonicKeyEvent(m.tr("_Receive")));
-		tabPanel.setMnemonicAt(2, l.getMnemonicKeyEvent(m.tr("_GUI")));
+		tabPanel.setMnemonicAt(0, l.getMnemonicKeyEvent(l.tr("_Send")));
+		tabPanel.setMnemonicAt(1, l.getMnemonicKeyEvent(l.tr("_Receive")));
+		tabPanel.setMnemonicAt(2, l.getMnemonicKeyEvent(l.tr("_GUI")));
 
 		//http://stackoverflow.com/questions/5183687/java-remove-margin-padding-on-a-jtabbedpane
 		tabPanel.setUI(new BasicTabbedPaneUI()
@@ -413,20 +414,20 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 		//======
 		add(tabPanel,BorderLayout.CENTER);
 
-		m.formUtility.addLabel(m.tr("Connect to this JACK server")+":", formSend);
-		m.formUtility.addLastField(text_sname_s, formSend);
+		g.formUtility.addLabel(l.tr("Connect to this JACK server")+":", formSend);
+		g.formUtility.addLastField(text_sname_s, formSend);
 
-		m.formUtility.addLabel(m.tr("Name of JACK client")+":", formSend);
-		m.formUtility.addLastField(text_name_s, formSend);
+		g.formUtility.addLabel(l.tr("Name of JACK client")+":", formSend);
+		g.formUtility.addLastField(text_name_s, formSend);
 
-		m.formUtility.addLabel(m.tr("JACK system:* ports")+":", formSend);
-		m.formUtility.addLastField(checkbox_connect_s, formSend);
+		g.formUtility.addLabel(l.tr("JACK system:* ports")+":", formSend);
+		g.formUtility.addLastField(checkbox_connect_s, formSend);
 
-		m.formUtility.addLabel(m.tr("For 1:n Broadcast scenario")+":", formSend);
-		m.formUtility.addLastField(checkbox_nopause_s, formSend);
+		g.formUtility.addLabel(l.tr("For 1:n Broadcast scenario")+":", formSend);
+		g.formUtility.addLastField(checkbox_nopause_s, formSend);
 
-		m.formUtility.addLabel(m.tr("Limit totally sent messages")+":", formSend);
-		m.formUtility.addLastField(checkbox_test_s, formSend);
+		g.formUtility.addLabel(l.tr("Limit totally sent messages")+":", formSend);
+		g.formUtility.addLastField(checkbox_test_s, formSend);
 
 		checkbox_test_s.addItemListener(new ItemListener()
 		{
@@ -445,20 +446,20 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 			}
 		});
 
-		m.formUtility.addLabel(m.tr("Message count limit")+":", formSend);
-		m.formUtility.addLastField(text_limit_s, formSend);
+		g.formUtility.addLabel(l.tr("Message count limit")+":", formSend);
+		g.formUtility.addLastField(text_limit_s, formSend);
 
-		m.formUtility.addLabel(m.tr("Drop every Nth message")+":", formSend);
-		m.formUtility.addLastField(text_drop_s, formSend);
+		g.formUtility.addLabel(l.tr("Drop every Nth message")+":", formSend);
+		g.formUtility.addLastField(text_drop_s, formSend);
 
-		m.formUtility.addLabel(m.tr("jack_audio_send std passthrough")+":", formSend);
-		m.formUtility.addLastField(checkbox_verbose_s, formSend);
+		g.formUtility.addLabel(l.tr("jack_audio_send std passthrough")+":", formSend);
+		g.formUtility.addLastField(checkbox_verbose_s, formSend);
 
-		m.formUtility.addLabel(m.tr("Status update interval")+":", formSend);
-		m.formUtility.addLastField(text_update_s, formSend);
+		g.formUtility.addLabel(l.tr("Status update interval")+":", formSend);
+		g.formUtility.addLastField(text_update_s, formSend);
 
-		m.formUtility.addLabel(m.tr("UDP port for jack_audio_send")+":", formSend);
-		m.formUtility.addLastField(checkbox_lport_random_s, formSend);
+		g.formUtility.addLabel(l.tr("UDP port for jack_audio_send")+":", formSend);
+		g.formUtility.addLastField(checkbox_lport_random_s, formSend);
 
 		checkbox_lport_random_s.addItemListener(new ItemListener()
 		{
@@ -477,24 +478,24 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 			}
 		});
 
-		m.formUtility.addLabel(m.tr("Fixed port (if not random)")+":", formSend);
-		m.formUtility.addLastField(text_lport_s, formSend);
+		g.formUtility.addLabel(l.tr("Fixed port (if not random)")+":", formSend);
+		g.formUtility.addLastField(text_lport_s, formSend);
 
-		m.formUtility.addLabel(m.tr("Start transmission after startup")+":", formSend);
-		m.formUtility.addLastField(checkbox_autostart_s, formSend);
+		g.formUtility.addLabel(l.tr("Start transmission after startup")+":", formSend);
+		g.formUtility.addLastField(checkbox_autostart_s, formSend);
 
 //receive
-		m.formUtility.addLabel(m.tr("Connect to this JACK server")+":", formReceive);
-		m.formUtility.addLastField(text_sname_r, formReceive);
+		g.formUtility.addLabel(l.tr("Connect to this JACK server")+":", formReceive);
+		g.formUtility.addLastField(text_sname_r, formReceive);
 
-		m.formUtility.addLabel(m.tr("Name of JACK client")+":", formReceive);
-		m.formUtility.addLastField(text_name_r, formReceive);
+		g.formUtility.addLabel(l.tr("Name of JACK client")+":", formReceive);
+		g.formUtility.addLastField(text_name_r, formReceive);
 
-		m.formUtility.addLabel(m.tr("JACK system:* ports")+":", formReceive);
-		m.formUtility.addLastField(checkbox_connect_r, formReceive);
+		g.formUtility.addLabel(l.tr("JACK system:* ports")+":", formReceive);
+		g.formUtility.addLastField(checkbox_connect_r, formReceive);
 
-		m.formUtility.addLabel(m.tr("Limit totally sent messages")+":", formReceive);
-		m.formUtility.addLastField(checkbox_test_r, formReceive);
+		g.formUtility.addLabel(l.tr("Limit totally sent messages")+":", formReceive);
+		g.formUtility.addLastField(checkbox_test_r, formReceive);
 
 		checkbox_test_r.addItemListener(new ItemListener()
 		{
@@ -513,46 +514,46 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 			}
 		});
 
-		m.formUtility.addLabel(m.tr("Message count limit")+":", formReceive);
-		m.formUtility.addLastField(text_limit_r, formReceive);
+		g.formUtility.addLabel(l.tr("Message count limit")+":", formReceive);
+		g.formUtility.addLastField(text_limit_r, formReceive);
 
-		m.formUtility.addLabel(m.tr("jack_audio_receive std passthrough")+":", formReceive);
-		m.formUtility.addLastField(checkbox_verbose_r, formReceive);
+		g.formUtility.addLabel(l.tr("jack_audio_receive std passthrough")+":", formReceive);
+		g.formUtility.addLastField(checkbox_verbose_r, formReceive);
 
-		m.formUtility.addLabel(m.tr("Status update interval")+":", formReceive);
-		m.formUtility.addLastField(text_update_r, formReceive);
+		g.formUtility.addLabel(l.tr("Status update interval")+":", formReceive);
+		g.formUtility.addLastField(text_update_r, formReceive);
 
-		m.formUtility.addLabel(m.tr("Channel offset")+":", formReceive);
-		m.formUtility.addLastField(text_offset_r, formReceive);
+		g.formUtility.addLabel(l.tr("Channel offset")+":", formReceive);
+		g.formUtility.addLastField(text_offset_r, formReceive);
 
-		m.formUtility.addLabel(m.tr("Initial buffer size (MCP)")+":", formReceive);
-		m.formUtility.addLastField(text_pre_r, formReceive);
+		g.formUtility.addLabel(l.tr("Initial buffer size (MCP)")+":", formReceive);
+		g.formUtility.addLastField(text_pre_r, formReceive);
 
-		m.formUtility.addLabel(m.tr("Max buffer size (>= initial)")+":", formReceive);
-		m.formUtility.addLastField(text_max_r, formReceive);
+		g.formUtility.addLabel(l.tr("Max buffer size (>= initial)")+":", formReceive);
+		g.formUtility.addLastField(text_max_r, formReceive);
 
-		m.formUtility.addLabel("", formReceive);
-		m.formUtility.addLastField(checkbox_rere_r, formReceive);
+		g.formUtility.addLabel("", formReceive);
+		g.formUtility.addLastField(checkbox_rere_r, formReceive);
 
-		m.formUtility.addLabel("", formReceive);
-		m.formUtility.addLastField(checkbox_reuf_r, formReceive);
+		g.formUtility.addLabel("", formReceive);
+		g.formUtility.addLastField(checkbox_reuf_r, formReceive);
 
-		m.formUtility.addLabel("", formReceive);
-		m.formUtility.addLastField(checkbox_nozero_r, formReceive);
+		g.formUtility.addLabel("", formReceive);
+		g.formUtility.addLastField(checkbox_nozero_r, formReceive);
 
-		m.formUtility.addLabel("", formReceive);
-		m.formUtility.addLastField(checkbox_norbc_r, formReceive);
+		g.formUtility.addLabel("", formReceive);
+		g.formUtility.addLastField(checkbox_norbc_r, formReceive);
 
-		m.formUtility.addLabel("", formReceive);
-		m.formUtility.addLastField(checkbox_close_r, formReceive);
+		g.formUtility.addLabel("", formReceive);
+		g.formUtility.addLastField(checkbox_close_r, formReceive);
 
-		m.formUtility.addLabel(m.tr("Start transmission after startup")+":", formReceive);
-		m.formUtility.addLastField(checkbox_autostart_r, formReceive);
+		g.formUtility.addLabel(l.tr("Start transmission after startup")+":", formReceive);
+		g.formUtility.addLastField(checkbox_autostart_r, formReceive);
 
 //GUI
-		m.formUtility.addLabel(m.tr("Language")+": ", formGUI);
-		list_languages.setTitle(m.tr("Choose Language"));
-		m.formUtility.addLastField(list_languages, formGUI);
+		g.formUtility.addLabel(l.tr("Language")+": ", formGUI);
+		list_languages.setTitle(l.tr("Choose Language"));
+		g.formUtility.addLastField(list_languages, formGUI);
 
 		checkbox_use_internal_font.addItemListener(new ItemListener()
 		{
@@ -571,25 +572,25 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 			}
 		});
 
-		m.formUtility.addLabel("", formGUI);
-		m.formUtility.addLastField(checkbox_use_internal_font, formGUI);
+		g.formUtility.addLabel("", formGUI);
+		g.formUtility.addLastField(checkbox_use_internal_font, formGUI);
 
-		m.formUtility.addLabel(m.tr("Local system font")+":", formGUI);
-		m.formUtility.addLastField(list_fonts, formGUI);
-		list_fonts.setTitle(m.tr("Choose Font"));
+		g.formUtility.addLabel(l.tr("Local system font")+":", formGUI);
+		g.formUtility.addLastField(list_fonts, formGUI);
+		list_fonts.setTitle(l.tr("Choose Font"));
 
-		m.formUtility.addLabel(m.tr("Font size \"normal\" [pt]")+":", formGUI);
-		m.formUtility.addLastField(text_font_size_normal, formGUI);
+		g.formUtility.addLabel(l.tr("Font size \"normal\" [pt]")+":", formGUI);
+		g.formUtility.addLastField(text_font_size_normal, formGUI);
 
-		m.formUtility.addLabel(m.tr("Font style")+":", formGUI);
-		m.formUtility.addLastField(list_font_styles, formGUI);
-		list_font_styles.setTitle(m.tr("Choose Font Style"));
+		g.formUtility.addLabel(l.tr("Font style")+":", formGUI);
+		g.formUtility.addLastField(list_font_styles, formGUI);
+		list_font_styles.setTitle(l.tr("Choose Font Style"));
 
-		m.formUtility.addLabel(m.tr("After program startup")+":", formGUI);
-		m.formUtility.addLastField(checkbox_both_panels, formGUI);
+		g.formUtility.addLabel(l.tr("After program startup")+":", formGUI);
+		g.formUtility.addLastField(checkbox_both_panels, formGUI);
 
-		m.formUtility.addLabel(m.tr("UDP port for GUI (send)")+":", formGUI);
-		m.formUtility.addLastField(checkbox_gui_osc_port_random_s, formGUI);
+		g.formUtility.addLabel(l.tr("UDP port for GUI (send)")+":", formGUI);
+		g.formUtility.addLastField(checkbox_gui_osc_port_random_s, formGUI);
 
 		checkbox_gui_osc_port_random_s.addItemListener(new ItemListener()
 		{
@@ -608,11 +609,11 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 			}
 		});
 
-		m.formUtility.addLabel(m.tr("Fixed port (if not random)")+":", formGUI);
-		m.formUtility.addLastField(text_gui_osc_port_s, formGUI);
+		g.formUtility.addLabel(l.tr("Fixed port (if not random)")+":", formGUI);
+		g.formUtility.addLastField(text_gui_osc_port_s, formGUI);
 
-		m.formUtility.addLabel(m.tr("UDP port for GUI (receive)")+":", formGUI);
-		m.formUtility.addLastField(checkbox_gui_osc_port_random_r, formGUI);
+		g.formUtility.addLabel(l.tr("UDP port for GUI (receive)")+":", formGUI);
+		g.formUtility.addLastField(checkbox_gui_osc_port_random_r, formGUI);
 
 		checkbox_gui_osc_port_random_r.addItemListener(new ItemListener()
 		{
@@ -631,18 +632,18 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 			}
 		});
 
-		m.formUtility.addLabel(m.tr("Fixed port (if not random)")+":", formGUI);
-		m.formUtility.addLastField(text_gui_osc_port_r, formGUI);
+		g.formUtility.addLabel(l.tr("Fixed port (if not random)")+":", formGUI);
+		g.formUtility.addLastField(text_gui_osc_port_r, formGUI);
 
-		m.formUtility.addLabel(m.tr("Keep dumped resources in cache")+":", formGUI);
-		m.formUtility.addLastField(checkbox_keep_cache, formGUI);
+		g.formUtility.addLabel(l.tr("Keep dumped resources in cache")+":", formGUI);
+		g.formUtility.addLastField(checkbox_keep_cache, formGUI);
 
 //buttons
 		JPanel button_panel=new JPanel();
 		button_panel.setLayout(new GridLayout(1,2)); //y, x
 
-		button_cancel_settings.setMnemonic(l.getMnemonicKeyEvent(m.tr("_Cancel")));
-		button_confirm_settings.setMnemonic(l.getMnemonicKeyEvent(m.tr("_Apply")));
+		button_cancel_settings.setMnemonic(l.getMnemonicKeyEvent(l.tr("_Cancel")));
+		button_confirm_settings.setMnemonic(l.getMnemonicKeyEvent(l.tr("_Apply")));
 
 		button_panel.add(button_cancel_settings);
 		button_panel.add(button_confirm_settings);
@@ -650,7 +651,7 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 		add(button_panel,BorderLayout.SOUTH);
 
 		repack();
-		m.setDialogCentered(this);
+		g.setDialogCentered(this);
 
 		//setResizable(false);
 
@@ -667,10 +668,10 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 		pack();
 
 		int w=(int)Math.min(getPreferredSize().getWidth(),
-			m.screenDimension.getWidth()-insets.left-insets.right
+			g.screenDimension.getWidth()-insets.left-insets.right
 		);
 		int h=(int)Math.min(getPreferredSize().getHeight(),
-			m.screenDimension.getHeight()-insets.top-insets.bottom
+			g.screenDimension.getHeight()-insets.top-insets.bottom
 		);
 
 		setSize(w,h);
@@ -780,22 +781,22 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 
 		if(text_gui_osc_port_s.getText().equals(""))
 		{
-			text_gui_osc_port_s.setText(""+m.gui_osc_port_s);
+			text_gui_osc_port_s.setText(""+g.gui_osc_port_s);
 		}
 
 		if(text_gui_osc_port_r.getText().equals(""))
 		{
-			text_gui_osc_port_r.setText(""+m.gui_osc_port_r);
+			text_gui_osc_port_r.setText(""+g.gui_osc_port_r);
 		}
 
-		m.keep_cache=checkbox_keep_cache.getState();
-		m.show_both_panels=checkbox_both_panels.getState();
+		g.keep_cache=checkbox_keep_cache.getState();
+		g.show_both_panels=checkbox_both_panels.getState();
 
-		m.gui_osc_port_random_s=checkbox_gui_osc_port_random_s.getState();
-		m.gui_osc_port_s=Integer.parseInt(text_gui_osc_port_s.getText());
+		g.gui_osc_port_random_s=checkbox_gui_osc_port_random_s.getState();
+		g.gui_osc_port_s=Integer.parseInt(text_gui_osc_port_s.getText());
 
-		m.gui_osc_port_random_r=checkbox_gui_osc_port_random_r.getState();
-		m.gui_osc_port_r=Integer.parseInt(text_gui_osc_port_r.getText());
+		g.gui_osc_port_random_r=checkbox_gui_osc_port_random_r.getState();
+		g.gui_osc_port_r=Integer.parseInt(text_gui_osc_port_r.getText());
 
 		l.set(list_languages.getText());
 
@@ -812,8 +813,8 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 
 /////////
 //should recreate conditionally..
-		Fonts.recreate();
-		m.updateFont();
+		Fonts.init();
+		g.updateFont();
 
 	}//end readForm
 
@@ -936,12 +937,12 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 		if(m.os.isMac())
 		{
 /*
-			tabPanel.setMnemonicAt(0, l.getMnemonicKeyEvent(m.tr("_Send")));
-			tabPanel.setMnemonicAt(1, l.getMnemonicKeyEvent(m.tr("_Receive")));
-			tabPanel.setMnemonicAt(2, l.getMnemonicKeyEvent(m.tr("_GUI")));
+			tabPanel.setMnemonicAt(0, l.getMnemonicKeyEvent(l.tr("_Send")));
+			tabPanel.setMnemonicAt(1, l.getMnemonicKeyEvent(l.tr("_Receive")));
+			tabPanel.setMnemonicAt(2, l.getMnemonicKeyEvent(l.tr("_GUI")));
 */
 
-			KeyStroke keyAltGotoSend = KeyStroke.getKeyStroke(l.getMnemonicKeyEvent(m.tr("_Send")),InputEvent.ALT_MASK);
+			KeyStroke keyAltGotoSend = KeyStroke.getKeyStroke(l.getMnemonicKeyEvent(l.tr("_Send")),InputEvent.ALT_MASK);
 			Action actionListenerGotoSendTab = new AbstractAction("GOTO_SEND_TAB")
 			{
 				public void actionPerformed(ActionEvent actionEvent)
@@ -953,7 +954,7 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 			inputMap.put(keyAltGotoSend, "GOTO_SEND_TAB");
 			rootPane.getActionMap().put("GOTO_SEND_TAB", actionListenerGotoSendTab);
 
-			KeyStroke keyAltGotoReceive = KeyStroke.getKeyStroke(l.getMnemonicKeyEvent(m.tr("_Receive")),InputEvent.ALT_MASK);
+			KeyStroke keyAltGotoReceive = KeyStroke.getKeyStroke(l.getMnemonicKeyEvent(l.tr("_Receive")),InputEvent.ALT_MASK);
 			Action actionListenerGotoReceiveTab = new AbstractAction("GOTO_RECEIVE_TAB")
 			{
 				public void actionPerformed(ActionEvent actionEvent)
@@ -965,7 +966,7 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 			inputMap.put(keyAltGotoReceive, "GOTO_RECEIVE_TAB");
 			rootPane.getActionMap().put("GOTO_RECEIVE_TAB", actionListenerGotoReceiveTab);
 
-			KeyStroke keyAltGotoGUI = KeyStroke.getKeyStroke(l.getMnemonicKeyEvent(m.tr("_GUI")),InputEvent.ALT_MASK);
+			KeyStroke keyAltGotoGUI = KeyStroke.getKeyStroke(l.getMnemonicKeyEvent(l.tr("_GUI")),InputEvent.ALT_MASK);
 			Action actionListenerGotoGUITab = new AbstractAction("GOTO_GUI_TAB")
 			{
 				public void actionPerformed(ActionEvent actionEvent)
@@ -1026,15 +1027,15 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 	public void setFocusedWidget(String tabname)
 	{
 /*
-		if(tabname.equals(m.tr("Send")))
+		if(tabname.equals(l.tr("Send")))
 		{
 			text_name_s.requestFocus();
 		}
-		else if(tabname.equals(m.tr("Receive")))
+		else if(tabname.equals(l.tr("Receive")))
 		{
 			text_name_r.requestFocus();
 		}
-		else if(tabname.equals(m.tr("GUI")))
+		else if(tabname.equals(l.tr("GUI")))
 		{
 			checkbox_gui_osc_port_random_s.requestFocus();
 		}

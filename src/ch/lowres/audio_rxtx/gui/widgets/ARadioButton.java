@@ -28,7 +28,7 @@ import java.awt.geom.*;
 //========================================================================
 public class ARadioButton extends JRadioButton implements MouseListener
 {
-	private static Main m;
+	private static GUI g;
 	private static Fonts f;
 
 	//0: invisible overlay
@@ -66,7 +66,7 @@ Image image = toolkit.getImage("grabber.png");
 Cursor c = toolkit.createCustomCursor(image, new Point(getX(), getY()), "img");
 setCursor (c);
 */
-		setIconTextGap(m.commonWidgetHeight);
+		setIconTextGap(g.commonWidgetHeight);
 
 		//http://www.java2s.com/Code/Java/Swing-JFC/CustomizeJCheckBoxicons.htm
 		//"remove" standard icons
@@ -83,12 +83,12 @@ setCursor (c);
 
 //========================================================================
 	@Override
-	public void paintComponent(Graphics g) 
+	public void paintComponent(Graphics gfx) 
 	{
-		FocusPaint.gradient(g,this);
-		super.paintComponent(g);
+		FocusPaint.gradient(gfx,this);
+		super.paintComponent(gfx);
 
-		Graphics2D g2 = (Graphics2D) g;
+		Graphics2D g2 = (Graphics2D) gfx;
 
 		//hover
 		if(alpha!=0 && !hasFocus())
@@ -100,27 +100,27 @@ setCursor (c);
 
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
 
-		FocusPaint.paint(g,this);
+		FocusPaint.paint(gfx,this);
 
 		//draw the radiobutton
 		g2.setPaint(Colors.black);
-		float padding=m.commonWidgetHeight*.15f;
-		g2.setStroke(new BasicStroke( (float) (Math.max(1,(m.commonWidgetHeight*0.05)) )));
+		float padding=g.commonWidgetHeight*.15f;
+		g2.setStroke(new BasicStroke( (float) (Math.max(1,(g.commonWidgetHeight*0.05)) )));
 		g2.draw( new Ellipse2D.Float(
 			padding,
 			padding,
-			m.commonWidgetHeight-2*padding,
-			m.commonWidgetHeight-2*padding
+			g.commonWidgetHeight-2*padding,
+			g.commonWidgetHeight-2*padding
 		));
 
 		if(isSelected())
 		{
-			padding=m.commonWidgetHeight*.35f;
+			padding=g.commonWidgetHeight*.35f;
 			g2.fill( new Ellipse2D.Float(
 				padding,
 				padding,
-				m.commonWidgetHeight-2*padding,
-				m.commonWidgetHeight-2*padding
+				g.commonWidgetHeight-2*padding,
+				g.commonWidgetHeight-2*padding
 			));
 		}
 	}//end paintComponent
@@ -144,7 +144,7 @@ setCursor (c);
 	@Override
 	public Dimension getPreferredSize()
 	{
-		return new Dimension((int)super.getPreferredSize().getWidth()+30,m.commonWidgetHeight);
+		return new Dimension((int)super.getPreferredSize().getWidth()+30,g.commonWidgetHeight);
 	}
 
 //legacy wrappers

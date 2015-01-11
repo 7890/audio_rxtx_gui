@@ -25,7 +25,7 @@ import javax.swing.*;
 //========================================================================
 public class ALabel extends JLabel
 {
-	private static Main m;
+	private static GUI g;
 	private static Fonts f;
 //========================================================================
 	public ALabel()
@@ -59,7 +59,7 @@ public class ALabel extends JLabel
 	@Override
 	public int getHeight()
 	{
-		return m.commonWidgetHeight;
+		return g.commonWidgetHeight;
 	}
 
 //========================================================================

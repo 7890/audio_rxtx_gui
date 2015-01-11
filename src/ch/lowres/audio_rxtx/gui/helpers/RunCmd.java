@@ -21,6 +21,8 @@ import ch.lowres.audio_rxtx.gui.*;
 public class RunCmd extends Thread 
 {
 	private static Main m;
+	private static Languages l;
+
 	private String commandLineString="";
 	private int exitStatus=-1;
 	private boolean devNull=false;
@@ -188,11 +190,11 @@ public class RunCmd extends Thread
 
 		if(exitStatus==0)
 		{
-			m.p("RunCmd '"+commandLineString+m.tr("' done. Exit was")+" "+exitStatus);
+			m.p("RunCmd '"+commandLineString+l.tr("' done. Exit was")+" "+exitStatus);
 		}
 		else
 		{
-			m.e("RunCmd '"+commandLineString+m.tr("' done. Exit was")+" "+exitStatus);
+			m.e("RunCmd '"+commandLineString+l.tr("' done. Exit was")+" "+exitStatus);
 		}
 	}//end run
 } //end class RunCmd

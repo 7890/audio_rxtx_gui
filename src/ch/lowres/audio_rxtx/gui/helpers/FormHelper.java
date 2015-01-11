@@ -25,6 +25,8 @@ import java.awt.*;
 public class FormHelper
 {
 	private static Main m;
+	private static GUI g;
+	private static Languages l;
 
 //========================================================================
 	public static void validate(Container container)
@@ -56,52 +58,52 @@ public class FormHelper
 //========================================================================
 	public static void viewSendPanel()
 	{
-		m.mainGrid.removeAll();
-		m.tabPanel.removeAll();
+		g.mainGrid.removeAll();
+		g.tabPanel.removeAll();
 
-		m.tabPanel.add(m.tr("Send"), m.scrollerTabSend);
-		m.tabPanel.add(m.tr("Receive"), m.scrollerTabReceive);
+		g.tabPanel.add(l.tr("Send"), g.scrollerTabSend);
+		g.tabPanel.add(l.tr("Receive"), g.scrollerTabReceive);
 
-		m.mainGrid.add(m.tabPanel);
-		m.mainGrid.validate();
+		g.mainGrid.add(g.tabPanel);
+		g.mainGrid.validate();
 
-		m.mainframe.pack();
+		g.mainframe.pack();
 
-		m.tabPanel.setSelectedIndex(0);
-		m.tabPanel.requestFocus();
+		g.tabPanel.setSelectedIndex(0);
+		g.tabPanel.requestFocus();
 	}
 
 //========================================================================
 	public static void viewReceivePanel()
 	{
-		m.mainGrid.removeAll();
-		m.tabPanel.removeAll();
+		g.mainGrid.removeAll();
+		g.tabPanel.removeAll();
 
-		m.tabPanel.add(m.tr("Send"), m.scrollerTabSend);
-		m.tabPanel.add(m.tr("Receive"), m.scrollerTabReceive);
+		g.tabPanel.add(l.tr("Send"), g.scrollerTabSend);
+		g.tabPanel.add(l.tr("Receive"), g.scrollerTabReceive);
 
-		m.mainGrid.add(m.tabPanel);
-		m.mainGrid.validate();
+		g.mainGrid.add(g.tabPanel);
+		g.mainGrid.validate();
 
-		m.mainframe.pack();
+		g.mainframe.pack();
 
-		m.tabPanel.setSelectedIndex(1);
-		m.tabPanel.requestFocus();
+		g.tabPanel.setSelectedIndex(1);
+		g.tabPanel.requestFocus();
 	}
 
 //========================================================================
 	public static void viewBothPanels()
 	{
-		m.mainGrid.removeAll();
-		m.tabPanel.removeAll();
+		g.mainGrid.removeAll();
+		g.tabPanel.removeAll();
 
-		m.mainGrid.add(m.scrollerTabSend);
-		m.mainGrid.add(m.scrollerTabReceive);
-		m.mainGrid.validate();
+		g.mainGrid.add(g.scrollerTabSend);
+		g.mainGrid.add(g.scrollerTabReceive);
+		g.mainGrid.validate();
 
-		m.mainframe.pack();
-//		m.setWindowCentered(m.mainframe);
+		g.mainframe.pack();
+//		g.setWindowCentered(g.mainframe);
 
-		m.frontSend.focusFirstInputWidget();
+		g.frontSend.focusFirstInputWidget();
 	}
 }//end class FormHelper

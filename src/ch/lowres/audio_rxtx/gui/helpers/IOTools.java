@@ -36,6 +36,9 @@ import java.net.*;
 public class IOTools
 {
 	private static Main m;
+	private static GUI g;
+	private static Languages l;
+
 	private static String jarFileString="";
 
 //========================================================================
@@ -97,7 +100,7 @@ public class IOTools
 					{
 						if(copyFileFromJar("/"+entry.getName(), new File(destUri+"/"+entry.getName())))
 						{
-							m.p(m.tr("extracted '") + entry.getName()+"'");// to '"+destUri+"'" );
+							m.p(l.tr("extracted '") + entry.getName()+"'");// to '"+destUri+"'" );
 						}
 					}
 				}
@@ -284,13 +287,13 @@ public class IOTools
 			}
 			catch(Exception e) 
 			{
-				m.setStatus("Could Not Open PDF File");
+				g.setStatus("Could Not Open PDF File");
 				e.printStackTrace();
 			}
 		}
 		else
 		{
-			m.setStatus("Could Not Open PDF File");
+			g.setStatus("Could Not Open PDF File");
 		}
 		return false;
 	}//end openFile
@@ -339,13 +342,13 @@ public class IOTools
 			}
 			catch(Exception e) 
 			{
-				m.setStatus("Could Not Browse URL");
+				g.setStatus("Could Not Browse URL");
 				e.printStackTrace();
 			}
 		}
 		else
 		{
-			m.setStatus("Could Not Browse URL");
+			g.setStatus("Could Not Browse URL");
 		}
 		return false;
 	}//end openFile
@@ -369,7 +372,7 @@ public class IOTools
 				//m.p("ip bound to nic: "+ifAddress.getHostAddress());
 			}
 			//return last bound address on that interface
-			m.p(m.tr("IP address")+": "+ifAddress.getHostAddress());
+			m.p(l.tr("IP address")+": "+ifAddress.getHostAddress());
 			return ifAddress;
 		}
 		catch (Exception e)

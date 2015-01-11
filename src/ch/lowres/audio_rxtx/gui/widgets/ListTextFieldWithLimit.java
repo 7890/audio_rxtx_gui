@@ -35,7 +35,7 @@ public class ListTextFieldWithLimit extends TextFieldWithLimit //implements KeyL
 	private int index=0;
 
 	//when clicked with mouse or space pressed, show list as separate dialog
-	private ListDialog ld=new ListDialog((Dialog)getParent(),m.tr("Choose"),true);
+	private ListDialog ld=new ListDialog((Dialog)getParent(),l.tr("Choose"),true);
 
 //========================================================================
 	public ListTextFieldWithLimit (String initialStr, int col, int maxLength) 

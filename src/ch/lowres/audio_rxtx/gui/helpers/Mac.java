@@ -12,12 +12,13 @@
 */
 
 package ch.lowres.audio_rxtx.gui.helpers;
-import ch.lowres.audio_rxtx.gui.Main;
+import ch.lowres.audio_rxtx.gui.*;
 
 //========================================================================
 public class Mac
 {
-	private static Main m;
+	private static GUI g;
+
 	//set dockname on osx:
 	//java -Xdock:name="appname"
 
@@ -36,10 +37,10 @@ public class Mac
 			public void handleAbout(com.apple.eawt.AppEvent.AboutEvent e)
 			{
 				//javax.swing.JOptionPane.showMessageDialog(null, "hello");
-				if(m.about!=null)
+				if(g.about!=null)
 				{
-					m.about.pack();
-					m.about.setVisible(true);
+					g.about.pack();
+					g.about.setVisible(true);
 				}
 			}
 		});
@@ -49,14 +50,14 @@ public class Mac
 			@Override
 			public void handlePreferences(com.apple.eawt.AppEvent.PreferencesEvent e)
 			{
-				if(m.configure!=null)
+				if(g.configure!=null)
 				{
-					m.configure.setVisible(true);
+					g.configure.setVisible(true);
 				}
 			}
 		});
 
 		//only works with Aqua Look and Feel
-		//application.setDefaultMenuBar(m.applicationMenu);
+		//application.setDefaultMenuBar(g.applicationMenu);
 	}//end init
 }//end class Mac

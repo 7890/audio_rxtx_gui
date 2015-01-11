@@ -62,7 +62,7 @@ public class jack_audio_receive_cmdline_API extends CmdlineAPI
 		command+="--pre "+_pre+" ";
 		command+="--max "+_max+" ";
 //		if(lport_random){command+="--lport 0 ";}else{command+="--lport "+_lport+" ";}
-		command+="--ioport "+m.gui_osc_port_r+" ";
+		command+="--ioport "+g.gui_osc_port_r+" ";
 		command+=_lport;
 		return command;
 	}

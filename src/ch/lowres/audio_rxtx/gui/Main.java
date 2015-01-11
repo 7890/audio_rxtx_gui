@@ -17,7 +17,6 @@ import ch.lowres.audio_rxtx.gui.helpers.*;
 import ch.lowres.audio_rxtx.gui.api.*;
 import ch.lowres.audio_rxtx.gui.osc.*;
 
-import java.awt.*;
 import java.awt.event.*;
 
 import com.illposed.osc.*;
@@ -26,12 +25,7 @@ import java.util.*;
 
 import java.io.File;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
-
-
-import javax.swing.plaf.basic.BasicTabbedPaneUI;
+//import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
 //import org.xnap.commons.i18n.*;
 
@@ -64,103 +58,21 @@ public class Main
 	//dummy
 	public final static String newestVersionFileUrl="https://raw.githubusercontent.com/7890/audio_rxtx_gui/master/README.md";
 
-	private static Fonts f;
-	private static Languages l;
+	public static GUI g;
+	public static Fonts f;
+	public static Languages l;
 
-	public static int commonWidgetHeight=(int)(f.fontNormalSize*1.6);
+	//platform specific system tmp directory
+	public static String tmpDir;
 
-	//relative to fontDefaultSize * fontLargeFactor (font on buttons)
-	public static float buttonHeightScale=2.3f;
-	public static int scrollbarIncrement=16;
+	public static IOTools iot=new IOTools();
+	public static OSTest os=new OSTest();
 
-	//osc gui io
-	//will be set by .properties file
-	public static boolean gui_osc_port_random_s=false;
-	public static int gui_osc_port_s=-1;
-
-	public static boolean gui_osc_port_random_r=false;
-	public static int gui_osc_port_r=-1;
-
-	public static boolean keep_cache=false;
-	public static boolean show_both_panels=false;
-
-	//osc sender, receiver for communication gui<->jack_audio_send
-	public static OSCPortOut portOutSend; //sender
-	public static OSCPortIn portInSend; //receiver
-
-	public static OSCPortOut portOutReceive; //sender
-	public static OSCPortIn portInReceive; //receiver
-
-	public static final long WAIT_FOR_SOCKET_CLOSE=3;
-
-	//handler for osc messages
-	public static GuiOscListenerSend goscs;
-	public static GuiOscListenerReceive goscr;
+	public static int ctrlOrCmd=InputEvent.CTRL_MASK;
 
 	//holding several config values, construct command line for jack_audio_send
 	public static jack_audio_send_cmdline_API apis;
 	public static jack_audio_receive_cmdline_API apir;
-
-	//dalogs
-	public static ConfigureDialog configure;
-	public static AboutDialog about;
-	public static InfoDialog info;
-
-	//the main window
-	public static JFrame mainframe;
-
-	public static AppMenu applicationMenu;
-
-	public static JScrollPane scrollerTabSend;
-	public static JScrollPane scrollerTabReceive;
-
-	public static JScrollBar scrollbarSend;
-	public static JScrollBar scrollbarReceive;
-
-	public static JPanel tabSend;
-	public static JPanel tabReceive;
-
-	public static JTabbedPane tabPanel = new JTabbedPane()
-	{
-		@Override
-		public void paintComponent(Graphics g) 
-		{
-			//FocusPaint.gradient(g,tabPanel);
-			super.paintComponent(g);
-			FocusPaint.paint(g,tabPanel);
-		}	
-	};
-
-	public static JPanel mainGrid;
-
-	public static JPanel cardPanelSend;
-	public static CardLayout cardLaySend;
-
-	public static JPanel cardPanelReceive;
-	public static CardLayout cardLayReceive;
-
-	//cards
-	public static FrontCardSend frontSend;
-	public static RunningCardSend runningSend;
-
-	public static FrontCardReceive frontReceive;
-	public static RunningCardReceive runningReceive;
-
-	public static StatusLabel labelStatus;
-
-	public final static int FRONT=0;
-	public final static int RUNNING=1;
-
-	public static int sendStatus=FRONT;
-	public static int receiveStatus=FRONT;
-
-	//convenience class to add widgets to form
-	public static FormUtility formUtility;
-
-	public static Dimension screenDimension;
-
-	//platform specific system tmp directory
-	public static String tmpDir;
 
 	//thread to run binaries
 	public static RunCmd cmdSend;
@@ -170,13 +82,18 @@ public class Main
 	public static Watchdog dogSend;
 	public static Watchdog dogReceive;
 
-	public static IOTools iot=new IOTools();
-	public static OSTest os=new OSTest();
+	public final static int FRONT=0;
+	public final static int RUNNING=1;
+	public static int sendStatus=FRONT;
+	public static int receiveStatus=FRONT;
 
-	//map containing all global key actions
-	public static HashMap<KeyStroke, Action> actionMap = new HashMap<KeyStroke, Action>();
+	//osc sender, receiver for communication gui<->jack_audio_send
+	public static OSCPortOut portOutSend; //sender
+	public static OSCPortIn portInSend; //receiver
 
-	public static int ctrlOrCmd=InputEvent.CTRL_MASK;
+	public static OSCPortOut portOutReceive; //sender
+	public static OSCPortIn portInReceive; //receiver
+	public static final long WAIT_FOR_SOCKET_CLOSE=3;
 
 //========================================================================
 	public static void main(String[] args) 
@@ -288,261 +205,31 @@ public class Main
 			e("error creating tmp directory to extract jar contents: '"+tmpDir+"'");
 		}
 
-		setCrossPlatformLAF();
-
-		Images.init();
-
-		screenDimension=Toolkit.getDefaultToolkit().getScreenSize();
-
-		//init
-		Fonts.recreate();
-
-		formUtility=new FormUtility();
-
-		//dialogs
-		configure=new ConfigureDialog(mainframe,"Configure "+progName, true);
-		about=new AboutDialog(mainframe, "About "+progName, true);
-		info=new InfoDialog(mainframe, "Information "+progName, true);
-
-		createForm();
-
-		if(os.isMac())
-		{
-			Mac.init();
-		}
-
-		if(show_both_panels)
-		{
-			FormHelper.viewBothPanels();			
-		}
-		else
-		{
-			FormHelper.viewSendPanel();
-		}
-
-		if(apis.autostart || apir.autostart)
-		{
-			try{Thread.sleep(500);}catch(Exception ign){}
-		}
-
-		if(apis.autostart)
-		{
-			startTransmissionSend();
-			if(apir.autostart)
-			{
-				try{Thread.sleep(100);}catch(Exception ign){}
-			}
-		}
-		if(apir.autostart)
-		{
-			startTransmissionReceive();
-		}
-
+		//init gui
+		g.init();
 	}//end constructor
-
-//http://stackoverflow.com/questions/1065691/how-to-set-the-background-color-of-a-jbutton-on-the-mac-os
-//========================================================================
-	public static void setCrossPlatformLAF()
-	{
-		try
-		{
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-			if(os.isMac())
-			{
-				//http://stackoverflow.com/questions/7252749/how-to-use-command-c-command-v-shortcut-in-mac-to-copy-paste-text
-				InputMap im = (InputMap) UIManager.get("TextField.focusInputMap");
-				im.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.META_DOWN_MASK), DefaultEditorKit.selectAllAction);
-				im.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.META_DOWN_MASK), DefaultEditorKit.copyAction);
-				im.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.META_DOWN_MASK), DefaultEditorKit.pasteAction);
-				im.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.META_DOWN_MASK), DefaultEditorKit.cutAction);
-			}
-
-
-			UIManager.put("TabbedPane.background",Colors.form_background);
-			UIManager.put("TabbedPane.foreground",Colors.form_foreground);
-			UIManager.put("TabbedPane.selected", Colors.form_background);
-			UIManager.put("TabbedPane.selectedForeground",Colors.form_foreground);
-			UIManager.put("TabbedPane.background",Colors.form_background.brighter().brighter());
-			UIManager.put("TabbedPane.tabsOverlapBorder",false);
-
-			//around the tabs
-			//Insets(int top, int left, int bottom, int right) 
-			UIManager.put("TabbedPane.tabAreaInsets",new Insets(10,10,0,0));
-			//for all tabs, around inner text
-			UIManager.put("TabbedPane.tabInsets",new Insets(5,5,5,5));
-
-			//puts currently selected higher
-			UIManager.put("TabbedPane.selectedTabPadInsets",new Insets(5,0,0,0));
-
-			UIManager.put("TabbedPane.highlight",Colors.black);
-
-			//"hide" focus
-			UIManager.put("TabbedPane.focus",Colors.form_background);
-
-		} catch (Exception e)
-		{
-			w(l.tr("Unable to set cross-platform look and feel")+": " + e);
-		}
-	}
-
-//========================================================================
-	private static void createForm()
-	{
-		//setCrossPlatformLAF();
-		//setNativeLAF();
-
-		mainframe=new JFrame(progName);
-		mainframe.setLayout(new BorderLayout());
-		mainframe.setIconImage(Images.appIcon);
-
-		//"cards" / for switching views / all in one window
-		cardPanelSend=new JPanel();
-		cardLaySend=new CardLayout();
-		cardPanelSend.setLayout(cardLaySend);
-
-		cardPanelReceive=new JPanel();
-		cardLayReceive=new CardLayout();
-		cardPanelReceive.setLayout(cardLayReceive);
-
-		tabSend=new JPanel(new BorderLayout());
-		tabSend.add(cardPanelSend,BorderLayout.CENTER);
-
-		scrollerTabSend=new JScrollPane (tabSend, 
-			ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-		scrollerTabSend.setWheelScrollingEnabled(true);
-
-		scrollbarSend=scrollerTabSend.getVerticalScrollBar();
-		scrollbarSend.setUnitIncrement(scrollbarIncrement);
-
-		tabReceive=new JPanel(new BorderLayout());
-		tabReceive.add(cardPanelReceive,BorderLayout.CENTER);
-		scrollerTabReceive=new JScrollPane (tabReceive, 
-			ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-		scrollerTabReceive.setWheelScrollingEnabled(true);
-
-		scrollbarReceive=scrollerTabReceive.getVerticalScrollBar();
-		scrollbarReceive.setUnitIncrement(scrollbarIncrement);
-
-		tabPanel.setFont(f.fontNormal);
-		tabPanel.add(l.tr("Send"), scrollerTabSend);
-		tabPanel.add(l.tr("Receive"), scrollerTabReceive);
-
-		tabPanel.addChangeListener(new ChangeListener()
-		{
-			@Override
-			public void stateChanged(ChangeEvent e)
-			{
-				setFocusedWidget();
-			}
-		});
-
-		//http://stackoverflow.com/questions/5183687/java-remove-margin-padding-on-a-jtabbedpane
-		tabPanel.setUI(new BasicTabbedPaneUI()
-		{
-			//top,left,right,bottom
-			private final Insets borderInsets = new Insets(0,0,0,0);
-			@Override
-			protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex)
-			{
-			}
-			@Override
-			protected Insets getContentBorderInsets(int tabPlacement)
-			{
-				return borderInsets;
-			}
-		});
-
-
-		mainGrid=new JPanel(new GridLayout(1,2)); //y,x
-
-		mainGrid.add(tabPanel);
-
-		mainframe.add(mainGrid,BorderLayout.CENTER);
-
-		//menu always on top
-		//JPopupMenu.setDefaultLightWeightPopupEnabled(false);
-
-		applicationMenu=new AppMenu();
-		mainframe.setJMenuBar(applicationMenu);
-
-		frontSend=new FrontCardSend();
-		frontSend.setValues();
-		cardPanelSend.add(frontSend, "1");
-
-		runningSend=new RunningCardSend();
-		runningSend.setValues();
-		cardPanelSend.add(runningSend, "2");
-
-		frontReceive=new FrontCardReceive();
-		frontReceive.setValues();
-		cardPanelReceive.add(frontReceive, "1");
-
-		runningReceive=new RunningCardReceive();
-		runningReceive.setValues();
-		cardPanelReceive.add(runningReceive, "2");
-
-		labelStatus=new StatusLabel(l.tr("Ready"));
-
-		mainframe.add(labelStatus,BorderLayout.SOUTH);
-
-		frontSend.checkbox_format_16.requestFocus();
-
-		addWindowListeners();
-
-		addGlobalKeyListeners();
-
-		mainframe.pack();
-		mainframe.setResizable(false);
-		setWindowCentered(mainframe);
-
-		//"run" GUI
-		mainframe.setVisible(true);
-
-	}//end createForm
-
-//========================================================================
-	public static void setStatus(String message)
-	{
-		if(labelStatus!=null)
-		{
-			labelStatus.setStatus(message,2000);
-		}
-	}
-
-//========================================================================
-	public static void setStatusError(String message)
-	{
-		if(labelStatus!=null)
-		{
-			labelStatus.setStatusError(message,2000);
-		}
-	}
 
 //========================================================================
 	public static void startTransmissionSend()
 	{
 		//form already read/vaildated in front button handler
 
-		frontSend.setStatus("Starting GUI OSC Server");
+		g.frontSend.setStatus("Starting GUI OSC Server");
 
 		//for gui<->jack_audio_send communication
 		if(startOscServerSend()==-1)
 		{
 			e("the audio_rxtx osc gui server could not be started.");
-			frontSend.setStatus("GUI OSC Server Could Not Be Started");
+			g.frontSend.setStatus("GUI OSC Server Could Not Be Started");
 			return;
 		}
 		else
 		{
-			p(l.tr("OSC GUI server started on UDP port")+" "+gui_osc_port_s);
-			frontSend.setStatus("GUI OSC Server Started");
+			p(l.tr("OSC GUI server started on UDP port")+" "+g.gui_osc_port_s);
+			g.frontSend.setStatus("GUI OSC Server Started");
 		}
 
-		frontSend.setStatus("Executing jack_audio_send");
+		g.frontSend.setStatus("Executing jack_audio_send");
 
 		p(l.tr("Execute")+": "+apis.getCommandLineString());
 		cmdSend=new RunCmd(apis.getCommandLineString());
@@ -561,9 +248,9 @@ public class Main
 
 		AppMenu.setForRunningSend();
 
-		runningSend.setValues();
-		cardLaySend.show(cardPanelSend, "2");
-		runningSend.button_default.requestFocus();
+		g.runningSend.setValues();
+		g.cardLaySend.show(g.cardPanelSend, "2");
+		g.runningSend.button_default.requestFocus();
 
 		sendStatus=RUNNING;
 
@@ -574,22 +261,22 @@ public class Main
 	{
 		//form already read/vaildated in front button handler
 
-		frontReceive.setStatus("Starting GUI OSC Server");
+		g.frontReceive.setStatus("Starting GUI OSC Server");
 
 		//for gui<->jack_audio_send communication
 		if(startOscServerReceive()==-1)
 		{
 			e("the audio_rxtx osc gui server could not be started.");
-			frontReceive.setStatus("GUI OSC Server Could Not Be Started");
+			g.frontReceive.setStatus("GUI OSC Server Could Not Be Started");
 			return;
 		}
 		else
 		{
-			p(l.tr("OSC GUI server started on UDP port")+" "+gui_osc_port_r);
-			frontReceive.setStatus("GUI OSC Server Started");
+			p(l.tr("OSC GUI server started on UDP port")+" "+g.gui_osc_port_r);
+			g.frontReceive.setStatus("GUI OSC Server Started");
 		}
 
-		frontReceive.setStatus("Executing jack_audio_receive");
+		g.frontReceive.setStatus("Executing jack_audio_receive");
 
 		p(l.tr("Execute")+": "+apir.getCommandLineString());
 		cmdReceive=new RunCmd(apir.getCommandLineString());
@@ -607,9 +294,9 @@ public class Main
 		dogReceive.start();
 
 		AppMenu.setForRunningReceive();
-		runningReceive.setValues();
-		cardLayReceive.show(cardPanelReceive, "2");
-		runningReceive.button_default.requestFocus();
+		g.runningReceive.setValues();
+		g.cardLayReceive.show(g.cardPanelReceive, "2");
+		g.runningReceive.button_default.requestFocus();
 
 		receiveStatus=RUNNING;
 
@@ -664,12 +351,12 @@ public class Main
 		apis.expected_network_data_rate=0;
 
 		//show main panel again
-		cardLaySend.show(cardPanelSend, "1");
+		g.cardLaySend.show(g.cardPanelSend, "1");
 
-		frontSend.button_default.requestFocus();
-		frontSend.setStatus(l.tr("Ready"));
+		g.frontSend.button_default.requestFocus();
+		g.frontSend.setStatus(l.tr("Ready"));
 
-		mainframe.pack();
+		g.mainframe.pack();
 
 		sendStatus=FRONT;
 
@@ -721,39 +408,14 @@ public class Main
 		apir.jack_period_size=0;
 
 		//show main panel again
-		cardLayReceive.show(cardPanelReceive, "1");
-		frontReceive.button_default.requestFocus();
-		frontReceive.setStatus(l.tr("Ready"));
+		g.cardLayReceive.show(g.cardPanelReceive, "1");
+		g.frontReceive.button_default.requestFocus();
+		g.frontReceive.setStatus(l.tr("Ready"));
 
 		receiveStatus=FRONT;
 
 	}//end stopTransmissionReceive
 
-//========================================================================
-	private static void addWindowListeners()
-	{
-		mainframe.addWindowListener(new WindowListener() 
-		{
-			@Override
-			public void windowClosed(WindowEvent arg0){}
-			@Override
-			public void windowClosing(WindowEvent arg0)
-			{
-				//
-				System.exit(0);		
-			}
-			@Override
-			public void windowActivated(WindowEvent arg0) {/*p("---activated");*/}
-			@Override
-			public void windowDeactivated(WindowEvent arg0) {/*p("---deactivated");*/}
-			@Override
-			public void windowDeiconified(WindowEvent arg0) {/*p("---deiconified");*/}
-			@Override
-			public void windowIconified(WindowEvent arg0) {/*p("---iconified");*/}
-			@Override
-			public void windowOpened(WindowEvent arg0) {/*p("---opened");*/}
-		});
-	}//end addWindowListeners
 
 //========================================================================
 	public static int startOscServerSend()
@@ -761,14 +423,14 @@ public class Main
 		try
 		{
 			DatagramSocket ds;
-			if(gui_osc_port_random_s)
+			if(g.gui_osc_port_random_s)
 			{
 				ds=new DatagramSocket();
-				gui_osc_port_s=ds.getLocalPort();
+				g.gui_osc_port_s=ds.getLocalPort();
 			}
 			else
 			{
-				ds=new DatagramSocket(gui_osc_port_s);
+				ds=new DatagramSocket(g.gui_osc_port_s);
 			}
 
 			if(portInSend!=null)
@@ -784,18 +446,17 @@ public class Main
 			portInSend=new OSCPortIn(ds);
 			portOutSend=new OSCPortOut(InetAddress.getLocalHost(), apis._lport, ds);
 
-			goscs=new GuiOscListenerSend(runningSend, apis);
+			g.goscs=new GuiOscListenerSend(g.runningSend, apis);
 
 			//catch every message
-			portInSend.addListener("/*", goscs);
+			portInSend.addListener("/*", g.goscs);
 			portInSend.startListening();
 		}
 		catch(Exception oscex)
 		{
-			e(l.tr("Could not start OSC GUI server on UDP port")+" "+gui_osc_port_s+". "+oscex.getMessage());
+			e(l.tr("Could not start OSC GUI server on UDP port")+" "+g.gui_osc_port_s+". "+oscex.getMessage());
 			return -1;
 		}
-
 		return 0;
 	}//end startOscServerSend
 
@@ -807,14 +468,14 @@ public class Main
 		try
 		{
 			DatagramSocket ds;
-			if(gui_osc_port_random_r)
+			if(g.gui_osc_port_random_r)
 			{
 				ds=new DatagramSocket();
-				gui_osc_port_r=ds.getLocalPort();
+				g.gui_osc_port_r=ds.getLocalPort();
 			}
 			else
 			{
-				ds=new DatagramSocket(gui_osc_port_r);
+				ds=new DatagramSocket(g.gui_osc_port_r);
 			}
 
 			if(portInReceive!=null)
@@ -830,15 +491,15 @@ public class Main
 			portInReceive=new OSCPortIn(ds);
 			portOutReceive=new OSCPortOut(InetAddress.getLocalHost(), apir._lport, ds);
 
-			goscr=new GuiOscListenerReceive(runningReceive, apir);
+			g.goscr=new GuiOscListenerReceive(g.runningReceive, apir);
 
 			//catch every message
-			portInReceive.addListener("/*", goscr);
+			portInReceive.addListener("/*", g.goscr);
 			portInReceive.startListening();
 		}
 		catch(Exception oscex)
 		{
-			e(l.tr("Could not start OSC GUI server on UDP port")+" "+gui_osc_port_r+". "+oscex.getMessage());
+			e(l.tr("Could not start OSC GUI server on UDP port")+" "+g.gui_osc_port_r+". "+oscex.getMessage());
 			return -1;
 		}
 
@@ -859,7 +520,7 @@ public class Main
 				stopTransmissionSend();
 				stopTransmissionReceive();
 
-				if(!keep_cache)
+				if(!g.keep_cache)
 				{
 					p(l.tr("Cleaning up..."));
 					p(l.tr("Removing temporary cache directory '")+tmpDir+"'");
@@ -911,182 +572,6 @@ public class Main
 		System.out.println("/!\\ "+s);
 	}
 
-//========================================================================
-	public static void setWindowCentered(Frame f)
-	{
-		f.setLocation(
-			(int)((screenDimension.getWidth()-f.getWidth()) / 2),
-			(int)((screenDimension.getHeight()-f.getHeight()) / 2)
-		);
-	}
-
-//========================================================================
-	public static void setDialogCentered(Dialog d)
-	{
-		Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(d.getGraphicsConfiguration());
-
-		d.setLocation(
-			(int)((screenDimension.getWidth()-insets.left-insets.right-d.getWidth()) / 2),
-			(int)((screenDimension.getHeight()-insets.top-insets.bottom-d.getHeight()) / 2)
-		);
-	}
-
-//========================================================================
-	public static void nextTab()
-	{
-		if(tabPanel.getTabCount()<1)
-		{
-			return;
-		}
-		int newIndex=tabPanel.getSelectedIndex();
-		newIndex++;
-		newIndex=newIndex % tabPanel.getTabCount();
-		tabPanel.setSelectedIndex(newIndex);
-	}
-
-//========================================================================
-	public static void prevTab()
-	{
-		if(tabPanel.getTabCount()<1)
-		{
-			return;
-		}
-		int newIndex=tabPanel.getSelectedIndex();
-		newIndex--;
-		tabPanel.setSelectedIndex(newIndex < 0 ? tabPanel.getTabCount()-1 : newIndex);
-	}
-
-//========================================================================
-	public static void setFocusedWidget()
-	{
-//		String tabname=tabPanel.getTitleAt(tabPanel.getSelectedIndex());
-//		setFocusedWidget(tabname);
-	}
-
-//========================================================================
-	public static void setFocusedWidget(String tabname)
-	{
-/*
-		if(tabname.equals(l.tr("Send")))
-		{
-		}
-		else if(tabname.equals(l.tr("Receive")))
-		{
-		}
-*/
-	}
-
-//========================================================================
-	private static void addGlobalKeyListeners()
-	{
-		JRootPane rootPane = mainframe.getRootPane();
-
-		InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-		//InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-
-		KeyStroke keyEnter = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0);
-
-		Action actionListenerConfirm = new AbstractAction("CONFIRM")
-		{
-			public void actionPerformed(ActionEvent actionEvent)
-			{
-/////doesnt work
-//FormHelper.defaultCardAction((Component)actionEvent.getSource());
-
-				//check if a menu is selected, enter will act like a click or space
-				SingleSelectionModel ssm=mainframe.getJMenuBar().getSelectionModel();
-				//p("is selected: "+ssm.isSelected()+" index: "+ssm.getSelectedIndex());
-				if(ssm.isSelected())
-				{
-					//http://www.java2s.com/Tutorial/Java/0240__Swing/GettingtheCurrentlySelectedMenuorMenuItem.htm
-					MenuElement[] path = MenuSelectionManager.defaultManager().getSelectedPath();
-					if (path.length > 1)
-					{
-						Component c = path[path.length-1].getComponent();
-						if (c instanceof JMenuItem)
-						{
-							JMenuItem mi = (JMenuItem) c;
-							MenuSelectionManager.defaultManager().clearSelectedPath();
-							mi.doClick();
-						}
-					}
-				}//end if menu is selected
-			}
-		};
-
-		inputMap.put(keyEnter, "ENTER");
-		rootPane.getActionMap().put("ENTER", actionListenerConfirm);
-
-//////////////
-		KeyStroke keyAltRight = KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,InputEvent.ALT_MASK);
-		actionMap.put(keyAltRight, new AbstractAction("DEBUG_FOCUS") 
-		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-
-				p("focus: "+KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner());
-			}
-		});
-
-		//http://stackoverflow.com/questions/100123/application-wide-keyboard-shortcut-java-swing
-		KeyboardFocusManager kfm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-		kfm.addKeyEventDispatcher( new KeyEventDispatcher() 
-		{
-			@Override
-			public boolean dispatchKeyEvent(KeyEvent e)
-			{
-				KeyStroke keyStroke = KeyStroke.getKeyStrokeForEvent(e);
-				if ( actionMap.containsKey(keyStroke) )
-				{
-					final Action a = actionMap.get(keyStroke);
-					final ActionEvent ae = new ActionEvent(e.getSource(), e.getID(), null );
-					SwingUtilities.invokeLater( new Runnable()
-					{
-						@Override
-						public void run()
-						{
-							a.actionPerformed(ae);
-						}
-					} ); 
-					return true;
-				}
-				return false;
-			}
-		});
-	}//end addGlobalKeyListeners
-
-//========================================================================
-	public static String tr(String text)
-	{
-///////////////////
-//moved to languages
-//needs refactoring in calling classes
-		return Languages.tr(text);
-	}
-
-//========================================================================
-	public static void updateFont()
-	{
-		Fonts.change(mainframe);
-
-		Fonts.change(configure);
-		configure.repack();
-		setDialogCentered(configure);
-
-		Fonts.change(about);
-		Fonts.change(info);
-
-		about.pack();
-		info.pack();
-
-		setDialogCentered(about);
-		setDialogCentered(info);
-
-		mainframe.pack();
-
-		setWindowCentered(mainframe);
-	}
 }//end class Main
 
 /**

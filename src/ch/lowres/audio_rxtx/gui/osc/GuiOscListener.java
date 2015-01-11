@@ -13,6 +13,7 @@
 
 package ch.lowres.audio_rxtx.gui.osc;
 import ch.lowres.audio_rxtx.gui.*;
+import ch.lowres.audio_rxtx.gui.helpers.*;
 import ch.lowres.audio_rxtx.gui.api.*;
 
 import java.awt.Panel;
@@ -32,6 +33,8 @@ import java.text.DecimalFormat;
 public abstract class GuiOscListener implements OSCListener
 {
 	static Main m;
+	static GUI g;
+	static Languages l;
 
 	Card card;
 	CmdlineAPI api;
@@ -70,7 +73,7 @@ public abstract class GuiOscListener implements OSCListener
 		//println("osc msg received: "+path+" ("+argsSize+" args)");
 		if(path.equals("/startup") && argsSize==2)
 		{
-			card.setStatus(api.command_name+" "+m.tr("started"));
+			card.setStatus(api.command_name+" "+l.tr("started"));
 			api.version=(Float)args.get(0);
 			api.format_version=(Float)args.get(1);
 
@@ -79,7 +82,7 @@ public abstract class GuiOscListener implements OSCListener
 
 		else if(path.equals("/client_name_changed"))
 		{
-			card.setStatus(m.tr("JACK client name changed"));
+			card.setStatus(l.tr("JACK client name changed"));
 		}
 
 //issiiiiiiiiiiiiiiiiisiiiiif
@@ -118,7 +121,7 @@ public abstract class GuiOscListener implements OSCListener
 				+", AF: "+ (api._16 ? "16 bit Integer" : "32 bit Float")
 			);
 
-			card.setLabel(3, m.tr("Initializing..."));
+			card.setLabel(3, l.tr("Initializing..."));
 
 
 		}//end /config_dump
@@ -132,34 +135,34 @@ public abstract class GuiOscListener implements OSCListener
 
 		else if(path.equals("/start_main_loop"))
 		{
-			card.setStatus(m.tr("Main loop started"));
+			card.setStatus(l.tr("Main loop started"));
 		}
 
 		else if(path.equals("/test_finished") && argsSize==1)
 		{
 			//0: # of cycles elapsed
-			card.setStatus(m.tr("Test finished"));
+			card.setStatus(l.tr("Test finished"));
 		}
 
 		else if(path.equals("/quit") && argsSize==1)
 		{
 			//tell quit reason
 
-			card.setLabel(3,m.tr("Process terminated"));
+			card.setLabel(3,l.tr("Process terminated"));
 
 			if(args.get(0).equals("nolibjack"))
 			{
-				card.setLabel(4,m.tr("No libjack found. Is JACK installed?"));
+				card.setLabel(4,l.tr("No libjack found. Is JACK installed?"));
 				card.setLabel(5,"See http://www.jackaudio.org");
 
 			}
 			else if(args.get(0).equals("nojack"))
 			{
-				card.setLabel(4,m.tr("JACK not running (server '")+api._sname+"')");
-				card.setLabel(5,m.tr("Please start JACK manually."));
+				card.setLabel(4,l.tr("JACK not running (server '")+api._sname+"')");
+				card.setLabel(5,l.tr("Please start JACK manually."));
 			}
 
-			card.button_default.setLabel(m.tr("Back"));
+			card.button_default.setLabel(l.tr("Back"));
 
 			card.setStatus("jack_audio_send Quit: "+args.get(0));
 		}
