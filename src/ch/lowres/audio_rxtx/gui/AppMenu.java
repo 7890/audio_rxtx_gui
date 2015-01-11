@@ -282,16 +282,6 @@ public class AppMenu extends JMenuBar
 		{
 			@Override public void actionPerformed(ActionEvent e)
 			{
-				//possibly needs confirmation when transmission running
-				try 
-				{
-					OSCMessage msg=new OSCMessage("/quit");
-					m.portOutSend.send(msg);
-					m.portOutReceive.send(msg);
-				} 
-				catch (Exception oscex) 
-				{///
-				}
 				System.exit(0);
 			}
 		});
