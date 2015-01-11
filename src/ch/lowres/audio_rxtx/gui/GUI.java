@@ -259,6 +259,7 @@ public class GUI
 		tabPanel.add(l.tr("Send"), scrollerTabSend);
 		tabPanel.add(l.tr("Receive"), scrollerTabReceive);
 
+/*
 		tabPanel.addChangeListener(new ChangeListener()
 		{
 			@Override
@@ -267,6 +268,7 @@ public class GUI
 				setFocusedWidget();
 			}
 		});
+*/
 
 		//http://stackoverflow.com/questions/5183687/java-remove-margin-padding-on-a-jtabbedpane
 		tabPanel.setUI(new BasicTabbedPaneUI()
@@ -419,26 +421,6 @@ public class GUI
 		int newIndex=tabPanel.getSelectedIndex();
 		newIndex--;
 		tabPanel.setSelectedIndex(newIndex < 0 ? tabPanel.getTabCount()-1 : newIndex);
-	}
-
-//========================================================================
-	public static void setFocusedWidget()
-	{
-//		String tabname=tabPanel.getTitleAt(tabPanel.getSelectedIndex());
-//		setFocusedWidget(tabname);
-	}
-
-//========================================================================
-	public static void setFocusedWidget(String tabname)
-	{
-/*
-		if(tabname.equals(l.tr("Send")))
-		{
-		}
-		else if(tabname.equals(l.tr("Receive")))
-		{
-		}
-*/
 	}
 
 //========================================================================

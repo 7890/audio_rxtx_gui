@@ -16,6 +16,7 @@ import ch.lowres.audio_rxtx.gui.*;
 import ch.lowres.audio_rxtx.gui.widgets.*;
 
 import java.awt.*;
+import javax.swing.*;
 
 /**
 * Helper to validate input widgets in a Container, trigger default action.
@@ -58,6 +59,13 @@ public class FormHelper
 //========================================================================
 	public static void viewSendPanel()
 	{
+		if(g.tabPanel.getTabCount()==2)
+		{
+			g.tabPanel.setSelectedIndex(0);
+			g.frontSend.focusFirstInputWidget();
+			return;
+		}
+
 		g.mainGrid.removeAll();
 		g.tabPanel.removeAll();
 
@@ -67,15 +75,28 @@ public class FormHelper
 		g.mainGrid.add(g.tabPanel);
 		g.mainGrid.validate();
 
-		g.mainframe.pack();
-
-		g.tabPanel.setSelectedIndex(0);
-		g.tabPanel.requestFocus();
+		SwingUtilities.invokeLater( new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				g.mainframe.pack();
+				g.tabPanel.setSelectedIndex(0);
+				g.frontSend.focusFirstInputWidget();
+			}
+		});
 	}
 
 //========================================================================
 	public static void viewReceivePanel()
 	{
+		if(g.tabPanel.getTabCount()==2)
+		{
+			g.tabPanel.setSelectedIndex(1);
+			g.frontReceive.focusFirstInputWidget();
+			return;
+		}
+
 		g.mainGrid.removeAll();
 		g.tabPanel.removeAll();
 
@@ -85,10 +106,16 @@ public class FormHelper
 		g.mainGrid.add(g.tabPanel);
 		g.mainGrid.validate();
 
-		g.mainframe.pack();
-
-		g.tabPanel.setSelectedIndex(1);
-		g.tabPanel.requestFocus();
+		SwingUtilities.invokeLater( new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				g.mainframe.pack();
+				g.tabPanel.setSelectedIndex(1);
+				g.frontReceive.focusFirstInputWidget();
+			}
+		});
 	}
 
 //========================================================================
