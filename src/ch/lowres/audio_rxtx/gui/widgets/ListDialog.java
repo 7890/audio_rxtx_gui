@@ -230,7 +230,10 @@ where to display on the screen, set via showDialog(..) by caller
 				else if (e.getKeyCode() == KeyEvent.VK_RIGHT && !isCtrlOrCmdDown)
 				{
 					e.consume();
-					expandList();
+					if(!isExpanded)
+					{
+						expandList();
+					}
 				}
 				else if (e.getKeyCode() == KeyEvent.VK_LEFT && !isCtrlOrCmdDown)
 				{
