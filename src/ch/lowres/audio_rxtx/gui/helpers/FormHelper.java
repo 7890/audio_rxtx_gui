@@ -77,7 +77,6 @@ public class FormHelper
 
 		SwingUtilities.invokeLater( new Runnable()
 		{
-			@Override
 			public void run()
 			{
 				g.mainframe.pack();
@@ -108,7 +107,6 @@ public class FormHelper
 
 		SwingUtilities.invokeLater( new Runnable()
 		{
-			@Override
 			public void run()
 			{
 				g.mainframe.pack();

@@ -431,7 +431,6 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 
 		checkbox_test_s.addItemListener(new ItemListener()
 		{
-			@Override
 			public void itemStateChanged(ItemEvent e)
 			{
 				if (e.getStateChange() == ItemEvent.SELECTED)
@@ -463,7 +462,6 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 
 		checkbox_lport_random_s.addItemListener(new ItemListener()
 		{
-			@Override
 			public void itemStateChanged(ItemEvent e)
 			{
 				if (e.getStateChange() == ItemEvent.SELECTED)
@@ -499,7 +497,6 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 
 		checkbox_test_r.addItemListener(new ItemListener()
 		{
-			@Override
 			public void itemStateChanged(ItemEvent e)
 			{
 				if (e.getStateChange() == ItemEvent.SELECTED)
@@ -557,7 +554,6 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 
 		checkbox_use_internal_font.addItemListener(new ItemListener()
 		{
-			@Override
 			public void itemStateChanged(ItemEvent e)
 			{
 				if (e.getStateChange() == ItemEvent.SELECTED)
@@ -594,7 +590,6 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 
 		checkbox_gui_osc_port_random_s.addItemListener(new ItemListener()
 		{
-			@Override
 			public void itemStateChanged(ItemEvent e)
 			{
 				if (e.getStateChange() == ItemEvent.SELECTED)
@@ -617,7 +612,6 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 
 		checkbox_gui_osc_port_random_r.addItemListener(new ItemListener()
 		{
-			@Override
 			public void itemStateChanged(ItemEvent e)
 			{
 				if (e.getStateChange() == ItemEvent.SELECTED)
@@ -823,7 +817,6 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 	{
 		button_cancel_settings.addActionListener(new ActionListener()
 		{
-			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				dialogCancelled();
@@ -832,7 +825,6 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 
 		button_confirm_settings.addActionListener(new ActionListener()
 		{
-			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				dialogConfirmed();

@@ -90,7 +90,6 @@ public abstract class Card extends APanel implements CardInterface
 
 		getActionMap().put("CONFIRM", new AbstractAction()
 		{
-			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
 				defaultAction();
@@ -109,7 +108,6 @@ public abstract class Card extends APanel implements CardInterface
 	{
 		button_default.addActionListener(new ActionListener()
 		{
-			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				defaultAction();

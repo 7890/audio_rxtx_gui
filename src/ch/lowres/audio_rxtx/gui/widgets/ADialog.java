@@ -115,7 +115,6 @@ public abstract class ADialog extends JDialog
 	{
 		button_close.addActionListener (new ActionListener()
 		{
-			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				closeDialog();

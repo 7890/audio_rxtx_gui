@@ -356,23 +356,16 @@ public class GUI
 	{
 		mainframe.addWindowListener(new WindowListener() 
 		{
-			@Override
 			public void windowClosed(WindowEvent arg0){}
-			@Override
 			public void windowClosing(WindowEvent arg0)
 			{
 				//
 				System.exit(0);		
 			}
-			@Override
 			public void windowActivated(WindowEvent arg0) {/*p("---activated");*/}
-			@Override
 			public void windowDeactivated(WindowEvent arg0) {/*p("---deactivated");*/}
-			@Override
 			public void windowDeiconified(WindowEvent arg0) {/*p("---deiconified");*/}
-			@Override
 			public void windowIconified(WindowEvent arg0) {/*p("---iconified");*/}
-			@Override
 			public void windowOpened(WindowEvent arg0) {/*p("---opened");*/}
 		});
 	}//end addWindowListeners
@@ -466,7 +459,6 @@ public class GUI
 		KeyStroke keyAltRight = KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,InputEvent.ALT_MASK);
 		actionMap.put(keyAltRight, new AbstractAction("DEBUG_FOCUS") 
 		{
-			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 
@@ -478,7 +470,6 @@ public class GUI
 		KeyboardFocusManager kfm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		kfm.addKeyEventDispatcher( new KeyEventDispatcher() 
 		{
-			@Override
 			public boolean dispatchKeyEvent(KeyEvent e)
 			{
 				KeyStroke keyStroke = KeyStroke.getKeyStrokeForEvent(e);
@@ -488,7 +479,6 @@ public class GUI
 					final ActionEvent ae = new ActionEvent(e.getSource(), e.getID(), null );
 					SwingUtilities.invokeLater( new Runnable()
 					{
-						@Override
 						public void run()
 						{
 							a.actionPerformed(ae);

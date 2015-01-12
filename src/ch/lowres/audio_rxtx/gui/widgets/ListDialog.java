@@ -153,6 +153,7 @@ where to display on the screen, set via showDialog(..) by caller
 		//http://docs.oracle.com/javase/7/docs/api/java/awt/Window.html#setAlwaysOnTop%28boolean%29
 		//on osx: prevents parent dialog to ever be on top of this dialog
 		//half-baked. windows can be in-between this and the parent dialog
+
 		if(Toolkit.getDefaultToolkit().isAlwaysOnTopSupported() && m.os.isMac())
 		{
 			setAlwaysOnTop(true);
@@ -314,7 +315,6 @@ where to display on the screen, set via showDialog(..) by caller
 
 		button_close.addActionListener(new ActionListener()
 		{
-			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				cancelDialog();
@@ -331,7 +331,6 @@ where to display on the screen, set via showDialog(..) by caller
 
 		button_expand.addActionListener(new ActionListener()
 		{
-			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				if(!isExpanded)
@@ -665,15 +664,11 @@ where to display on the screen, set via showDialog(..) by caller
 	{
 		addWindowListener(new WindowListener()
 		{
-			@Override
 			public void windowClosed(WindowEvent arg0) {}
 
-			@Override
 			public void windowClosing(WindowEvent arg0) {}
-			@Override
 
 			public void windowActivated(WindowEvent arg0) {/*m.p("---activated");*/}
-			@Override
 
 			public void windowDeactivated(WindowEvent arg0) 
 			{
@@ -683,13 +678,10 @@ where to display on the screen, set via showDialog(..) by caller
 					cancelDialog();
 				}
 			}
-			@Override
 			public void windowDeiconified(WindowEvent arg0) {/*m.p("---deiconified");*/}
 
-			@Override
 			public void windowIconified(WindowEvent arg0) {/*m.p("---iconified");*/}
 
-			@Override
 			public void windowOpened(WindowEvent arg0) {/*m.p("---opened");*/}
 
 		});

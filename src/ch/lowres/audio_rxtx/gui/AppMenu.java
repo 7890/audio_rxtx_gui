@@ -241,7 +241,7 @@ public class AppMenu extends JMenuBar
 	{
 		mi_start_transmissionSend.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				if(g.frontSend.readForm())
 				{
@@ -252,7 +252,7 @@ public class AppMenu extends JMenuBar
 
 		mi_stop_transmissionSend.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				m.stopTransmissionSend();
 			}
@@ -261,7 +261,7 @@ public class AppMenu extends JMenuBar
 
 		mi_start_transmissionReceive.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				if(g.frontReceive.readForm())
 				{
@@ -272,7 +272,7 @@ public class AppMenu extends JMenuBar
 
 		mi_stop_transmissionReceive.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				m.stopTransmissionReceive();
 			}
@@ -280,7 +280,7 @@ public class AppMenu extends JMenuBar
 
 		mi_quit.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				System.exit(0);
 			}
@@ -289,7 +289,7 @@ public class AppMenu extends JMenuBar
 		//settings
 		mi_load_default_settings.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				Settings.load(m.defaultPropertiesFileName);
 				g.frontSend.setValues();
@@ -303,7 +303,7 @@ public class AppMenu extends JMenuBar
 
 		mi_save_default_settings.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				//get current data from front form
 				if(g.frontSend.readForm() && g.frontReceive.readForm())
@@ -321,7 +321,7 @@ public class AppMenu extends JMenuBar
 
 		mi_load_settings.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				FileDialog chooser = new FileDialog(g.mainframe);
 				//chooser.setFilenameFilter(new FolderFilter());
@@ -361,7 +361,7 @@ public class AppMenu extends JMenuBar
 
 		mi_save_settings_as.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				//get current data from front form
 				if(g.frontSend.readForm() && g.frontReceive.readForm())
@@ -419,7 +419,7 @@ public class AppMenu extends JMenuBar
 
 		mi_configure_dialog.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				g.configure.setValues();
 				g.configure.setVisible(true);
@@ -433,7 +433,7 @@ g.frontSend.button_default.requestFocus();
 		//view
 		mi_view_send.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				FormHelper.viewSendPanel();
 			}
@@ -441,7 +441,7 @@ g.frontSend.button_default.requestFocus();
 
 		mi_view_receive.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				FormHelper.viewReceivePanel();
 			}
@@ -449,7 +449,7 @@ g.frontSend.button_default.requestFocus();
 
 		mi_view_both.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				FormHelper.viewBothPanels();
 			}
@@ -458,7 +458,7 @@ g.frontSend.button_default.requestFocus();
 		//help
 		mi_doc.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				//ev simply open a textfile instead of pdf
 				String docPdf=m.tmpDir+File.separator+"resources"
@@ -471,7 +471,7 @@ g.frontSend.button_default.requestFocus();
 
 		mi_about.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				g.about.pack();
 				g.about.setVisible(true);
@@ -480,7 +480,7 @@ g.frontSend.button_default.requestFocus();
 
 		mi_info.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				g.info.updateHtml();
 				g.info.pack();
@@ -490,7 +490,7 @@ g.frontSend.button_default.requestFocus();
 
 		mi_license.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				String docTxt=m.tmpDir+File.separator+"resources"
 					+File.separator+"COPYING.txt";
@@ -502,7 +502,7 @@ g.frontSend.button_default.requestFocus();
 
 		mi_report_issue.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				IOTools.openInBrowser(m.reportIssueUrl);
 			}
@@ -510,7 +510,7 @@ g.frontSend.button_default.requestFocus();
 
 		mi_check_for_update.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				/////////test thread
 				IOTools.checkForNewerVersion(m.newestVersionFileUrl);
