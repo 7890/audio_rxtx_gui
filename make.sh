@@ -10,6 +10,9 @@ archive="$cur"/archive
 classes="$build"/classes
 doc="$cur"/doc
 
+jsource=1.5
+jtarget=1.5
+
 package_path=ch/lowres/audio_rxtx/gui
 
 windows_binaries_zip_name=audio_rxtx_1416837145.zip
@@ -32,7 +35,7 @@ function create_build_info()
 	now="`date`"
 	uname="`uname -m -o`"
 	jvm="`javac -version 2>&1 | head -1 | sed 's/"/''/g'`"
-	javac_opts=" -source 1.6 -target 1.6"
+	javac_opts=" -source $jsource -target $jtarget"
 	git_head_commit_id="`git rev-parse HEAD`"
 
 	cat - << __EOF__
@@ -68,7 +71,7 @@ function compile_audio_rxtx()
 	unzip -p "$archive"/AppleJavaExtensions.zip \
 		AppleJavaExtensions/AppleJavaExtensions.jar > "$classes"/AppleJavaExtensions.jar
 
-	javac -source 1.6 -target 1.6 -classpath "$classes":"$classes"/AppleJavaExtensions.jar -sourcepath "$src" -d "$classes" "$src"/$package_path/*.java
+	javac -source $jsource -target $jtarget -classpath "$classes":"$classes"/AppleJavaExtensions.jar -sourcepath "$src" -d "$classes" "$src"/$package_path/*.java
 
 	ret=$?
 	if [ $ret -ne 0 ]
@@ -99,8 +102,8 @@ function compile_java_osc
 	echo "compiling files in $PREF to direcotry $classes ..."
 
 	mkdir -p "$classes"
-	javac -source 1.6 -target 1.6 -classpath $PREF -sourcepath $PREF -d "$classes" $PREF/com/illposed/osc/*.java
-	javac -source 1.6 -target 1.6 -classpath $PREF -sourcepath $PREF -d "$classes" $PREF/com/illposed/osc/utility/*.java
+	javac -source $jsource -target $jtarget -classpath $PREF -sourcepath $PREF -d "$classes" $PREF/com/illposed/osc/*.java
+	javac -source $jsource -target $jtarget -classpath $PREF -sourcepath $PREF -d "$classes" $PREF/com/illposed/osc/utility/*.java
 	find "$classes"
 }
 
@@ -119,7 +122,7 @@ function compile_gettext
 	echo "compiling files in $PREF to direcotry $classes ..."
 
 	mkdir -p "$classes"
-	javac -source 1.6 -target 1.6 -classpath $PREF -sourcepath $PREF -d "$classes" $PREF/org/xnap/commons/i18n/*.java
+	javac -source $jsource -target $jtarget -classpath $PREF -sourcepath $PREF -d "$classes" $PREF/org/xnap/commons/i18n/*.java
 	find "$classes"
 }
 
