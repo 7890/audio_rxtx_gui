@@ -15,12 +15,8 @@ package ch.lowres.audio_rxtx.gui.osc;
 import ch.lowres.audio_rxtx.gui.*;
 import ch.lowres.audio_rxtx.gui.api.*;
 
-import java.awt.Panel;
-
 import com.illposed.osc.*;
-import java.net.InetAddress;
 
-import java.util.Date;
 import java.util.List;
 
 import java.text.DecimalFormat;

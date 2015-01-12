@@ -13,16 +13,13 @@
 
 package ch.lowres.audio_rxtx.gui.helpers;
 import ch.lowres.audio_rxtx.gui.*;
-import ch.lowres.audio_rxtx.gui.widgets.*;
 
 import java.io.*;
 
 import java.util.*;
-import java.util.jar.*;
 import java.util.zip.*;
 
 import java.awt.*;
-import javax.swing.*;
 
 import javax.swing.ImageIcon;
 import javax.imageio.ImageIO;

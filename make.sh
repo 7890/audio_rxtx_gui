@@ -38,7 +38,6 @@ function create_build_info()
 	cat - << __EOF__
 //generated at build time
 package ch.lowres.audio_rxtx.gui.helpers;
-import ch.lowres.audio_rxtx.gui.Main;
 public class BuildInfo
 {
 	public static String get()

@@ -16,15 +16,13 @@ import ch.lowres.audio_rxtx.gui.*;
 import ch.lowres.audio_rxtx.gui.helpers.*;
 import ch.lowres.audio_rxtx.gui.api.*;
 
-import java.awt.Panel;
-
 import com.illposed.osc.*;
 import java.net.InetAddress;
 
 import java.util.Date;
 import java.util.List;
 
-import java.text.DecimalFormat;
+//import java.text.DecimalFormat;
 
 /**
 * Abstract class handling common incoming OSC messages.

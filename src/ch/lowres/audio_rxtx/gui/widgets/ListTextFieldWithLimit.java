@@ -12,7 +12,6 @@
 */
 
 package ch.lowres.audio_rxtx.gui.widgets;
-import ch.lowres.audio_rxtx.gui.*;
 import ch.lowres.audio_rxtx.gui.helpers.*;
 
 
@@ -21,7 +20,6 @@ import java.awt.event.*;//KeyListener;
 
 import java.awt.*;
 
-import java.awt.geom.Line2D;
 import java.awt.geom.GeneralPath;
 
 

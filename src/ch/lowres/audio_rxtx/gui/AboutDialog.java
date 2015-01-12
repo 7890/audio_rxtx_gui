@@ -16,7 +16,6 @@ import ch.lowres.audio_rxtx.gui.helpers.*;
 import ch.lowres.audio_rxtx.gui.widgets.*;
 
 import java.awt.*;
-import java.util.*;
 
 /**
 * Dialog showing version of audio_rxtx_gui, used libs, project url etc.

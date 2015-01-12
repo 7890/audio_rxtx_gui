@@ -12,9 +12,6 @@
 */
 
 package ch.lowres.audio_rxtx.gui.widgets;
-import ch.lowres.audio_rxtx.gui.*;
-
-import java.awt.event.KeyListener;
 
 /**
 * Extended {@link TextFieldWithLimit} allowing digits, letters, '.', '-' and '_'.

@@ -16,11 +16,7 @@ import ch.lowres.audio_rxtx.gui.widgets.*;
 import ch.lowres.audio_rxtx.gui.helpers.*;
 
 import java.awt.*;
-import java.awt.event.*;
-
 import javax.swing.*;
-
-import java.net.InetAddress;
 
 /**
 * Extended {@link Card}, showing receive form.
