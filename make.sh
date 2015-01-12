@@ -184,6 +184,7 @@ function build_jar
 	mkdir -p "$classes"/resources/licenses/JavaOSC
 	mkdir -p "$classes"/resources/licenses/gettext-commons
 
+	cp "$src"/gfx/audio_rxtx_splash_screen.png "$classes"/resources/images
 	cp "$src"/gfx/audio_rxtx_icon.png "$classes"/resources/images
 	cp "$src"/gfx/audio_rxtx_about_screen.png "$classes"/resources/images
 
@@ -244,7 +245,9 @@ function build_jar
 ###################
 	mkdir "$classes"/resources/lin64
 
-	echo "Main-Class: ch.lowres.audio_rxtx.gui.Main" > "$build"/Manifest.txt
+	echo "Manifest-Version: 1.0" > "$build"/Manifest.txt
+	echo "SplashScreen-Image: resources/images/audio_rxtx_splash_screen.png" >> "$build"/Manifest.txt
+	echo "Main-Class: ch.lowres.audio_rxtx.gui.Main" >> "$build"/Manifest.txt
 	echo "" >> "$build"/Manifest.txt
 
 	cd "$classes"
@@ -259,14 +262,16 @@ function build_jar
 	mv audio_rxtx_gui_"$now".jar "$build"
 
 	echo "start with"
-	echo "java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -jar build/audio_rxtx_gui_$now.jar"
+#	echo "java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -jar build/audio_rxtx_gui_$now.jar"
+	echo "java -Xms1024m -Xmx1024m -jar build/audio_rxtx_gui_$now.jar"
 
 #osx:
 #-Xdock:name="audio_rxtx GUI"
 
 	#start now
 	cd "$cur"
-	java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -jar build/audio_rxtx_gui_$now.jar
+#	java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -jar build/audio_rxtx_gui_$now.jar
+	java -Xms1024m -Xmx1024m -jar build/audio_rxtx_gui_$now.jar
 
 	echo "build_jar done."
 }
