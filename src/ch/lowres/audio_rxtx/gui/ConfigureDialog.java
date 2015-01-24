@@ -318,12 +318,12 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 		tabSend.add(formSend,BorderLayout.NORTH);
 
 		scrollerTabSend=new JScrollPane (tabSend, 
-			ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+			ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_ALWAYS,
 			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 		scrollerTabSend.getViewport().setBackground(Colors.form_background);
 		scrollerTabSend.setWheelScrollingEnabled(true);
-		scrollerTabSend.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+//		scrollerTabSend.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		scrollbarSend=scrollerTabSend.getVerticalScrollBar();
 		scrollbarSend.setUnitIncrement(g.scrollbarIncrement);
@@ -333,12 +333,12 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 		tabReceive=new APanel(new BorderLayout());
 		tabReceive.add(formReceive,BorderLayout.NORTH);
 		scrollerTabReceive=new JScrollPane (tabReceive, 
-			ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+			ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_ALWAYS,
 			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 		scrollerTabReceive.getViewport().setBackground(Colors.form_background);
 		scrollerTabReceive.setWheelScrollingEnabled(true);
-		scrollerTabReceive.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+//		scrollerTabReceive.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		scrollbarReceive=scrollerTabReceive.getVerticalScrollBar();
 		scrollbarReceive.setUnitIncrement(g.scrollbarIncrement);
