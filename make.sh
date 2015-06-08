@@ -10,33 +10,51 @@ archive="$cur"/archive
 classes="$build"/classes
 doc="$cur"/doc
 
-jsource=1.5
-jtarget=1.5
+jsource=1.6
+jtarget=1.6
 
+#relative to $src
 package_path=ch/lowres/audio_rxtx/gui
 
-windows_binaries_zip_name=audio_rxtx_1416837145.zip
+#windows_binaries_zip_name=audio_rxtx_1416837145.zip
+windows_binaries_zip_name=audio_rxtx_1414983653.zip
 windows_binaries_uri="https://raw.githubusercontent.com/7890/jack_tools/master/audio_rxtx/dist/win/$windows_binaries_zip_name"
 
 #dl to (incl. filename)
 windows_binaries_zip="/tmp/$windows_binaries_zip_name"
+
+#used for ../**/*.java syntax
+shopt -s globstar
 
 #splash_screen_image="$src"/gfx/audio_rxtx_splash_screen.png
 #icon_image="$src"/gfx/audio_rxtx_icon.png
 
 #-Xlint:all 
 
-#needs tool check
-#
+#========================================================================
+function checkAvail()
+{
+	which "$1" >/dev/null 2>&1
+	ret=$?
+	if [ $ret -ne 0 ]
+	then
+		echo "tool \"$1\" not found. please install"
+		exit 1
+	fi
+}
 
 #========================================================================
 function create_build_info()
 {
 	now="`date`"
-	uname="`uname -m -o`"
+	uname="`uname -s -p`"
 	jvm="`javac -version 2>&1 | head -1 | sed 's/"/''/g'`"
-	javac_opts=" -source $jsource -target $jtarget"
-	git_head_commit_id="`git rev-parse HEAD`"
+	javac_opts=" -source $jsource -target $jtarget -nowarn"
+	cur="`pwd`"
+	cd "$DIR"
+#       git_head_commit_id="`git rev-parse HEAD`"
+	git_master_ref=`git show-ref master | head -1`
+	cd "$cur"
 
 	cat - << __EOF__
 //generated at build time
@@ -45,11 +63,11 @@ public class BuildInfo
 {
 	public static String get()
 	{
-		return "date: $now\nuname -m -o: $uname\njavac -version: $jvm\njavac "+Languages.tr("Options")+": $javac_opts\ngit rev-parse HEAD: $git_head_commit_id";
+		return "date: $now\nuname -s -p: $uname\njavac -version: $jvm\njavac Options: $javac_opts\ngit show-ref master: $git_master_ref";
 	}
 	public static String getGitCommit()
 	{
-		return "$git_head_commit_id";
+		return "$git_master_ref";
 	}
 	public static void main(String[] args)
 	{
@@ -62,6 +80,8 @@ __EOF__
 #========================================================================
 function compile_audio_rxtx()
 {
+	echo ""
+	echo ""
 	echo "building audio_rxtx gui application"
 	echo "==================================="
 
@@ -71,7 +91,7 @@ function compile_audio_rxtx()
 	unzip -p "$archive"/AppleJavaExtensions.zip \
 		AppleJavaExtensions/AppleJavaExtensions.jar > "$classes"/AppleJavaExtensions.jar
 
-	javac -source $jsource -target $jtarget -classpath "$classes":"$classes"/AppleJavaExtensions.jar -sourcepath "$src" -d "$classes" "$src"/$package_path/*.java
+	javac -source $jsource -target $jtarget -nowarn -classpath "$classes":"$classes"/AppleJavaExtensions.jar -sourcepath "$src" -d "$classes" "$src"/**/*.java
 
 	ret=$?
 	if [ $ret -ne 0 ]
@@ -102,8 +122,7 @@ function compile_java_osc
 	echo "compiling files in $PREF to direcotry $classes ..."
 
 	mkdir -p "$classes"
-	javac -source $jsource -target $jtarget -classpath $PREF -sourcepath $PREF -d "$classes" $PREF/com/illposed/osc/*.java
-	javac -source $jsource -target $jtarget -classpath $PREF -sourcepath $PREF -d "$classes" $PREF/com/illposed/osc/utility/*.java
+	javac -source $jsource -target $jtarget -classpath $PREF -sourcepath $PREF -d "$classes" $PREF/com/illposed/osc/**/*.java
 	find "$classes"
 }
 
@@ -132,12 +151,7 @@ function create_languages
 	xgettext -ktrc:1c,2 -ktrnc:1c,2,3 -ktr -kmarktr -ktrn:1,2 \
 		--from-code UTF-8 \
 		-o "$build"/keys.pot \
-		"$src"/$package_path/*.java \
-		"$src"/$package_path/api/*.java \
-		"$src"/$package_path/widgets/*.java \
-		"$src"/$package_path/helpers/*.java \
-		"$src"/$package_path/osc/*.java
-
+		"$src"/$package_path/**/*.java \
 
 	#en.po is header only
 	cp "$src"/lang/en.po "$build"/en.po
@@ -175,6 +189,8 @@ function create_languages
 #========================================================================
 function build_jar
 {
+	echo ""
+	echo ""
 	echo "creating audio_rxtx application jar (audio_rxtx_gui_xxx.jar)"
 	echo "============================================================"
 
@@ -213,7 +229,7 @@ function build_jar
 
 	cp "$build"/JavaOSC-master/LICENSE "$classes"/resources/licenses/JavaOSC
 
-	cp "$archive"/gettext-commons-0.9.8-sources/* "$classes"/resources/licenses/gettext-commons
+	#cp "$archive"/gettext-commons-0.9.8-sources/* "$classes"/resources/licenses/gettext-commons
 
 	##############################
 	if [ ! -e "$windows_binaries_zip" ]
@@ -264,8 +280,9 @@ function build_jar
 	echo "move audio_rxtx_gui_$now.jar to build dir..."
 	mv audio_rxtx_gui_"$now".jar "$build"
 
+	echo "build_jar done."
+
 	echo "start with"
-#	echo "java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -jar build/audio_rxtx_gui_$now.jar"
 	echo "java -Xms1024m -Xmx1024m -jar build/audio_rxtx_gui_$now.jar"
 
 #osx:
@@ -273,16 +290,21 @@ function build_jar
 
 	#start now
 	cd "$cur"
-#	java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -jar build/audio_rxtx_gui_$now.jar
 	java -Xms1024m -Xmx1024m -jar build/audio_rxtx_gui_$now.jar
-
-	echo "build_jar done."
 }
 
 #========================================================================
 function build_javadoc
 {
+	package=`echo "$package_path" | sed 's/\//./g'`
+
+	echo ""
+	echo ""
+	echo "creating javadoc for $package"
+	echo "======================================================"
+
 	mkdir -p "$doc"
+
 	javadoc -private -linksource -sourcetab 2 -d "$doc" \
 	-classpath "$classes" \
 	-sourcepath "$src" \
@@ -291,13 +313,20 @@ function build_javadoc
 		ch.lowres.audio_rxtx.gui.helpers \
 		ch.lowres.audio_rxtx.gui.api \
 		ch.lowres.audio_rxtx.gui.osc
+
+	echo "build_javadoc done."
 }
 
 #execute:
 
+for tool in {java,javac,jar,javadoc,cat,mkdir,ls,cp,sed,date,uname,find,git,unzip,curl,xgettext,msgmerge,msgfmt}; \
+	do checkAvail "$tool"; done
+#optional: poedit
+
 mkdir -p "$build"
 rm -rf "$build"/*
 
+#compile dependencies
 compile_java_osc
 compile_gettext
 
