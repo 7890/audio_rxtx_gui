@@ -318,7 +318,7 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 		tabSend.add(formSend,BorderLayout.NORTH);
 
 		scrollerTabSend=new JScrollPane (tabSend, 
-			ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_ALWAYS,
+			ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
 			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 		scrollerTabSend.getViewport().setBackground(Colors.form_background);
@@ -333,7 +333,7 @@ public class ConfigureDialog extends JDialog implements ChangeListener, Componen
 		tabReceive=new APanel(new BorderLayout());
 		tabReceive.add(formReceive,BorderLayout.NORTH);
 		scrollerTabReceive=new JScrollPane (tabReceive, 
-			ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_ALWAYS,
+			ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
 			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 		scrollerTabReceive.getViewport().setBackground(Colors.form_background);
