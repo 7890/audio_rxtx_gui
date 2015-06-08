@@ -84,7 +84,7 @@ public class RunCmd extends Thread
 * Sets whether or not output from running process on std:out and std:err 
 * will be printed or dropped (consumed silently)
 *
-* @param	devNull		true: drop, false: print
+* @param	b		true: drop, false: print
 */
 //========================================================================
 	public void devNull(boolean b)
