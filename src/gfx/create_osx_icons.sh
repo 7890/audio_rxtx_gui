@@ -19,4 +19,4 @@ convert -density 1200 -resize 512x512 audio_rxtx_icon.svg "$output_folder"/icon_
 convert -density 1200 -resize 512x512 audio_rxtx_icon.svg "$output_folder"/icon_512x512.png
 convert -density 1200 -resize 1024x1024 audio_rxtx_icon.svg "$output_folder"/icon_512x512@2x.png
 
-echo "on osx: iconutil -c $output_folder"
+echo "on osx: iconutil -c icns $output_folder"
