@@ -1,14 +1,17 @@
-#!/bin/bash
+#!/bin/sh
 
 #//tb/1410
 
-cur=`pwd`
+#only works with /bin/bash
+#DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+FULLPATH="`pwd`/$0"
+DIR=`dirname "$FULLPATH"`
 
-src="$cur"/src
-build="$cur"/build
-archive="$cur"/archive
+src="$DIR"/src
+build="$DIR"/build
+archive="$DIR"/archive
 classes="$build"/classes
-doc="$cur"/doc
+doc="$DIR"/doc
 
 jsource=1.6
 jtarget=1.6
@@ -23,8 +26,9 @@ windows_binaries_uri="https://raw.githubusercontent.com/7890/jack_tools/master/a
 #dl to (incl. filename)
 windows_binaries_zip="/tmp/$windows_binaries_zip_name"
 
+#only works with /bin/bash
 #used for ../**/*.java syntax
-shopt -s globstar
+#shopt -s globstar
 
 #splash_screen_image="$src"/gfx/audio_rxtx_splash_screen.png
 #icon_image="$src"/gfx/audio_rxtx_icon.png
@@ -32,7 +36,7 @@ shopt -s globstar
 #-Xlint:all 
 
 #========================================================================
-function checkAvail()
+checkAvail()
 {
 	which "$1" >/dev/null 2>&1
 	ret=$?
@@ -44,17 +48,17 @@ function checkAvail()
 }
 
 #========================================================================
-function create_build_info()
+create_build_info()
 {
 	now="`date`"
 	uname="`uname -s -p`"
 	jvm="`javac -version 2>&1 | head -1 | sed 's/"/''/g'`"
 	javac_opts=" -source $jsource -target $jtarget -nowarn"
-	cur="`pwd`"
+#	cur="`pwd`"
 	cd "$DIR"
 #       git_head_commit_id="`git rev-parse HEAD`"
 	git_master_ref=`git show-ref master | head -1`
-	cd "$cur"
+#	cd "$DIR"
 
 	cat - << __EOF__
 //generated at build time
@@ -78,7 +82,7 @@ __EOF__
 }
 
 #========================================================================
-function compile_audio_rxtx()
+compile_audio_rxtx()
 {
 	echo ""
 	echo ""
@@ -91,7 +95,8 @@ function compile_audio_rxtx()
 	unzip -p "$archive"/AppleJavaExtensions.zip \
 		AppleJavaExtensions/AppleJavaExtensions.jar > "$classes"/AppleJavaExtensions.jar
 
-	javac -source $jsource -target $jtarget -nowarn -classpath "$classes":"$classes"/AppleJavaExtensions.jar -sourcepath "$src" -d "$classes" "$src"/**/*.java
+#	javac -source $jsource -target $jtarget -nowarn -classpath "$classes":"$classes"/AppleJavaExtensions.jar -sourcepath "$src" -d "$classes" "$src"/**/*.java
+	find "$src" -name *.java -exec javac -source $jsource -target $jtarget -nowarn -classpath "$classes":"$classes"/AppleJavaExtensions.jar -sourcepath "$src" -d "$classes" {} \;
 
 	ret=$?
 	if [ $ret -ne 0 ]
@@ -105,14 +110,14 @@ function compile_audio_rxtx()
 }
 
 #========================================================================
-function compile_java_osc
+compile_java_osc()
 {
 	echo "building JavaOSC library (com.illposed.osc)"
 	echo "==========================================="
 	cp "$archive"/JavaOSC-master.zip "$build"
 	cd "$build"
 	unzip JavaOSC-master.zip
-	cd "$cur"
+	cd "$DIR"
 
 	cp "$archive"/JavaOSC_mod/OSCPort.java "$build"/JavaOSC-master/modules/core/src/main/java/com/illposed/osc/
 	cp "$archive"/JavaOSC_mod/OSCPortOut.java "$build"/JavaOSC-master/modules/core/src/main/java/com/illposed/osc/
@@ -122,19 +127,21 @@ function compile_java_osc
 	echo "compiling files in $PREF to direcotry $classes ..."
 
 	mkdir -p "$classes"
-	javac -source $jsource -target $jtarget -classpath $PREF -sourcepath $PREF -d "$classes" $PREF/com/illposed/osc/**/*.java
+#	javac -source $jsource -target $jtarget -classpath $PREF -sourcepath $PREF -d "$classes" $PREF/com/illposed/osc/**/*.java
+	find "$PREF/com/illposed/osc/" -name *.java -exec javac -source $jsource -target $jtarget -classpath "$PREF" -sourcepath "$PREF" -d "$classes" {} \;
+
 	find "$classes"
 }
 
 #========================================================================
-function compile_gettext
+compile_gettext()
 {
 	echo "building gettext library (org.xnap.commons.i18n)"
 	echo "================================================"
 	cp "$archive"/gettext-commons-0.9.8-sources.jar "$build"
 	cd "$build"
 	jar xfv gettext-commons-0.9.8-sources.jar
-	cd "$cur"
+	cd "$DIR"
 
 	PREF="$build"/
 
@@ -146,12 +153,16 @@ function compile_gettext
 }
 
 #========================================================================
-function create_languages
+create_languages()
 {
-	xgettext -ktrc:1c,2 -ktrnc:1c,2,3 -ktr -kmarktr -ktrn:1,2 \
+#	xgettext -ktrc:1c,2 -ktrnc:1c,2,3 -ktr -kmarktr -ktrn:1,2 \
+#		--from-code UTF-8 \
+#		-o "$build"/keys.pot \
+#		"$src"/$package_path/**/*.java
+
+	find "$src"/"$package_path" -name *.java -exec xgettext -ktrc:1c,2 -ktrnc:1c,2,3 -ktr -kmarktr -ktrn:1,2 \
 		--from-code UTF-8 \
-		-o "$build"/keys.pot \
-		"$src"/$package_path/**/*.java \
+		-o "$build"/keys.pot {} \;
 
 	#en.po is header only
 	cp "$src"/lang/en.po "$build"/en.po
@@ -187,7 +198,7 @@ function create_languages
 }
 
 #========================================================================
-function build_jar
+build_jar()
 {
 	echo ""
 	echo ""
@@ -217,7 +228,7 @@ function build_jar
 	cp "$archive"/ubuntu-font-family-0.80.zip "$build"
 	cd "$build"
 	unzip ubuntu-font-family-0.80.zip
-	cd "$cur"
+	cd "$DIR"
 
 	cp "$build"/ubuntu-font-family-0.80/Ubuntu-C.ttf "$classes"/resources/fonts/Ubuntu-C.ttf
 
@@ -289,12 +300,12 @@ function build_jar
 #-Xdock:name="audio_rxtx GUI"
 
 	#start now
-	cd "$cur"
+	cd "$DIR"
 	java -Xms1024m -Xmx1024m -jar build/audio_rxtx_gui_$now.jar
 }
 
 #========================================================================
-function build_javadoc
+build_javadoc()
 {
 	package=`echo "$package_path" | sed 's/\//./g'`
 
@@ -319,7 +330,7 @@ function build_javadoc
 
 #execute:
 
-for tool in {java,javac,jar,javadoc,cat,mkdir,ls,cp,sed,date,uname,find,git,unzip,curl,xgettext,msgmerge,msgfmt}; \
+for tool in java javac jar javadoc cat mkdir ls cp sed date uname find git unzip curl xgettext msgmerge msgfmt; \
 	do checkAvail "$tool"; done
 #optional: poedit
 
