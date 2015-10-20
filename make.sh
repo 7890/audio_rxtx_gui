@@ -160,9 +160,9 @@ create_languages()
 #		-o "$build"/keys.pot \
 #		"$src"/$package_path/**/*.java
 
-	find "$src"/"$package_path" -name *.java -exec xgettext -ktrc:1c,2 -ktrnc:1c,2,3 -ktr -kmarktr -ktrn:1,2 \
-		--from-code UTF-8 \
-		-o "$build"/keys.pot {} \;
+	xgettext -ktrc:1c,2 -ktrnc:1c,2,3 -ktr -kmarktr -ktrn:1,2 \
+		--from-code UTF-8 -o "$build"/keys.pot \
+		`find "$src"/"$package_path" -name *.java`
 
 	#en.po is header only
 	cp "$src"/lang/en.po "$build"/en.po
