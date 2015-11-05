@@ -105,9 +105,6 @@ compile_audio_rxtx()
 		echo "error while compiling."
 		exit 1
 	fi
-
-	echo "start with:"
-	echo "java -splash:src/gfx/audio_rxtx_splash_screen.png -Xms1024m -Xmx1024m -cp .:"$build"/classes/ ch.lowres.audio_rxtx.gui.Main"
 }
 
 #========================================================================
