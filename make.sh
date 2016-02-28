@@ -24,7 +24,6 @@ JAVAC="javac -source $jsource -target $jtarget -nowarn"
 #relative to $src
 package_path=ch/lowres/audio_rxtx/gui
 
-#windows_binaries_zip_name=audio_rxtx_1416837145.zip
 windows_binaries_zip_name=audio_rxtx_1414983653.zip
 windows_binaries_uri="https://raw.githubusercontent.com/7890/jack_tools/master/audio_rxtx/dist/win/$windows_binaries_zip_name"
 
@@ -93,7 +92,7 @@ compile_audio_rxtx()
 	mkdir -p "$classes"
 
 	#apple extension are stubs used just at compile time on non-osx machines
-	unzip -p "$archive"/AppleJavaExtensions.zip \
+	unzip -q -p "$archive"/AppleJavaExtensions.zip \
 		AppleJavaExtensions/AppleJavaExtensions.jar > "$classes"/AppleJavaExtensions.jar
 
 	find "$src" -name *.java > "$TMPFILE"
@@ -114,21 +113,18 @@ compile_java_osc()
 	echo "==========================================="
 	cp "$archive"/JavaOSC-master.zip "$build"
 	cd "$build"
-	unzip JavaOSC-master.zip
+	unzip -q JavaOSC-master.zip
 	cd "$DIR"
 
-	cp "$archive"/JavaOSC_mod/OSCPort.java "$build"/JavaOSC-master/modules/core/src/main/java/com/illposed/osc/
-	cp "$archive"/JavaOSC_mod/OSCPortOut.java "$build"/JavaOSC-master/modules/core/src/main/java/com/illposed/osc/
+	PREF="$build"/java_osc-master/src/main/
 
-	PREF="$build"/JavaOSC-master/modules/core/src/main/java
-
-	echo "compiling files in $PREF to direcotry $classes ..."
+	echo "compiling files in $PREF to directory $classes ..."
 
 	mkdir -p "$classes"
 	find "$PREF/com/illposed/osc/" -name *.java > "$TMPFILE"
-	$JAVAC -source $jsource -target $jtarget -classpath "$PREF" -sourcepath "$PREF" -d "$classes" @"$TMPFILE"
+	$JAVAC -classpath "$PREF" -sourcepath "$PREF" -d "$classes" @"$TMPFILE"
 
-	find "$classes"
+#	find "$classes"
 }
 
 #========================================================================
@@ -138,7 +134,7 @@ compile_gettext()
 	echo "================================================"
 	cp "$archive"/gettext-commons-0.9.8-sources.jar "$build"
 	cd "$build"
-	jar xfv gettext-commons-0.9.8-sources.jar
+	jar xf gettext-commons-0.9.8-sources.jar
 	cd "$DIR"
 
 	PREF="$build"/
@@ -148,7 +144,8 @@ compile_gettext()
 	mkdir -p "$classes"
 
 	$JAVAC -classpath $PREF -sourcepath $PREF -d "$classes" $PREF/org/xnap/commons/i18n/*.java
-	find "$classes"
+
+#	find "$classes"
 }
 
 #========================================================================
@@ -226,7 +223,7 @@ build_jar()
 
 	cp "$archive"/ubuntu-font-family-0.80.zip "$build"
 	cd "$build"
-	unzip ubuntu-font-family-0.80.zip
+	unzip -q ubuntu-font-family-0.80.zip
 	cd "$DIR"
 
 	cp "$build"/ubuntu-font-family-0.80/Ubuntu-C.ttf "$classes"/resources/fonts/Ubuntu-C.ttf
@@ -252,7 +249,7 @@ build_jar()
 	cd "$build"
 
 	zip_filename="`echo \"$windows_binaries_zip\" | rev | cut -d\"/\" -f1 | rev`"
-	unzip "$zip_filename"
+	unzip -q "$zip_filename"
 	zip_dirname="`echo \"$zip_filename\" | rev | cut -d\".\" -f2- | rev`"
 	cd "$zip_dirname"
 	rm bin/*.bat
